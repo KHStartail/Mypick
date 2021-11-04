@@ -63,7 +63,7 @@
                         <img src="assets/images/솔미2.png" alt="">
                     </div>
                     <ul class="serv-ul">
-                        <li class="serv-li">로그아웃</li>
+                        <li class="serv-li">로그아웃.</li>
                     </ul>
                 </li>
             </ul>

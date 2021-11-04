@@ -46,7 +46,7 @@
 										<input type="radio" name="options" id="user">
 										<div class="icon"><img src="assets/images/person.svg" class="svg" alt=""></div>
 										<span>I'm</span>
-										Employee
+										Employee.
 									</label>
 								</div>
 							</div>
