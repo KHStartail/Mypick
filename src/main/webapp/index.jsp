@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  	
+     
 <!DOCTYPE html>
 <html>
 
@@ -66,7 +66,7 @@ https://templatemo.com/tm-558-klassy-cafe
                                 <a href="javascript:;">MyPage<a>
                                 <ul>
                                     <li><a href="#">Drop Down Page 1</a></li>
-                           		</ul>
+                                 </ul>
                             </li> -->
                             <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
                             <li class="scroll-to-section"><a href="#reservation">Contact Us</a></li> 
