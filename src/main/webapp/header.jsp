@@ -60,14 +60,47 @@
             <ul class="main-ul">
                 <li class="main-li">
                     <div>
-                        <img src="assets/images/솔미2.png" alt="">
+                       
                     </div>
                     <ul class="serv-ul">
-                        <li class="serv-li">로그아웃.</li>
+                        <li class="serv-li">로그인</li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
+        <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="index.html" class="logo">
+                            <img src="assets/images/mypic_logo.png" style="width: 80px; margin-right: 200px;">
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="#about">Supportting</a></li>
+                            <li class="scroll-to-section"><a href="#about">Goods</a></li>
+                            <!-- <li class="submenu">
+                                <a href="javascript:;">MyPage<a>
+                                <ul>
+                                    <li><a href="#">Drop Down Page 1</a></li>
+                           		</ul>
+                            </li> -->
+                            <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
+                            <li class="scroll-to-section"><a href="#reservation">Contact Us</a></li> 
+                        </ul>        
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
 </body>
 </html>
