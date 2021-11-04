@@ -1,4 +1,8 @@
-<!DOCTYPE html><html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+  	
+<!DOCTYPE html>
+<html>
 
   <head>
 
@@ -42,6 +46,7 @@ https://templatemo.com/tm-558-klassy-cafe
     
     
     <!-- ***** Header Area Start ***** -->
+<<<<<<< HEAD:src/main/webapp/index.html
     <div class="main-header">
         <nav>
             <!-- <div id="login">
@@ -94,6 +99,9 @@ https://templatemo.com/tm-558-klassy-cafe
             </ul>
         </div>
     </div>
+=======
+    <jsp:include page="/header.jsp"></jsp:include>
+>>>>>>> 84ea6bf397d066cac20072b105eb66fc4685b6de:src/main/webapp/index.jsp
     <header class="header-area header-sticky">
         <div class="container">
             <div class="row">
