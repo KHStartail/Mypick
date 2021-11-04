@@ -46,62 +46,7 @@ https://templatemo.com/tm-558-klassy-cafe
     
     
     <!-- ***** Header Area Start ***** -->
-<<<<<<< HEAD:src/main/webapp/index.html
-    <div class="main-header">
-        <nav>
-            <!-- <div id="login">
-                <button type="button" id="login-btn">LOGIN</button>
-                    <div class="black-bg"></div>
-                    <div class="modal-wrap">
-                    <div class="login-close"><a href="#">close</a></div>
-                    <div id="main-login">
-                        <div id="head-login"><p>PERIPERA</p></div>
-                        <div id="serv-login">
-                            <div id="idpw">
-                                ID&nbsp;&nbsp;&nbsp;<input type="text" name="" id="" placeholder="Id를 입력해주세요"><br><br>
-                                PW&nbsp;</label><input type="password" name="" id="" placeholder="Pw를 입력해주세요">
-                            </div>
-                            <div id="loginBtn">
-                                <button id="btn">LOGIN</button>
-                            </div>
-                        </div>
-                        <div id="footer-login">
-                            <button class="btn2"><a href="#">Create account</a></button><br>
-                            <button class="btn2"><a href="#">I've forgot my password</a></button>
-                        </div>
-                        <div id="blank-login"></div>
-                    </div>
-                </div>
-                 <button type="button" id="join-btn"><a href="../mypick/login.html">JOIN</a></button> -->
-        </nav>
-        <div id="h-1">
-            <ul id="h-ul">
-                <li><a href="#" class="m-list">SUPPORTING</a></li>
-                <li class="b-ul">
-                    <a href="../mypick/find.html" class="m-list">GOODS</a>
-                </li>
-            </ul>
-        </div>
-        <div class="logo">
-            <img src="assets/images/mypic_logo.png" alt="">
-        </div>
-        <div class="mypage">
-            <ul class="main-ul">
-                <li class="main-li">
-                    <div>
-                        <img src="assets/images/login_img2.png" alt="" height="100px;" width="500px;">
-                    </div>
-                    <ul class="serv-ul">
-                        <li class="serv-li"><a href="#">로그인</a></li>
-                        <li class="serv-li"><a href="#">로그아웃</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-=======
     <jsp:include page="/header.jsp"></jsp:include>
->>>>>>> 84ea6bf397d066cac20072b105eb66fc4685b6de:src/main/webapp/index.jsp
     <header class="header-area header-sticky">
         <div class="container">
             <div class="row">
