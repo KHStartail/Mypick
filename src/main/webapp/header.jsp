@@ -60,10 +60,17 @@
             <ul class="main-ul">
                 <li class="main-li">
                     <div>
+<<<<<<< HEAD
                         <img src="assets/images/솔미2.png" alt="">
                     </div>
                     <ul class="serv-ul">
                         <li class="serv-li">로그아웃.</li>
+=======
+                       
+                    </div>
+                    <ul class="serv-ul">
+                        <li class="serv-li">로그인</li>
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
                     </ul>
                 </li>
             </ul>

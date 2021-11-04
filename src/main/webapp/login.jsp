@@ -46,7 +46,11 @@
 										<input type="radio" name="options" id="user">
 										<div class="icon"><img src="assets/images/person.svg" class="svg" alt=""></div>
 										<span>I'm</span>
+<<<<<<< HEAD
 										Employee.
+=======
+										Employee
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 									</label>
 								</div>
 							</div>

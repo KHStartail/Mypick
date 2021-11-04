@@ -7983,6 +7983,7 @@ a.text-dark:focus, a.text-dark:hover {
     color: inherit;
     border-color: #dee2e6; } }
 
+<<<<<<< HEAD
 /*
 == malihu jquery custom scrollbar plugin ==
 Plugin URI: http://manos.malihu.gr/jquery-custom-content-scroller
@@ -8001,6 +8002,26 @@ CONTENTS:
 ------------------------------------------------------------------------------------------------------------------------
 1. BASIC STYLE  
 ------------------------------------------------------------------------------------------------------------------------
+=======
+/*
+== malihu jquery custom scrollbar plugin ==
+Plugin URI: http://manos.malihu.gr/jquery-custom-content-scroller
+*/
+/*
+CONTENTS: 
+	1. BASIC STYLE - Plugin's basic/essential CSS properties (normally, should not be edited). 
+	2. VERTICAL SCROLLBAR - Positioning and dimensions of vertical scrollbar. 
+	3. HORIZONTAL SCROLLBAR - Positioning and dimensions of horizontal scrollbar.
+	4. VERTICAL AND HORIZONTAL SCROLLBARS - Positioning and dimensions of 2-axis scrollbars. 
+	5. TRANSITIONS - CSS3 transitions for hover events, auto-expanded and auto-hidden scrollbars. 
+	6. SCROLLBAR COLORS, OPACITY AND BACKGROUNDS 
+		6.1 THEMES - Scrollbar colors, opacity, dimensions, backgrounds etc. via ready-to-use themes.
+*/
+/* 
+------------------------------------------------------------------------------------------------------------------------
+1. BASIC STYLE  
+------------------------------------------------------------------------------------------------------------------------
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 */
 .mCustomScrollbar {
   -ms-touch-action: pinch-zoom;
@@ -8026,11 +8047,19 @@ CONTENTS:
   width: auto;
   height: auto; }
 
+<<<<<<< HEAD
 /* 
 ------------------------------------------------------------------------------------------------------------------------
 2. VERTICAL SCROLLBAR 
 y-axis
 ------------------------------------------------------------------------------------------------------------------------
+=======
+/* 
+------------------------------------------------------------------------------------------------------------------------
+2. VERTICAL SCROLLBAR 
+y-axis
+------------------------------------------------------------------------------------------------------------------------
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 */
 .mCSB_inside > .mCSB_container {
   margin-right: 30px; }
@@ -8130,11 +8159,19 @@ y-axis
 .mCSB_scrollTools .mCSB_buttonDown {
   bottom: 0; }
 
+<<<<<<< HEAD
 /* 
 ------------------------------------------------------------------------------------------------------------------------
 3. HORIZONTAL SCROLLBAR 
 x-axis
 ------------------------------------------------------------------------------------------------------------------------
+=======
+/* 
+------------------------------------------------------------------------------------------------------------------------
+3. HORIZONTAL SCROLLBAR 
+x-axis
+------------------------------------------------------------------------------------------------------------------------
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 */
 .mCSB_horizontal.mCSB_inside > .mCSB_container {
   margin-right: 0;
@@ -8207,11 +8244,19 @@ x-axis
 .mCSB_scrollTools.mCSB_scrollTools_horizontal .mCSB_buttonRight {
   right: 0; }
 
+<<<<<<< HEAD
 /* 
 ------------------------------------------------------------------------------------------------------------------------
 4. VERTICAL AND HORIZONTAL SCROLLBARS 
 yx-axis 
 ------------------------------------------------------------------------------------------------------------------------
+=======
+/* 
+------------------------------------------------------------------------------------------------------------------------
+4. VERTICAL AND HORIZONTAL SCROLLBARS 
+yx-axis 
+------------------------------------------------------------------------------------------------------------------------
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 */
 .mCSB_container_wrapper {
   position: absolute;
@@ -8274,10 +8319,17 @@ yx-axis
 .mCustomScrollBox.mCSB_vertical_horizontal.mCSB_inside > .mCSB_container_wrapper.mCS_no_scrollbar_x.mCS_x_hidden {
   margin-bottom: 0; }
 
+<<<<<<< HEAD
 /* 
 ------------------------------------------------------------------------------------------------------------------------
 5. TRANSITIONS  
 ------------------------------------------------------------------------------------------------------------------------
+=======
+/* 
+------------------------------------------------------------------------------------------------------------------------
+5. TRANSITIONS  
+------------------------------------------------------------------------------------------------------------------------
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 */
 .mCSB_scrollTools,
 .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
@@ -8295,6 +8347,7 @@ yx-axis
   -webkit-transition: width .2s ease-out .2s, height .2s ease-out .2s,  margin-left .2s ease-out .2s, margin-right .2s ease-out .2s,  margin-top .2s ease-out .2s, margin-bottom .2s ease-out .2s, opacity .2s ease-in-out, background-color .2s ease-in-out;
   transition: width .2s ease-out .2s, height .2s ease-out .2s,  margin-left .2s ease-out .2s, margin-right .2s ease-out .2s,  margin-top .2s ease-out .2s, margin-bottom .2s ease-out .2s, opacity .2s ease-in-out, background-color .2s ease-in-out; }
 
+<<<<<<< HEAD
 /* 
 ------------------------------------------------------------------------------------------------------------------------
 6. SCROLLBAR COLORS, OPACITY AND BACKGROUNDS  
@@ -8304,6 +8357,17 @@ yx-axis
 	----------------------------------------
 	6.1 THEMES 
 	----------------------------------------
+=======
+/* 
+------------------------------------------------------------------------------------------------------------------------
+6. SCROLLBAR COLORS, OPACITY AND BACKGROUNDS  
+------------------------------------------------------------------------------------------------------------------------
+*/
+/* 
+	----------------------------------------
+	6.1 THEMES 
+	----------------------------------------
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 	*/
 /* default theme ("light") */
 .mCSB_scrollTools {
@@ -8365,34 +8429,62 @@ yx-axis
 
 .mCSB_scrollTools .mCSB_buttonUp {
   background-position: 0 0;
+<<<<<<< HEAD
   /* 
 		sprites locations 
 		light: 0 0, -16px 0, -32px 0, -48px 0, 0 -72px, -16px -72px, -32px -72px
 		dark: -80px 0, -96px 0, -112px 0, -128px 0, -80px -72px, -96px -72px, -112px -72px
+=======
+  /* 
+		sprites locations 
+		light: 0 0, -16px 0, -32px 0, -48px 0, 0 -72px, -16px -72px, -32px -72px
+		dark: -80px 0, -96px 0, -112px 0, -128px 0, -80px -72px, -96px -72px, -112px -72px
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 		*/ }
 
 .mCSB_scrollTools .mCSB_buttonDown {
   background-position: 0 -20px;
+<<<<<<< HEAD
   /* 
 		sprites locations
 		light: 0 -20px, -16px -20px, -32px -20px, -48px -20px, 0 -92px, -16px -92px, -32px -92px
 		dark: -80px -20px, -96px -20px, -112px -20px, -128px -20px, -80px -92px, -96px -92px, -112 -92px
+=======
+  /* 
+		sprites locations
+		light: 0 -20px, -16px -20px, -32px -20px, -48px -20px, 0 -92px, -16px -92px, -32px -92px
+		dark: -80px -20px, -96px -20px, -112px -20px, -128px -20px, -80px -92px, -96px -92px, -112 -92px
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 		*/ }
 
 .mCSB_scrollTools .mCSB_buttonLeft {
   background-position: 0 -40px;
+<<<<<<< HEAD
   /* 
 		sprites locations 
 		light: 0 -40px, -20px -40px, -40px -40px, -60px -40px, 0 -112px, -20px -112px, -40px -112px
 		dark: -80px -40px, -100px -40px, -120px -40px, -140px -40px, -80px -112px, -100px -112px, -120px -112px
+=======
+  /* 
+		sprites locations 
+		light: 0 -40px, -20px -40px, -40px -40px, -60px -40px, 0 -112px, -20px -112px, -40px -112px
+		dark: -80px -40px, -100px -40px, -120px -40px, -140px -40px, -80px -112px, -100px -112px, -120px -112px
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 		*/ }
 
 .mCSB_scrollTools .mCSB_buttonRight {
   background-position: 0 -56px;
+<<<<<<< HEAD
   /* 
 		sprites locations 
 		light: 0 -56px, -20px -56px, -40px -56px, -60px -56px, 0 -128px, -20px -128px, -40px -128px
 		dark: -80px -56px, -100px -56px, -120px -56px, -140px -56px, -80px -128px, -100px -128px, -120px -128px
+=======
+  /* 
+		sprites locations 
+		light: 0 -56px, -20px -56px, -40px -56px, -60px -56px, 0 -128px, -20px -128px, -40px -128px
+		dark: -80px -56px, -100px -56px, -120px -56px, -140px -56px, -80px -128px, -100px -128px, -120px -128px
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 		*/ }
 
 .mCSB_scrollTools .mCSB_buttonUp:hover,
@@ -9449,8 +9541,13 @@ ul.wysihtml5-toolbar .fa {
   background: none;
   border: none; }
 
+<<<<<<< HEAD
 /* -------------------------------------------------
     Datepicker cells
+=======
+/* -------------------------------------------------
+    Datepicker cells
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
    ------------------------------------------------- */
 .datepicker--cells {
   display: -ms-flexbox;
@@ -9611,8 +9708,13 @@ ul.wysihtml5-toolbar .fa {
   background: none;
   border: none; }
 
+<<<<<<< HEAD
 /* -------------------------------------------------
     Datepicker
+=======
+/* -------------------------------------------------
+    Datepicker
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
    ------------------------------------------------- */
 .datepickers-container {
   position: absolute;
@@ -9771,8 +9873,13 @@ ul.wysihtml5-toolbar .fa {
   background: none;
   border: none; }
 
+<<<<<<< HEAD
 /* -------------------------------------------------
     Navigation
+=======
+/* -------------------------------------------------
+    Navigation
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
    ------------------------------------------------- */
 .datepicker--nav {
   display: -ms-flexbox;
@@ -9896,8 +10003,13 @@ ul.wysihtml5-toolbar .fa {
   background: none;
   border: none; }
 
+<<<<<<< HEAD
 /* -------------------------------------------------
     Timepicker
+=======
+/* -------------------------------------------------
+    Timepicker
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
    ------------------------------------------------- */
 .datepicker--time {
   border-top: 1px solid #efefef;
@@ -10359,6 +10471,7 @@ ul.wysihtml5-toolbar .fa {
   -webkit-transition: all 0.2s linear 0s;
   transition: all 0.2s linear 0s; }
 
+<<<<<<< HEAD
 /*
 
 @-webkit-keyframes td-rubber {
@@ -10409,6 +10522,58 @@ ul.wysihtml5-toolbar .fa {
 	animation-fill-mode: both;
 }
 
+=======
+/*
+
+@-webkit-keyframes td-rubber {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+            transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+            transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+            transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(.95, 1.05, 1);
+            transform: scale3d(.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, .95, 1);
+            transform: scale3d(1.05, .95, 1);
+  }
+
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+
+
+
+.td-rubber {
+	-webkit-animation-name: td-rubber;
+	animation-name: td-rubber;
+	-webkit-animation-duration: .8s;
+	animation-duration: .8s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 */
 @-webkit-keyframes td-alert {
   0% {
@@ -10616,10 +10781,17 @@ ul.wysihtml5-toolbar .fa {
 .td-lancette div:last-child:after {
   top: 36px; }
 
+<<<<<<< HEAD
 /*
 
 Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmail.com>
 
+=======
+/*
+
+Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmail.com>
+
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
 */
 .hljs {
   display: block;
@@ -11231,11 +11403,19 @@ Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmai
 .select2-container--classic.select2-container--open .select2-dropdown {
   border-color: #5897fb; }
 
+<<<<<<< HEAD
 /*!
  * Bootstrap-select v1.13.12 (https://developer.snapappointments.com/bootstrap-select)
  *
  * Copyright 2012-2019 SnapAppointments, LLC
  * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
+=======
+/*!
+ * Bootstrap-select v1.13.12 (https://developer.snapappointments.com/bootstrap-select)
+ *
+ * Copyright 2012-2019 SnapAppointments, LLC
+ * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
+>>>>>>> f814401afdbb7c669d38f03853ffe82d0662df1a
  */
 @-webkit-keyframes bs-notify-fadeOut {
   0% {
