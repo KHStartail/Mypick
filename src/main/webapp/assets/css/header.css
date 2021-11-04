@@ -54,11 +54,9 @@ body{
             color: #fb5849;
         }
     .mypage{
-        float: left;
-        width: 20%;
-        height: 80%;
-        margin-top: 90px;
-        margin-left: 300px;
+        margin-top: 70px;
+        margin-right: 50px;
+        float: right;
     }
         .mypage img{
             width: 60px;
