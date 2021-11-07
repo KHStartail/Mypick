@@ -25,7 +25,7 @@
 		gtag('config', 'UA-119386393-1');
 	</script>
 </head>
-<body class="login-page">
+<body class="login-page" style="background : none">
 	<div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
 		<div class="container">
 			<div class="row align-items-center">
@@ -74,7 +74,7 @@
 											use code for form submit
 											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 										-->
-										<a class="btn btn-primary btn-lg btn-block" href="index.html">로그인</a>
+										<a class="btn btn-primary btn-lg btn-block" href="index.html" style="background : #fb5849dc" >로그인</a>
 									</div>
 									<div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
 									<div class="input-group mb-0">
