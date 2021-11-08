@@ -63,7 +63,7 @@
                        
                     </div>
                     <ul class="serv-ul">
-                        <li class="serv-li">로그인</li>
+                        <li class="serv-li" onclick="location.href='/loginView.kh';">로그인</li>
                     </ul>
                 </li>
             </ul>
