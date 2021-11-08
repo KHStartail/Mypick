@@ -63,7 +63,7 @@
                        
                     </div>
                     <ul class="serv-ul">
-                        <li class="serv-li">로그인</li>
+                        <li class="serv-li" onclick="location.href='/loginView.kh';">로그인</li>
                     </ul>
                 </li>
             </ul>
@@ -81,17 +81,16 @@
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="#about">Supportting</a></li>
-                            <li class="scroll-to-section"><a href="#about">Goods</a></li>
+                            <li class="scroll-to-section"><a href="#" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="#">Supportting</a></li>
+                            <li class="scroll-to-section"><a href="#">Goods</a></li>
                             <!-- <li class="submenu">
                                 <a href="javascript:;">MyPage<a>
                                 <ul>
                                     <li><a href="#">Drop Down Page 1</a></li>
-                           		</ul>
+                                 </ul>
                             </li> -->
                             <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
-                            <li class="scroll-to-section"><a href="#reservation">Contact Us</a></li> 
                         </ul>        
                         <a class='menu-trigger'>
                             <span>Menu</span>

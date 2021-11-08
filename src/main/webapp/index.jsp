@@ -312,32 +312,7 @@ https://templatemo.com/tm-558-klassy-cafe
     <!-- ***** Reservation Us Area Starts ***** -->
 
     <!-- ***** Footer Start ***** -->
-    <div style="width: max-widthl; height: 3px;  background-color: #fb5849;"> </div>
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-xs-12">
-                </div>
-                <div class="col-lg-4">
-                    <div class="logo">
-                        <a href="index.html"><img src="assets/images/mypic_logo.png" width="200px" height="200px" alt="로고이미지"></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-12">
-                    <div class="left-text-content">
-                        <p>
-                            <br>
-                            사업자번호 : 01-378-25975<br>
-                            대표자 : 별꼬리<br>
-                            전화번호 : 1544-9970<br>
-                            서울특별시 중구 남대문로 120 대일빌딩 2F, 3F<br>
-                            상담시간 오전 10시 ~ 오후 6시<br>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+ 	<jsp:include page="/footer.jsp"></jsp:include>
 
     <!-- jQuery -->
     <script src="assets/js/jquery-2.1.0.min.js"></script>
