@@ -7,6 +7,6 @@
 <title>모집중 서포팅 상세</title>
 </head>
 <body>
-
+	<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>
