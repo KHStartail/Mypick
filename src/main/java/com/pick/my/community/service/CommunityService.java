@@ -11,7 +11,7 @@ public interface CommunityService {
 	public int getListcount();
 	public Community_Post printOnePost(Community_Post communityPost);
 	public int addReadCount(int postNo);
-	public int registerCoummunityPost(List<Community_Post> cList);
+	public int registerCoummunityPost(Community_Post post);
 	public int insertFile(Community_File File);
 	public int modifyCommunityPost(Community_Post communityPost);
 	public List<Community_Reply> printAllReply(List<Community_Reply> rList);

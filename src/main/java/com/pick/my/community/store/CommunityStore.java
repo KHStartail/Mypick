@@ -11,7 +11,7 @@ public interface CommunityStore {
 	public int getListcount();
 	public Community_Post selectOnePost(Community_Post communityPost);
 	public int addReadCount(int postNo);
-	public int insertCoummunityPost(List<Community_Post> cList);
+	public int insertCoummunityPost(Community_Post post);
 	public int insertFile(Community_File File);
 	public int updateCommunityPost(Community_Post communityPost);
 	public List<Community_Reply> selectAllReply(List<Community_Reply> rList);

@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type"
+	content="text/html; charset=UTF-8,width=device-width, initial-scale=1">
 
 <!-- include libraries(jQuery, bootstrap) -->
 <link
@@ -14,8 +15,10 @@
 <link rel="stylesheet" href="assets/css/login.css">
 <link rel="stylesheet" href="assets/css/input.css">
 <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
 <!-- include summernote css/js-->
@@ -32,7 +35,7 @@
 <script>
 	$(document).ready(function() {
 		 $('#summernote').summernote({
-		        placeholder: '여기에 내용 입력하세요~ 그림파일 용량은 2MB까지입니다~',
+		        placeholder: '여기에 내용 입력하세요~',
 		        tabsize: 2,
 		        height: 300, // 에디터 높이
 		        width: 1200,
@@ -76,61 +79,60 @@
 		                }
 		      });
 		$('.dropdown-toggle').dropdown()
-		let input_element = document.querySelector("input");
+let input_element = document.querySelector("input");
 
-		input_element.addEventListener("keyup", () => {
-		    input_element.setAttribute("value", input_element.value);
-		})
+input_element.addEventListener("keyup", () => {
+    input_element.setAttribute("value", input_element.value);
+})
 	});
 </script>
 </head>
 <body>
-	<h2 style="text-align: center;">&nbsp;</h2>
-	<br>
-	<br>
-	<br>
+	<form name="dataForm" id="dataForm" onsubmit="return registerAction()">
+		<h2 style="text-align: center;">&nbsp;</h2>
+		<br> <br> <br>
 
-	<div style="width: 60%; margin: auto;">
-		<form method="post" action="/write">
-			
-			<br>
-			<br>
-			  <form name="dataForm" id="dataForm" onsubmit="return registerAction()">
-  	<button id="btn-upload" type="button" style="border: 1px solid #ddd; outline: none;float:left;">파일 추가</button>
-  	<input id="input_file" multiple="multiple" type="file" style="display:none;">
-  	<span style="font-size:10px; color: gray;">※첨부파일은 최대 10개까지 등록이 가능합니다.</span>
-  	<div class="data_file_txt" id="data_file_txt" style="margin:40px;">
-	
-		<br />
-		<div id="articlefileChange">
-		</div>
-	</div>
-	<table>
-<tr>
-       <td class="img_wrap">
-         	<button type="submit" style="border: 1px solid #ddd; outline: none; height : 50; width : 100; float:left">전송</button>
-       </td>
-  </form>
-</tr>
-</table>
-<br>
-</div>
-<div class="input-contain" style = "left: 20%">
-				<input type="text" id="fname" name="fname" autocomplete="off"
-					value="" aria-labelledby="placeholder-fname"> <label
-					class="placeholder-text" for="fname" id="placeholder-fname">
-					<div class="text">제목</div>
-				</label>
+		<div style="width: 60%; margin: auto;">
+
+			<br> <br>
+			<button id="btn-upload" type="button"
+				style="border: 1px solid #ddd; outline: none; float: left;">파일
+				추가</button>
+			<input id="input_file" multiple="multiple" type="file"
+				style="display: none;"> <span
+				style="font-size: 10px; color: gray;">※첨부파일은 최대 10개까지 등록이
+				가능합니다.</span>
+			<div class="data_file_txt" id="data_file_txt" style="margin: 40px;">
+
+				<br />
+				<div id="articlefileChange"></div>
 			</div>
+			<table>
+				<tr>
+					<td class="img_wrap">
+					</td>
+
+				</tr>
+			</table>
 			<br>
-			<br>
-			<textarea id="summernote" name="content"></textarea>
+		</div>
+		<div class="input-contain" style="left: 20%">
+			<input type="text" id="postTitle" name="postTitle"placeholder="제목" value="">
+			<label class="placeholder-text" for="fname" id="placeholder-fname">
+
+			</label>
+		</div>
+
+		<br> <br>
+		<div>
+			<textarea id="summernote" name="content" id="content"></textarea>
 			<input id="subBtn" type="button" value="글 작성"
-				onclick="goWrite(this.form)" style="position: relative; left:30%" />
-		</form>
-	</div>
-<!-- 파일 업로드 스크립트 -->
-<script>
+				onclick="goWrite();" style="position: relative; left: 30%" />
+		</div>
+	</form>
+	<!-- 파일 업로드 스크립트 -->
+	<script>
+	
 $(document).ready(function()
 		// input file 파일 첨부시 fileCheck 함수 실행
 		{
@@ -212,11 +214,10 @@ function fileDelete(fileNum){
 				 formData.append("article_file", content_files[x]);
 			}
 		}
-		var fileName = '${File.fileRename}';
 	$.ajax({
    	      type: "POST",
    	   	  enctype: "multipart/form-data",
-   	      url: "/file-upload",
+   	      url: "upload.pick",
        	  data : formData,
        	  processData: false,
    	      contentType: false,
@@ -225,10 +226,11 @@ function fileDelete(fileNum){
    	    		alert("파일업로드 성공");
    	    		handleImgFileSelect(e);
 			} else
-				alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
+				alert("파일업로드실패. 잠시 후 다시 시도해주세요");
    	      },
-   	      error: function (xhr, status, error) {
+   	      error: function (request,xhr, status, error) {
    	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+   	     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
    	     return false;
    	      }
    	    });
@@ -253,7 +255,7 @@ function fileDelete(fileNum){
             }
             sel_file = f;
             var reader = new FileReader();
-                $("td img").attr("src", e.target.result);                
+                $("td img").attr("src", e.target.result);
             reader.onload = function(e) {
             	var newImg = document.createElement("img");
             	img_wrap.appendChild(newImg);
@@ -265,6 +267,14 @@ function fileDelete(fileNum){
             reader.readAsDataURL(f);
         });
     }
+    function goWrite() {
+    	var title = $("#postTitle").val();
+    	var contents = $("#summernote").val();
+    	location.href='Register.pick?title='+title+'&contents='+contents;
+    	registerAction()
+    }
+   
+    
 </script>
 </body>
 </html>

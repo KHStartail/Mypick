@@ -7,7 +7,7 @@ public class Community_File {
 	private String userId;
 	private String fileName;
 	private String fileRename;
-	private int fileSize;
+	private long fileSize;
 	private Date uploadDate;
 	private int postNo;
 	
@@ -46,11 +46,11 @@ public class Community_File {
 		this.fileRename = fileRename;
 	}
 
-	public int getFileSize() {
+	public long getFileSize() {
 		return fileSize;
 	}
 
-	public void setFileSize(int fileSize) {
+	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
 	}
 
@@ -75,6 +75,7 @@ public class Community_File {
 		return "Community_File [fileNo=" + fileNo + ", userId=" + userId + ", fileName=" + fileName + ", fileRename="
 				+ fileRename + ", fileSize=" + fileSize + ", uploadDate=" + uploadDate + ", postNo=" + postNo + "]";
 	}
+
 	
 	
 }

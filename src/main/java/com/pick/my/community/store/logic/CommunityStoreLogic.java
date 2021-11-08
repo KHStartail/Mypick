@@ -36,14 +36,14 @@ public class CommunityStoreLogic implements CommunityStore{
 	}
 
 	@Override
-	public int insertCoummunityPost(List<Community_Post> cList) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertCoummunityPost(Community_Post post) {
+		int result = sqlSession.insert("CommunityMapper.insertPost",post);
+		return result;
 	}
 
 	@Override
 	public int insertFile(Community_File File) {
-		int result = sqlSession.insert("fileMapper.uploadFile",File);
+		int result = sqlSession.insert("CommunityMapper.uploadFile",File);
 		return result;
 	}
 

@@ -36,9 +36,9 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
-	public int registerCoummunityPost(List<Community_Post> cList) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int registerCoummunityPost(Community_Post post) {
+		int result = store.insertCoummunityPost(post);
+		return result;
 	}
 
 	@Override
