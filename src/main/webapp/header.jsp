@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/lightbox.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/login.css">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 </head>
 <body>
 <div class="main-header">
