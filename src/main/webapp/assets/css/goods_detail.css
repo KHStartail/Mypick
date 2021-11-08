@@ -1,0 +1,128 @@
+
+.justify-content-center{
+    width: 900px;
+    margin-left: 11%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    overflow: auto;
+
+}
+.rev-div{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+    .rev-label{
+        border-bottom: 1px solid #fb5849cc;
+        height: 40px !important;
+    }
+    .rev-star{
+        width: 600px;
+        margin-left: 15%;
+        margin-bottom: 2%;
+        margin-top: 5%;
+    }
+    .rev-input{
+        height: 200px;
+        text-align: center;
+    }
+        .rev-input textarea{
+            margin-left: 15%;
+            float: left;
+            border-radius: 10px;
+            border: 1px solid rgba(128, 128, 128, 0.747);
+        }
+        .rev-input button{
+            float: left;
+            height: 125px;
+            width: 70px;
+            margin-left: 8px;
+            border: 1px solid #fb5849cc;
+            background-color: #fb5849;
+            border-radius: 5px;
+            color: white;
+            letter-spacing: 5px;
+            
+        }
+        .rev-label p{
+            font-size: 20px!important;
+            font-weight: bold;
+        }
+    .rev-list{
+        overflow: auto;
+    }
+    .rev-re-list{
+        margin-top: 30px;
+        margin-left: 30%;
+        width: 500px;
+        overflow: auto;
+    }
+        .rev-img{
+            margin-top: 5%;
+            margin-left: 20px;
+            width: 30%;
+            float: left;
+        }
+        .rev-re-img{
+            float: left;
+            width: 50px;
+        }
+        .rev-re-img img{
+            width: 40px;
+            height: 40px;
+        }
+        .rev-img img{
+            width: 200px;
+            height: 200px;
+        }
+        .rev-con, .rev-re-con{
+            margin-top: 5%;
+            float: left;
+            border: 1px solid rgba(128, 128, 128, 0.582);
+            margin-left: 20px;
+            border-radius: 15px;
+            width: 400px;
+            padding: 10px;
+        }
+        .justify-content-center p{
+            text-align: left!important;
+            padding-top: 0!important;
+            text-align: left!important;
+        }
+            .rev-btn, .rev-re-btn{
+                text-align: right;
+                width: 50%;
+                float: right;
+                margin-right: 3%;
+                margin-top: 5%;
+                margin-bottom: 3%;
+            }
+                .rev-btn button, .rev-re-btn button{
+                    border: 1px solid #fb5849cc;
+                    background-color: #fb5849;
+                    border-radius: 5px;
+                    width: 50px;
+                    height: 25px;
+                }
+                .rev-btn a, .rev-re-btn a{
+                    text-decoration: none;
+                    color: white;
+                    font-size: 13px;
+                }
+    .manager-btn{
+        margin-top: 5%;
+        margin-bottom: 5%;
+        width: 75%;
+        text-align: right;
+    }
+        .manager-btn button{
+            width: 100px;
+            height: 30px;
+            margin-left: 5%;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 5px;
+            border: 1px solid gray;
+            cursor: pointer;
+            box-shadow: 2px 2px 2px rgba(128, 128, 128, 0.658);
+        }
