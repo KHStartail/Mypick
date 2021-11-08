@@ -41,7 +41,7 @@
                     </tr>
                     <tr >
                         <td style="text-align: left;">
-                            <img src="img/air.png" alt="" style="width: 250px;">
+                            <img src="assets/images/air.png" alt="" style="width: 250px;">
                             누군지 모르는 아이돌의 Airpot
                         </td>
                         <td>1</td>

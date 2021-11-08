@@ -61,7 +61,7 @@
                                     <option value="">그룹 이름</option>
                                 </select>
                                 <input type="text" placeholder="Search">
-                                <button type="submit"><img src="img/search.png" style="width: 30px;"></button>
+                                <button type="submit"><img src="assets/images/search.png" style="width: 30px;"></button>
                             </form>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg">
-                            <img src="img/key.png" alt="">
+                            <img src="assets/images/key.png" alt="">
                             <div class="product__label">
                                 <span>그룹명</span>
                             </div>
@@ -88,7 +88,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg">
-                            <img src="img/case.png" alt="">
+                            <img src="assets/images/case.png" alt="">
                             <div class="product__label">
                                 <span>그룹명</span>
                             </div>
@@ -105,7 +105,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg">
-                            <img src="img/air.png" alt="">
+                            <img src="assets/images/air.png" alt="">
                             <div class="product__label">
                                 <span>그룹명</span>
                             </div>
@@ -122,7 +122,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg">
-                            <img src="img/key.png" alt="">
+                            <img src="assets/images/key.png" alt="">
                             <div class="product__label">
                                 <span>그룹명</span>
                             </div>

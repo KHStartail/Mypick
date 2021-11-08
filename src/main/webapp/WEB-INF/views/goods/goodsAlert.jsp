@@ -11,7 +11,7 @@
     <div class="alert-main">
         <div class="alert-line"></div>
         <div class="alert-logo">
-            <img src="img/mypic_logo.png" alt="">
+            <img src="assets/images/mypic_logo.png" alt="">
         </div>
         <div class="alert-text">
             <span>삭제하시겠습니까?</span>

@@ -52,7 +52,7 @@
                             <label>가격 :</label><input type="text" name="" id="" placeholder="가격을 입력하세요"><br>
                     </div>
                     <div class="insert-file">
-                        <div class="file-camera" style="background-image: url(img/camera.png);"></div>
+                        <div class="file-camera" style="background-image: url(assets/images/camera.png);"></div>
                         <div class="input-file">
                             <div>
                                 대표 이미지 파일을 첨부해주세요

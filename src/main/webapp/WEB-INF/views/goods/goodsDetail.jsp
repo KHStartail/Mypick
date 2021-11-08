@@ -61,7 +61,7 @@
                 <div class="col-lg-6">
                     <div class="product__details__img">
                         <div class="product__details__big__img">
-                            <img class="big_img" src="img/air.png" alt="">
+                            <img class="big_img" src="assets/images/air.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -228,7 +228,7 @@
                                         </div>
                                         <div class="rev-re-list">
                                             <div class="rev-re-img">
-                                                <img src="img/arrow.png" alt="">
+                                                <img src="assets/images/arrow.png" alt="">
                                             </div>
                                             <div class="rev-re-con">
                                                 <p>2021.11.05 19:42&nbsp;매니저</p><br>
@@ -265,7 +265,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/air.png" alt="">
+                                <img src="assets/images/air.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -282,7 +282,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/case.png" alt="">
+                                <img src="assets/images/case.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -299,7 +299,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/key.png" alt="">
+                                <img src="assets/images/key.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -316,7 +316,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/air.png" alt="">
+                                <img src="assets/images/air.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -333,7 +333,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/case.png" alt="">
+                                <img src="assets/images/case.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -350,7 +350,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/key.png" alt="">
+                                <img src="assets/images/key.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
