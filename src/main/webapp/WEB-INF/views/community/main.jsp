@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" href="assets/css/header.css">
+<link rel="stylesheet" href="assets/css/lightbox.css">
+<link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
+<title>커뮤니티메인페이지</title>
 </head>
 <body>
-
+   <jsp:include page="/header.jsp"></jsp:include>
 </body>
 </html>

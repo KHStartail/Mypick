@@ -116,7 +116,7 @@ input_element.addEventListener("keyup", () => {
 			</table>
 			<br>
 		</div>
-		<div class="input-contain" style="left: 20%">
+		<div class="input-contain" style="left: 20%;display: inline-block;" >
 			<input type="text" id="postTitle" name="postTitle"placeholder="제목" value="">
 			<label class="placeholder-text" for="fname" id="placeholder-fname">
 
@@ -276,5 +276,9 @@ function fileDelete(fileNum){
    
     
 </script>
+
 </body>
+<jsp:include page="/footer.jsp"></jsp:include>
+
+
 </html>
