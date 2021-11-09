@@ -6,6 +6,7 @@ import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Reply;
 import com.pick.my.community.domain.Heart;
+import com.pick.my.community.domain.PageInfo;
 
 public interface CommunityStore {
 	public int getListcount();
@@ -20,4 +21,7 @@ public interface CommunityStore {
 	public int deleteReply(Community_Reply reply);
 	public int insertHeart(Heart heart);
 	public int deleteHeart(Heart heart);
+	public List<Community_Post> selectAllPost(PageInfo pi);
+	public List<Community_Post> selectSearchAll(PageInfo pi);
+	public int getSearchListcount(String searchKeyword);
 }

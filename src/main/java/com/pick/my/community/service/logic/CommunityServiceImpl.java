@@ -9,6 +9,7 @@ import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Reply;
 import com.pick.my.community.domain.Heart;
+import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.service.CommunityService;
 import com.pick.my.community.store.CommunityStore;
 
@@ -19,8 +20,8 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int getListcount() {
-		// TODO Auto-generated method stub
-		return 0;
+		int totalCount = store.getListcount();
+		return totalCount;
 	}
 
 	@Override
@@ -87,6 +88,24 @@ public class CommunityServiceImpl implements CommunityService{
 	public int removeHeart(Heart heart) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<Community_Post> printAllPost(PageInfo pi) {
+		List<Community_Post> cList = store.selectAllPost(pi);
+		return cList;
+	}
+
+	@Override
+	public List<Community_Post> printSearchAll(PageInfo pi) {
+		List<Community_Post> searchList = store.selectSearchAll(pi);
+		return searchList;
+	}
+
+	@Override
+	public int getSearchListcount(String searchKeyword) {
+		int totalCount = store.getSearchListcount(searchKeyword);
+		return totalCount;
 	}
 
 }

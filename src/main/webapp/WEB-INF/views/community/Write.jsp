@@ -116,20 +116,25 @@ input_element.addEventListener("keyup", () => {
 			</table>
 			<br>
 		</div>
+		<br><br>
 		<div class="input-contain" style="left: 20%;display: inline-block;" >
-			<input type="text" id="postTitle" name="postTitle"placeholder="제목" value="">
+			<input type="text" id="postTitle" name="postTitle"placeholder="제목" value="" style="	height: 3rem;
+	width: 75rem;">
 			<label class="placeholder-text" for="fname" id="placeholder-fname">
 
 			</label>
 		</div>
 
 		<br> <br>
+		
 		<div>
 			<textarea id="summernote" name="content" id="content"></textarea>
+			<br><br>
 			<input id="subBtn" type="button" value="글 작성"
 				onclick="goWrite();" style="position: relative; left: 30%" />
 		</div>
 	</form>
+	<br><br>
 	<!-- 파일 업로드 스크립트 -->
 	<script>
 	
@@ -260,8 +265,8 @@ function fileDelete(fileNum){
             	var newImg = document.createElement("img");
             	img_wrap.appendChild(newImg);
             	newImg.setAttribute("src", event.target.result);
-            	newImg.setAttribute("width", 50);
-            	newImg.setAttribute("height", 50);
+            	newImg.setAttribute("width", 100);
+            	newImg.setAttribute("height", 100);
             	newImg.setAttribute("margin-left", 10);
             }
             reader.readAsDataURL(f);
@@ -270,8 +275,8 @@ function fileDelete(fileNum){
     function goWrite() {
     	var title = $("#postTitle").val();
     	var contents = $("#summernote").val();
-    	location.href='Register.pick?title='+title+'&contents='+contents;
     	registerAction()
+    	location.href='Register.pick?title='+title+'&contents='+contents;
     }
    
     

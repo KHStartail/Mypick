@@ -3,11 +3,45 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="CommunityMapper">
+  		<resultMap type="Post" id="postResultMap">
+		<id property="postNo" column="POST_NO"></id>
+		<result property="groupNo" column="GROUP_NO"/>
+		<result property="userId" column="MEMBER_ID"/>
+		<result property="postTitle" column="POST_TITLE"/>
+		<result property="postContents" column="POST_CONTENTS"/>
+		<result property="viewsCount" column="VIEWS_COUNT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="updateDate" column="UPDATE_DATE"/>
+		<result property="userNickName" column="MEMBER_NICKNAME"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	
+	
+  	<select id="selectListCount" resultType="_int">
+  		SELECT COUNT(*) FROM
+		COMMUNITY_POST WHERE STATUS = 'Y'
+  	</select>
+  	
+  	<select id="selectAllList" resultMap="postResultMap">
+		SELECT * FROM COMMUNITY_POST WHERE
+		STATUS ='Y' ORDER BY POST_NO DESC
+	</select>
+  
+  	<select id="selectSearchList" resultMap="postResultMap">
+  		SELECT * FROM COMMUNITY_POST WHERE POST_TITLE LIKE '%' || #{searchKeyword} || '%' OR MEMBER_NICKNAME LIKE '%' || #{searchKeyword} || '%' AND STATUS = 'Y' ORDER BY CREATE_DATE DESC 
+  	</select>
+  
+  	 <select id="selectSearchListCount" resultType="_int">
+  		SELECT COUNT(*) FROM
+		COMMUNITY_POST WHERE POST_TITLE LIKE '%' || #{searchKeyword} || '%' OR MEMBER_NICKNAME LIKE '%' || #{searchKeyword} || '%' AND STATUS = 'Y'
+  	</select>
+  
  	<insert id="uploadFile" parameterType="File">
 	INSERT INTO COMMUNITY_FILE VALUES(SEQ_FILE.NEXTVAL,'user01',#{fileName},#{fileRename},#{fileSize},DEFAULT,SEQ_POST.CURRVAL)
 	</insert>
 	<insert id="insertPost" parameterType="Post">
-	INSERT INTO COMMUNITY_POST VALUES(SEQ_POST.NEXTVAL,0,'user01','김제탈',#{postTitle},#{postContents},0,DEFAULT,DEFAULT)
+	INSERT INTO COMMUNITY_POST VALUES(SEQ_POST.NEXTVAL,0,'user01','김제탈',#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT)
 	</insert>
+	
  	 </mapper>
   

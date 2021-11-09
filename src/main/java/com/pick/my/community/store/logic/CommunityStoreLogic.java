@@ -2,6 +2,7 @@ package com.pick.my.community.store.logic;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Reply;
 import com.pick.my.community.domain.Heart;
+import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.store.CommunityStore;
 @Repository
 public class CommunityStoreLogic implements CommunityStore{
@@ -19,8 +21,8 @@ public class CommunityStoreLogic implements CommunityStore{
 	
 	@Override
 	public int getListcount() {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = sqlSession.selectOne("CommunityMapper.selectListCount");
+		return count;
 	}
 
 	@Override
@@ -87,6 +89,28 @@ public class CommunityStoreLogic implements CommunityStore{
 	public int deleteHeart(Heart heart) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<Community_Post> selectAllPost(PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getCommunityLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getCommunityLimit());
+		List<Community_Post> cList = sqlSession.selectList("CommunityMapper.selectAllList",pi,rowBounds);
+		return cList;
+	}
+
+	@Override
+	public List<Community_Post> selectSearchAll(PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getCommunityLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getCommunityLimit());
+		List<Community_Post> searchList = sqlSession.selectList("CommunityMapper.selectSearchList",pi,rowBounds);
+		return searchList;
+	}
+
+	@Override
+	public int getSearchListcount(String searchKeyword) {
+		int count = sqlSession.selectOne("CommunityMapper.selectSearchListCount",searchKeyword);
+		return count;
 	}
 
 }
