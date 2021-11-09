@@ -8,9 +8,11 @@
 		<!-- 만약에 null로 데이터가 전달되었으면 빈칸이 아닌 null로 인식하도록 설정 -->
 	</settings>
 	<typeAliases>
-	<!-- <typeAlias type="com.pick.my.member.domain.Member" alias="Member"></typeAlias> -->
+		<!-- <typeAlias type="com.pick.my.member.domain.Member" alias="Member"></typeAlias> -->
+		<typeAlias type="com.pick.my.supporting.domain.supporting" alias="Supporting"></typeAlias>
 	</typeAliases>
 	<mappers>
-	<!-- 	<mapper resource="mappers/member-mapper.xml"></mapper> -->
+		<!-- 	<mapper resource="mappers/member-mapper.xml"></mapper> -->
+		<mapper resource="mappers/supporting-mapper.xml"></mapper>
 	</mappers>
 </configuration>
