@@ -57,6 +57,7 @@ https://templatemo.com/tm-558-klassy-cafe
     </li>
     </c:forEach>
 </ul>
+
    </c:if> 
 		<div class="contents" style="overflow: auto">
 			<h1 >${post.postTitle }</h1>
@@ -64,9 +65,24 @@ https://templatemo.com/tm-558-klassy-cafe
 		${post.postContents }
 		</div>
 		</div>
-		
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<form action="CommunityDelete.pick" method="get">
+	<c:forEach items="${file }" var="file">
+   <input type="hidden" value="${file.fileRename }" id="fileName" name="fileName">
+	</c:forEach>
+   <input type="hidden" value="${post.postNo }" id="postNo" name="postNo">   
+
+	   		<table id="table" style="margin-left:5%; margin-top:2%;">
+   			<tr>
+			<td><c:url var="cModify"
+					value="modifyView.pick">
+					<c:param name="postNo" value="${post.postNo }"></c:param>
+				</c:url> <a class="btn btn-primary" href="${cModify }">수정하기</a> <input type="submit" class="btn btn-primary" value="삭제하기"></td>   			
+   			</tr>
+   		</table>
+</form>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <!-- ***** Footer Start ***** -->
  
 	<jsp:include page="/footer.jsp"></jsp:include>

@@ -25,4 +25,8 @@ public interface CommunityService {
 	public List<Community_Post> printSearchAll(PageInfo pi);
 	public int getSearchListcount(String searchKeyword);
 	public List<Community_File> printOnePostFile(int postNo);
+	public int removePost(int postNo);
+	public int removeFile(int postNo);
+	public int modifyPost(Community_Post communityPost);
+	public int modifyFile(Community_File File);
 }

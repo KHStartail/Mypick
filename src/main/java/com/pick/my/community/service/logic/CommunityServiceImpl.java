@@ -114,4 +114,28 @@ public class CommunityServiceImpl implements CommunityService{
 		return fileList;
 	}
 
+	@Override
+	public int removePost(int postNo) {
+		int result = store.deletePost(postNo);
+		return result;
+	}
+
+	@Override
+	public int removeFile(int postNo) {
+		int result = store.deleteFile(postNo);
+		return result;
+	}
+
+	@Override
+	public int modifyPost(Community_Post communityPost) {
+		int result = store.updatePost(communityPost);
+		return result;
+	}
+
+	@Override
+	public int modifyFile(Community_File File) {
+		int result = store.updateFile(File);
+		return result;
+	}
+
 }
