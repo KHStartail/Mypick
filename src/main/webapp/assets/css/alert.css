@@ -1,0 +1,51 @@
+.alert-main{
+    width: 400px;
+    height: 250px;
+    border: 1px solid black;
+}
+    .alert-line{
+        width: 100%;
+        height: 5%;
+        background-color: #fb5849da;
+    }
+    .alert-logo{
+        width: 100%;
+        height: 90%;
+    }
+        .alert-logo img{
+            position: relative;
+            top: 5%;
+            left: 23%;
+            width: 200px;
+            opacity: 0.6;
+            filter: alpha(opacity=60);
+        }
+    .alert-text{
+        position: absolute;
+        top: 12%;
+        left: 10%;
+        font-size: 30px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        color: black;
+    }
+    .alert-btn{
+        width: 70%;
+        position: absolute;
+        top: 22%;
+        left: 7%;
+    }
+        .alert-btn button{
+            width: 100px;
+            height: 30px;
+            margin-left: 5%;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 5px;
+            border: 1px solid gray;
+            cursor: pointer;
+            box-shadow: 2px 2px 2px rgba(128, 128, 128, 0.658);
+        }
+            .alert-btn :nth-child(2){
+                background-color: cadetblue;
+            }

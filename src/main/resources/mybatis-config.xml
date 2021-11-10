@@ -12,9 +12,11 @@
 		<typeAlias type="com.pick.my.community.domain.Community_Post" alias="Post"/>
 		<typeAlias type="com.pick.my.supporting.domain.supporting" alias="Supporting"></typeAlias>
 		<typeAlias type="com.pick.my.supporting.domain.supFile" alias="SupFile"></typeAlias>
+		<typeAlias type="com.pick.my.goods.domain.Goods" alias="Goods"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/supporting-mapper.xml"></mapper>
 		<mapper resource="mappers/community-mapper.xml"></mapper>
+		<mapper resource="mappers/goods-mapper.xml"></mapper>
 	</mappers>
 </configuration>

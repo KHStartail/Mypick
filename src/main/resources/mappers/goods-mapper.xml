@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goodsMapper">
+	<resultMap type="Goods" id="goodsResultMap">
+		<id property="goodsNo" column="GOODS_NO"/>
+		<result property="goodsName" column="GOODS_NAME"/>
+		<result property="goodsPrice" column="GOODS_PRICE"/>
+		<result property="uploadDate" column="UPLOAD_DATE"/>
+		<result property="imgSize" column="IMG_SIZE"/>
+		<result property="imgPath" column="IMG_PATH"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="idolNo" column="IDOL_NO"/>
+		<result property="goodsContents" column="GOODS_CONTENTS"/>
+		<result property="idolName" column="IDOL_NAME"/>
+		<result property="groupName" column="GROUP_NAME"/>
+		<result property="goodsIntro" column="GOODS_INTRO"/>
+	</resultMap>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*) FROM GOODS
+	</select>
+	
+	<select id="selectAllList" resultMap="goodsResultMap">
+		SELECT * FROM GOODS ORDER BY GOODS_NO DESC
+	</select>
+	
+	<select id="selectOneGoods" resultMap="goodsResultMap">
+		SELECT * FROM GOODS WHERE GOODS_NO = #{goodsNo}
+	</select>
+	
+	<select id="selectSearchList" resultMap="goodsResultMap">
+		SELECT * FROM GOODS
+		<if test="searchCondition.toString() == 'all'">
+			WHERE GOODS_NAME LIKE '%' || #{searchValue} || '%'
+			OR IDOL_NAME LIKE '%' || #{searchValue} || '%'
+			OR GROUP_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'goods'">
+			WHERE GOODS_NAME LIKE '%' || #{searchValue} || '%' 
+		</if>
+		<if test="searchCondition.toString() == 'member'">
+			WHERE IDOL_NAME LIKE '%' || #{searchValue} || '%' 
+		</if>
+		<if test="searchCondition.toString() == 'group'">
+			WHERE GROUP_NAME LIKE '%' || #{searchValue} || '%' 
+		</if>
+	</select>
+	
+	<insert id="insertGoods" parameterType="Goods">
+		INSERT INTO GOODS VALUES(SEQ_GOODS.NEXTVAL,#{goodsName},#{goodsPrice},SYSDATE,#{imgSize},#{imgPath},'user01',1,#{goodsContents},#{idolName},#{groupName},#{goodsIntro})
+	</insert>
+	
+	<delete id="deleteGoods">
+		DELETE FROM GOODS WHERE GOODS_NO = #{goodsNo}
+	</delete>
+	
+	<update id="updateGoods" parameterType="Goods">
+		UPDATE GOODS SET GOODS_NAME=#{goodsName}, GOODS_PRICE=#{goodsPrice},UPLOAD_DATE=DEFAULT, IMG_SIZE=#{imgSize}, IMG_PATH=#{imgPath}, GOODS_CONTENTS=#{goodsContents},IDOL_NAME=#{idolName},GROUP_NAME=#{groupName},GOODS_INTRO=#{goodsIntro} WHERE GOODS_NO = #{goodsNo}
+	</update>
+</mapper>
