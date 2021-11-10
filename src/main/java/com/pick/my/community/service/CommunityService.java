@@ -10,7 +10,7 @@ import com.pick.my.community.domain.PageInfo;
 
 public interface CommunityService {
 	public int getListcount();
-	public Community_Post printOnePost(Community_Post communityPost);
+	public Community_Post printOnePost(int postNo);
 	public int addReadCount(int postNo);
 	public int registerCoummunityPost(Community_Post post);
 	public int insertFile(Community_File File);
@@ -24,4 +24,5 @@ public interface CommunityService {
 	public int removeHeart(Heart heart);
 	public List<Community_Post> printSearchAll(PageInfo pi);
 	public int getSearchListcount(String searchKeyword);
+	public List<Community_File> printOnePostFile(int postNo);
 }

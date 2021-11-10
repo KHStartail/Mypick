@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="CommunityMapper">
+  <mapper namespace="CommunityPostMapper">
   		<resultMap type="Post" id="postResultMap">
 		<id property="postNo" column="POST_NO"></id>
 		<result property="groupNo" column="GROUP_NO"/>
@@ -15,7 +15,15 @@
 		<result property="userNickName" column="MEMBER_NICKNAME"/>
 		<result property="status" column="STATUS"/>
 	</resultMap>
-	
+  		<resultMap type="File" id="fileResultMap">
+		<id property="fileNo" column="FILE_NO"></id>
+		<result property="userId" column="MEMBER_ID"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="fileRename" column="FILE_RENAME"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="uploadDate" column="UPLOAD_DATE"/>
+		<result property="postNo" column="POST_NO"/>
+	</resultMap>
 	
   	<select id="selectListCount" resultType="_int">
   		SELECT COUNT(*) FROM
@@ -35,7 +43,14 @@
   		SELECT COUNT(*) FROM
 		COMMUNITY_POST WHERE POST_TITLE LIKE '%' || #{searchKeyword} || '%' OR MEMBER_NICKNAME LIKE '%' || #{searchKeyword} || '%' AND STATUS = 'Y'
   	</select>
+  	
+  	<select id="selectOnePost" resultMap="postResultMap">
+  		SELECT * FROM COMMUNITY_POST WHERE POST_NO = #{postNo}
+  	</select>
   
+  	<select id="selectOnePostFile" resultMap="fileResultMap">
+  		SELECT * FROM COMMUNITY_FILE WHERE POST_NO = #{postNo}
+  	</select>
  	<insert id="uploadFile" parameterType="File">
 	INSERT INTO COMMUNITY_FILE VALUES(SEQ_FILE.NEXTVAL,'user01',#{fileName},#{fileRename},#{fileSize},DEFAULT,SEQ_POST.CURRVAL)
 	</insert>

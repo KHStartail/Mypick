@@ -122,8 +122,29 @@ public class CommunityController {
 		return"community/Write";
 	}
 	@RequestMapping(value="detailView.pick")
-	public String detailView() {
-		return"community/detail";
+	public ModelAndView detailView(ModelAndView mv, @RequestParam("postNo") int postNo) {
+		Community_Post communityPost = service.printOnePost(postNo);
+		List<Community_File> file = service.printOnePostFile(postNo);
+		if(!file.isEmpty()) {
+			if(communityPost != null) {
+				mv.addObject("post",communityPost);
+				mv.addObject("file",file);
+				mv.setViewName("community/detail");
+			}else {
+				mv.addObject("msg","게시글 상세조회 실패");
+				mv.setViewName("common/errorPage");
+			}
+		}else {
+			if(communityPost != null) {
+				mv.addObject("post",communityPost);
+				mv.setViewName("community/detail");
+		}else {
+			mv.addObject("msg","게시글 상세조회 실패");
+			mv.setViewName("common/errorPage");
+		}
+		}
+		return mv;
+		
 	}
 	@RequestMapping(value="modifyView.pick")
 	public String modifyView() {

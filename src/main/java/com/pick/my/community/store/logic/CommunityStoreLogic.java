@@ -21,14 +21,14 @@ public class CommunityStoreLogic implements CommunityStore{
 	
 	@Override
 	public int getListcount() {
-		int count = sqlSession.selectOne("CommunityMapper.selectListCount");
+		int count = sqlSession.selectOne("CommunityPostMapper.selectListCount");
 		return count;
 	}
 
 	@Override
-	public Community_Post selectOnePost(Community_Post communityPost) {
-		// TODO Auto-generated method stub
-		return null;
+	public Community_Post selectOnePost(int postNo) {
+		Community_Post post = sqlSession.selectOne("CommunityPostMapper.selectOnePost",postNo);
+		return post;
 	}
 
 	@Override
@@ -39,13 +39,13 @@ public class CommunityStoreLogic implements CommunityStore{
 
 	@Override
 	public int insertCoummunityPost(Community_Post post) {
-		int result = sqlSession.insert("CommunityMapper.insertPost",post);
+		int result = sqlSession.insert("CommunityPostMapper.insertPost",post);
 		return result;
 	}
 
 	@Override
 	public int insertFile(Community_File File) {
-		int result = sqlSession.insert("CommunityMapper.uploadFile",File);
+		int result = sqlSession.insert("CommunityPostMapper.uploadFile",File);
 		return result;
 	}
 
@@ -95,7 +95,7 @@ public class CommunityStoreLogic implements CommunityStore{
 	public List<Community_Post> selectAllPost(PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1 ) * pi.getCommunityLimit();
 		RowBounds rowBounds = new RowBounds(offset,pi.getCommunityLimit());
-		List<Community_Post> cList = sqlSession.selectList("CommunityMapper.selectAllList",pi,rowBounds);
+		List<Community_Post> cList = sqlSession.selectList("CommunityPostMapper.selectAllList",pi,rowBounds);
 		return cList;
 	}
 
@@ -103,14 +103,20 @@ public class CommunityStoreLogic implements CommunityStore{
 	public List<Community_Post> selectSearchAll(PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1 ) * pi.getCommunityLimit();
 		RowBounds rowBounds = new RowBounds(offset,pi.getCommunityLimit());
-		List<Community_Post> searchList = sqlSession.selectList("CommunityMapper.selectSearchList",pi,rowBounds);
+		List<Community_Post> searchList = sqlSession.selectList("CommunityPostMapper.selectSearchList",pi,rowBounds);
 		return searchList;
 	}
 
 	@Override
 	public int getSearchListcount(String searchKeyword) {
-		int count = sqlSession.selectOne("CommunityMapper.selectSearchListCount",searchKeyword);
+		int count = sqlSession.selectOne("CommunityPostMapper.selectSearchListCount",searchKeyword);
 		return count;
+	}
+
+	@Override
+	public List<Community_File> selectOnePostFile(int postNo) {
+		List<Community_File> fileList = sqlSession.selectList("CommunityPostMapper.selectOnePostFile",postNo);
+		return fileList;
 	}
 
 }
