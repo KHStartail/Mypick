@@ -1,1 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="SupportingMapper">
+  		<resultMap type="Supporting" id="supportingResultMap">
+			<id property="supNo" column="SUP_NO"></id>
+			<result property="userNo" column="USER_NO"/>
+			<result property="supCategory" column="SUP_CATEGORY"/>
+			<result property="supTitle" column="SUP_TITLE"/>
+			<result property="supContents" column="SUP_CONTENTS"/>
+			<result property="scheduleDate" column="SCHEDULE_DATE"/>
+			<result property="supPlace" column="SUP_PLACE"/>
+			<result property="groupName" column="GROUP_NAME"/>
+			<result property="supStartDate" column="SUP_STARTDATE"/>
+			<result property="supEndDate" column="SUP_ENDDATE"/>
+			<result property="sumMoney" column="SUM_MONEY"/>
+			<result property="goalMoney" column="GOAL_MONEY"/>
+			<result property="supPartiwon" column="SUP_PARTIWON"/>
+			<result property="supGrade" column="SUP_CODE"/>
+			<result property="imgNo" column="IMG_NO"/>
+			<result property="imgName" column="IMG_NAME"/>
+			<result property="imgPath" column="IMG_PATH"/>
+			<result property="imgSize" column="IMG_SIZE"/>
+		</resultMap>
+		<select id="selectAllSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2
+		</select>
+		<select id="selectAllPreSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1
+		</select>
+		<select id="selectOneSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORITNG WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 2
+		</select>
+		<select id="selectOnePreSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORITNG WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 1
+		</select>
+		<insert id="insertSupporting" parameterType="Supporting">
+			INSERT INTO SUPPORTING VALUES (SEQ_SUP_NO.NEXTVAL,{userNickName}, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate}, #{goalMoney}, 0, DEFAULT, DEFAULT, ? , #{imgName}, #{imgPath}, #{imgSize})
+		</insert>
+		<update id="updateSupporting" parameterType="Supporting">
+			UPDATE SUPPORTING SET SUP_TITLE = #{supTitle}, SUP_CONTENTS = #{supContents}, SCHEDULE_DATE = #{scheduleDate}, SUP_PLACE = #{supPlace }, SUP_STARTDATE = #{supStartDate }, SUP_ENDDATE = #{supEndDate}, GOAL_MONEY = #{goalMoney}, IMG_NAME = #{imgName}, IMG_PATH = #{imgPath}, IMG_SIZE = #{imgSize} WHERE SUP_NO = #{supNo}
+		</update>
+		<delete id="deleteSupporting" parameterType="_int">
+			DELETE FROM SUPPORTING WHERE SUP_NO = #{supNo}
+		</delete>
+		
+		<!-- 첨부파일 -->
+		<resultMap type="SupFile" id="fileResultMap">
+			
+		</resultMap>
+		
+		<!-- 진행중 댓글 -->
+		<resultMap type="SupReply" id="replyResultMap">
+			<id property="supReAllNo" column="SUP_REPLY_ALLNO"></id>
+			<result property="supNo" column="SUP_NO"></result>
+			<result property="supReChild" column="SUP_REPLY_CHILD"></result>
+			<result property="supReNo" column="SUP_REPLY_NO"></result>
+			<result property="supReWriter" column="SUP_REPLY_WRITER"></result>
+			<result property="supReContents" column="SUP_REPLY_COMENTS"></result>
+			<result property="supReDate" column="SUP_REPLY_DATE"></result>
+		</resultMap>
+		<select id="replyAll" resultType="replyResultMap">
+			SELECT * FROM SUPPORTING_REPLY WHERE SUP_NO = #{supNo}
+		</select>
+		<insert id="insertSupReply"	parameterType="SupReply">
+			INSERT INTO SUPPORTING_REPLY VALUES (SEQ_REPLY_ALLNO.NEXTVAL, #{supNo}, ? ,#{supReplyNo}, #{userNickName}, #{supReContents}, SYSDATE )
+		</insert>
+		<update id="updateSupReply" parameterType="SupReply">		
+			UPDATE SUPPORTING_REPLY SET SUP_REPLY_COMENTS = #{supReContents}, SUP_REPLY_DATE = SYSDATE WHERE REPLY_ALLNO = #{supReAllNo}
+		</update>
+		<delete id="deleteSupReply" parameterType="_int">
+			DELETE FROM SUPPORTING_REPLY WHERE SUP_REPLY_ALLNO = {supReAllNo}
+		</delete>
+</mapper>
+	

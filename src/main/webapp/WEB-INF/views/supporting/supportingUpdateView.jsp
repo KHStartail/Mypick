@@ -7,6 +7,6 @@
 <title>서포팅 수정</title>
 </head>
 <body>
-
+	<form action="supportingUpdate"></form>
 </body>
 </html>
