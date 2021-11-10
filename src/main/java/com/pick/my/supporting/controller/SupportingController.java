@@ -21,23 +21,22 @@ public class SupportingController {
 	private SupportingService service;
 	
 	//모집중 서포팅 게시글 전체 조회
-		@RequestMapping(value="presupportingList.pick", method=RequestMethod.GET)
-		public ModelAndView preSupportingListView(ModelAndView mv) {
-	//		List<Supporting> psList	= service.printAllPreSupporting();
-	//		if(!psList.isEmpty()) {
-			//	mv.addObject("psList", psList);
-				//	mv.setViewName("supporting/preSupportingList");;
-		//	}else{
-			//	mv.addObject("msg", "모집중 서포팅 게시글 전체조회 실패");
-			//	mv.setViewName("supporting/supportError");
-			//}
-			return mv;
-		}
+	@RequestMapping(value="presupportingList.pick", method=RequestMethod.GET)
+	public ModelAndView preSupportingListView(ModelAndView mv) {
+		List<Supporting> psList = service.printAllPreSupporting(); //int supCategory);
+		 if(!psList.isEmpty()) { 
+			 mv.addObject("psList", psList); 
+			 mv.setViewName("supporting/preSupportingList");
+		 }else {
+			 mv.addObject("msg", "모집중 서포팅 게시글 전체조회 실패"); 
+			 mv.setViewName("supporting/supportError"); 
+		 }
+		 return mv;
+	}
 	//진행중 서포팅 게시글 전체 조회
 	@RequestMapping(value="supportingList.pick", method=RequestMethod.GET)
 	public ModelAndView supportingListView(ModelAndView mv) {
-		List<Supporting> ssList  =null;
-		//	= service.printAllSupporting();//int supCategory);
+		List<Supporting> ssList = service.printAllSupporting();//int supCategory);
 		if(!ssList.isEmpty()) {
 			mv.addObject("ssList", ssList);
 			mv.setViewName("supporting/supportingList");;
@@ -46,5 +45,10 @@ public class SupportingController {
 			mv.setViewName("supporting/supportError");
 		}
 		return mv;
+	}
+	
+	//모집중 상세조회
+	public ModelAndView supportingDetailView(@RequestParam("supTitle") String supTitle) {
+		
 	}
 }

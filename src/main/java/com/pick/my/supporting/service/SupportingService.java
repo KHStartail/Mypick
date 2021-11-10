@@ -9,8 +9,8 @@ import com.pick.my.supporting.domain.SupReplyReport;
 import com.pick.my.supporting.domain.Supporting;
 
 public interface SupportingService {
-	public List<Supporting> printAllSupporting(int supCategory);
-	public List<Supporting> printAllPreSupporting(int supCategory);
+	public List<Supporting> printAllSupporting();
+	public List<Supporting> printAllPreSupporting();
 //	public List<Supporting> findKeywordPreSupporting(HashMap<string groupName, string keyword>);
 //	public List<Supporting> findKeywordSupporting(HashMap<string groupName, string keyword>);
 	public Supporting preSupportingOne(int supNo);
