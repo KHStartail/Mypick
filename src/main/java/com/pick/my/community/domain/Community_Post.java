@@ -13,6 +13,7 @@ public class Community_Post {
 	private Date createDate;
 	private Date updateDate;
 	private String userNickName;
+	private String status;
 	
 	public Community_Post() {}
 
@@ -87,13 +88,20 @@ public class Community_Post {
 	public void setUserNickName(String userNickName) {
 		this.userNickName = userNickName;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
-		return "Community_Post [게시글번호=" + postNo + ", 그룹번호=" + groupNo + ", 아이디=" + userId + ", 글제목="
-				+ postTitle + ", 내용=" + postContents + ", 조회수=" + viewsCount + ", 작성날="
-				+ createDate + ", 수정날=" + updateDate + ", 닉네임=" + userNickName + "]";
+		return "Community_Post [postNo=" + postNo + ", groupNo=" + groupNo + ", userId=" + userId + ", postTitle="
+				+ postTitle + ", postContents=" + postContents + ", viewsCount=" + viewsCount + ", createDate="
+				+ createDate + ", updateDate=" + updateDate + ", userNickName=" + userNickName + ", status=" + status
+				+ "]";
 	}
-	
-	
 }

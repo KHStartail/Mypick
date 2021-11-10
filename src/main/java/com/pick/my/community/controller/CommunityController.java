@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
+import com.pick.my.community.domain.PageInfo;
+import com.pick.my.community.domain.Pagination;
 import com.pick.my.community.service.CommunityService;
 
 
@@ -83,9 +85,38 @@ public class CommunityController {
 		return strResult;
 	}
 	@RequestMapping(value="mainView.pick")
-	public String mainView() {
-		return"community/main";
+	public ModelAndView mainView(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
+	      int currentPage = (page != null) ? page : 1;
+	      int totalCount = service.getListcount();
+	      PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+	      List<Community_Post> cList = service.printAllPost(pi);
+	      if(!cList.isEmpty()) {
+	    	  mv.addObject("cList",cList);
+	    	  mv.addObject("pi",pi);
+	    	  mv.setViewName("community/main");
+	      }else {
+		         mv.addObject("msg", "게시글 전체조회 실패");
+		         mv.setViewName("common/errorPage");
+	      }
+		return mv;
 	}
+	@RequestMapping(value="postSearch.pick")
+	public String postSearchList(@RequestParam("searchKeyword")String searchKeyword,Model model,@RequestParam(value="page", required=false) Integer page){
+		 int currentPage = (page != null) ? page : 1;
+	      int totalCount = service.getSearchListcount(searchKeyword);
+	      PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+	      pi.setSearchKeyword(searchKeyword);
+		List<Community_Post> searchList = service.printSearchAll(pi);
+		if(!searchList.isEmpty()) {
+			model.addAttribute("cList",searchList);
+			model.addAttribute("pi",pi);
+			return "community/main";
+		}else {
+			model.addAttribute("msg","게시글 검색 실패");
+			return "community/main";
+		}
+	}
+	
 	@RequestMapping(value="WriteView.pick")
 	public String writeView() {
 		return"community/Write";
@@ -104,14 +135,13 @@ public class CommunityController {
 		String postTitle = request.getParameter("title");
 		post.setPostContents(postContents);
 		post.setPostTitle(postTitle);
-		System.out.println("내용"+postContents+"제목"+postTitle);
 		int result = service.registerCoummunityPost(post);
 		if(result>0) {
 			System.out.println("성공");
-			return "redirect:index";
+			return "redirect:mainView.pick";
 		}else {
 			System.out.println("실패");
-			return "Write";
+			return "redirect:mainView.pick";
 		}
 	}
 	
