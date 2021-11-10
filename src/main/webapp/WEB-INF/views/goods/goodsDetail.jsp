@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
             <!-- Css Styles -->
             <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
             <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
-            <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+            <link rel="stylesheet" href="assets/css/goodsStyle.css" type="text/css">
             <link rel="stylesheet" href="assets/css/header.css">
             <link rel="stylesheet" href="assets/css/login.css">
             <link rel="stylesheet" href="assets/css/goods.css">
@@ -56,21 +57,23 @@
 
     <!-- Shop Details Section Begin -->
     <section class="product-details spad">
+    <input type="hidden" value="${goods.goodsNo }" id="goodsNo">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="product__details__img">
                         <div class="product__details__big__img">
-                            <img class="big_img" src="img/air.png" alt="">
+                            <img class="big_img" src="resources/goodsFiles/${goods.imgPath }" alt="">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
-                        <div class="product__label">그룹명</div>
-                        <h4>Idol Airpot Case</h4>
-                        <h5>16000 ₩</h5>
-                        <p>누군지 모르지만 아이돌의 에어팟 케이스네여 빨간 건전지도 달렸어여 english가 더 이쁘네요</p>
+                        <div class="product__label">${goods.groupName }</div>
+                        <div class="product__label">${goods.idolName }</div>
+                        <h4>${goods.goodsName }</h4>
+                        <h5>${goods.goodsPrice } ₩</h5>                        
+                        <p>${goods.goodsIntro }</p>
                         <ul>
                             <li>tab1: <span>여기에는</span></li>
                             <li>tab2: <span>뭐가</span></li>
@@ -79,7 +82,7 @@
                         <div class="product__details__option">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <input type="text" value="2">
+                                    <input type="text" value="1">
                                 </div>
                             </div>
                             <a href="#" class="primary-btn">Add to cart</a>
@@ -109,6 +112,7 @@
                             <div class="row d-flex justify-content-center">
                                 <div class="col-lg-8">
                                     <p>
+                                    	<h5>${goods.goodsContents }</h5>
                                     </p>
                                 </div>
                             </div>
@@ -228,7 +232,7 @@
                                         </div>
                                         <div class="rev-re-list">
                                             <div class="rev-re-img">
-                                                <img src="img/arrow.png" alt="">
+                                                <img src="assets/images/arrow.png" alt="">
                                             </div>
                                             <div class="rev-re-con">
                                                 <p>2021.11.05 19:42&nbsp;매니저</p><br>
@@ -265,7 +269,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/air.png" alt="">
+                                <img src="assets/images/air.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -282,7 +286,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/case.png" alt="">
+                                <img src="assets/images/case.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -299,7 +303,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/key.png" alt="">
+                                <img src="assets/images/key.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -316,7 +320,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/air.png" alt="">
+                                <img src="assets/images/air.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -333,7 +337,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/case.png" alt="">
+                                <img src="assets/images/case.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -350,7 +354,7 @@
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="img/key.png" alt="">
+                                <img src="assets/images/key.png" alt="">
                                 <div class="product__label">
                                     <span>그룹명</span>
                                 </div>
@@ -370,10 +374,17 @@
     </section>
     <!-- 버튼 -->
     <section>
+    <c:url var="gUpdate" value="goodsUpdate.pick">
+    	<c:param name="goodsNo" value="${goods.goodsNo }"></c:param>
+    </c:url>
+    <c:url var="gDelete" value="goodsDelete.pick">
+    	<c:param name="goodsNo" value="${goods.goodsNo }"></c:param>
+    	<c:param name="imgName" value="${goods.imgPath }"></c:param>
+    </c:url>
         <div class="manager-btn">
-            <button type="submit">수정</button>
-            <button type="submit">삭제</button>
-            <button type="submit">목록</button>
+            <button type="submit"><a href="${gUpdate }">수정</a></button>
+            <button type="submit"><a href="${gDelete }">삭제</a></button>
+            <button type="submit" onclick="location.href='goodsList.pick'">목록</button>
         </div>
     </section>
     <!-- Related Products Section End -->
