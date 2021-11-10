@@ -21,7 +21,6 @@ import com.pick.my.supporting.service.SupportingService;
 public class SupportingController {
 	@Autowired
 	private SupportingService service;
-	private HttpSession session;
 //	Member loginUser = (Member)session.getAttribute("UserNickName");
 	
 	//모집중 서포팅 게시글 전체 조회
