@@ -9,11 +9,8 @@
 	</settings>
 	<typeAliases>
 	<!-- <typeAlias type="com.pick.my.member.domain.Member" alias="Member"></typeAlias> -->
-		<typeAlias type="com.pick.my.community.domain.Community_File" alias="File" />
-		<typeAlias type="com.pick.my.community.domain.Community_Post" alias="Post"/>
 	</typeAliases>
 	<mappers>
 	<!-- 	<mapper resource="mappers/member-mapper.xml"></mapper> -->
-		<mapper resource="mappers/community-mapper.xml"></mapper>
 	</mappers>
 </configuration>
