@@ -38,5 +38,4 @@ public class SupReplyReport {
 		return "SupReplyReport [reportNo=" + reportNo + ", supReAllNo=" + supReAllNo + ", supNo=" + supNo + ", userNo="
 				+ userNo + "]";
 	}
-	
 }

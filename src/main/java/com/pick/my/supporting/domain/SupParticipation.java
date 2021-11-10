@@ -42,5 +42,4 @@ public class SupParticipation {
 	public String toString() {
 		return "SupParticipation [pNo=" + pNo + ", userNo=" + userNo + ", supNo=" + supNo + "]";
 	};
-	
 }

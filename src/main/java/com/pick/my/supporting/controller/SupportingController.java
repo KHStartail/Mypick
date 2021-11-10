@@ -48,7 +48,7 @@ public class SupportingController {
 	}
 	
 	//모집중 상세조회
-	public ModelAndView supportingDetailView(@RequestParam("supTitle") String supTitle) {
-		
+	public String supportingDetailView(@RequestParam("supTitle") String supTitle) {
+		return null;
 	}
 }

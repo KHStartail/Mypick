@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>헤더</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
@@ -15,7 +14,7 @@
     <link rel="stylesheet" href="/css/lightbox.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/login.css">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 </head>
 <body>
 <div class="main-header">
@@ -63,7 +62,11 @@
                        
                     </div>
                     <ul class="serv-ul">
+<<<<<<< HEAD
                         <li class="serv-li">로그인</li>
+=======
+                        <li class="serv-li" onclick="location.href='/loginView.kh';">로그인</li>
+>>>>>>> 7faefa9e80cf69dc7ead6238be72867079960b20
                     </ul>
                 </li>
             </ul>
@@ -88,7 +91,7 @@
                                 <a href="javascript:;">MyPage<a>
                                 <ul>
                                     <li><a href="#">Drop Down Page 1</a></li>
-                           		</ul>
+                                 </ul>
                             </li> -->
                             <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
                         </ul>        

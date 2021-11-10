@@ -90,5 +90,4 @@ public interface SupportingService {
 	 * @return
 	 */
 	public int updateCode(int supNo, int supGrade); 
-	
 }

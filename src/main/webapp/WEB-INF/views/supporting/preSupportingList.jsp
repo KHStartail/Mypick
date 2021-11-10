@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>모집중 서포팅 목록</title>
+<<<<<<< HEAD
 <!-- swiper-js CDN -->
 <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
@@ -72,5 +73,10 @@
 			  },
 			});
 	</script>
+=======
+</head>
+<body>
+
+>>>>>>> 7faefa9e80cf69dc7ead6238be72867079960b20
 </body>
 </html>

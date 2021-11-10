@@ -177,5 +177,4 @@ public class SupportingStoreLogic implements SupportingStore{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
 }

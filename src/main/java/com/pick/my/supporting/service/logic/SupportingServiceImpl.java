@@ -19,12 +19,12 @@ public class SupportingServiceImpl implements SupportingService{
 	private SupportingStore store;
 
 	@Override
-	public List<Supporting> printAllSupporting(int supCategory) {
+	public List<Supporting> printAllSupporting() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
-	public List<Supporting> printAllPreSupporting(int supCategory) {
+	public List<Supporting> printAllPreSupporting() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -180,5 +180,4 @@ public class SupportingServiceImpl implements SupportingService{
 		//성공.실패.진행중변경
 		return 0;
 	}
-
 }
