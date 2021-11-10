@@ -25,9 +25,9 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
-	public Community_Post printOnePost(Community_Post communityPost) {
-		// TODO Auto-generated method stub
-		return null;
+	public Community_Post printOnePost(int postNo) {
+		Community_Post post = store.selectOnePost(postNo);
+		return post;
 	}
 
 	@Override
@@ -106,6 +106,12 @@ public class CommunityServiceImpl implements CommunityService{
 	public int getSearchListcount(String searchKeyword) {
 		int totalCount = store.getSearchListcount(searchKeyword);
 		return totalCount;
+	}
+
+	@Override
+	public List<Community_File> printOnePostFile(int postNo) {
+		List<Community_File> fileList = store.selectOnePostFile(postNo);
+		return fileList;
 	}
 
 }
