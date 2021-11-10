@@ -268,10 +268,18 @@ function fileDelete(fileNum){
             	newImg.setAttribute("width", 100);
             	newImg.setAttribute("height", 100);
             	newImg.setAttribute("margin-left", 10);
+            	newImg.setAttribute("onclick",'doDel(this)');
+            	
             }
             reader.readAsDataURL(f);
+            
         });
     }
+   function doDel(obj){
+	   
+	   $(obj).remove();
+   }
+    
     function goWrite() {
     	var title = $("#postTitle").val();
     	var contents = $("#summernote").val();

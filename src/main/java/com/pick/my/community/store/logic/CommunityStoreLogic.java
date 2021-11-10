@@ -119,4 +119,28 @@ public class CommunityStoreLogic implements CommunityStore{
 		return fileList;
 	}
 
+	@Override
+	public int deletePost(int postNo) {
+		int result = sqlSession.delete("CommunityPostMapper.deletePost",postNo);
+		return result;
+	}
+
+	@Override
+	public int deleteFile(int postNo) {
+		int result = sqlSession.delete("CommunityPostMapper.deleteFile",postNo);
+		return result;
+	}
+
+	@Override
+	public int updatePost(Community_Post communityPost) {
+		int result = sqlSession.update("CommunityPostMapper.updatePost",communityPost);
+		return result;
+	}
+
+	@Override
+	public int updateFile(Community_File File) {
+		int result = sqlSession.update("CommunityPostMapper.updateFile",File);
+		return result;
+	}
+
 }

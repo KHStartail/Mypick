@@ -25,4 +25,8 @@ public interface CommunityStore {
 	public List<Community_Post> selectSearchAll(PageInfo pi);
 	public int getSearchListcount(String searchKeyword);
 	public List<Community_File> selectOnePostFile(int postNo);
+	public int deletePost(int postNo);
+	public int deleteFile(int postNo);
+	public int updatePost(Community_Post communityPost);
+	public int updateFile(Community_File File);
 }
