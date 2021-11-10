@@ -1,74 +1,79 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
- <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <title>MyPick 메인</title>
+<!--
+TemplateMo 558 Klassy Cafe
+https://templatemo.com/tm-558-klassy-cafe
+-->
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
     <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
     <link rel="stylesheet" href="assets/css/owl-carousel.css">
     <link rel="stylesheet" href="assets/css/lightbox.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/login.css">
-<jsp:include page="/header.jsp"></jsp:include>
-</head>
-<body>
-    <div id="top">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="left-content">
-                        <div class="inner-content">
-                            <h4>MyPick</h4>
-                            <h6>나의 아이돌에게 커피차 서포팅을?</h6>
-                            <div class="main-white-button scroll-to-section">
-                                <a href="supportting">Let's go Supportting</a>
-                            </div>
-                        </div>
-                        <div class="search-wrapper">
-                            <div class="input-holder">
-                                <input type="text" class="search-input" placeholder="당신의 아이돌을 검색하세요" />
-                                <button class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
-                            </div>
-                            <span class="close" onclick="searchToggle(this, event);"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="main-banner header-text">
-                        <div class="Modern-Slider">
-                          <!-- Item -->
-                          <div class="item">
-                            <div class="img-fill">
-                                <img src="assets/images/Cy3Wj-5UAAAnKhC.jpg" alt="">
-                            </div>
-                          </div>
-                          <!-- // Item -->
-                          <!-- Item -->
-                          <div class="item">
-                            <div class="img-fill">
-                                <img src="assets/images/226EF83F5891FA9C2B.jpg" alt="">
-                            </div>
-                          </div>
-                          <!-- // Item -->
-                          <!-- Item -->
-                          <div class="item">
-                            <div class="img-fill">
-                                <img src="assets/images/maxresdefault.jpg" alt="">
-                            </div>
-                          </div>
-                          <!-- // Item -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-<jsp:include page="/footer.jsp"></jsp:include>
- <!-- Bootstrap -->
+    <link rel="stylesheet" href="assets/css/detail.css">
+    <script src="assets/js/search.js"></script>
+    </head>
+    
+    <body>
+
+    <!-- ***** Header Area Start ***** -->
+    <jsp:include page="/header.jsp"></jsp:include>
+    <!----------------------->
+   <c:if test="${empty file }">
+     <li>
+        <input type="radio" id="slide1" name="slide" checked>
+        <label for="slide1"></label>
+        <img src="https://dribbble.s3.amazonaws.com/users/322/screenshots/872485/coldchase.jpg" alt="Panel 1">
+    </li>
+    <li>
+        <input type="radio" id="slide2" name="slide">
+        <label for="slide2"></label>
+        <img src="https://dribbble.s3.amazonaws.com/users/322/screenshots/980517/icehut_sm.jpg" alt="Panel 2">
+    </li>
+   </c:if>
+   <c:if test="${not empty file }">
+<ul class="slider" style="float:left">
+   <c:forEach items="${file }" var="file" varStatus="index">
+    <li>
+        <input type="radio" id="slide${index.count }" name="slide" checked>
+        <label for="slide${index.count }"></label>
+        <img src="/resources/upload/${file.fileRename }" alt="Panel ${index.count }">
+    </li>
+    </c:forEach>
+</ul>
+   </c:if> 
+		<div class="contents" style="overflow: auto">
+			<h1 >${post.postTitle }</h1>
+		<div id="contents">
+		${post.postContents }
+		</div>
+		</div>
+		
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <!-- ***** Footer Start ***** -->
+ 
+	<jsp:include page="/footer.jsp"></jsp:include>
+    <!-- jQuery -->
+    <script src="assets/js/jquery-2.1.0.min.js"></script>
+
+    <!-- Bootstrap -->
     <script src="assets/js/popper.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 
@@ -86,21 +91,6 @@
     
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
-    <script>
-
-    $(function() {
-        var selectedClass = "";
-        $("p").click(function(){
-        selectedClass = $(this).attr("data-rel");
-        $("#portfolio").fadeTo(50, 0.1);
-            $("#portfolio div").not("."+selectedClass).fadeOut();
-        setTimeout(function() {
-          $("."+selectedClass).fadeIn();
-          $("#portfolio").fadeTo(50, 1);
-        }, 500);
-            
-        });
-    });
-
-</script>
+ 
+  </body>
 </html>
