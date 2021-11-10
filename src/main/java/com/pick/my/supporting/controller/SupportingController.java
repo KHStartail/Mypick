@@ -93,13 +93,17 @@ public class SupportingController {
 	
 	//서포팅 수정
 	@RequestMapping(value="supportingModify.pick", method=RequestMethod.GET)
-	public String supportingModifyView() {
+	public String modifySupporting() {
 		return null;
 	}
+	
 	//서포팅 삭제
 	@RequestMapping(value="supportingDelete.pick", method=RequestMethod.GET)
-	public String supportingDelete() {
+	public String deleteSupporting() {
 		return null;
 	}
+	
+	//파일삭제
+	
 	//서포팅 참여
 }
