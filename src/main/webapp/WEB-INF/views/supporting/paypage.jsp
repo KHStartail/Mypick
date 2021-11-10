@@ -23,6 +23,9 @@
 </head>
 <body>
 	<h2>${userId}님의 결제페이지</h2><br><br><br>
+	<div id="supportingPay">
+		
+	</div>
 	<button onclick="requestPay()">결제하기</button>
   <script>
     function requestPay() {
