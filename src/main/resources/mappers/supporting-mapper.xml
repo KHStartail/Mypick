@@ -23,7 +23,7 @@
 			<result property="imgPath" column="IMG_PATH"/>
 			<result property="imgSize" column="IMG_SIZE"/>
 		</resultMap>
-		<select id="selectAllSupporting" resultMap="supportingResultMap">
+<!--   	<select id="selectAllSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2
 		</select>
 		<select id="selectAllPreSupporting" resultMap="supportingResultMap">
@@ -44,7 +44,7 @@
 		<delete id="deleteSupporting" parameterType="_int">
 			DELETE FROM SUPPORTING WHERE SUP_NO = #{supNo}
 		</delete>
-		
+-->		
 		<!-- 첨부파일 -->
 		<resultMap type="SupFile" id="fileResultMap">
 			
@@ -60,17 +60,19 @@
 			<result property="supReContents" column="SUP_REPLY_COMENTS"></result>
 			<result property="supReDate" column="SUP_REPLY_DATE"></result>
 		</resultMap>
+	<!-- 
 		<select id="replyAll" resultType="replyResultMap">
 			SELECT * FROM SUPPORTING_REPLY WHERE SUP_NO = #{supNo}
 		</select>
 		<insert id="insertSupReply"	parameterType="SupReply">
 			INSERT INTO SUPPORTING_REPLY VALUES (SEQ_REPLY_ALLNO.NEXTVAL, #{supNo}, ? ,#{supReplyNo}, #{userNickName}, #{supReContents}, SYSDATE )
-		</insert>
+		</insert> 
 		<update id="updateSupReply" parameterType="SupReply">		
 			UPDATE SUPPORTING_REPLY SET SUP_REPLY_COMENTS = #{supReContents}, SUP_REPLY_DATE = SYSDATE WHERE REPLY_ALLNO = #{supReAllNo}
 		</update>
 		<delete id="deleteSupReply" parameterType="_int">
-			DELETE FROM SUPPORTING_REPLY WHERE SUP_REPLY_ALLNO = {supReAllNo}
+			DELETE FROM SUPPORTING_REPLY WHERE SUP_REPLY_ALLNO = #{supReAllNo}
 		</delete>
+	-->
 </mapper>
 	
