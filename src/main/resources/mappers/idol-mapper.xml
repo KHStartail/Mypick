@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="idolMapper">
+
+	<resultMap type="Idol" id="idolResultMap">
+		<id property="idolNo" column="IDOL_NO"/>
+		<result property="idolName" column="IDOL_NAME"/>
+		<result property="groupName" column="GROUP_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+	</resultMap>
+
+	<insert id="insertIdolmember" parameterType="Idol">
+		INSERT INTO IDOL VALUES(SEQ_IDOLNUM.NEXTVAL, #{idolName}, #{groupName}, #{filePath})
+	</insert>
+	
+	<select id="selectSearchList" resultMap="idolResultMap">
+		SELECT * FROM IDOL WHERE IDOL_NAME LIKE '%'  || #{searchValue} || '%'
+	</select>
+	
+
+
+
+
+
+
+
+
+</mapper>

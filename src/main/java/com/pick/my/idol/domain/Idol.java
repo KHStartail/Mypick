@@ -4,8 +4,7 @@ public class Idol {
 	private int idolNo;
 	private String idolName;
 	private String groupName;
-	private int filePath;
-	private int fileSize;
+	private String filePath;
 	
 	public Idol() {}
 
@@ -33,26 +32,19 @@ public class Idol {
 		this.groupName = groupName;
 	}
 
-	public int getFilePath() {
+	public String getFilePath() {
 		return filePath;
 	}
 
-	public void setFilePath(int filePath) {
+	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
 
-	public int getFileSize() {
-		return fileSize;
-	}
-
-	public void setFileSize(int fileSize) {
-		this.fileSize = fileSize;
-	}
 
 	@Override
 	public String toString() {
 		return "Idol [idolNo=" + idolNo + ", idolName=" + idolName + ", groupName=" + groupName + ", filePath="
-				+ filePath + ", fileSize=" + fileSize + "]";
+				+ filePath + "]";
 	}
 	
 }

@@ -18,8 +18,8 @@ public class IdolServiceImpl implements IdolService{
 	
 	@Override
 	public List<Idol> printSearchAll(IdolSearch idolSearch) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Idol> searchList =  store.selectSearchAll(idolSearch);
+		return searchList;
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class IdolServiceImpl implements IdolService{
 
 	@Override
 	public int registerIdol(Idol idol) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.insertIdol(idol);
+		return result;
 	}
 
 	@Override

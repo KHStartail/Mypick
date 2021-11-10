@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="logo">
-                        <a href="index.html"><img src="assets/images/mypic_logo.png" width="200px" height="200px" alt="로고이미지"></a>
+                        <a href="index.jsp"><img src="assets/images/mypic_logo.png" width="200px" height="200px" alt="로고이미지"></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-12">

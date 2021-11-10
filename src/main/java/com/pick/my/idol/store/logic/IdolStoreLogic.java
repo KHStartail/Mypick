@@ -18,8 +18,8 @@ public class IdolStoreLogic implements IdolStore {
 	
 	@Override
 	public List<Idol> selectSearchAll(IdolSearch idolSearch) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Idol> searchList = sqlSession.selectList("idolMapper.selectSearchList",idolSearch);
+		return searchList;
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class IdolStoreLogic implements IdolStore {
 
 	@Override
 	public int insertIdol(Idol idol) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("idolMapper.insertIdolmember", idol);
+		return result;
 	}
 
 	@Override

@@ -53,7 +53,7 @@
             </ul>
         </div>
         <div class="logo">
-            <img src="assets/images/mypic_logo.png" alt="">
+            <a href="index.jsp"><img src="assets/images/mypic_logo.png" alt=""></a>
         </div>
         <div class="mypage">
             <ul class="main-ul">

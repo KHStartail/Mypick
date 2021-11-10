@@ -60,6 +60,14 @@ https://templatemo.com/tm-558-klassy-cafe
                                 <a href="supportting">Let's go Supportting</a>
                             </div>
                         </div>
+                        
+                        <div>
+                        <form action="idolSearch.pick" method="get">
+                            <input type="text" name="searchValue" value="${search.searchValue }"/>
+                            <input type="submit" value="검색">
+                        </form>
+                        </div>
+                        
                         <div class="search-wrapper">
                             <div class="input-holder">
                                 <input type="text" class="search-input" placeholder="당신의 아이돌을 검색하세요" />
