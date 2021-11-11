@@ -35,9 +35,15 @@ public class CommunityController {
 	@RequestMapping(value = "upload.pick", method = RequestMethod.POST)
 	public String fileUpload(
 			@RequestParam("article_file") List<MultipartFile> multipartFile
-			, HttpServletRequest request,Community_File File) {
-		
+			, HttpServletRequest request,Community_File File,Community_Post post) {
+		String postContents = request.getParameter("contents");
+		String postTitle = request.getParameter("postTitle");
+		post.setPostContents(postContents);
+		post.setPostTitle(postTitle);
+		int result = service.registerCoummunityPost(post);
+		Community_Post postNo = service.printCommunityPostNo(post);
 		String strResult = "{ \"result\":\"FAIL\" }";
+		if(result > 0) {
 		String contextRoot = request.getSession().getServletContext().getRealPath("resources");
 		String fileRoot;
 		try {
@@ -61,11 +67,12 @@ public class CommunityController {
 						File.setFileName(file.getOriginalFilename());
 						File.setFileRename(savedFileName);
 						File.setFileSize(file.getSize());
-						int result = service.insertFile(File);
-						if(result > 0) {
-							strResult = "{ \"result\":\"OK\" }";
+						File.setPostNo(postNo.getPostNo());
+						int result2 = service.insertFile(File);
+						if(result2 > 0) {
+							System.out.println("파일DB저장성공");
 						}else {
-							strResult = "{ \"result\":\"FAIL\" }";
+							System.out.println("실패");
 						}
 					} catch (Exception e) {
 						//파일삭제
@@ -74,14 +81,14 @@ public class CommunityController {
 						break;
 					}
 				}
-//				strResult = "{ \"result\":\"OK\" }";
+				strResult = "{ \"result\":\"OK\" }";
 			}
 			// 파일이 없으면.
-//			else
-//				strResult = "{ \"result\":\"OK\" }";
-		
+			else
+				strResult = "{ \"result\":\"OK\" }";
 		}catch(Exception e){
 			e.printStackTrace();
+		}
 		}
 		return strResult;
 	}
@@ -341,7 +348,7 @@ public class CommunityController {
 						File.setFileRename(savedFileName);
 						File.setFileSize(file.getSize());
 						File.setPostNo(postNo);
-						int result = service.insertFile(File);
+						int result = service.ReinsertFile(File);
 						if(result > 0) {
 							strResult = "{ \"result\":\"OK\" }";
 						}else {

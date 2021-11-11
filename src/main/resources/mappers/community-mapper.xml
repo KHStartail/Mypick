@@ -51,8 +51,11 @@
   	<select id="selectOnePostFile" resultMap="fileResultMap">
   		SELECT * FROM COMMUNITY_FILE WHERE POST_NO = #{postNo}
   	</select>
+  	<select id="postNo" resultMap="postResultMap">
+  		SELECT POST_NO FROM COMMUNITY_POST WHERE POST_TITLE = #{postTitle} AND POST_CONTENTS = #{postContents}
+  	</select>
  	<insert id="uploadFile" parameterType="File">
-	INSERT INTO COMMUNITY_FILE VALUES(SEQ_FILE.NEXTVAL,'user01',#{fileName},#{fileRename},#{fileSize},DEFAULT,SEQ_POST.CURRVAL)
+	INSERT INTO COMMUNITY_FILE VALUES(SEQ_FILE.NEXTVAL,'user01',#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
 	</insert>
 	<insert id="insertPost" parameterType="Post">
 	INSERT INTO COMMUNITY_POST VALUES(SEQ_POST.NEXTVAL,0,'user01','김제탈',#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT)
@@ -71,5 +74,9 @@
 	<update id="updatePost" parameterType="Post">
 	UPDATE COMMUNITY_POST SET POST_TITLE = #{postTitle},POST_CONTENTS = #{postContents},UPDATE_DATE = DEFAULT WHERE POST_NO = #{postNo}
 	</update>
+	
+	<insert id="reUpload" parameterType="File">
+	INSERT INTO COMMUNITY_FILE VALUES(SEQ_FILE.NEXTVAL,'user01',#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
+	</insert>
  	 </mapper>
   

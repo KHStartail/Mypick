@@ -29,4 +29,6 @@ public interface CommunityStore {
 	public int deleteFile(int postNo);
 	public int updatePost(Community_Post communityPost);
 	public int updateFile(String fileName);
+	public int ReinsertFile(Community_File File);
+	public Community_Post selectCommunityPostNo(Community_Post communityPost);
 }

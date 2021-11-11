@@ -102,7 +102,7 @@ input_element.addEventListener("keyup", () => {
 				추가</button>
 			<input id="input_file" multiple="multiple" type="file"
 				style="display: none;"> <span
-				style="font-size: 10px; color: gray;">※첨부파일은 최대 10개까지 등록이
+				style="font-size: 10px; color: gray;">※첨부파일은 최대 4개까지 등록이
 				가능합니다.</span>
 			<div class="data_file_txt" id="data_file_txt" style="margin: 40px;">
 
@@ -113,8 +113,8 @@ input_element.addEventListener("keyup", () => {
 				<tr>
 					<td class="img_wrap">
 					<c:if test="${not empty files }">
-					<c:forEach items="${files }" var="file">
-		<img src="/resources/upload/${file.fileRename }"style="width:100px;height: 100px; margin-left: 10;" onclick = 'doDel(this,"${file.fileRename }")'>
+					<c:forEach items="${files }" var="file" varStatus="index">
+		<img src="/resources/upload/${file.fileRename }"style="width:100px;height: 100px; margin-left: 10;" class="count" onclick = 'doDel(this,"${file.fileRename }")'>
 					</c:forEach>
 					</c:if>
 						<c:if test="${ empty files }">
@@ -153,6 +153,7 @@ $(document).ready(function()
 		// input file 파일 첨부시 fileCheck 함수 실행
 		{
 			$("#input_file").on("change", fileCheck);
+			
 		});
 
 /**
@@ -168,7 +169,7 @@ $(function () {
 // 파일 현재 필드 숫자 totalCount랑 비교값
 var fileCount = 0;
 // 해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
-var totalCount = 10;
+var totalCount = 4;
 // 파일 고유넘버
 var fileNum = 0;
 // 첨부파일 배열
@@ -233,7 +234,7 @@ function fileDelete(fileNum){
 	$.ajax({
    	      type: "POST",
    	   	  enctype: "multipart/form-data",
-   	      url: "update.pick",
+   	      url: "reUpload.pick",
        	  data : formData,
        	  processData: false,
    	      contentType: false,
@@ -280,6 +281,7 @@ function fileDelete(fileNum){
             	newImg.setAttribute("height", 100);
             	newImg.setAttribute("margin-left", 10);
             	newImg.setAttribute("onclick",'doDel(this)');
+            	newImg.setAttribute("class",'count');
             }
             reader.readAsDataURL(f);
         });
@@ -309,11 +311,17 @@ function fileDelete(fileNum){
    }
     
     function goWrite() {
+    	  
+    	var $totalImg = document.getElementsByClassName('count').length;
+    	if($totalImg <= 4){
     	var title = $("#postTitle").val();
     	var contents = $("#summernote").val();
     	var postNo = $("#postNo").val();
-    	registerAction($("#postNo"))
     	location.href='update.pick?title='+title+'&contents='+contents+'&postNo='+postNo;
+    	registerAction($("#postNo"))    		
+    	}else{
+    		alert("사진의개수는 4개까지입니다.")
+    	}
     }
    
     

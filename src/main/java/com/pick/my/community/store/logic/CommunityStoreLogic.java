@@ -143,4 +143,16 @@ public class CommunityStoreLogic implements CommunityStore{
 		return result;
 	}
 
+	@Override
+	public int ReinsertFile(Community_File File) {
+		int result = sqlSession.insert("CommunityPostMapper.reUpload",File);
+		return result;
+	}
+
+	@Override
+	public Community_Post selectCommunityPostNo(Community_Post communityPost) {
+		Community_Post postNo = sqlSession.selectOne("CommunityPostMapper.postNo",communityPost);
+		return postNo;
+	}
+
 }

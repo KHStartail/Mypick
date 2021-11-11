@@ -150,4 +150,14 @@
 <br>
 <br>
 <jsp:include page="/footer.jsp"></jsp:include>
+<script>
+   if(self.name != 'reload'){
+	   self.name= 'reload';
+	   self.location.reload(true);
+   }else{
+	   self.name='';
+   }
+
+</script>
+
 </html>

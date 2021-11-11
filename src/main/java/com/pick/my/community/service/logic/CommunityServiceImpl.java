@@ -139,5 +139,17 @@ public class CommunityServiceImpl implements CommunityService{
 		return null;
 	}
 
+	@Override
+	public int ReinsertFile(Community_File File) {
+		int result = store.ReinsertFile(File);
+		return result;
+	}
+
+	@Override
+	public Community_Post printCommunityPostNo(Community_Post communityPost) {
+		Community_Post postNo = store.selectCommunityPostNo(communityPost);
+		return postNo;
+	}
+
 
 }
