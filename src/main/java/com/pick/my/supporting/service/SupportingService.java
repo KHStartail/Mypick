@@ -1,8 +1,10 @@
 package com.pick.my.supporting.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.pick.my.common.PaymentHistory;
+import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
 import com.pick.my.supporting.domain.SupReplyReport;
@@ -11,8 +13,8 @@ import com.pick.my.supporting.domain.Supporting;
 public interface SupportingService {
 	public List<Supporting> printAllSupporting();
 	public List<Supporting> printAllPreSupporting();
-//	public List<Supporting> findKeywordPreSupporting(HashMap<string groupName, string keyword>);
-//	public List<Supporting> findKeywordSupporting(HashMap<string groupName, string keyword>);
+	public List<Supporting> findKeywordPreSupporting(HashMap<String, String> searchMap);
+	public List<Supporting> findKeywordSupporting(HashMap<String, String> searchMap);
 	public Supporting preSupportingOne(int supNo);
 	public Supporting supportingOne(int supNo);
 	public int registerSupporting(Supporting supporting);
@@ -89,5 +91,13 @@ public interface SupportingService {
 	 * @param supGrade
 	 * @return
 	 */
-	public int updateCode(int supNo, int supGrade); 
+	public int updateCode(int supNo, int supGrade);
+	/**
+	 * DB에 파일 등록
+	 * @param file
+	 * @return
+	 */
+	public int insertFile(SupFile file); 
+	public int updateFile(SupFile file); 
+	public int deleteFile(int supNo, int fileNo);
 }

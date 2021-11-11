@@ -1,10 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>진행중 서포팅 목록</title>
+<link rel="stylesheet" href="assets/css/header.css">
+<link rel="stylesheet" href="assets/css/lightbox.css">
+<link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
+<link rel="stylesheet" type="text/css"
+	href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="assets/css/community-main.css">
+<link
+	rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- swiper js CDN -->
 <link  rel="stylesheet"  href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
@@ -15,19 +27,22 @@
 	<h2>울애긔 기살리자!</h2>
 	<input type="text" value="그룹이름을 입력해주세요." id="searchBox">
 	<input type="submit" value="검색" id="button"> <br><br>
-	<!-- Slider main container -->
+	<c:if test="${empty sList }">
+		<h1>조회된 게시글이 없습니다.</h1>
+	</c:if>
+	<c:if test="${not empty sList }">
 	<div class="swiper">
 		  <!-- Additional required wrapper -->
 	  	<div class="swiper-wrapper">
 			    <!-- Slides -->
 				<!-- list로 내용불러오기 -->
-				<c:forEach items="${ssList}" var="supporting">
+			   <c:forEach items="${sList}" var="presupporting">
 				    <div class="swiper-slide">
-				    	<div class="ImgBox"></div><br>
+				    	<div class="ImgBox">${Supporting.ImgNo}</div><br>
 				    	<div class="percentBox"></div><br>
 				    	<div class="textBox">
-					    	<h4><a href="${ssDetail }">${supporting.supTitle }</a></h4>
-					    	<div class="contents"><a href="${ssDetail }">${supporting.supContents }</a></div>
+					    	<h4><a href="${ssDetail }">${Supporting.supTitle }</a></h4>
+					    	<div class="contents"><a href="${ssDetail }">${Supporting.supContents }</a></div>
 				    	</div>
 				    </div>
 				</c:forEach>
@@ -40,6 +55,7 @@
 		<!-- If we need scrollbar -->
 		<div class="swiper-scrollbar"></div>
 	</div>
+	</c:if>
 
 	<jsp:include page="/footer.jsp"></jsp:include>
 	<script>

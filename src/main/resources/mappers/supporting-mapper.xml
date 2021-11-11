@@ -5,39 +5,48 @@
   <mapper namespace="SupportingMapper">
   		<resultMap type="Supporting" id="supportingResultMap">
 			<id property="supNo" column="SUP_NO"></id>
-			<result property="userNo" column="USER_NO"/>
-			<result property="supCategory" column="SUP_CATEGORY"/>
-			<result property="supTitle" column="SUP_TITLE"/>
-			<result property="supContents" column="SUP_CONTENTS"/>
-			<result property="scheduleDate" column="SCHEDULE_DATE"/>
-			<result property="supPlace" column="SUP_PLACE"/>
-			<result property="groupName" column="GROUP_NAME"/>
-			<result property="supStartDate" column="SUP_STARTDATE"/>
-			<result property="supEndDate" column="SUP_ENDDATE"/>
-			<result property="sumMoney" column="SUM_MONEY"/>
-			<result property="goalMoney" column="GOAL_MONEY"/>
-			<result property="supPartiwon" column="SUP_PARTIWON"/>
-			<result property="supGrade" column="SUP_CODE"/>
-			<result property="imgNo" column="IMG_NO"/>
-			<result property="imgName" column="IMG_NAME"/>
-			<result property="imgPath" column="IMG_PATH"/>
-			<result property="imgSize" column="IMG_SIZE"/>
+			<result property="userNo" column="USER_NO"></result>
+			<result property="supCategory" column="SUP_CATEGORY"></result>
+			<result property="supTitle" column="SUP_TITLE"></result>
+			<result property="supContents" column="SUP_CONTENTS"></result>
+			<result property="scheduleDate" column="SCHEDULE_DATE"></result>
+			<result property="supPlace" column="SUP_PLACE"></result>
+			<result property="groupName" column="GROUP_NAME"></result>
+			<result property="supStartDate" column="SUP_STARTDATE"></result>
+			<result property="supEndDate" column="SUP_ENDDATE"></result>
+			<result property="goalMoney" column="GOAL_MONEY"></result>
+			<result property="sumMoney" column="SUM_MONEY"></result>
+			<result property="supPartiwon" column="SUP_PARTIWON"></result>
+			<result property="supGrade" column="SUP_CODE"></result>
+			<result property="imgNo" column="IMG_NO"></result>
+			<result property="imgName" column="IMG_NAME"></result>
+			<result property="imgPath" column="IMG_PATH"></result>
+			<result property="imgSize" column="IMG_SIZE"></result>
 		</resultMap>
-<!--   	<select id="selectAllSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2
+	  	<select id="selectAllSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 ORDER BY SUP_ENDDATE DESC
 		</select>
 		<select id="selectAllPreSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 ORDER BY SUP_ENDDATE DESC
 		</select>
+		<select id="searchPreSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
+		</select>
+		<select id="searchSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
+		</select>
+		<!-- 
 		<select id="selectOneSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORITNG WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 2
 		</select>
 		<select id="selectOnePreSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORITNG WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 1
 		</select>
+		-->
 		<insert id="insertSupporting" parameterType="Supporting">
-			INSERT INTO SUPPORTING VALUES (SEQ_SUP_NO.NEXTVAL,{userNickName}, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate}, #{goalMoney}, 0, DEFAULT, DEFAULT, ? , #{imgName}, #{imgPath}, #{imgSize})
+			INSERT INTO SUPPORTING VALUES (SEQ_SUP_NO.NEXTVAL,{userNo}, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate}, #{goalMoney}, 0, DEFAULT, DEFAULT, 0, #{imgName}, #{imgPath}, #{imgSize})
 		</insert>
+<!-- 
 		<update id="updateSupporting" parameterType="Supporting">
 			UPDATE SUPPORTING SET SUP_TITLE = #{supTitle}, SUP_CONTENTS = #{supContents}, SCHEDULE_DATE = #{scheduleDate}, SUP_PLACE = #{supPlace }, SUP_STARTDATE = #{supStartDate }, SUP_ENDDATE = #{supEndDate}, GOAL_MONEY = #{goalMoney}, IMG_NAME = #{imgName}, IMG_PATH = #{imgPath}, IMG_SIZE = #{imgSize} WHERE SUP_NO = #{supNo}
 		</update>
@@ -47,9 +56,18 @@
 -->		
 		<!-- 첨부파일 -->
 		<resultMap type="SupFile" id="fileResultMap">
-			
+			<id property="fileNo" column="SUP_FILENO"></id>
+			<result property="supNo" column="SUP_NO"></result>
+			<result property="fileName" column="SUP_FILENAME"></result>
+			<result property="fileSize" column="SUP_FILESIZE"></result>
+			<result property="filePath" column="SUP_FILEPATH"></result>
+			<result property="fileReName" column="SUP_FILERENAME"></result>
 		</resultMap>
-		
+		<!-- 파일보기 -->
+		<!-- 파일 삽입 -->
+		<insert id="insertFile">
+			INSERT INTO SUPPORTING_FILE VALUES(SEQ_FILENO.NEXTVAL, #{supNo}, #{fileName }, #{fileSize } , #{filePath}, #{fileReName})
+		</insert>
 		<!-- 진행중 댓글 -->
 		<resultMap type="SupReply" id="replyResultMap">
 			<id property="supReAllNo" column="SUP_REPLY_ALLNO"></id>

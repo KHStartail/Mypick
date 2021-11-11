@@ -54,7 +54,7 @@ https://templatemo.com/tm-558-klassy-cafe
                             <h4>MyPick</h4>
                             <h6>나의 아이돌에게 커피차 서포팅을?</h6>
                             <div class="main-white-button scroll-to-section">
-                                <a href="supportting">Let's go Supportting</a>
+                                <a href="presupportingList.pick">Let's go Supporting</a>
                             </div>
                         </div>
                         

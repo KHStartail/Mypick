@@ -46,10 +46,10 @@
         </nav>
         <div id="h-1">
             <ul id="h-ul">
-                <li><a href="#" class="m-list">SUPPORTING</a></li>
-                <li class="b-ul">
-                    <a href="../mypick/find.html" class="m-list">GOODS</a>
-                </li>
+                <li class="b-ul">SUPPORTING</li>
+                <li><a href="presupportingList.pick" class="m-list">모집중</a></li>
+                <li><a href="supportingList.pick" class="m-list">진행중</a></li>
+                <li class="b-ul"><a href="../mypick/find.html" class="m-list">GOODS</a></li>
             </ul>
         </div>
         <div class="logo">
@@ -80,8 +80,14 @@
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="#">Supportting</a></li>
+                            <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
+                            <li class="submenu">
+                                <a href="javascript:;">Supporting</a>
+                                <ul>
+                                    <li><a href="presupportingList.pick">모집중 서포팅</a></li>
+                                    <li><a href="supportingList.pick">진행중 서포팅</a></li>
+                                 </ul>
+                            </li>
                             <li class="scroll-to-section"><a href="#">Goods</a></li>
                             <!-- <li class="submenu">
                                 <a href="javascript:;">MyPage<a>
