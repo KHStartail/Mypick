@@ -161,13 +161,15 @@ public class SupportingController {
 	
 	//서포팅 수정
 	@RequestMapping(value="supportingModify.pick", method=RequestMethod.GET)
-	public String modifySupporting() {
+	public String modifySupporting(@ModelAttribute Supporting supporting, Model model) {
+		
 		return null;
 	}
 	
 	//서포팅 삭제
 	@RequestMapping(value="supportingDelete.pick", method=RequestMethod.GET)
-	public String deleteSupporting() {
+	public String deleteSupporting(@RequestParam("supNo") int supNo) {
+		
 		return null;
 	}
 	

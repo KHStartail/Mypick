@@ -46,9 +46,9 @@
         </nav>
         <div id="h-1">
             <ul id="h-ul">
-                <li class="b-ul">SUPPORTING</li>
-                <li><a href="presupportingList.pick" class="m-list">모집중</a></li>
-                <li><a href="supportingList.pick" class="m-list">진행중</a></li>
+                <li class="b-ul"><a href="#" class="m-list">SUPPORTING</a></li>
+                <li class="b-ul"><a href="presupportingList.pick" class="dropdown">PRESUPPORTING</a></li>
+                <li class="b-ul"><a href="supportingList.pick" class="dropdown">SUPPORTING</a></li>
                 <li class="b-ul"><a href="../mypick/find.html" class="m-list">GOODS</a></li>
             </ul>
         </div>

@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="assets/css/lightbox.css">
 <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
 <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="assets/css/community-main.css">
 <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- swiper-js CDN -->
@@ -65,16 +64,28 @@
         height: 100%;
         object-fit: cover;
       }
+      .btn{
+      	width: 200px;
+      	height:200px;
+      }
+      #searchBox{
+      	height: 30px;
+      }
+      .searchButton{
+      	height: 30px;
+      	text-align:center;
+      }
     </style>
   </head>
 <body>
 <jsp:include page="/header.jsp"></jsp:include>
-	<h1>모집중 서포팅 리스트</h1>
+<br><br><br><br>
+	<h1>모집중 서포팅 목록</h1>
 	<h3>일정 인원수가 달성시, 서포팅이 진행됩니다!</h3>
-	<input type="text" value="그룹이름을 입력해주세요." id="searchBox">
-	<input type="submit" value="검색" class="btn"> <br><br>
+	<input type="text" value="그룹이름을 입력해주세요." id="searchBox" size="30">
+	<input type="submit" value="검색" class="searchButton"><br><br><br><br>
 	<!-- Slider main container -->
-	<c:if test="${empty pList }">
+	<c:if test="${empty pList }"><br><br><br>
 		<h1>조회된 게시글이 없습니다.</h1>
 	</c:if>
 	<c:if test="${not empty pList }">
@@ -84,14 +95,22 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide">
         	<!-- list로 내용불러오기 -->
-		   	<c:forEach items="${pList}" var="presupporting">
-	    	<div class="ImgBox">${Supporting.ImgNo}</div><br>
-	    	<div class="percentBox"></div><br>
-	    	<div class="textBox">
-		    	<h4><a href="${psDetail }">${Supporting.supTitle }</a></h4>
-		    	<div class="contents"><a href="${psDetail }">${Supporting.supContents }</a></div>
-	    	</div>
-			</c:forEach>
+        	<div class="card">
+			   	<div class="card-body">
+        		<h4 class="card-title"><a href="${psDetail }">${Supporting.supTitle }</a></h4>
+				   	<c:forEach items="${pList}" var="presupportingList.pick">
+			    	<div class="ImgBox">${Supporting.ImgNo }</div><br>
+			    	<div class="percentBox"></div><br>
+			    	<div class="textBox">
+			    	<p class="card-text">
+				    	<c:url var="psDetail" value="preSupportingDetail.pick">
+							<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+						</c:url>
+			    	</p>
+					</div>
+					</c:forEach>
+				</div>
+			</div>
         </div>
         <div class="swiper-slide">
         Slide 2
@@ -109,7 +128,6 @@
     </div>
 	</c:if>
 	<button class="btn" onclick="location.href='support/supportWriteView.pick';"></button><br><br><br><br>
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>f<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	<jsp:include page="/footer.jsp"></jsp:include>
 	<script>
 	//검색

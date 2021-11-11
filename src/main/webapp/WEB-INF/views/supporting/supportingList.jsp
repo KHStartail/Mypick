@@ -9,14 +9,9 @@
 <link rel="stylesheet" href="assets/css/header.css">
 <link rel="stylesheet" href="assets/css/lightbox.css">
 <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
-<link rel="stylesheet" type="text/css"
-	href="assets/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css"
-	href="assets/css/community-main.css">
-<link
-	rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+<link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- swiper js CDN -->
 <link  rel="stylesheet"  href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
@@ -28,6 +23,7 @@
 	<input type="text" value="그룹이름을 입력해주세요." id="searchBox">
 	<input type="submit" value="검색" id="button"> <br><br>
 	<c:if test="${empty sList }">
+	<br><br><br>
 		<h1>조회된 게시글이 없습니다.</h1>
 	</c:if>
 	<c:if test="${not empty sList }">
@@ -38,7 +34,7 @@
 				<!-- list로 내용불러오기 -->
 			   <c:forEach items="${sList}" var="presupporting">
 				    <div class="swiper-slide">
-				    	<div class="ImgBox">${Supporting.ImgNo}</div><br>
+				    	<div class="ImgBox">${Supporting.ImgRename}</div><br>
 				    	<div class="percentBox"></div><br>
 				    	<div class="textBox">
 					    	<h4><a href="${ssDetail }">${Supporting.supTitle }</a></h4>
