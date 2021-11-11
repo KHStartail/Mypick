@@ -35,6 +35,8 @@ https://templatemo.com/tm-558-klassy-cafe
     <!-- ***** Header Area Start ***** -->
     <jsp:include page="/header.jsp"></jsp:include>
     <!----------------------->
+    <div class="All">
+    <div class="poto">
    <c:if test="${empty file }">
      <li>
         <input type="radio" id="slide1" name="slide" checked>
@@ -48,26 +50,43 @@ https://templatemo.com/tm-558-klassy-cafe
     <li>
         <input type="radio" id="slide${index.count }" name="slide" checked>
         <label for="slide${index.count }"></label>
-        <img src="/resources/upload/${file.fileRename }" alt="Panel ${index.count }">
+        <img src="/resources/upload/${file.fileRename }" alt="Panel ${index.count }" style="width: 140%;">
     </li>
     </c:forEach>
 </ul>
 
    </c:if> 
+</div>
+<div class="board">
 		<div class="contents" style="overflow: auto">
 			<h1 >${post.postTitle }</h1>
 		<div id="contents">
 		${post.postContents }
 		</div>
 		</div>
+		</div>
+		</div>
+<!-- 댓글 -->
+<div class="card mb-2" id="reply">
+	<div class="card-header bg-light">
+	        <i class="fa fa-comment fa"></i> REPLY
+	</div>
+	<div class="card-body">
+		<ul class="list-group list-group-flush">
+		    <li class="list-group-item">
+			<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+			<button type="button" class="btn btn-dark mt-3" onClick="javascript:addReply();">댓글작성</button>
+		    </li>
+		</ul>
+	</div>
+</div>
+	<!-- - -->
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<form action="CommunityDelete.pick" method="get">
+<form action="CommunityDelete.pick" method="get" class="button">
 	<c:forEach items="${file }" var="file">
-   <input type="hidden" value="${file.fileRename }" id="fileName" name="fileName">
+   <input type="hidden" value="${file.fileRename }" id="fileName" name="fileName" >
 	</c:forEach>
    <input type="hidden" value="${post.postNo }" id="postNo" name="postNo">   
-
 	   		<table id="table" style="margin-left:5%; margin-top:2%;">
    			<tr>
 			<td><c:url var="cModify"

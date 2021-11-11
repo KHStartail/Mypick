@@ -149,11 +149,11 @@ html {
 	    background-color: #fb5849;
     height: 37.58em;
     left: 50%;
-    margin: -9.43em 3.06em;
-    padding: .5em;
+    margin: -9.43em -24.06em;
+    padding: 0.5em;
     position: absolute;
     top: 50%;
-    width: 54em;
+    width: 80em;
 }
 .contents h1{
 	text-align: center;
@@ -162,4 +162,24 @@ html {
 .contents #contents{
 	font-size:14pt;
 	margin-left: 6%;
+}
+.poto{
+	width: 100%;
+	height: 100%;
+}
+.board{
+	width: 100%;
+	height: 100%;
+}
+
+#reply{
+    left: 50%;
+    margin: 52em -24.06em;
+    padding: .5em;
+    top: 50%;
+    width: 63%;
+}
+.button{
+	margin-top: -25%;
+    margin-left: 84%;
 }
