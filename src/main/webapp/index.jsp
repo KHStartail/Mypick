@@ -58,18 +58,13 @@ https://templatemo.com/tm-558-klassy-cafe
                             </div>
                         </div>
                         
-                        <div>
-                        <form action="idolSearch.pick" method="get">
-                            <input type="text" name="searchValue" value="${search.searchValue }"/>
-                            <input type="submit" value="검색">
-                        </form>
-                        </div>
-                        
                         <div class="search-wrapper">
+                        <form action="idolSearch.pick" method="get">
                             <div class="input-holder">
-                                <input type="text" class="search-input" placeholder="당신의 아이돌을 검색하세요" />
-                                <button class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
+                                <input type="text" class="search-input" name="searchValue" value="${search.searchValue }" placeholder="당신의 아이돌을 검색하세요" />
+                                <button class="search-icon" type="submit" onclick="searchToggle(this, event); "><span></span></button>
                             </div>
+                        </form>
                             <span class="close" onclick="searchToggle(this, event);"></span>
                         </div>
                     </div>

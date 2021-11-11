@@ -100,15 +100,20 @@ public class IdolController {
 	
 	
 	@RequestMapping(value="idoldetail.pick", method=RequestMethod.GET)
-	public String printOneIdol(@RequestParam("idolNo") int iNo
+	public String printOneIdol(
+			@RequestParam("idolNo") int iNo
 			,Model model) {
-		
-		Idol idol = service.printOndIdol(iNo);
-		if(idol != null) {
-			model.addAttribute("idol", idol);
-			return "idol/idolDetailView";
-		}else {
-			return "home.jsp";
+		try {
+			Idol idol = service.printOndIdol(iNo);
+			if(idol != null) {
+				model.addAttribute("idol", idol);
+				return "idol/idolDetailView";
+			}else {
+				return "redirect:index.jsp";
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+			return "redirect:index.jsp";
 		}
 	}
 	
@@ -123,11 +128,11 @@ public class IdolController {
 			model.addAttribute("search", search);
 			return "idol/idolListView";
 		}else {
-			return "idol/Error";
+			return "idol/idolListView";
 		}
 	}
 	
-	@RequestMapping(value = "idolModify.pick", method=RequestMethod.POST)
+	@RequestMapping(value = "idolModify.pick", method=RequestMethod.GET)
 	public String idolModify(
 			@RequestParam("idolNo") int iNo
 			,Model model) {
@@ -136,12 +141,11 @@ public class IdolController {
 		return "idol/idolUpdateView";
 	}
 	
-	@RequestMapping(value = "idolUpdate.kh", method=RequestMethod.POST)
+	@RequestMapping(value = "idolUpdate.pick", method=RequestMethod.POST)
 	public String idolUpdate(@ModelAttribute Idol idol
-			,Model model
+			, Model model
 			, HttpServletRequest request
 			, @RequestParam("reloadFile") MultipartFile reloadFile) {
-			
 		if(reloadFile != null && !reloadFile.isEmpty()) {
 			if(idol.getFilePath() != null) {
 				deleteFile(idol.getFilePath(), request);
@@ -152,24 +156,13 @@ public class IdolController {
 			}
 		}
 		int result = service.modifyIdol(idol);
+		System.out.println(idol.toString());
 		if(result > 0) {
-			return "";
+			return "redirect:idoldetail.pick?idolNo="+idol.getIdolNo();
 		}else {
-			return "";
+			System.out.println(idol.toString());
+			return "redirect:index.jsp";
 		}
-		
-		
-		
-		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
