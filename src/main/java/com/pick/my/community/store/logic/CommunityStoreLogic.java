@@ -1,5 +1,6 @@
 package com.pick.my.community.store.logic;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -137,11 +138,6 @@ public class CommunityStoreLogic implements CommunityStore{
 		return result;
 	}
 
-	@Override
-	public int updateFile(String fileName) {
-		int result = sqlSession.delete("CommunityPostMapper.deleteFileName",fileName);
-		return result;
-	}
 
 	@Override
 	public int ReinsertFile(Community_File File) {
@@ -153,6 +149,12 @@ public class CommunityStoreLogic implements CommunityStore{
 	public Community_Post selectCommunityPostNo(Community_Post communityPost) {
 		Community_Post postNo = sqlSession.selectOne("CommunityPostMapper.postNo",communityPost);
 		return postNo;
+	}
+
+	@Override
+	public int updateFile(List<String> fileNames) {
+		int result = sqlSession.delete("CommunityPostMapper.deleteFileName",fileNames);
+		return result;
 	}
 
 }

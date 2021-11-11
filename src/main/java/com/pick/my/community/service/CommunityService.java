@@ -1,5 +1,6 @@
 package com.pick.my.community.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.pick.my.community.domain.Community_File;
@@ -28,7 +29,7 @@ public interface CommunityService {
 	public int removePost(int postNo);
 	public int removeFile(int postNo);
 	public int modifyPost(Community_Post communityPost);
-	public int modifyFile(String fileName);
 	public int ReinsertFile(Community_File File);
 	public Community_Post printCommunityPostNo (Community_Post communityPost);
+	public int modifyFile(List<String> fileNames);
 }

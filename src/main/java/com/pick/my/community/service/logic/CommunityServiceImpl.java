@@ -1,5 +1,6 @@
 package com.pick.my.community.service.logic;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,11 +128,6 @@ public class CommunityServiceImpl implements CommunityService{
 		return result;
 	}
 	
-	@Override
-	public int modifyFile(String fileName) {
-		int result =store.updateFile(fileName);
-		return result;
-	}
 
 	@Override
 	public List<Community_Reply> printAllReply(List<Community_Reply> rList) {
@@ -149,6 +145,12 @@ public class CommunityServiceImpl implements CommunityService{
 	public Community_Post printCommunityPostNo(Community_Post communityPost) {
 		Community_Post postNo = store.selectCommunityPostNo(communityPost);
 		return postNo;
+	}
+
+	@Override
+	public int modifyFile(List<String> fileNames) {
+		int result =store.updateFile(fileNames);
+		return result;
 	}
 
 

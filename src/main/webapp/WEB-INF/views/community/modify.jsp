@@ -114,7 +114,7 @@ input_element.addEventListener("keyup", () => {
 					<td class="img_wrap">
 					<c:if test="${not empty files }">
 					<c:forEach items="${files }" var="file" varStatus="index">
-		<img src="/resources/upload/${file.fileRename }"style="width:100px;height: 100px; margin-left: 10;" class="count" onclick = 'doDel(this,"${file.fileRename }")'>
+		<img src="/resources/upload/${file.fileRename }"style="width:100px;height: 100px; margin-left: 10;" class="count" id="${file.fileRename }" onclick = 'doDel(this,"${file.fileRename }")'>
 					</c:forEach>
 					</c:if>
 						<c:if test="${ empty files }">
@@ -155,7 +155,7 @@ $(document).ready(function()
 			$("#input_file").on("change", fileCheck);
 			
 		});
-
+var deleteFiles = [];
 /**
  * 첨부파일로직
  */
@@ -287,33 +287,34 @@ function fileDelete(fileNum){
         });
     }
    function doDel(obj,fileName){
+	   deleteFiles.push(fileName);
 	   $(obj).remove();
-		$.ajax({
+   }
+   function goDelete(deleteFiles){
+	   if(deleteFiles != null){
+		   jQuery.ajaxSettings.traditional = true;
+	   $.ajax({
 	   	      url: "deleteImg.pick",
 	   	      type: "POST",
-	       	  data : {"fileNames" : fileName},
+	       	  data : {"deleteFiles" : deleteFiles},
 	   	      success: function (data) {
 	   	    	if(data != 0){
-	   	    	
+	   	    		
 				}else{
 					alert("이미지파일 삭제 실패했습니다.");
 				}
 	   	      },error: function (request,xhr, status, error) {
-	   	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
-	   	     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	   	     return false;
 	   	      }
 	   	    });
-	
-	   
-	   
-	   
+   }else{
+	   console.log("지우는게없어요");
    }
-    
+	   }
     function goWrite() {
-    	  
     	var $totalImg = document.getElementsByClassName('count').length;
     	if($totalImg <= 4){
+    	goDelete(deleteFiles);
     	var title = $("#postTitle").val();
     	var contents = $("#summernote").val();
     	var postNo = $("#postNo").val();
@@ -323,8 +324,6 @@ function fileDelete(fileNum){
     		alert("사진의개수는 4개까지입니다.")
     	}
     }
-   
-    
 </script>
 
 </body>

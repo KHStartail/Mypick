@@ -2,6 +2,7 @@ package com.pick.my.community.controller;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -298,24 +299,34 @@ public class CommunityController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "deleteImg.pick", method = RequestMethod.POST)
-	public String modifyImg(@RequestParam("fileNames") String fileName, HttpServletRequest request) {
-		int result = service.modifyFile(fileName);
-		if(result > 0) {
-			modifyFile(fileName,request);		
+	public String modifyImg(HttpServletRequest request,@RequestParam(value="deleteFiles")List<String> fileNames) {
+		int result = 0;
+		try {
+			if(!fileNames.isEmpty()) {
+				result = service.modifyFile(fileNames);
+				if(result > 0) {
+					modifyFile(fileNames,request);		
+				}
+			}else {
+				System.out.println("파일이없어요");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
-		System.out.println(String.valueOf(result));
 		return String.valueOf(result);
 	}
 	
 	
-	public void modifyFile(String fileNames,HttpServletRequest request) {
-		String root = request.getSession().getServletContext().getRealPath("resources");		
-		String fullPath = root+"\\upload"; 					
-			File file = new File(fullPath + "\\"+fileNames);				
-			if(file.exists()) {
-				file.delete(); 
+	public void modifyFile(List<String> fileNames,HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String fullPath = root+"\\upload";
+			for(int i =0; i<fileNames.size();i++) {
+				File file = new File(fullPath + "\\"+fileNames);				
+				if(file.exists()) {
+					file.delete(); 
+				}
 			}
-	}
+			}
 	
 	@ResponseBody
 	@RequestMapping(value = "reUpload.pick", method = RequestMethod.POST)
