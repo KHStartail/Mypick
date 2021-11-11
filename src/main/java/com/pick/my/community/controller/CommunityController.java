@@ -289,6 +289,84 @@ public class CommunityController {
 			return "redirect:mainView.pick";
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value = "deleteImg.pick", method = RequestMethod.POST)
+	public String modifyImg(@RequestParam("fileNames") String fileName, HttpServletRequest request) {
+		int result = service.modifyFile(fileName);
+		if(result > 0) {
+			modifyFile(fileName,request);		
+		}
+		System.out.println(String.valueOf(result));
+		return String.valueOf(result);
+	}
 	
 	
-}
+	public void modifyFile(String fileNames,HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");		
+		String fullPath = root+"\\upload"; 					
+			File file = new File(fullPath + "\\"+fileNames);				
+			if(file.exists()) {
+				file.delete(); 
+			}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "reUpload.pick", method = RequestMethod.POST)
+	public String fileReUpload(
+			@RequestParam("article_file") List<MultipartFile> multipartFile
+			, HttpServletRequest request,Community_File File,@RequestParam int postNo) {
+		
+		String strResult = "{ \"result\":\"FAIL\" }";
+		String contextRoot = request.getSession().getServletContext().getRealPath("resources");
+		String fileRoot;
+		try {
+			// 파일이 있으면.
+			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
+				for(MultipartFile file:multipartFile) {
+					fileRoot = contextRoot + "\\upload\\";
+					System.out.println(fileRoot);
+					File folder = new File(fileRoot);
+					if (!folder.exists()) {
+						folder.mkdir(); // 폴더 생성
+					}
+					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
+					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+					
+					File targetFile = new File(fileRoot + savedFileName);	
+					try {
+						InputStream fileStream = file.getInputStream();
+						FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
+						File.setFileName(file.getOriginalFilename());
+						File.setFileRename(savedFileName);
+						File.setFileSize(file.getSize());
+						File.setPostNo(postNo);
+						int result = service.insertFile(File);
+						if(result > 0) {
+							strResult = "{ \"result\":\"OK\" }";
+						}else {
+							strResult = "{ \"result\":\"FAIL\" }";
+						}
+					} catch (Exception e) {
+						//파일삭제
+						FileUtils.deleteQuietly(targetFile);	//저장된 현재 파일 삭제
+						e.printStackTrace();
+						break;
+					}
+				}
+//				strResult = "{ \"result\":\"OK\" }";
+			}
+			// 파일이 없으면.
+//			else
+//				strResult = "{ \"result\":\"OK\" }";
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return strResult;
+	}
+	
+	
+	}
+	
+

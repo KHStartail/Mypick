@@ -63,11 +63,13 @@
 	<delete id="deleteFile" parameterType="_int">
 	DELETE FROM COMMUNITY_FILE WHERE POST_NO = #{postNo}
 	</delete>
+	
+	<delete id="deleteFileName" parameterType="string">
+	DELETE FROM COMMUNITY_FILE WHERE FILE_RENAME =#{fileName}
+	</delete>
+	
 	<update id="updatePost" parameterType="Post">
 	UPDATE COMMUNITY_POST SET POST_TITLE = #{postTitle},POST_CONTENTS = #{postContents},UPDATE_DATE = DEFAULT WHERE POST_NO = #{postNo}
-	</update>
-	<update id="updateFile" parameterType="File">
-	UPDATE COMMUNITY_FILE SET FILE_NAME = #{fileName}, FILE_RENAME = #{fileRename}, FILE_SIZE = #{fileSize} WHERE POST_NO = #{postNo}
 	</update>
  	 </mapper>
   

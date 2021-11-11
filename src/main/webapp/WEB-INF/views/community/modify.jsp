@@ -8,6 +8,8 @@
 	content="text/html; charset=UTF-8,width=device-width, initial-scale=1">
 
 <!-- include libraries(jQuery, bootstrap) -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"
 	rel="stylesheet">
@@ -16,8 +18,7 @@
 <link rel="stylesheet" href="assets/css/login.css">
 <link rel="stylesheet" href="assets/css/input.css">
 <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
@@ -113,7 +114,7 @@ input_element.addEventListener("keyup", () => {
 					<td class="img_wrap">
 					<c:if test="${not empty files }">
 					<c:forEach items="${files }" var="file">
-		<img src="/resources/upload/${file.fileRename }"style="width:100px;height: 100px; margin-left: 10;" onclick = 'doDel(this)'>
+		<img src="/resources/upload/${file.fileRename }"style="width:100px;height: 100px; margin-left: 10;" onclick = 'doDel(this,"${file.fileRename }")'>
 					</c:forEach>
 					</c:if>
 						<c:if test="${ empty files }">
@@ -220,7 +221,7 @@ function fileDelete(fileNum){
  * 폼 submit 로직
  */
 	function registerAction(){
-		
+	var postNo = $("#postNo")
 	var form = $("form")[0];        
  	var formData = new FormData(form);
 		for (var x = 0; x < content_files.length; x++) {
@@ -283,15 +284,35 @@ function fileDelete(fileNum){
             reader.readAsDataURL(f);
         });
     }
-   function doDel(obj){
+   function doDel(obj,fileName){
 	   $(obj).remove();
+		$.ajax({
+	   	      url: "deleteImg.pick",
+	   	      type: "POST",
+	       	  data : {"fileNames" : fileName},
+	   	      success: function (data) {
+	   	    	if(data != 0){
+	   	    	
+				}else{
+					alert("이미지파일 삭제 실패했습니다.");
+				}
+	   	      },error: function (request,xhr, status, error) {
+	   	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+	   	     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	   	     return false;
+	   	      }
+	   	    });
+	
+	   
+	   
+	   
    }
     
     function goWrite() {
     	var title = $("#postTitle").val();
     	var contents = $("#summernote").val();
     	var postNo = $("#postNo").val();
-    	registerAction()
+    	registerAction($("#postNo"))
     	location.href='update.pick?title='+title+'&contents='+contents+'&postNo='+postNo;
     }
    

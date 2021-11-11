@@ -138,8 +138,8 @@ public class CommunityStoreLogic implements CommunityStore{
 	}
 
 	@Override
-	public int updateFile(Community_File File) {
-		int result = sqlSession.update("CommunityPostMapper.updateFile",File);
+	public int updateFile(String fileName) {
+		int result = sqlSession.delete("CommunityPostMapper.deleteFileName",fileName);
 		return result;
 	}
 

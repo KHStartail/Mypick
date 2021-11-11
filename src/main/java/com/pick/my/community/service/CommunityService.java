@@ -28,5 +28,5 @@ public interface CommunityService {
 	public int removePost(int postNo);
 	public int removeFile(int postNo);
 	public int modifyPost(Community_Post communityPost);
-	public int modifyFile(Community_File File);
+	public int modifyFile(String fileName);
 }
