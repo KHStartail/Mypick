@@ -11,11 +11,19 @@
 		<result property="imgSize" column="IMG_SIZE"/>
 		<result property="imgPath" column="IMG_PATH"/>
 		<result property="userId" column="USER_ID"/>
-		<result property="idolNo" column="IDOL_NO"/>
 		<result property="goodsContents" column="GOODS_CONTENTS"/>
 		<result property="idolName" column="IDOL_NAME"/>
 		<result property="groupName" column="GROUP_NAME"/>
 		<result property="goodsIntro" column="GOODS_INTRO"/>
+	</resultMap>
+	<resultMap type="Review" id="reviewResultMap">
+		<id property="revNo" column="REV_NO"/>
+		<result property="revContents" column="REV_CONTENTS"/>
+		<result property="revDate" column="REV_DATE"/>
+		<result property="revStar" column="REV_STAR"/>
+		<result property="imgPath" column="IMG_PATH"/>
+		<result property="imgSize" column="IMG_SIZE"/>
+		<result property="goodsNo" column="GOODS_NO"/>
 	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
@@ -49,7 +57,7 @@
 	</select>
 	
 	<insert id="insertGoods" parameterType="Goods">
-		INSERT INTO GOODS VALUES(SEQ_GOODS.NEXTVAL,#{goodsName},#{goodsPrice},SYSDATE,#{imgSize},#{imgPath},'user01',1,#{goodsContents},#{idolName},#{groupName},#{goodsIntro})
+		INSERT INTO GOODS VALUES(SEQ_GOODS.NEXTVAL,#{goodsName},#{goodsPrice},SYSDATE,#{imgSize},#{imgPath},#{userId},#{goodsContents},#{idolName},#{groupName},#{goodsIntro})
 	</insert>
 	
 	<delete id="deleteGoods">
@@ -59,4 +67,11 @@
 	<update id="updateGoods" parameterType="Goods">
 		UPDATE GOODS SET GOODS_NAME=#{goodsName}, GOODS_PRICE=#{goodsPrice},UPLOAD_DATE=DEFAULT, IMG_SIZE=#{imgSize}, IMG_PATH=#{imgPath}, GOODS_CONTENTS=#{goodsContents},IDOL_NAME=#{idolName},GROUP_NAME=#{groupName},GOODS_INTRO=#{goodsIntro} WHERE GOODS_NO = #{goodsNo}
 	</update>
+	
+	
+	
+	
+	<insert id="insertReivew" parameterType="Reivew">
+		INSERT INTO REVIEW VALUES(SEQ_REVIEW.NEXTVAL,#{revContents},SYSDATE,#{revStar},#{imgPath},#{imgSize},#{goodsNo})
+	</insert>
 </mapper>

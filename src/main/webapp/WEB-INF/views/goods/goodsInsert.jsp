@@ -51,7 +51,7 @@
                             <label>상품명 :</label><input type="text" name="goodsName" id="" placeholder="상품명을 입력하세요"><br>
                             <label>상품소개 :</label><input type="text" name="goodsIntro" id="" placeholder="상품소개를 입력하세요"><br>
                             <label>그룹 이름 :</label><input type="text" name="groupName" id="" placeholder="그룹 이름을 입력하세요"><br>
-                            <label>아이돌 이름 :</label><input type="text" name="idolName" id="" placeholder="아이돌 이름을 입력하세요"><br>
+                            <label>멤버 이름 :</label><input type="text" name="idolName" id="" placeholder="멤버 이름을 입력하세요"><br>
                             <label>가격 :</label><input type="text" name="goodsPrice" id="" placeholder="가격을 입력하세요"><br>
                     </div>
                     <div class="insert-file">

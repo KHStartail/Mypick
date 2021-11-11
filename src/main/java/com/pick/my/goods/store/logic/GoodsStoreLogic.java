@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.pick.my.common.PageInfo;
 import com.pick.my.goods.domain.Goods;
+import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
 import com.pick.my.goods.store.GoodsStore;
 
@@ -67,6 +68,13 @@ public class GoodsStoreLogic implements GoodsStore{
 		List<Goods> searchList = sqlSession.selectList("goodsMapper.selectSearchList", search);
 		
 		return searchList;
+	}
+
+	@Override
+	public int insertReview(Review review) {
+		int result = sqlSession.insert("goodsMapper.insertReview", review);
+		
+		return result;
 	}
 
 }

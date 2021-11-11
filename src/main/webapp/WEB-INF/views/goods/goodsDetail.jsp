@@ -69,8 +69,13 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
-                        <div class="product__label">${goods.groupName }</div>
-                        <div class="product__label">${goods.idolName }</div>
+                        <c:if test="${goods.idolName == null }">
+                        	<div class="product__label">${goods.groupName }</div>                        
+                        </c:if>
+                        <c:if test="${goods.idolName != null }">
+                        	<div class="product__label">${goods.groupName }</div>
+                        	<div class="product__label">${goods.idolName }</div>
+                        </c:if>
                         <h4>${goods.goodsName }</h4>
                         <h5>${goods.goodsPrice } ₩</h5>                        
                         <p>${goods.goodsIntro }</p>
@@ -207,17 +212,31 @@
                                         <div class="rev-label">
                                             <p>Review</p>
                                         </div>
+                       <!--  -->
+                                       <form action="goodsReviewInsert.pick" method="post" name="revForm">
+                                       	<input type="hidden" name="goodsNo" value="${goods.goodsNo }">
                                         <div class="rev-star">
-                                            <input type="file" name="" id="">
+                                            <input type="file" name="revFile" id="">
+                                           	<span>
+                                                <img id="rev1" onmouseover="show(1)" onclick="mark(1)" onmouseout="noshow(1)" src="assets/images/goodsStar.png" alt="">
+                                                <img id="rev2" onmouseover="show(2)" onclick="mark(2)" onmouseout="noshow(2)" src="assets/images/goodsStar.png" alt="">
+                                                <img id="rev3" onmouseover="show(3)" onclick="mark(3)" onmouseout="noshow(3)" src="assets/images/goodsStar.png" alt="">
+                                                <img id="rev4" onmouseover="show(4)" onclick="mark(4)" onmouseout="noshow(4)" src="assets/images/goodsStar.png" alt="">
+                                                <img id="rev5" onmouseover="show(5)" onclick="mark(5)" onmouseout="noshow(5)" src="assets/images/goodsStar.png" alt="">
+                                            </span>
                                         </div>
                                         <div class="rev-input">
+                                            <input type="hidden" name="star">
                                             <textarea name="" id="" cols="60" rows="5"></textarea>
                                             <button type="submit">등록</button>
                                         </div>
+                                       </form>
+                         <!--  -->
                                         <div class="rev-list">
                                             <div class="rev-label">
                                                 <p>등록된 리뷰(1)</p>
                                             </div>
+                                         <form action="goodsReview.pick" method="get"></form>
                                             <div class="rev-img">
                                                 <img src="img/key.png" alt="">
                                             </div>
@@ -399,5 +418,6 @@
 <script src="assets/js/owl.carousel.min.js"></script>
 <script src="assets/js/jquery.nicescroll.min.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/goodsStar.js"></script>
 </body>
 </html>

@@ -22,6 +22,9 @@
         margin-bottom: 2%;
         margin-top: 5%;
     }
+    	.rev-star img{
+              width: 30px;
+        }
     .rev-input{
         height: 200px;
         text-align: center;
@@ -31,6 +34,7 @@
             float: left;
             border-radius: 10px;
             border: 1px solid rgba(128, 128, 128, 0.747);
+            resize: none;
         }
         .rev-input button{
             float: left;

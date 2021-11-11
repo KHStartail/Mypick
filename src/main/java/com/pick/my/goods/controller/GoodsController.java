@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pick.my.common.PageInfo;
 import com.pick.my.common.Pagination;
 import com.pick.my.goods.domain.Goods;
+import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
 import com.pick.my.goods.service.GoodsService;
 
@@ -188,7 +189,7 @@ public class GoodsController {
 
 	}
 	
-	
+	//검색
 	@RequestMapping(value="goodsSearch.pick", method = RequestMethod.GET)
 	public String goodsSearchList(@ModelAttribute Search search,
 			Model model) {
@@ -204,6 +205,30 @@ public class GoodsController {
 	}
 	
 	
+	//리뷰등록
+	public String registerReview(@ModelAttribute Review review,
+			@RequestParam(value="revFile", required = false)MultipartFile revFile,
+			@RequestParam(value="goodsNo")int goodsNo,
+			HttpServletRequest request,
+			Model model) {
+		
+		if(!revFile.getOriginalFilename().equals("")) {
+			String filePath = saveFile(revFile, request);
+			if(filePath != null) {
+				review.setImgPath(revFile.getOriginalFilename());
+				review.setImgSize(revFile.getSize());
+			}
+		}
+		
+		int result = service.registerReview(review);
+		if(result > 0) {
+			return "redirect:goodsDetail.pick?goodsNo="+goodsNo;
+		}else {
+			model.addAttribute("msg","등록실패");
+			return "common/errorPage";
+		}
+		
+	}
 	
 	
 	

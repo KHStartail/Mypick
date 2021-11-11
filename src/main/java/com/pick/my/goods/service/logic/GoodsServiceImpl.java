@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.pick.my.common.PageInfo;
 import com.pick.my.goods.domain.Goods;
+import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
 import com.pick.my.goods.service.GoodsService;
 import com.pick.my.goods.store.GoodsStore;
@@ -64,6 +65,13 @@ public class GoodsServiceImpl implements GoodsService{
 		List<Goods> searchList = store.selectSearchAll(search);
 		
 		return searchList;
+	}
+
+	@Override
+	public int registerReview(Review review) {
+		int result = store.insertReview(review);
+		
+		return result;
 	}
 
 }

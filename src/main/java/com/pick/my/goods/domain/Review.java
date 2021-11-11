@@ -10,6 +10,7 @@ public class Review {
 	private int revStar;
 	private String imgPath;
 	private long imgSize;
+	private int goodsNo;
 	
 	public Review() {}
 
@@ -61,11 +62,24 @@ public class Review {
 		this.imgSize = imgSize;
 	}
 
+	
+	
+	public int getGoodsNo() {
+		return goodsNo;
+	}
+
+	public void setGoodsNo(int goodsNo) {
+		this.goodsNo = goodsNo;
+	}
+
 	@Override
 	public String toString() {
 		return "Review [revNo=" + revNo + ", revContents=" + revContents + ", revDate=" + revDate + ", revStar="
-				+ revStar + ", imgPath=" + imgPath + ", imgSize=" + imgSize + "]";
+				+ revStar + ", imgPath=" + imgPath + ", imgSize=" + imgSize + ", goodsNo=" + goodsNo + "]";
 	}
+
+
+	
 	
 	
 }
