@@ -19,6 +19,7 @@ public class Supporting {
 	private int supGrade;
 	private int imgNo;
 	private String imgName;
+	private String imgReName;
 	private String imgPath;
 	private long imgSize;
 	
@@ -181,6 +182,13 @@ public class Supporting {
 		this.imgName = imgName;
 	}
 
+	public String getImgReName() {
+		return imgReName;
+	}
+	
+	public void setImgReName(String imgReName) {
+		this.imgReName = imgReName;
+	}
 
 	public String getImgPath() {
 		return imgPath;
@@ -201,14 +209,13 @@ public class Supporting {
 		this.imgSize = imgSize;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Supporting [supNo=" + supNo + ", userNo=" + userNo + ", supCategory=" + supCategory + ", supTitle="
 				+ supTitle + ", supContents=" + supContents + ", scheduleDate=" + scheduleDate + ", supPlace="
 				+ supPlace + ", groupName=" + groupName + ", supStartDate=" + supStartDate + ", supEndDate="
 				+ supEndDate + ", sumMoney=" + sumMoney + ", goalMoney=" + goalMoney + ", supPartiwon=" + supPartiwon
-				+ ", supGrade=" + supGrade + ", imgNo=" + imgNo + ", imgName=" + imgName + ", imgPath=" + imgPath
-				+ ", imgSize=" + imgSize + "]";
+				+ ", supGrade=" + supGrade + ", imgNo=" + imgNo + ", imgName=" + imgName + ", imgReName=" + imgReName
+				+ ", imgPath=" + imgPath + ", imgSize=" + imgSize + "]";
 	}
 }

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>모집중 서포팅 목록</title>
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/header.css">
 <link rel="stylesheet" href="assets/css/lightbox.css">
 <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
@@ -34,7 +35,7 @@
         padding: 0 0 100px 0;
       }
       .swiper {
-        width: 80%;
+        width: 100%;
         height: 100%;
       }
 
@@ -75,13 +76,30 @@
       	height: 30px;
       	text-align:center;
       }
+      p { margin:20px 0px; }
+      
+      .btn-p{
+      	width: 200px;
+      	height: 100px;
+      	border : 2px solid ;
+      	background-color: blue;
+      	border-radius : 5px;
+      	font-color : white;
+      		
+      }
+      
+      .w-button{
+      	width : 100px;
+      	height: 30px;
+      }
     </style>
   </head>
 <body>
 <jsp:include page="/header.jsp"></jsp:include>
 <br><br><br><br>
+<div class="container">
 	<h1>모집중 서포팅 목록</h1>
-	<h3>일정 인원수가 달성시, 서포팅이 진행됩니다!</h3>
+	<h3>일정 인원수가 달성시, 서포팅이 진행됩니다!</h3><br><br><br>
 	<input type="text" value="그룹이름을 입력해주세요." id="searchBox" size="30">
 	<input type="submit" value="검색" class="searchButton"><br><br><br><br>
 	<!-- Slider main container -->
@@ -94,21 +112,24 @@
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-        	<!-- list로 내용불러오기 -->
-        	<div class="card">
-			   	<div class="card-body">
-        		<h4 class="card-title"><a href="${psDetail }">${Supporting.supTitle }</a></h4>
-				   	<c:forEach items="${pList}" var="presupportingList.pick">
-			    	<div class="ImgBox">${Supporting.ImgNo }</div><br>
-			    	<div class="percentBox"></div><br>
-			    	<div class="textBox">
-			    	<p class="card-text">
-				    	<c:url var="psDetail" value="preSupportingDetail.pick">
-							<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-						</c:url>
-			    	</p>
+        	<!-- list로 내용불러오기 
+        	이미지 경로설정, 리스트 가로세로 3개씩 총 한번에 9개 한 슬라이드에 넣기
+        	-->
+        	<div class="col-4">
+	        	<div class="card">
+				   	<div class="card-body">
+		        		<h4 class="card-title"><a href="${psDetail }">${Supporting.supTitle }</a></h4>
+					   	<c:forEach items="${pList}" var="presupportingList.pick">
+				    	<img src="/resources/SupportingFiles/${Supporting.imgRename }" alt="IMG">
+				    	<div class="percentBox"></div><br>
+				    	<p class="card-text">
+					    	<c:url var="psDetail" value="presupportingDetail.pick">
+								<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+							</c:url>
+				    	</p>
+				    	<a href="getParticipation.pick" class="btn-p">참여하기</a>
+						</c:forEach>
 					</div>
-					</c:forEach>
 				</div>
 			</div>
         </div>
@@ -126,9 +147,10 @@
 	      <div class="swiper-button-prev"></div>
 	      <div class="swiper-pagination"></div>
     </div>
+	<button class="w-button" onclick="location.href='supportingWriteView.pick';">서포팅모집</button><br><br><br><br>
 	</c:if>
-	<button class="btn" onclick="location.href='support/supportWriteView.pick';"></button><br><br><br><br>
-	<jsp:include page="/footer.jsp"></jsp:include>
+</div>
+<jsp:include page="/footer.jsp"></jsp:include>
 	<script>
 	//검색
 	var search = document.getElementById("#searchBox");

@@ -37,6 +37,7 @@ public class SupportingController {
 		 if(!pList.isEmpty()) { 
 			 mv.addObject("pList", pList); 
 			 mv.setViewName("supporting/preSupportingList");
+			 System.out.println(pList);
 		 }else {
 			 mv.addObject("msg", "모집중 서포팅 게시글 전체조회 실패"); 
 			 mv.setViewName("supporting/supportError"); 
@@ -104,11 +105,11 @@ public class SupportingController {
 	//서포팅 작성 이동
 	@RequestMapping(value="supportingWriteView.pick", method=RequestMethod.GET)
 	public String supportingWriteView() {
-		return "supportingRegister.pick";
+		return "supporting/supportingWrite";
 	}
 	//서포팅 작성하기
 	@RequestMapping(value="supportingRegister.pick", method=RequestMethod.GET)
-	public String registerSupporting(@ModelAttribute Supporting supporting,@RequestParam("fileSize") long fileSize, @ModelAttribute SupFile supFile, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile, HttpServletRequest request, Model model) {
+	public String registerSupporting(@ModelAttribute Supporting supporting, @RequestParam("fileSize") long fileSize, @ModelAttribute SupFile supFile, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile, HttpServletRequest request, Model model) {
 		try {
 			if(!uploadFile.getOriginalFilename().equals("")) {
 				String renameFileName = saveFile(supFile, uploadFile, request, model);

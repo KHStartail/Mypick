@@ -20,6 +20,7 @@
 			<result property="supGrade" column="SUP_CODE"></result>
 			<result property="imgNo" column="IMG_NO"></result>
 			<result property="imgName" column="IMG_NAME"></result>
+			<result property="imgReName" column="IMG_RENAME"></result>
 			<result property="imgPath" column="IMG_PATH"></result>
 			<result property="imgSize" column="IMG_SIZE"></result>
 		</resultMap>
@@ -44,7 +45,7 @@
 		</select>
 		-->
 		<insert id="insertSupporting" parameterType="Supporting">
-			INSERT INTO SUPPORTING VALUES (SEQ_SUP_NO.NEXTVAL,{userNo}, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate}, #{goalMoney}, 0, DEFAULT, DEFAULT, 0, #{imgName}, #{imgPath}, #{imgSize})
+			INSERT INTO SUPPORTING VALUES (SEQ_SUP_NO.NEXTVAL,#{userNo}, DEFAULT, #{supTitle}, #{supContents}, TO_DATE('#{scheduleDate}', 'YYYY/MM/DD HH24:MI:SS' ), #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate}, #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgPath}, #{imgSize})
 		</insert>
 <!-- 
 		<update id="updateSupporting" parameterType="Supporting">
