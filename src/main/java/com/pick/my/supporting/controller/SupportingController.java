@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.security.auth.Subject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -109,15 +110,29 @@ public class SupportingController {
 	}
 	//서포팅 작성하기
 	@RequestMapping(value="supportingRegister.pick", method=RequestMethod.GET)
-	public String registerSupporting(@ModelAttribute Supporting supporting, @RequestParam("fileSize") long fileSize, @ModelAttribute SupFile supFile, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile, HttpServletRequest request, Model model) {
+	public String registerSupporting(@RequestParam("sDate") String scheduleDate
+			, @RequestParam("startDate") String supStartDate
+			,@RequestParam("endDate") String supEndDate
+			, @ModelAttribute Supporting supporting
+			, HttpServletRequest request
+			, Model model) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//		SimpleDateFormat ddf = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
+//		Date newScheduleDate = sdf.parse(newScheduleDate);
+//		Date supStartDate = new Date().supStartDate);
+//		Date supEndDate = df.parseDate(supEndDate);
+		supporting.setScheduleDate(scheduleDate);
+//		supporting.setSupStartDate(supStartDate);
+//		supporting.setSupEndDate(supEndDate);
+//		System.out.println(supStartDate+","+supEndDate+","+scheduleDate);//2021-11-01,2021-11-03,2021-11-08 08:47 PM
+		SupFile supFile = new SupFile();
 		try {
-			if(!uploadFile.getOriginalFilename().equals("")) {
-				String renameFileName = saveFile(supFile, uploadFile, request, model);
-				if(renameFileName != null) {
-					supFile.setFileName(uploadFile.getOriginalFilename());
-					supFile.setFileSize(fileSize);
-				}
-			}
+//			if(!uploadFile.getOriginalFilename().equals("")) {
+//				String renameFileName = saveFile(supFile, uploadFile, request, model);
+//				if(renameFileName != null) {
+//					supFile.setFileName(uploadFile.getOriginalFilename());
+//				}
+//			}
 			int result = service.registerSupporting(supporting);
 			if(result > 0) {
 					return "redirect:presupportingList.pick";

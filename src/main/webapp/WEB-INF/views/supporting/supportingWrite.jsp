@@ -33,7 +33,7 @@ body{
 <body>
 <jsp:include page="/header.jsp"></jsp:include>
 <h1>서포팅 등록</h1>
-	<form onsubmit="return test1()"action ="supportingRegister.pick" method="get" enctype="multipart/form-data">
+	<form onsubmit="return test1()" action ="supportingRegister.pick" method="get" enctype="multipart/form-data">
 		<table align="center" border="1">
 			<tr>
 				<td>제목</td>
@@ -41,11 +41,7 @@ body{
 			</tr>
 			<tr>
 				<td>스케줄 날짜</td>
-				<td><input type="text"  size="50"  id="datepicker" name="schedule"></td>
-			</tr>
-			<tr>
-				<td>스케줄 날짜test</td>
-				<td><input type="text" name="scheduleDate"></td>
+				<td><input type="text"  size="50"  id="datepicker" name="sDate"></td>
 			</tr>
 			<tr>
 				<td>스케줄 장소</td>
@@ -66,8 +62,8 @@ body{
 			</tr>
 			<tr>
 			<td>
-				<input type="hidden" id="supStartDate" name="supStartDate">
-				<input type="hidden" id="supEndDate" name="supEndDate">
+				<input type="hidden" id="supStartDate" name="startDate">
+				<input type="hidden" id="supEndDate" name="endDate">
 			</td>
 			</tr>
 		<!-- 	<tr>
@@ -115,27 +111,38 @@ body{
 	
 	function test1(){
 		//서포팅 날짜
-		var scheduleDate = $("#schedule").val();
+		var scheduleCheck = /[^0-9]/g;
+		var scheduleDateVal = $("#datepicker").val();
+		var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
 		console.log(scheduleDate);
-		if(scheduleDate.indexOf("AM")){
-			scheduleDate.replace("AM", "");
+		$("#scheduleDate").val(scheduleDate);
+		/* if(scheduleDateVal.indexOf("AM")){
+			var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
+			console.log(scheduleDate);
 			$("#scheduleDate").val(scheduleDate);
+			return false;
 		}else if(scheduleDate.indexOf("PM")){
-			scheduleDate.replace("PM",12);
-			$("#scheduleDate").val(scheduleDate);
-		}
-			
+			var scheduleDate = scheduleDateVal.replace(scheduleCheck, "");
+			var transPM = scheduleDate+1200;
+			console.log(transPM);
+			$("#scheduleDate").val(transPM);
+			return false;
+		}  */
+		
 		//서포팅 기간 시작일, 마감일 나누기
 		var during = $("#during").val();
 		sDateVal = during.substring(0,10);
 		eDateVal = during.substring(13);
-		var DateCheck = /[^0-9]/g;
-		var supStartDate = sDateVal.replace(DateCheck,"/");
-		var supEndDate = eDateVal.replace(DateCheck,"/"); //2021/11/03
-		$("#supStartDate").val(supStartDate);
-		$("#supEndDate").val(supEndDate);
-		return false;//if~else로 성공시 넘어가게하고 hidden으로 만들기
+		$("#supStartDate").val(sDateVal);
+		$("#supEndDate").val(eDateVal);
+		
 	}
+//		var DateCheck = /[^0-9]/g;
+//		var supStartDate = sDateVal.replace(DateCheck,"");
+//		var supEndDate = eDateVal.replace(DateCheck,""); //2021/11/03
+//		$("#supStartDate").val(supStartDate);
+//		$("#supEndDate").val(supEndDate);
+	//	return false;//if~else로 성공시 넘어가게하고 hidden으로 만들기
 
 	
 	/* $("#during").on("blur", function(){

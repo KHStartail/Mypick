@@ -22,7 +22,6 @@
 			<result property="imgName" column="IMG_NAME"></result>
 			<result property="imgReName" column="IMG_RENAME"></result>
 			<result property="imgPath" column="IMG_PATH"></result>
-			<result property="imgSize" column="IMG_SIZE"></result>
 		</resultMap>
 	  	<select id="selectAllSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 ORDER BY SUP_ENDDATE DESC
@@ -45,7 +44,15 @@
 		</select>
 		-->
 		<insert id="insertSupporting" parameterType="Supporting">
-			INSERT INTO SUPPORTING VALUES (SEQ_SUP_NO.NEXTVAL,#{userNo}, DEFAULT, #{supTitle}, #{supContents}, TO_DATE('#{scheduleDate}', 'YYYY/MM/DD HH24:MI:SS' ), #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate}, #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgPath}, #{imgSize})
+		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL,#{userNo}, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , TO_DATE('#{supStartDate }', 'YYYY/MM/DD'), TO_DATE('#{supEndDate }', 'YYYY/MM/DD'), #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgPath}, #{imgSize}, #{imgReName})
+		 	<!--
+		 	<if test="datepicker.toString()=='AM'">
+				VALUES(SEQ_SUP_NO.NEXTVAL,#{userNo}, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , TO_DATE('#{supStartDate }', 'YYYY/MM/DD'), TO_DATE('#{supEndDate }', 'YYYY/MM/DD'), #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgReName}, #{imgPath})
+			</if>
+			<if test="datepicker.toString()=='PM'">
+				VALUES(SEQ_SUP_NO.NEXTVAL,#{userNo}, DEFAULT, #{supTitle}, #{supContents},#{scheduleDate}, #{supPlace }, #{groupName } , TO_DATE('#{supStartDate }', 'YYYY/MM/DD'), TO_DATE('#{supEndDate }', 'YYYY/MM/DD'), #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgReName}, #{imgPath})
+			</if>
+		-->
 		</insert>
 <!-- 
 		<update id="updateSupporting" parameterType="Supporting">

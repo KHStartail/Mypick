@@ -120,7 +120,7 @@
 				   	<div class="card-body">
 		        		<h4 class="card-title"><a href="${psDetail }">${Supporting.supTitle }</a></h4>
 					   	<c:forEach items="${pList}" var="presupportingList.pick">
-				    	<img src="/resources/SupportingFiles/${Supporting.imgRename }" alt="IMG">
+				    	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="IMG">
 				    	<div class="percentBox"></div><br>
 				    	<p class="card-text">
 					    	<c:url var="psDetail" value="presupportingDetail.pick">
