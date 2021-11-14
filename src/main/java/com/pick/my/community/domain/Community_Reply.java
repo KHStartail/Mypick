@@ -9,6 +9,8 @@ public class Community_Reply {
 	private int replyNo;
 	private String replyChild;
 	private int postNo;
+	private String userId;
+	private String userNickName;
 	
 	public Community_Reply() {
 	}
@@ -61,11 +63,32 @@ public class Community_Reply {
 		this.postNo = postNo;
 	}
 
+	
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserNickName() {
+		return userNickName;
+	}
+
+	public void setUserNickName(String userNickName) {
+		this.userNickName = userNickName;
+	}
+
 	@Override
 	public String toString() {
 		return "Community_Reply [replyAllNo=" + replyAllNo + ", replyContents=" + replyContents + ", replyDate="
-				+ replyDate + ", replyNo=" + replyNo + ", replyChild=" + replyChild + ", postNo=" + postNo + "]";
+				+ replyDate + ", replyNo=" + replyNo + ", replyChild=" + replyChild + ", postNo=" + postNo + ", userId="
+				+ userId + ", userNickName=" + userNickName + "]";
 	}
+
+	
 	
 	
 }

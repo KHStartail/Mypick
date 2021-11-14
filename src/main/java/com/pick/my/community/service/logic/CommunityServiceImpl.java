@@ -58,20 +58,20 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int registerReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.insertReply(reply);
+		return result;
 	}
 
 	@Override
 	public int modifyReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.updateReply(reply);
+		return result;
 	}
 
 	@Override
 	public int removeReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result =store.deleteReply(reply);
+		return result;
 	}
 
 	@Override
@@ -130,9 +130,9 @@ public class CommunityServiceImpl implements CommunityService{
 	
 
 	@Override
-	public List<Community_Reply> printAllReply(List<Community_Reply> rList) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Community_Reply> printAllReply(int postNo) {
+		List<Community_Reply> rList = store.selectAllReply(postNo);
+		return rList;
 	}
 
 	@Override
@@ -152,6 +152,7 @@ public class CommunityServiceImpl implements CommunityService{
 		int result =store.updateFile(fileNames);
 		return result;
 	}
+
 
 
 }

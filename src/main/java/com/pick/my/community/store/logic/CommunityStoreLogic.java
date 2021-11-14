@@ -57,27 +57,27 @@ public class CommunityStoreLogic implements CommunityStore{
 	}
 
 	@Override
-	public List<Community_Reply> selectAllReply(List<Community_Reply> rList) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Community_Reply> selectAllReply(int postNo) {
+		List<Community_Reply> rList = sqlSession.selectList("CommunityPostMapper.replyList",postNo);
+		return rList;
 	}
 
 	@Override
 	public int insertReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("CommunityPostMapper.insertReply",reply);
+		return result;
 	}
 
 	@Override
 	public int updateReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.update("CommunityPostMapper.updateReply",reply);
+		return result;
 	}
 
 	@Override
 	public int deleteReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.delete("CommunityPostMapper.deleteReply",reply);
+		return result;
 	}
 
 	@Override
@@ -156,5 +156,6 @@ public class CommunityStoreLogic implements CommunityStore{
 		int result = sqlSession.delete("CommunityPostMapper.deleteFileName",fileNames);
 		return result;
 	}
+
 
 }

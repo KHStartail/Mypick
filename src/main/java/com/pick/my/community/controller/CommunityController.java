@@ -1,15 +1,22 @@
 package com.pick.my.community.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,8 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
+import com.pick.my.community.domain.Community_Reply;
 import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.domain.Pagination;
 import com.pick.my.community.service.CommunityService;
@@ -383,6 +394,75 @@ public class CommunityController {
 		}
 		return strResult;
 	}
+	@ResponseBody 
+	@RequestMapping(value="addReply.pick",method=RequestMethod.POST)
+	public String addReply(@ModelAttribute Community_Reply reply, HttpSession session) {
+		reply.setUserId("user01");
+		reply.setUserNickName("홍길동");
+		int result = service.registerReply(reply);
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	@RequestMapping(value="replyList.pick",method=RequestMethod.GET)
+	public void getReplyList(@RequestParam("postNo") int postNo,HttpServletResponse response) throws JsonIOException, IOException {
+		List<Community_Reply> rList = service.printAllReply(postNo);
+		// JSONObject, JSONArray
+		if(!rList.isEmpty()) {
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(rList,response.getWriter());     		//gson.toJson = gson에서 jSon형태로 만들 객체들
+		}else {
+			System.out.println("데이터가 없습니다.");
+		}
+	}
+	@ResponseBody
+	@RequestMapping(value="deleteReply.pick",method=RequestMethod.GET)
+	public String deleteReply(@ModelAttribute Community_Reply reply) {
+		int result =service.removeReply(reply);
+		if(result > 0) {
+			return "success";
+		}else {
+			
+			return "fail";			
+		}
+	}
+	@ResponseBody
+	@RequestMapping(value="modifyReply.pick",method=RequestMethod.POST)
+	public String modifyReply(@ModelAttribute Community_Reply reply) {
+		int result = service.modifyReply(reply);
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	@RequestMapping(value="summerImg.pick",method = RequestMethod.POST)
+	public void profileUpload(String email, MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		// 업로드할 폴더 경로
+		String realFolder = request.getSession().getServletContext().getRealPath("upload");
+		UUID uuid = UUID.randomUUID();
+		email = "reply";
+		// 업로드할 파일 이름
+		String org_filename = file.getOriginalFilename();
+		String str_filename = uuid.toString() + org_filename;
+
+
+		String filepath = realFolder + "\\" + email + "\\" + str_filename;
+		File f = new File(filepath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		file.transferTo(f);
+
+		out.println("upload/"+email+"/"+str_filename);
+		out.close();
+	}
+	
 	
 	
 	}

@@ -17,7 +17,7 @@ public interface CommunityService {
 	public int insertFile(Community_File File);
 	public List<Community_Post> printAllPost(PageInfo pi);
 	public int modifyCommunityPost(Community_Post communityPost);
-	public List<Community_Reply> printAllReply(List<Community_Reply> rList);
+	public List<Community_Reply> printAllReply(int postNo);
 	public int registerReply(Community_Reply reply);
 	public int modifyReply(Community_Reply reply);
 	public int removeReply(Community_Reply reply);

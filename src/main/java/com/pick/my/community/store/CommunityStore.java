@@ -16,7 +16,7 @@ public interface CommunityStore {
 	public int insertCoummunityPost(Community_Post post);
 	public int insertFile(Community_File File);
 	public int updateCommunityPost(Community_Post communityPost);
-	public List<Community_Reply> selectAllReply(List<Community_Reply> rList);
+	public List<Community_Reply> selectAllReply(int postNo);
 	public int insertReply(Community_Reply reply);
 	public int updateReply(Community_Reply reply);
 	public int deleteReply(Community_Reply reply);
