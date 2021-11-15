@@ -14,6 +14,7 @@
 		<result property="updateDate" column="UPDATE_DATE" />
 		<result property="userNickName" column="MEMBER_NICKNAME" />
 		<result property="status" column="STATUS" />
+		<result property="heartCount" column="HEART_COUNT" />
 	</resultMap>
 	<resultMap type="File" id="fileResultMap">
 		<id property="fileNo" column="FILE_NO"></id>
@@ -34,6 +35,11 @@
 		<result property="userId" column="MEMBER_ID" />
 		<result property="userNickName" column="MEMBER_NICKNAME" />
 	</resultMap>
+	<resultMap type="Heart" id="heartResultMap">
+		<id property="heartNo" column="HEART_NO"></id>
+		<result property="userId" column="MEMBER_ID" />
+		<result property="postNo" column="POST_NO" />
+	</resultMap>
 
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*) FROM
@@ -47,31 +53,45 @@
 	</select>
 
 	<select id="selectSearchList" resultMap="postResultMap">
-		SELECT * FROM COMMUNITY_POST WHERE POST_TITLE LIKE '%' || #{searchKeyword}
-		|| '%' OR MEMBER_NICKNAME LIKE '%' || #{searchKeyword} || '%' AND
-		STATUS = 'Y' ORDER BY CREATE_DATE DESC
+		SELECT * FROM
+		COMMUNITY_POST WHERE POST_TITLE LIKE '%' || #{searchKeyword}
+		|| '%' OR
+		MEMBER_NICKNAME LIKE '%' || #{searchKeyword} || '%' AND
+		STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC
 	</select>
 
 	<select id="selectSearchListCount" resultType="_int">
-		SELECT COUNT(*) FROM
+		SELECT COUNT(*)
+		FROM
 		COMMUNITY_POST WHERE POST_TITLE LIKE '%' ||
-		#{searchKeyword} || '%' OR MEMBER_NICKNAME LIKE '%' ||
+		#{searchKeyword} || '%'
+		OR MEMBER_NICKNAME LIKE '%' ||
 		#{searchKeyword} || '%' AND STATUS = 'Y'
 	</select>
 
 	<select id="selectOnePost" resultMap="postResultMap">
-		SELECT * FROM COMMUNITY_POST WHERE POST_NO = #{postNo}
+		SELECT * FROM
+		COMMUNITY_POST WHERE POST_NO = #{postNo}
 	</select>
 
 	<select id="selectOnePostFile" resultMap="fileResultMap">
-		SELECT * FROM COMMUNITY_FILE WHERE POST_NO = #{postNo}
+		SELECT * FROM
+		COMMUNITY_FILE WHERE POST_NO = #{postNo}
 	</select>
 	<select id="postNo" resultMap="postResultMap">
-		SELECT POST_NO FROM COMMUNITY_POST WHERE POST_TITLE = #{postTitle} AND
+		SELECT POST_NO FROM COMMUNITY_POST
+		WHERE POST_TITLE = #{postTitle} AND
 		POST_CONTENTS = #{postContents}
 	</select>
 	<select id="replyList" resultMap="replyResultMap">
-	SELECT * FROM COMMUNITY_REPLY WHERE POST_NO = #{postNo}
+		SELECT * FROM COMMUNITY_REPLY
+		WHERE POST_NO = #{postNo}
+	</select>
+	<select id="selectHeart" resultType="int">
+		SELECT COUNT(MEMBER_ID) FROM
+		HEART WHERE POST_NO = #{postNo} AND MEMBER_ID =
+		#{userId}
 	</select>
 	<insert id="uploadFile" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
@@ -79,22 +99,36 @@
 	</insert>
 	<insert id="insertPost" parameterType="Post">
 		INSERT INTO COMMUNITY_POST
-		VALUES(SEQ_POST.NEXTVAL,0,'user01','김제탈',#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT)
+		VALUES(SEQ_POST.NEXTVAL,0,'user01','김제탈',#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
 	</insert>
 	<insert id="reUpload" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
 		VALUES(SEQ_FILE.NEXTVAL,'user01',#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
 	</insert>
 	<insert id="insertReply" parameterType="Reply">
-		INSERT INTO COMMUNITY_REPLY VALUES(SEQ_REPLY_ALLNO.NEXTVAL, #{replyContents
+		INSERT INTO
+		COMMUNITY_REPLY VALUES(SEQ_REPLY_ALLNO.NEXTVAL, #{replyContents
 		},DEFAULT,0,0,#{postNo}, #{userId},#{userNickName})
+	</insert>
+	<insert id="addReadCount" parameterType="Post">
+		UPDATE COMMUNITY_POST
+		set VIEWS_COUNT = VIEWS_COUNT + 1 WHERE POST_NO = #{postNo}
+	</insert>
+	<insert id="insertLike" parameterType="Heart">
+		INSERT INTO HEART VALUES (SEQ_HEART.NEXTVAL,'홍길동',#{postNo})
+	</insert>
+	<insert id="insertHeart" parameterType="Post">
+		UPDATE COMMUNITY_POST
+		SET HEART_COUNT = HEART_COUNT + 1 WHERE POST_NO = #{postNo}
 	</insert>
 
 	<delete id="deletePost" parameterType="_int">
-		DELETE FROM COMMUNITY_POST WHERE POST_NO = #{postNo}
+		DELETE FROM COMMUNITY_POST
+		WHERE POST_NO = #{postNo}
 	</delete>
 	<delete id="deleteFile" parameterType="_int">
-		DELETE FROM COMMUNITY_FILE WHERE POST_NO = #{postNo}
+		DELETE FROM COMMUNITY_FILE
+		WHERE POST_NO = #{postNo}
 	</delete>
 
 	<delete id="deleteFileName" parameterType="string">
@@ -104,19 +138,32 @@
 			#{fileName}
 		</foreach>
 	</delete>
-	
+
 	<delete id="deleteReply" parameterType="Reply">
-	DELETE FROM COMMUNITY_REPLY WHERE REPLY_ALLNO = #{replyAllNo}
+		DELETE FROM
+		COMMUNITY_REPLY WHERE REPLY_ALLNO = #{replyAllNo}
 	</delete>
 
 	<update id="updatePost" parameterType="Post">
-		UPDATE COMMUNITY_POST SET POST_TITLE = #{postTitle},POST_CONTENTS =
-		#{postContents},UPDATE_DATE = DEFAULT WHERE POST_NO = #{postNo}
+		UPDATE COMMUNITY_POST SET
+		POST_TITLE = #{postTitle},POST_CONTENTS =
+		#{postContents},UPDATE_DATE =
+		DEFAULT WHERE POST_NO = #{postNo}
 	</update>
 
 	<update id="updateReply" parameterType="Reply">
-		UPDATE COMMUNITY_REPLY SET REPLY_CONTENTS = #{replyContents},REPLY_DATE = DEFAULT WHERE REPLY_ALLNO = #{replyAllNo}
+		UPDATE COMMUNITY_REPLY
+		SET REPLY_CONTENTS = #{replyContents},REPLY_DATE = DEFAULT WHERE
+		REPLY_ALLNO = #{replyAllNo}
 	</update>
-	
+		<delete id="deleteHeart" parameterType="Heart">
+            DELETE FROM HEART
+            WHERE POST_NO = #{postNo} AND MEMBER_ID = '홍길동'
+        </delete>
+        <delete id="deleteHeartCount" parameterType="Post">
+        UPDATE COMMUNITY_POST
+		SET HEART_COUNT = HEART_COUNT - 1 WHERE POST_NO = #{postNo}
+        </delete>
+
 </mapper>
   

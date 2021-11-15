@@ -4,19 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +30,7 @@ import com.google.gson.JsonIOException;
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Reply;
+import com.pick.my.community.domain.Heart;
 import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.domain.Pagination;
 import com.pick.my.community.service.CommunityService;
@@ -41,7 +39,7 @@ import com.pick.my.community.service.CommunityService;
 @Controller
 public class CommunityController {
 	@Autowired
-	public CommunityService service;
+	private CommunityService service;
 	
 	@ResponseBody
 	@RequestMapping(value = "upload.pick", method = RequestMethod.POST)
@@ -63,7 +61,6 @@ public class CommunityController {
 			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
 				for(MultipartFile file:multipartFile) {
 					fileRoot = contextRoot + "\\upload\\";
-					System.out.println(fileRoot);
 					File folder = new File(fileRoot);
 					if (!folder.exists()) {
 						folder.mkdir(); // 폴더 생성
@@ -82,9 +79,7 @@ public class CommunityController {
 						File.setPostNo(postNo.getPostNo());
 						int result2 = service.insertFile(File);
 						if(result2 > 0) {
-							System.out.println("파일DB저장성공");
 						}else {
-							System.out.println("실패");
 						}
 					} catch (Exception e) {
 						//파일삭제
@@ -110,6 +105,7 @@ public class CommunityController {
 	      int totalCount = service.getListcount();
 	      PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 	      List<Community_Post> cList = service.printAllPost(pi);
+	      
 	      if(!cList.isEmpty()) {
 	    	  mv.addObject("cList",cList);
 	    	  mv.addObject("pi",pi);
@@ -142,13 +138,48 @@ public class CommunityController {
 		return"community/Write";
 	}
 	@RequestMapping(value="detailView.pick")
-	public ModelAndView detailView(ModelAndView mv, @RequestParam("postNo") int postNo) {
+	public ModelAndView detailView(HttpServletResponse response,HttpServletRequest request,ModelAndView mv, @RequestParam("postNo") int postNo, HttpSession session) {
 		Community_Post communityPost = service.printOnePost(postNo);
 		List<Community_File> file = service.printOnePostFile(postNo);
+        // 해당 게시판 번호를 받아 리뷰 상세페이지로 넘겨줌
+        Cookie[] cookies = request.getCookies();
+       
+        // 비교하기 위해 새로운 쿠키
+        Cookie viewCookie = null;
+ 
+        // 쿠키가 있을 경우 
+        if (cookies != null && cookies.length > 0) 
+        {
+            for (int i = 0; i < cookies.length; i++)
+            {
+                // Cookie의 name이 cookie + postNo와 일치하는 쿠키를 viewCookie에 넣어줌 
+                if (cookies[i].getName().equals("cookie"+postNo))
+                { 
+                    viewCookie = cookies[i];
+                }
+            }
+        }
+        if (viewCookie == null) {    
+            // 쿠키 생성(이름, 값)
+            Cookie newCookie = new Cookie("cookie"+postNo, "|" + postNo + "|");
+            // 쿠키 추가
+            response.addCookie(newCookie);
+            // 쿠키를 추가 시키고 조회수 증가시킴
+            int result = service.addReadCount(postNo);
+        }else {
+                // 쿠키 값 받아옴.
+                String value = viewCookie.getValue();
+            }
+        Heart heart = new Heart();
+        heart.setPostNo(postNo);
+        String userId = "홍길동";
+        heart.setUserId(userId);
+        int result = service.printHeart(heart);
 		if(!file.isEmpty()) {
 			if(communityPost != null) {
 				mv.addObject("post",communityPost);
 				mv.addObject("file",file);
+				mv.addObject("heart",result);
 				mv.setViewName("community/detail");
 			}else {
 				mv.addObject("msg","게시글 상세조회 실패");
@@ -163,8 +194,7 @@ public class CommunityController {
 			mv.setViewName("common/errorPage");
 		}
 		}
-		return mv;
-		
+        return mv;
 	}
 	@RequestMapping(value="modifyView.pick")
 	public ModelAndView modifyView(ModelAndView mv,@RequestParam("postNo") int postNo) {
@@ -216,7 +246,6 @@ public class CommunityController {
 			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
 				for(MultipartFile file:multipartFile) {
 					fileRoot = contextRoot + "\\upload\\";
-					System.out.println(fileRoot);
 					File folder = new File(fileRoot);
 					if (!folder.exists()) {
 						folder.mkdir(); // 폴더 생성
@@ -267,10 +296,8 @@ public class CommunityController {
 				int result2 = service.removeFile(postNo);
 				deleteFile(fileRenames,request);
 				if(result2 >0) {
-					System.out.println("DB파일삭제성공");
 					return "redirect:mainView.pick";
 				}else {
-					System.out.println("DB파일삭제실패");
 					return "redirect:mainView.pick";
 				}
 			}else {
@@ -301,10 +328,8 @@ public class CommunityController {
 		post.setPostTitle(postTitle);
 		int result = service.registerCoummunityPost(post);
 		if(result>0) {
-			System.out.println("성공");
 			return "redirect:mainView.pick";
 		}else {
-			System.out.println("실패");
 			return "redirect:mainView.pick";
 		}
 	}
@@ -318,8 +343,6 @@ public class CommunityController {
 				if(result > 0) {
 					modifyFile(fileNames,request);		
 				}
-			}else {
-				System.out.println("파일이없어요");
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -353,7 +376,6 @@ public class CommunityController {
 			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
 				for(MultipartFile file:multipartFile) {
 					fileRoot = contextRoot + "\\upload\\";
-					System.out.println(fileRoot);
 					File folder = new File(fileRoot);
 					if (!folder.exists()) {
 						folder.mkdir(); // 폴더 생성
@@ -415,7 +437,6 @@ public class CommunityController {
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson(rList,response.getWriter());     		//gson.toJson = gson에서 jSon형태로 만들 객체들
 		}else {
-			System.out.println("데이터가 없습니다.");
 		}
 	}
 	@ResponseBody
@@ -463,7 +484,27 @@ public class CommunityController {
 		out.close();
 	}
 	
-	
+
+		@ResponseBody
+	    @RequestMapping(value = "heart.pick", method = RequestMethod.POST, produces = "application/json")
+	    public int heart(HttpServletRequest httpRequest) throws Exception {
+	        int heart = Integer.parseInt(httpRequest.getParameter("heart"));
+	        int postNo = Integer.parseInt(httpRequest.getParameter("postNo"));
+	        Heart Heart = new Heart();
+	        Heart.setPostNo(postNo);
+	        System.out.println(heart);
+	        if(heart >= 1) {
+	            service.removeHeart(Heart);
+	            service.removeHeartCount(postNo);
+	            heart=0;
+	        } else {
+	            service.saveHeart(Heart);
+	            service.insertHeartCount(postNo);
+	            heart=1;
+	        }
+	        return heart;
+
+	    }
 	
 	}
 	

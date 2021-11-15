@@ -1,6 +1,5 @@
 package com.pick.my.community.store;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.pick.my.community.domain.Community_File;
@@ -32,4 +31,7 @@ public interface CommunityStore {
 	public int ReinsertFile(Community_File File);
 	public Community_Post selectCommunityPostNo(Community_Post communityPost);
 	public int updateFile(List<String> fileNames);
+	public int selectHeart(Heart heart);
+	public int insertHeartCount(int postNo);
+	public int deleteHeartCount(int postNo);
 }

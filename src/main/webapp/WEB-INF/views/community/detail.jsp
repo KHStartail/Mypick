@@ -101,30 +101,41 @@
 			</c:if>
 		</div>
 		<div class="board">
+		
 			<div class="contents" style="overflow: auto">
 				<h1>${post.postTitle }</h1>
 				<div id="contents">${post.postContents }</div>
+				   <div style="text-align: right; margin-top:35%">
+       <a class="btn heart">
+           <img id="heart" src="">
+       </a>
+   </div>
 			</div>
 		</div>
 	</div>
-		<form action="CommunityDelete.pick" method="get"style="margin-left: 84%;margin-top: 2%">
+		<form action="CommunityDelete.pick" onsubmit="return confirm('삭제하시겠습니까?')" method="get"style="margin-left: 84%;margin-top: 2%">
 		<c:forEach items="${file }" var="file">
 			<input type="hidden" value="${file.fileRename }" id="fileName"
 				name="fileName">
 		</c:forEach>
 		<input type="hidden" value="${post.postNo }" id="postNo" name="postNo">
-		<table id="table" style="margin-left: 5%; margin-top: 2%;">
+		<table id="table" style="margin-left: 5%; margin-top: -10%;">
 			<tr>
-				<td><c:url var="cModify" value="modifyView.pick">
+				<td>
+				작성자 : ${post.userId } 작성일 : ${post.updateDate }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<c:url var="cModify" value="modifyView.pick">
 						<c:param name="postNo" value="${post.postNo }"></c:param>
 					</c:url> <a class="btn btn-primary" href="${cModify }">수정하기</a> <input
-					type="submit" class="btn btn-primary" value="삭제하기"></td>
+					type="submit" class="btn btn-primary" value="삭제하기">
+					<c:url var="cReport" value="Report.pick">
+						<c:param name="postNo" value="${post.postNo }"><a class="btn btn-primary" href="${cReport }">신고하기</a> </c:param>
+					</c:url> </td>
 			</tr>
 		</table>
 	</form>
 	<!-- 댓글 -->
 	<table class="card mb-2" id="reply">
-		<thead id="thead" display='none'>
+		<thead id="thead" display=''>
 			<tr>
 				<td>
 					<div class="card-header bg-light">
@@ -227,7 +238,6 @@
 				}
 			},
 			 error: function (request,xhr, status, error) {
-		   	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
 		   	     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			},
 			complete : function() {
@@ -271,7 +281,6 @@
 					}
 				},
 				error : function(){
-					alert("AJAX 통신 오류.. 관리자에게 문의하세요");
 				}
 			})
 		}
@@ -311,7 +320,6 @@
 			}
 		},
 		error : function(){
-			alert("Ajax 통신 실패");
 			location.reload();
 		}
 		});
@@ -345,7 +353,43 @@
 			}
 		});
 	} 
-	
+	// 하트
+	var heartval = ${heart};
+
+        if(heartval>0) {
+            console.log(heartval);
+            $("#heart").prop("src", "/resources/img/Red.png");
+            $(".heart").prop('name',heartval)
+        }
+        else {
+            console.log(heartval);
+            $("#heart").prop("src", "/resources/img/Black.png");
+            $(".heart").prop('name',heartval)
+        }
+
+        $(".heart").on("click", function () {
+
+            var that = $(".heart");
+
+            var sendData = {'postNo' : '${post.postNo }','heart' : that.prop('name')};
+            $.ajax({
+                url :'heart.pick',
+                type :'POST',
+                data : sendData,
+                success : function(data){
+                    that.prop('name',data);
+                    if(data==1) {
+                        $('#heart').prop("src","/resources/img/Red.png");
+                    }
+                    else{
+                        $('#heart').prop("src","/resources/img/Black.png");
+                    }
+
+
+                }
+            });
+        });
+
 	</script>
 </footer>
 </html>

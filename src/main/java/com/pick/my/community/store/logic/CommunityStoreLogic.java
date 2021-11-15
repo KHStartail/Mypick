@@ -1,6 +1,5 @@
 package com.pick.my.community.store.logic;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -34,8 +33,8 @@ public class CommunityStoreLogic implements CommunityStore{
 
 	@Override
 	public int addReadCount(int postNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("CommunityPostMapper.addReadCount",postNo);
+		return result;
 	}
 
 	@Override
@@ -82,14 +81,14 @@ public class CommunityStoreLogic implements CommunityStore{
 
 	@Override
 	public int insertHeart(Heart heart) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("CommunityPostMapper.insertLike",heart);
+		return result;
 	}
 
 	@Override
 	public int deleteHeart(Heart heart) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.delete("CommunityPostMapper.deleteHeart",heart);
+		return result;
 	}
 
 	@Override
@@ -154,6 +153,24 @@ public class CommunityStoreLogic implements CommunityStore{
 	@Override
 	public int updateFile(List<String> fileNames) {
 		int result = sqlSession.delete("CommunityPostMapper.deleteFileName",fileNames);
+		return result;
+	}
+
+	@Override
+	public int selectHeart(Heart heart) {
+		int result = sqlSession.selectOne("CommunityPostMapper.selectHeart",heart);
+		return result;
+	}
+
+	@Override
+	public int insertHeartCount(int postNo) {
+		int result = sqlSession.delete("CommunityPostMapper.insertHeart",postNo);
+		return result;
+	}
+
+	@Override
+	public int deleteHeartCount(int postNo) {
+		int result =sqlSession.delete("CommunityPostMapper.deleteHeartCount",postNo);
 		return result;
 	}
 

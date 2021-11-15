@@ -1,6 +1,5 @@
 package com.pick.my.community.service.logic;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,10 @@ import com.pick.my.community.domain.Heart;
 import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.service.CommunityService;
 import com.pick.my.community.store.CommunityStore;
-
 @Service
 public class CommunityServiceImpl implements CommunityService{
 	@Autowired
 	private CommunityStore store;
-
 	@Override
 	public int getListcount() {
 		int totalCount = store.getListcount();
@@ -33,8 +30,8 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int addReadCount(int postNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.addReadCount(postNo);
+		return result;
 	}
 
 	@Override
@@ -76,15 +73,16 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int saveHeart(Heart heart) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.insertHeart(heart);
+		return result;
 	}
 
 	@Override
 	public int removeHeart(Heart heart) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.deleteHeart(heart);
+		return result;
 	}
+
 
 	@Override
 	public List<Community_Post> printAllPost(PageInfo pi) {
@@ -153,6 +151,21 @@ public class CommunityServiceImpl implements CommunityService{
 		return result;
 	}
 
+	@Override
+	public int printHeart(Heart heart) {
+		int result = store.selectHeart(heart);
+		return result;
+	}
+	@Override
+	public int insertHeartCount(int postNo) {
+		int result = store.insertHeartCount(postNo);
+		return result;
+	}
 
+	@Override
+	public int removeHeartCount(int postNo) {
+		int result = store.deleteHeartCount(postNo);
+		return result;
+	}
 
 }

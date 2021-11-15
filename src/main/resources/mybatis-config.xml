@@ -10,7 +10,8 @@
    <typeAliases>
       <typeAlias type="com.pick.my.community.domain.Community_File" alias="File" />
       <typeAlias type="com.pick.my.community.domain.Community_Post" alias="Post"/>
-      <typeAlias type="com.pick.my.community.domain.Community_Reply" alias="Reply"/>      
+      <typeAlias type="com.pick.my.community.domain.Community_Reply" alias="Reply"/>
+      <typeAlias type="com.pick.my.community.domain.Heart" alias="Heart"/>      
       <typeAlias type="com.pick.my.supporting.domain.Supporting" alias="Supporting"></typeAlias>
       <typeAlias type="com.pick.my.supporting.domain.SupReply" alias="SupReply"></typeAlias>
       <typeAlias type="com.pick.my.supporting.domain.SupFile" alias="SupFile"></typeAlias>

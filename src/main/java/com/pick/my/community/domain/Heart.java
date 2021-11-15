@@ -4,6 +4,7 @@ public class Heart {
 	private int heartNo;
 	private String userId;
 	private int postNo;
+	private int heartCount;
 	
 	public Heart() {}
 
@@ -30,10 +31,21 @@ public class Heart {
 	public void setPostNo(int postNo) {
 		this.postNo = postNo;
 	}
+	
+	
+
+	public int getHeartCount() {
+		return heartCount;
+	}
+
+	public void setHeartCount(int heartCount) {
+		this.heartCount = heartCount;
+	}
 
 	@Override
 	public String toString() {
-		return "Heart [heartNo=" + heartNo + ", userId=" + userId + ", postNo=" + postNo + "]";
+		return "Heart [heartNo=" + heartNo + ", userId=" + userId + ", postNo=" + postNo + ", heartCount=" + heartCount
+				+ "]";
 	}
 	
 	
