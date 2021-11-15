@@ -47,14 +47,14 @@ public class SupportingServiceImpl implements SupportingService{
 
 	@Override
 	public Supporting preSupportingOne(int supNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Supporting supporting = store.selectPreSupportingOne(supNo);
+		return supporting;
 	}
 
 	@Override
 	public Supporting supportingOne(int supNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Supporting supporting = store.selectSupportingOne(supNo);
+		return supporting;
 	}
 
 	@Override
@@ -62,35 +62,34 @@ public class SupportingServiceImpl implements SupportingService{
 		int result = store.insertSupporting(supporting);
 		return result;
 	}
-
-	@Override
-	public int modifySupporting(Supporting supporting) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int removeSupporting(int supNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	@Override
 	public int insertFile(SupFile file) {
 		int result = store.insertFile(file);
 		return result;
 	}
+	@Override
+	public int modifySupporting(Supporting supporting) {
+		int result = store.updateSupporting(supporting);
+		return result;
+	}
+	
 	
 	@Override
 	public int updateFile(SupFile file) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.updateFile(file);
+		return result;
+	}
+
+	@Override
+	public int removeSupporting(int supNo) {
+		int result = store.deleteSupporting(supNo);
+		return result;
 	}
 	
 	@Override
-	public int deleteFile(int supNo, int fileNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteFile(SupFile file) {
+		int result = store.deleteFile(file);
+		return result;
 	}
 
 	@Override
@@ -112,7 +111,7 @@ public class SupportingServiceImpl implements SupportingService{
 	}
 
 	@Override
-	public int removeSupReply(int supReAllNo) {
+	public int removeSupReply(SupReply supReply) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -130,7 +129,7 @@ public class SupportingServiceImpl implements SupportingService{
 	}
 
 	@Override
-	public int removeSupReplyChild(int supReAllNo) {
+	public int removeSupReplyChild(SupReply supReply) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

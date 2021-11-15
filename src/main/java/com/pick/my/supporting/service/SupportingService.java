@@ -3,6 +3,8 @@ package com.pick.my.supporting.service;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.pick.my.common.PaymentHistory;
 import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
@@ -24,10 +26,10 @@ public interface SupportingService {
 	public List<SupReply> printSupReply(int supNo);
 	public int registerSupReply(SupReply supReply);
 	public int modifyrSupReply(SupReply supReply);
-	public int removeSupReply(int supReAllNo);
+	public int removeSupReply(SupReply supReply);
 	public int registerSupReplyChild(SupReply supReply);
 	public int modifyrSupReplyChild(SupReply supReply);
-	public int removeSupReplyChild(int supReAllNo);
+	public int removeSupReplyChild(SupReply supReply);
 	public int reportSupReply(SupReplyReport reportSupReply);
 	public int reportSupReplyCheck(int supReAllNo, int supNo);
 	//////////////결제및참여관련////////
@@ -94,10 +96,10 @@ public interface SupportingService {
 	public int updateCode(int supNo, int supGrade);
 	/**
 	 * DB에 파일 등록
-	 * @param file
+	 * @param supFile
 	 * @return
 	 */
-	public int insertFile(SupFile file); 
+	public int insertFile(SupFile supFile); 
 	public int updateFile(SupFile file); 
-	public int deleteFile(int supNo, int fileNo);
+	public int deleteFile(SupFile file);
 }

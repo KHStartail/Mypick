@@ -24,10 +24,10 @@ public interface SupportingStore {
 	public List<SupReply> selectSupReply(int supNo);
 	public int insertSupReply(SupReply supReply);
 	public int updaterSupReply(SupReply supReply);
-	public int deleteSupReply(int supReAllNo);
+	public int deleteSupReply(SupReply supReply); 
 	public int insertSupReplyChild(SupReply supReply);
 	public int updateSupReplyChild(SupReply supReply);
-	public int deleteSupReplyChild(int supReAllNo);
+	public int deleteSupReplyChild(SupReply supReply);
 	public int insertSupReply(SupReplyReport reportSupReply);
 	public int selectReportSupReply(int supReAllNo, int supNo);
 	////////////////////////참여, 결제관련내용////////////////
@@ -100,5 +100,5 @@ public interface SupportingStore {
 	 */
 	public int insertFile(SupFile file); 
 	public int updateFile(SupFile file); 
-	public int deleteFile(int supNo, int fileNo); 
+	public int deleteFile(SupFile file);
 }

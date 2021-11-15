@@ -46,9 +46,12 @@
         </nav>
         <div id="h-1">
             <ul id="h-ul">
-                <li class="b-ul"><a href="#" class="m-list">SUPPORTING</a></li>
-                <li class="b-ul"><a href="presupportingList.pick" class="dropdown">PRESUPPORTING</a></li>
-                <li class="b-ul"><a href="supportingList.pick" class="dropdown">SUPPORTING</a></li>
+                <li id="box" class="b-ul"><a href="#" class="m-list">SUPPORTING</a>
+	                <ul class="drop">
+		                <li class="b-ul box"><a href="presupportingList.pick" class="dropdown">PRESUPPORTING</a></li><br>
+		                <li class="b-ul box"><a href="supportingList.pick" class="dropdown">SUPPORTING</a></li>
+	                </ul>
+                </li>
                 <li class="b-ul"><a href="../mypick/find.html" class="m-list">GOODS</a></li>
             </ul>
         </div>

@@ -15,6 +15,61 @@
 <!-- swiper js CDN -->
 <link  rel="stylesheet"  href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<style>
+ 	  html,
+      body {
+        position: relative;
+        height: 100%;
+        text-align : center;
+      }
+/*
+
+      body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: #000;
+        margin: 0;
+        padding: 0 0 100px 0;
+      }
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+	
+		.card-text{
+			overflow : hidden;
+			height : 200px;
+		}	
+		 p { margin:20px 0px; } */
+		 
+		 .carousel {
+			margin-bottom: 0;
+			padding: 0 40px 30px 40px;
+		}
+		
+		.carousel-control {
+			left: -12px;
+		}
+		.carousel-control.right {
+			right: -12px;
+		}
+		
+		.carousel-indicators {
+			right: 50%;
+			top: auto;
+			bottom: 0px;
+			margin-right: -19px;
+		}
+		
+		.carousel-indicators li {
+			background: #c0c0c0;
+		}
+		
+		.carousel-indicators .active {
+			background: #333333;
+		}
+</style>
 </head>
 <body>
 	<jsp:include page="/header.jsp"></jsp:include>
@@ -27,56 +82,141 @@
 		<h1>조회된 게시글이 없습니다.</h1>
 	</c:if>
 	<c:if test="${not empty sList }">
-	<div class="swiper">
-		  <!-- Additional required wrapper -->
-	  	<div class="swiper-wrapper">
-			    <!-- Slides -->
-				<!-- list로 내용불러오기 -->
-			   <c:forEach items="${sList}" var="presupporting">
-				    <div class="swiper-slide">
-				    	<div class="ImgBox">${Supporting.ImgRename}</div><br>
-				    	<div class="percentBox"></div><br>
-				    	<div class="textBox">
-					    	<h4><a href="${ssDetail }">${Supporting.supTitle }</a></h4>
-					    	<div class="contents"><a href="${ssDetail }">${Supporting.supContents }</a></div>
-				    	</div>
-				    </div>
-				</c:forEach>
-	  	</div>
-		  <!-- If we need pagination -->
-	  	<div class="swiper-pagination"></div>
-		  <!-- If we need navigation buttons -->
-		<div class="swiper-button-prev"></div>
-		<div class="swiper-button-next"></div>
-		<!-- If we need scrollbar -->
-		<div class="swiper-scrollbar"></div>
-	</div>
-	</c:if>
-
+		<div class="well">
+		    <div id="myCarousel" class="carousel slide">
+		    <ol class="carousel-indicators">
+		        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		        <li data-target="#myCarousel" data-slide-to="1"></li>
+		        <li data-target="#myCarousel" data-slide-to="2"></li>
+		    </ol>
+     
+		    <!-- Carousel items -->
+		    <div class="carousel-inner">
+			<c:forEach items="${sList}" var="Supporting">
+			    <div class="item active">
+			          <div class="row-fluid">
+			            <div class="col-4">
+			            	<div class="card" style="width: 18rem;">
+					            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
+					            	<a href="${ssOne }" class="thumbnail">
+					            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
+					            	<div class="percentBox"></div>
+					            		<c:url var="ssOne" value="supportingDetail.pick">
+											<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+										</c:url>
+					            	</a>
+					        </div>
+			            </div>
+			            <div class="col-4">
+			            	<div class="card" style="width: 18rem;">
+				             	<h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
+				            	<a href="${ssDetail }" class="thumbnail">
+				            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
+				            	<div class="percentBox"></div>
+				            		<c:url var="ssOne" value="supportingDetail.pick">
+										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+									</c:url>
+				            	</a>
+				            </div>
+			            </div>
+			            <div class="col-4">
+			           		<div class="card" style="width: 18rem;">
+				            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
+				            	<a href="${ssOne }" class="thumbnail">
+				            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
+				            	<div class="percentBox"></div>
+			            			<c:url var="ssOne" value="supportingDetail.pick">
+										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+									</c:url>
+				            	</a>
+				            </div>
+			            </div>
+			        </div><!--/row-fluid-->
+			    </div><!--/item-->
+			     
+			    <div class="item">
+			          <div class="row-fluid">
+			             <div class="col-4">
+			            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
+			            	<a href="${ssOne }" class="thumbnail">
+			            	<img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
+			            	<div class="percentBox"></div>
+		            			<c:url var="ssOne" value="supportingDetail.pick">
+									<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+								</c:url>
+			            	</a>
+			            </div>
+			            <div class="col-4">
+			             	<h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
+			            	<a href="${ssOne }" class="thumbnail">
+			            	<img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
+			            	<div class="percentBox"></div>
+			            		<c:url var="ssOne" value="supportingDetail.pick">
+									<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+								</c:url>
+			            	</a>
+			            </div>
+			             <div class="col-4">
+			            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
+			            	<a href="${ssOne }" class="thumbnail">
+			            	<img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
+			            	<div class="percentBox"></div>
+			            		<c:url var="ssOne" value="supportingDetail.pick">
+									<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+								</c:url>
+			            	</a>
+			            </div>
+			        </div><!--/row-fluid-->
+			    </div><!--/item-->
+			     
+			    <div class="item">
+			        <div class="row-fluid">
+			            <div class="col-4">
+			            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
+			            	<a href="${ssOne }" class="thumbnail">
+			            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
+			            	<div class="percentBox"></div>
+			            		<c:url var="ssOne" value="supportingDetail.pick">
+										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+								</c:url>
+			            	</a>
+			            </div>
+			            <div class="col-4">
+			             	<h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
+			            	<a href="${ssOne}" class="thumbnail">
+			            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
+			            	<div class="percentBox"></div>
+			            		<c:url var="ssOne" value="supportingDetail.pick">
+										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+								</c:url>
+			            	</a>
+			            </div>
+			            <div class="col-4">
+			            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
+			            	<a href="${ssOne }" class="thumbnail">
+			            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
+			            	<div class="percentBox"></div>
+			            		<c:url var="ssOne" value="supportingDetail.pick">
+										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+								</c:url>
+			            	</a>
+			            </div>
+			        </div><!--/row-fluid-->
+			    </div><!--/item-->
+		</c:forEach>
+    	</div><!--/carousel-inner-->
+	   <a class="left carousel-control" href="#myCarousel" data-slide="prev">PREV</a>
+	   <a class="right carousel-control" href="#myCarousel" data-slide="next">NEXT</a>
+	   </div><!--/myCarousel-->
+    </div><!--/well--><br><br><br>
+   </c:if>
 	<jsp:include page="/footer.jsp"></jsp:include>
 	<script>
-	 //swiper js
-		const swiper = new Swiper('.swiper', {
-			  // Optional parameters
-			  direction: 'vertical',
-			  loop: true, //슬라이드 반복
-	
-			  // If we need pagination
-			  pagination: {
-			    el: '.swiper-pagination',
-			  },
-	
-			  // Navigation arrows
-			  navigation: {
-			    nextEl: '.swiper-button-next',
-			    prevEl: '.swiper-button-prev',
-			  },
-	
-			  // And if we need scrollbar
-			  scrollbar: {
-			    el: '.swiper-scrollbar',
-			  },
-			});
+	$(document).ready(function() {
+		$('#myCarousel').carousel({
+		interval: 10000
+		})
+	});
 	</script>
 </body>
 </html>

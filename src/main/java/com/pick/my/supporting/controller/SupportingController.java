@@ -2,27 +2,34 @@ package com.pick.my.supporting.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
-import javax.security.auth.Subject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pick.my.common.PaymentHistory;
+import com.pick.my.community.domain.Community_File;
 import com.pick.my.supporting.domain.SupFile;
+import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.Supporting;
 import com.pick.my.supporting.service.SupportingService;
 
@@ -30,7 +37,6 @@ import com.pick.my.supporting.service.SupportingService;
 public class SupportingController {
 	@Autowired
 	private SupportingService service;
-	
 	//모집중 서포팅 게시글 전체 조회
 	@RequestMapping(value="presupportingList.pick", method=RequestMethod.GET)
 	public ModelAndView preSupportingListView(ModelAndView mv) {
@@ -38,7 +44,6 @@ public class SupportingController {
 		 if(!pList.isEmpty()) { 
 			 mv.addObject("pList", pList); 
 			 mv.setViewName("supporting/preSupportingList");
-			 System.out.println(pList);
 		 }else {
 			 mv.addObject("msg", "모집중 서포팅 게시글 전체조회 실패"); 
 			 mv.setViewName("supporting/supportError"); 
@@ -47,14 +52,15 @@ public class SupportingController {
 	}
 	
 	//진행중 서포팅 게시글 전체 조회
-	@RequestMapping(value="supportingList.pick", method=RequestMethod.POST)
-	public ModelAndView supportingListView(ModelAndView mv, HttpSession session) {
+	@RequestMapping(value="supportingList.pick", method=RequestMethod.GET)
+	public ModelAndView supportingListView(ModelAndView mv) {
 //	Member loginUser = (Member)session.getAttribute("UserNickName");
 //		if(loginUser != null) {
 			List<Supporting> sList = service.printAllSupporting();//int supCategory);
+			System.out.println(sList);
 			if(!sList.isEmpty()) {
 				mv.addObject("sList", sList);
-				mv.setViewName("supporting/supportingList");;
+				mv.setViewName("supporting/supportingList");
 			}else{
 				mv.addObject("msg", "진행중 서포팅 게시글 전체조회 실패");
 				mv.setViewName("supporting/supportError");
@@ -94,14 +100,29 @@ public class SupportingController {
 	 */
 	//모집중 상세조회
 	@RequestMapping(value="presupportingDetail.pick", method=RequestMethod.GET)
-	public String presupportingDetail(@RequestParam("supNo") int supNo) {
-		
-		return null;
+	public ModelAndView presupportingDetail(@RequestParam("supNo") int supNo, ModelAndView mv) {
+		Supporting psOne = service.supportingOne(supNo);
+		if(psOne!=null) {
+			mv.addObject("psOne", psOne);
+			mv.setViewName("supporting/preSupportingDetailView");
+		}else{
+			mv.addObject("msg", "서포팅 상세조회 실패");
+			mv.setViewName("supporting/supportError");
+		}
+		return mv;
 	}
 	//진행중 상세조회
 	@RequestMapping(value="supportingDetail.pick", method=RequestMethod.POST)
-	public String supportingDetail() {
-		return null;
+	public  ModelAndView supportingDetail(@RequestParam("supNo") int supNo,  ModelAndView mv) {
+		Supporting ssOne = service.supportingOne(supNo);
+		if(ssOne!=null) {
+			mv.addObject("ssOne", ssOne);
+			mv.setViewName("supporting/supportingDetailView");
+		}else{
+			mv.addObject("msg", "서포팅 상세조회 실패");
+			mv.setViewName("supporting/supportError");
+		}
+		return mv;
 	}
 	//서포팅 작성 이동
 	@RequestMapping(value="supportingWriteView.pick", method=RequestMethod.GET)
@@ -109,72 +130,109 @@ public class SupportingController {
 		return "supporting/supportingWrite";
 	}
 	//서포팅 작성하기
-	@RequestMapping(value="supportingRegister.pick", method=RequestMethod.GET)
+	@RequestMapping(value="supportingRegister.pick", method=RequestMethod.POST)
 	public String registerSupporting(@RequestParam("sDate") String scheduleDate
 			, @RequestParam("startDate") String supStartDate
-			,@RequestParam("endDate") String supEndDate
+			, @RequestParam("endDate") String supEndDate
+			, @RequestParam(value= "uploadFile", required=false) MultipartFile uploadFile
 			, @ModelAttribute Supporting supporting
-			, HttpServletRequest request
+			, @ModelAttribute SupFile supFile
+			, MultipartHttpServletRequest multiRequest
 			, Model model) {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//		SimpleDateFormat ddf = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
-//		Date newScheduleDate = sdf.parse(newScheduleDate);
-//		Date supStartDate = new Date().supStartDate);
-//		Date supEndDate = df.parseDate(supEndDate);
+		//HttpSession session) {
+		//Member loginUser = (Member)session.getAttribute("UserNickName");
+//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//포맷시 date import: java.utill.Date
 		supporting.setScheduleDate(scheduleDate);
-//		supporting.setSupStartDate(supStartDate);
-//		supporting.setSupEndDate(supEndDate);
-//		System.out.println(supStartDate+","+supEndDate+","+scheduleDate);//2021-11-01,2021-11-03,2021-11-08 08:47 PM
-		SupFile supFile = new SupFile();
+		supporting.setSupStartDate(Date.valueOf(supStartDate));
+		supporting.setSupEndDate(Date.valueOf(supEndDate));
+		if(!uploadFile.getOriginalFilename().equals("")) {
+			String renameFileName = saveFile(uploadFile, supporting, multiRequest);
+			if(renameFileName != null) {
+				supporting.setImgName(uploadFile.getOriginalFilename());
+			}
+		}
+		int result = service.registerSupporting(supporting);
+		List<MultipartFile> subFile = multiRequest.getFiles("subFile");
+		String contextRoot =  multiRequest.getSession().getServletContext().getRealPath("resources");
+		String fileRoot;
+		int fileResult = 0;
 		try {
-//			if(!uploadFile.getOriginalFilename().equals("")) {
-//				String renameFileName = saveFile(supFile, uploadFile, request, model);
-//				if(renameFileName != null) {
-//					supFile.setFileName(uploadFile.getOriginalFilename());
-//				}
-//			}
-			int result = service.registerSupporting(supporting);
+			// 파일이 있으면.
+ 			if(subFile.size() > 0 && !subFile.get(0).getOriginalFilename().equals("")) {
+				for(MultipartFile file:subFile) {
+					fileRoot = contextRoot + "\\supportingFiles";
+					System.out.println(contextRoot);
+					File folder = new File(fileRoot);
+					if (!folder.exists()) {
+						folder.mkdir(); // 폴더 생성
+					}
+					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
+					String renameFile = sdf.format(new Date(System.currentTimeMillis()))+"."+originalFileName.substring(originalFileName.lastIndexOf(".")+1); 
+					String filePath = folder + "\\" +  renameFile;  
+					File targetFile = new File(fileRoot + renameFile);	
+					try {
+						InputStream fileStream = file.getInputStream();
+						FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
+						supFile.setFileName(originalFileName);
+						supFile.setFileReName(renameFile);
+						supFile.setFilePath(filePath);
+						fileResult += service.insertFile(supFile);
+					} catch (Exception e) {
+						//파일삭제
+						FileUtils.deleteQuietly(targetFile);	//저장된 현재 파일 삭제
+						e.printStackTrace();
+						break;
+					}
+				}
+			}
 			if(result > 0) {
-					return "redirect:presupportingList.pick";
+				return "redirect:presupportingList.pick";
 			}else {
 				model.addAttribute("msg", "서포팅 등록 실패");
 				return "supporting/supportError";
 			}
 		}catch(Exception e) {
+			e.printStackTrace();
 			model.addAttribute("msg", "서포팅 실패 : 관리자 문의");
 			return "supporting/supportError";
 		}
 	}
-	@ResponseBody
-	public String saveFile (@ModelAttribute SupFile file, MultipartFile uploadFile, HttpServletRequest request, Model model) {
-		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\SupportingFiles";
+	/**
+	 * 대표이미지 업로드
+	 * @param file
+	 * @param uploadFile
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	public String saveFile (
+			MultipartFile uploadFile
+			, Supporting supporting
+			, MultipartHttpServletRequest multiRequest) {
+		String root = multiRequest.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\supportingFiles";
 		File folder = new File(savePath);
+		System.out.println(savePath);
 		if(!folder.exists()) {
 			folder.mkdir();
 		}
+		String originalFileName = uploadFile.getOriginalFilename();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); 
-		String originalFileName = file.getFileName();
 		String renameFile = sdf.format(new Date(System.currentTimeMillis()))+"."+originalFileName.substring(originalFileName.lastIndexOf(".")+1); 
 		String filePath = folder + "\\" +  renameFile;  
-		file.setFileReName(renameFile);
-		file.setFilePath(filePath);
-		int result = service.insertFile(file);
-		if(result>0) {
-			try {
-				uploadFile.transferTo(new File(filePath));
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return renameFile;
-		}else {
-			model.addAttribute("msg", "file error");
-			return "redirect:presupportingList.pick";
+		try {
+			uploadFile.transferTo(new File(filePath));
+			supporting.setImgName(originalFileName);
+			supporting.setImgReName(renameFile);
+			supporting.setImgPath(filePath);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return renameFile;
 	}
-	
 	//서포팅 수정
 	@RequestMapping(value="supportingModify.pick", method=RequestMethod.GET)
 	public String modifySupporting(@ModelAttribute Supporting supporting, Model model) {
@@ -183,13 +241,60 @@ public class SupportingController {
 	}
 	
 	//서포팅 삭제
-	@RequestMapping(value="supportingDelete.pick", method=RequestMethod.GET)
-	public String deleteSupporting(@RequestParam("supNo") int supNo) {
+//	@ResponseBody 
+//	@RequestMapping(value="supportingDelete.pick", method=RequestMethod.GET)
+//	public Supporting deleteSupporitng(@RequestParam("supNo") int supNo, Model model) {
+//		int result = service.removeSupporting(supNo);
+//		if(result >  0) {
+//			
+//		}else {
+//			model.addAttribute("msg", "서포팅 삭제 실패!");
+//		}
+//	}
+	
+	//파일삭제
+	public String deleteFile(@RequestParam("supNo") int supNo, @RequestParam("fileNo") int fileNo, Model model) {
+	return null;	
+	}
+	//서포팅 
+	//public String addSupReply(@RequestParam("supNo") int supNo, HttpServeltRequest, Model model){
+		
+
+	//public String addSupReplyChild(int, HttpServletRequest, Model) 
+	//public String modifySupReply(int, Model, HttpServeltRequest)
+	//public String modifySupReplyChild(int, Model, HttpServletRequest)
+	//public String deleteSupReply(int, Model, HttpServletRequest
+	//public String deleteSupReplyChild(int, Model, HttpServletRequest)
+	//public String reportSupReply(SupReplyReport, Model, HttpServletRequest)
+	//서포팅 결제
+	public String getPayment(@ModelAttribute PaymentHistory ph, @RequestParam("supNo") int supNo, Model model) {
+		return null;
+	}
+	//모집중에서 진행중으로 이동
+	public String updateCategory(@RequestParam("supNo")int supNo, Model model){
+	 return null;
+	}
+	//서포팅 참여
+	public String addParticipation(@ModelAttribute SupParticipation sp, @RequestParam("supNo") int supNo, @RequestParam("userNo") int userNo) {
 		
 		return null;
 	}
-	
-	//파일삭제
-	
-	//서포팅 참여
+	//서폿 참여여부확인
+	public String checkParticipation(@RequestParam("supNo") int supNo, @RequestParam("partiwon") int partiwon, Model model) {
+		return null;
+	}
+	//서폿 참여취소
+	public String cancelParticipation(@RequestParam("supNo") int supNo, @RequestParam("partiwon") int partiwon, Model model) {
+		return null;
+	}
+	//서폿참여인원 +1 
+	 //updatePartiwon(int, int, Model) : String
+
+	public String updateCode(@RequestParam("supNo") int supNo, Model model){
+		return null;
+	}
+
+	public String checkPartiwon(@RequestParam("supNo") int supNo, Model model) {
+		return null;
+	}
 }

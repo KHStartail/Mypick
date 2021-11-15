@@ -44,14 +44,14 @@ public class SupportingStoreLogic implements SupportingStore{
 
 	@Override
 	public Supporting selectPreSupportingOne(int supNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Supporting supporting = sqlSession.selectOne("SupportingMapper.selectOneSupporting", supNo);
+		return supporting;
 	}
 
 	@Override
 	public Supporting selectSupportingOne(int supNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Supporting supporting  = sqlSession.selectOne("SupportingMapper.selectOnePreSupporting", supNo);
+		return supporting;
 	}
 
 	@Override
@@ -59,32 +59,34 @@ public class SupportingStoreLogic implements SupportingStore{
 		int result = sqlSession.insert("SupportingMapper.insertSupporting", supporting);
 		return result;
 	}
-
-	@Override
-	public int updateSupporting(Supporting supporting) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteSupporting(int supNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	@Override
 	public int insertFile(SupFile file) {
 		int result = sqlSession.insert("SupportingMapper.insertFile", file);
 		return result;
 	}
+
+	@Override
+	public int updateSupporting(Supporting supporting) {
+		int result = sqlSession.update("SupportingMapper.updateSupporting", supporting);
+		return result;
+	}
+
 	@Override
 	public int updateFile(SupFile file) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.update("SupportingMapper.updateFile", file);
+		return result;
 	}
+
 	@Override
-	public int deleteFile(int supNo, int fileNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteSupporting(int supNo) {
+		int result = sqlSession.delete("SupportingMapper.deleteSupporting", supNo);
+		return result;
+	}
+	
+	@Override
+	public int deleteFile(SupFile file) {
+		int result = sqlSession.delete("SupportingMapper.deleteFile",file);
+		return result;
 	}
 
 	@Override
@@ -106,7 +108,7 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 
 	@Override
-	public int deleteSupReply(int supReAllNo) {
+	public int deleteSupReply(SupReply supReply) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -124,7 +126,7 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 
 	@Override
-	public int deleteSupReplyChild(int supReAllNo) {
+	public int deleteSupReplyChild(SupReply supReply) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

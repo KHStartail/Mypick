@@ -21,19 +21,25 @@
  <script src="assets/air-datepicker/dist/js/datepicker.js"></script> <!-- Air datepicker js -->
  <script src="assets/air-datepicker/dist/js/lang/datepicker.ko.js"></script> <!-- 달력 한글 추가를 위해 커스텀 -->
 <style>
-body{
-	text-align : center;
-}
+	body{
+		text-align : center;
+	}
 	#f-btn{
 		width: 100px;
 		height: 50px;
+	}
+	#btn-mutiupload{
+		display:none;
+	}
+	#file-list{
+	
 	}
 </style>
 </head>
 <body>
 <jsp:include page="/header.jsp"></jsp:include>
 <h1>서포팅 등록</h1>
-	<form onsubmit="return test1()" action ="supportingRegister.pick" method="get" enctype="multipart/form-data">
+	<form name="dataForm" id="dataForm" onsubmit="return registerAction()" action ="supportingRegister.pick" method="post" enctype="multipart/form-data">
 		<table align="center" border="1">
 			<tr>
 				<td>제목</td>
@@ -75,9 +81,17 @@ body{
 				<td><textarea rows="7" cols="50"  name="supContents"></textarea></td>
 			</tr>
 			<tr>
-				<td>첨부파일</td>
-				<td><input type="file" name="uploadFile" onclick="fileCheck(this.form.uploadFile)"></td>
+				<td>대표이미지 파일</td>
+				<td><input id="mainFile" type="file" name="uploadFile"></td>
 			</tr>
+			<tr>
+				<td><span id="fileList">파일 추가 : 최대 5개까지 등록 가능합니다.</span></td>
+				<td><input id="btn-multiUpload" type="file" name="subFile" multiple="multiple">  
+			</tr>
+			<tr>
+				<td>이미지 미리보기</td>
+               <td class="img_wrap"></td>
+            </tr>
 			<tr>
 				<td colspan="2">
 					<input type="submit" id="submit" value="등록">
@@ -108,26 +122,67 @@ body{
 		    timeFormat: "hh:ii AA"
 	}); 
 	
+
+	//파일 현재 필드 숫자 totalCount랑 비교값
+//	var fileCount = 0;
+	//해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
+//	var totalCount = 5;
+	//파일 고유넘버/
+//	var fileNum = 0;
+//	//첨부파일 배열
+//	var list = new Array();//
+
+//	function fileCheck(e) {
+//		var files = e.target.files;
+//		
+//		// 파일 배열 담기
+//		var filesArr = Array.prototype.slice.call(files);
+	///call()은 상위 context를 변경하는 메소드, arguments는 함수의 매개변수에 접근할 수 있는 속성
 	
-	function test1(){
+		// 파일 개수 확인 및 제한
+//		if (fileCount + filesArr.length > totalCount) {
+//			$.alert('파일은 최대 '+totalCount+'개까지 업로드 할 수 있습니다.');
+//			return;
+//		} else {
+//		 fileCount = fileCount + filesArr.length;
+//		}//
+
+		// 각각의 파일 배열담기 및 기타
+//		filesArr.forEach(function (f) {
+//		var reader = new FileReader();
+//		reader.onload = function (e) {
+//		file-list.push(f);
+//		$('#fileUpload').append(
+//				'<div id="removeFile' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
+//				+ '<font style="font-size:12px">' + f.name + '</font>'  
+//				+ '<img src="/img/icon_minus.png" style="width:20px; height:auto; vertical-align: middle; cursor: pointer;"/>' 
+//				+ '<div/>'
+//		);
+//		fileNum ++;
+///		};
+//		reader.readAsDataURL(f);
+//		});
+//		console.log(fileList);
+//		//초기화 한다.
+//		$("#fileUpload").val("");
+//		}/
+
+		//파일 부분 삭제 함수
+//		function fileDelete(fileNum){
+//	/		var no = fileNum.replace(/[^0-9]/g, "");
+//			fileList[no].is_delete = true;
+//			$('#' + fileNum).remove();
+//			fileCount --;
+//			console.log(fileList);
+//		}
+//	 
+	function registerAction(){
 		//서포팅 날짜
 		var scheduleCheck = /[^0-9]/g;
 		var scheduleDateVal = $("#datepicker").val();
 		var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
 		console.log(scheduleDate);
 		$("#scheduleDate").val(scheduleDate);
-		/* if(scheduleDateVal.indexOf("AM")){
-			var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
-			console.log(scheduleDate);
-			$("#scheduleDate").val(scheduleDate);
-			return false;
-		}else if(scheduleDate.indexOf("PM")){
-			var scheduleDate = scheduleDateVal.replace(scheduleCheck, "");
-			var transPM = scheduleDate+1200;
-			console.log(transPM);
-			$("#scheduleDate").val(transPM);
-			return false;
-		}  */
 		
 		//서포팅 기간 시작일, 마감일 나누기
 		var during = $("#during").val();
@@ -136,7 +191,45 @@ body{
 		$("#supStartDate").val(sDateVal);
 		$("#supEndDate").val(eDateVal);
 		
-	}
+		//다중파일부분
+	//	var form = $("#dataForm")[0];        
+	// 	var formData = new FormData(form);
+	//		for (var i = 0; i < fileList.length; i++) {
+	//			// 삭제 안한것만 담아 준다. 
+	//			if(fileList[i].is_delete){
+	//				 formData.append("fileList", fileList[i]);
+//				}
+	//		}
+			
+		}
+		
+
+//
+//		//대표파일 첨부 제한/
+//		function fileCheck(uploadFile){
+//			 max : 1,
+//			 maxfile : 1024,
+//			 maxsize: 1024,//
+//			 STRING : {
+//				 selected : "$file을 선택했습니다.",
+//				 description : "대표이미지 업로드 파일은 1개만 가능합니다.",
+//				 toomuch : "업로드 할 수 있는 최대 크기를 초과하였습니다($size)",
+//				 toobig: "$file은 크기가 커서 업로드 할 수 없습니다.(max $size)",
+//			 },
+//	 	});
+	
+	/* if(scheduleDateVal.indexOf("AM")){
+	var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
+	console.log(scheduleDate);
+	$("#scheduleDate").val(scheduleDate);
+	return false;
+}else if(scheduleDate.indexOf("PM")){
+	var scheduleDate = scheduleDateVal.replace(scheduleCheck, "");
+	var transPM = scheduleDate+1200;
+	console.log(transPM);
+	$("#scheduleDate").val(transPM);
+	return false;
+}  */
 //		var DateCheck = /[^0-9]/g;
 //		var supStartDate = sDateVal.replace(DateCheck,"");
 //		var supEndDate = eDateVal.replace(DateCheck,""); //2021/11/03
@@ -197,11 +290,9 @@ body{
 	            }
 	        });
  */
-	    
-	        
-	//파일 첨부 제한
-	function fileCheck(uploadFile){
-        // 사이즈체크
+ 	
+ 	
+       /*  // 사이즈체크
         var maxSize  = 5 * 1024 * 1024    //30MB
         var fileSize = 0;
 	
@@ -223,7 +314,7 @@ body{
             return;
         }
         document.fileForm.submit();
-	}
+	} */
 	
   	
 </script>

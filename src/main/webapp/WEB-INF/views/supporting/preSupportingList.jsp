@@ -115,23 +115,23 @@
         	<!-- list로 내용불러오기 
         	이미지 경로설정, 리스트 가로세로 3개씩 총 한번에 9개 한 슬라이드에 넣기
         	-->
+ 		<c:forEach items="${pList}" var="Supporting">
         	<div class="col-4">
 	        	<div class="card">
 				   	<div class="card-body">
-		        		<h4 class="card-title"><a href="${psDetail }">${Supporting.supTitle }</a></h4>
-					   	<c:forEach items="${pList}" var="presupportingList.pick">
-				    	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="IMG">
-				    	<div class="percentBox"></div><br>
-				    	<p class="card-text">
-					    	<c:url var="psDetail" value="presupportingDetail.pick">
-								<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-							</c:url>
-				    	</p>
-				    	<a href="getParticipation.pick" class="btn-p">참여하기</a>
-						</c:forEach>
+		        			<h3 class="card-title"><a href="${psOne }">${Supporting.supTitle }</a></h3>
+					    	<img src="/resources/supportingFiles/${Supporting.imgReName }" alt="IMG">
+					    	<div class="percentBox"></div><br>
+					    	<p class="card-text">
+						    	<c:url var="psOne" value="presupportingDetail.pick">
+									<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+								</c:url>
+					    	</p>
+					    	<a href="getParticipation.pick" class="btn-p">참여하기</a>
 					</div>
 				</div>
 			</div>
+					</c:forEach>
         </div>
         <div class="swiper-slide">
         Slide 2

@@ -5,7 +5,6 @@ public class SupFile {
 	private int supNo;
 	private String fileName;
 	private String fileReName;
-	private long fileSize;
 	private String filePath;
 	
 	public SupFile() {};
@@ -35,12 +34,6 @@ public class SupFile {
 	public void setFileReName(String fileReName) {
 		this.fileReName = fileReName;
 	}
-	public long getFileSize() {
-		return fileSize;
-	}
-	public void setFileSize(long fileSize) {
-		this.fileSize = fileSize;
-	}
 	public String getFilePath() {
 		return filePath;
 	}
@@ -51,6 +44,6 @@ public class SupFile {
 	@Override
 	public String toString() {
 		return "SupFile [fileNo=" + fileNo + ", supNo=" + supNo + ", fileName=" + fileName + ", fileReName="
-				+ fileReName + ", fileSize=" + fileSize + ", filePath=" + filePath + "]";
+				+ fileReName +  ", filePath=" + filePath + "]";
 	}
 }
