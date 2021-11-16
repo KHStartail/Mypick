@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Reply;
+import com.pick.my.community.domain.Community_Report_Reply;
 import com.pick.my.community.domain.Heart;
 import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.service.CommunityService;
@@ -167,5 +168,18 @@ public class CommunityServiceImpl implements CommunityService{
 		int result = store.deleteHeartCount(postNo);
 		return result;
 	}
+
+	@Override
+	public int registerReplyReport(Community_Report_Reply reply) {
+		int result = store.insertReplyReport(reply);
+		return result;
+	}
+
+	@Override
+	public Community_Report_Reply doubleReport(Community_Report_Reply report) {
+		report = store.doubleReport(report);
+		return report;
+	}
+
 
 }

@@ -83,10 +83,12 @@
 	<div class="All">
 		<div class="poto">
 			<c:if test="${empty file }">
-				<li><input type="radio" id="slide1" name="slide" checked>
-					<label for="slide1"></label> <img
-					src="https://dribbble.s3.amazonaws.com/users/322/screenshots/872485/coldchase.jpg"
-					alt="Panel 1"></li>
+				<ul class="slider" style="float: left;">
+						<li><input type="radio" id="slide1"
+							name="slide" checked> <label for="slide1"></label>
+							<img src="/resources/idolImg/no_img.png"
+							alt="Panel1" style="width: 200%; box-shadow: 4px 4px 3px #666;"></li>
+				</ul>
 			</c:if>
 			<c:if test="${not empty file }">
 				<ul class="slider" style="float: left;">
@@ -97,7 +99,6 @@
 							alt="Panel ${index.count }" style="width: 200%; box-shadow: 4px 4px 3px #666;"></li>
 					</c:forEach>
 				</ul>
-
 			</c:if>
 		</div>
 		<div class="board">
@@ -119,15 +120,19 @@
 				name="fileName">
 		</c:forEach>
 		<input type="hidden" value="${post.postNo }" id="postNo" name="postNo">
-		<table id="table" style="margin-left: 5%; margin-top: -10%;">
+		<table id="table" style="margin-left: 5%;">
 			<tr>
 				<td>
-				작성자 : ${post.userId } 작성일 : ${post.updateDate }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				작성자 : ${post.userNickName } 작성일 : ${post.updateDate }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<c:if test ="${loginUser.userId eq post.userId}">
 				<c:url var="cModify" value="modifyView.pick">
 						<c:param name="postNo" value="${post.postNo }"></c:param>
 					</c:url> <a class="btn btn-primary" href="${cModify }">수정하기</a> <input
 					type="submit" class="btn btn-primary" value="삭제하기">
+					</c:if>
+						<c:if test ="${loginUser.userId ne post.userId}">
 					<a class="btn btn-primary" onclick="report(${post.postNo });">신고하기</a> 
+					</c:if>
 					
 				</td>
 			</tr>
@@ -147,6 +152,7 @@
 				<td class="list-group-item" ><textarea id="summernote" 
 						name="content" id="content" onclick="onScript();" rows="5" cols="140" ></textarea>
 					<button type="button" id="rSubmit" class="btn btn-dark mt-3">댓글작성</button>
+					<input type="hidden" value="${loginUser.userId }" id="loginUser">
 				<hr>
 				</td>
 				</tr>
@@ -214,6 +220,7 @@
 	
 		<script>
 	$(window).on('load',function(){
+	console.log('안들어가짐?')
 	getReplyList();		
 
 	$("#rSubmit").on("click",function(){
@@ -262,15 +269,22 @@
 					var $rWriter;
 					var $rContent;
 					var $rCreateDate;
-					var $btnArea;									
+					var $btnArea;	
+					var $loginUser = $("#loginUser").val();
 					$("#rCount").text("댓글("+data.length+")"); // 댓글 갯수
 					if(data.length > 0){
 						for(var i in data){
 							$tr = $("<tr id='modifyTr' class='list-group list-group-flush'>");
 							$rWriter = $("<td style='font-weight : bold' colspan='4'>").text('작성자 : '+data[i].userNickName);
+							<c:if test ="${loginUser.userId ne data[i].userId}"> 
 							$btnArea = $("<td colspan='4' align='right'>").append("<a href='#' onclick='modifyReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>수정</a>").append("<a href='#' onclick='removeReply("+postNo+","+data[i].replyAllNo+")'>삭제</a>");
+							</c:if>
+							if($loginUser != data[i].userId){
+							$btnArea = $("<td colspan='4' align='right'>").append("<a href='#' onclick='reportReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>신고</a>");
+							}
 							$rCreateDate = $("<td style='font-size : 20px' align='right'>").text(data[i].replyDate);												
 							$rContent = $("<td class='list-group-item'>").html(data[i].replyContents+'<hr>');
+							
 							$tr.append($rWriter);
 							$tr.append($rCreateDate);
 							$tr.append($btnArea);
@@ -286,7 +300,29 @@
 			})
 		}
 	});
-
+	function reportReply(obj,postNo,replyAllNo,replyContents){
+		$.ajax({
+			url : "reportReply.pick",
+			type : "get",
+			data : {
+				"postNo" : postNo,
+				"replyAllNo" : replyAllNo,
+				"replyContents" : replyContents
+			},
+			success : function(data){
+				if(data == "success"){
+					alert("신고되었습니다.")
+				}else{
+					
+					alert("이미 신고하셨습니다.")
+					location.reload();
+				}
+			},error : function(request, status, error){
+				alert("로그인이후 이용해주세요.")
+				location.reload();
+			}
+		})
+	}
 	function modifyReply(obj,postNo,replyAllNo,replyContents){
 			  if($('#thead').css('display') == 'none'){
 		            $('#thead').show();
@@ -300,6 +336,7 @@
 		.append("<td><button class='btn btn-dark mt-3' onclick='modifyReplyCommit("+postNo+","+replyAllNo+")'>수정</button></td>");
 		$(obj).parent().parent().after($trModify);
 	}
+
 	
 	function modifyReplyCommit(postNo,replyAllNo){
 		var content = $("#content").val();
@@ -355,6 +392,7 @@
 		});
 	} 
 	// 하트
+	
 	var heartval = ${heart};
 
         if(heartval>0) {
@@ -385,14 +423,12 @@
                     else{
                         $('#heart').prop("src","/resources/img/Black.png");
                     }
-
-
                 }
             });
         });
-        function report(postNo){
-        	$postNo = 
-        } 
+ 
+        
+        
 	</script>
 </footer>
 </html>

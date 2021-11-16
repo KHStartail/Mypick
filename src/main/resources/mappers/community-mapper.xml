@@ -7,12 +7,12 @@
 		<id property="postNo" column="POST_NO"></id>
 		<result property="groupNo" column="GROUP_NO" />
 		<result property="userId" column="MEMBER_ID" />
+		<result property="userNickName" column="MEMBER_NICKNAME" />
 		<result property="postTitle" column="POST_TITLE" />
 		<result property="postContents" column="POST_CONTENTS" />
 		<result property="viewsCount" column="VIEWS_COUNT" />
 		<result property="createDate" column="CREATE_DATE" />
 		<result property="updateDate" column="UPDATE_DATE" />
-		<result property="userNickName" column="MEMBER_NICKNAME" />
 		<result property="status" column="STATUS" />
 		<result property="heartCount" column="HEART_COUNT" />
 	</resultMap>
@@ -40,6 +40,16 @@
 		<result property="userId" column="MEMBER_ID" />
 		<result property="postNo" column="POST_NO" />
 	</resultMap>
+	<resultMap type="rReport" id="rReportResultMap">
+		<id property="reportNo" column="REPORT_NO"></id>
+		<result property="userId" column="MEMBER_ID" />
+		<result property="replyAllNo" column="REPLY_ALLNO" />
+		<result property="rStatus" column="R_STATUS" />
+		<result property="replyContents" column="REPLYCONTETNS" />
+		<result property="postNo" column="POST_NO" />
+	</resultMap>
+
+
 
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*) FROM
@@ -93,17 +103,20 @@
 		HEART WHERE POST_NO = #{postNo} AND MEMBER_ID =
 		#{userId}
 	</select>
+	<select id="doubleReport" resultMap="rReportResultMap">
+	SELECT * FROM COMMUNITY_REPLY_REPORT WHERE MEMBER_ID = #{userId} AND REPLY_ALLNO = #{replyAllNo}
+	</select>
 	<insert id="uploadFile" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
-		VALUES(SEQ_FILE.NEXTVAL,'user01',#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
+		VALUES(SEQ_FILE.NEXTVAL,#{userId},#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
 	</insert>
 	<insert id="insertPost" parameterType="Post">
 		INSERT INTO COMMUNITY_POST
-		VALUES(SEQ_POST.NEXTVAL,0,'user01','김제탈',#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
+		VALUES(SEQ_POST.NEXTVAL,0,#{userId},#{userNickName},#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
 	</insert>
 	<insert id="reUpload" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
-		VALUES(SEQ_FILE.NEXTVAL,'user01',#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
+		VALUES(SEQ_FILE.NEXTVAL,#{userId},#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
 	</insert>
 	<insert id="insertReply" parameterType="Reply">
 		INSERT INTO
@@ -115,11 +128,17 @@
 		set VIEWS_COUNT = VIEWS_COUNT + 1 WHERE POST_NO = #{postNo}
 	</insert>
 	<insert id="insertLike" parameterType="Heart">
-		INSERT INTO HEART VALUES (SEQ_HEART.NEXTVAL,'홍길동',#{postNo})
+		INSERT INTO HEART VALUES
+		(SEQ_HEART.NEXTVAL,#{userId},#{postNo})
 	</insert>
 	<insert id="insertHeart" parameterType="Post">
 		UPDATE COMMUNITY_POST
-		SET HEART_COUNT = HEART_COUNT + 1 WHERE POST_NO = #{postNo}
+		SET
+		HEART_COUNT = HEART_COUNT + 1 WHERE POST_NO = #{postNo}
+	</insert>
+
+	<insert id="insertReplyReport" parameterType="rReport">
+	INSERT INTO COMMUNITY_REPLY_REPORT VALUES(SEQ_REPORT.NEXTVAL,#{userId},#{replyAllNo},DEFAULT,#{replyContents},#{postNo})
 	</insert>
 
 	<delete id="deletePost" parameterType="_int">
@@ -156,14 +175,15 @@
 		SET REPLY_CONTENTS = #{replyContents},REPLY_DATE = DEFAULT WHERE
 		REPLY_ALLNO = #{replyAllNo}
 	</update>
-		<delete id="deleteHeart" parameterType="Heart">
-            DELETE FROM HEART
-            WHERE POST_NO = #{postNo} AND MEMBER_ID = '홍길동'
-        </delete>
-        <delete id="deleteHeartCount" parameterType="Post">
-        UPDATE COMMUNITY_POST
-		SET HEART_COUNT = HEART_COUNT - 1 WHERE POST_NO = #{postNo}
-        </delete>
+	<delete id="deleteHeart" parameterType="Heart">
+		DELETE FROM HEART
+		WHERE POST_NO = #{postNo} AND MEMBER_ID = #{userId}
+	</delete>
+	<delete id="deleteHeartCount" parameterType="Post">
+		UPDATE COMMUNITY_POST
+		SET HEART_COUNT = HEART_COUNT - 1 WHERE POST_NO =
+		#{postNo}
+	</delete>
 
 </mapper>
   

@@ -30,10 +30,12 @@ import com.google.gson.JsonIOException;
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Reply;
+import com.pick.my.community.domain.Community_Report_Reply;
 import com.pick.my.community.domain.Heart;
 import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.domain.Pagination;
 import com.pick.my.community.service.CommunityService;
+import com.pick.my.member.domain.Member;
 
 
 @Controller
@@ -45,11 +47,14 @@ public class CommunityController {
 	@RequestMapping(value = "upload.pick", method = RequestMethod.POST)
 	public String fileUpload(
 			@RequestParam("article_file") List<MultipartFile> multipartFile
-			, HttpServletRequest request,Community_File File,Community_Post post) {
+			, HttpServletRequest request,Community_File File,Community_Post post,HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		String postContents = request.getParameter("contents");
 		String postTitle = request.getParameter("postTitle");
 		post.setPostContents(postContents);
 		post.setPostTitle(postTitle);
+		post.setUserId(loginUser.getUserId());
+		post.setUserNickName(loginUser.getUserNickName());
 		int result = service.registerCoummunityPost(post);
 		Community_Post postNo = service.printCommunityPostNo(post);
 		String strResult = "{ \"result\":\"FAIL\" }";
@@ -73,6 +78,7 @@ public class CommunityController {
 					try {
 						InputStream fileStream = file.getInputStream();
 						FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
+						File.setUserId(loginUser.getUserId());
 						File.setFileName(file.getOriginalFilename());
 						File.setFileRename(savedFileName);
 						File.setFileSize(file.getSize());
@@ -141,45 +147,52 @@ public class CommunityController {
 	public ModelAndView detailView(HttpServletResponse response,HttpServletRequest request,ModelAndView mv, @RequestParam("postNo") int postNo, HttpSession session) {
 		Community_Post communityPost = service.printOnePost(postNo);
 		List<Community_File> file = service.printOnePostFile(postNo);
+		Member loginUser = (Member)session.getAttribute("loginUser");
         // 해당 게시판 번호를 받아 리뷰 상세페이지로 넘겨줌
-        Cookie[] cookies = request.getCookies();
-       
-        // 비교하기 위해 새로운 쿠키
-        Cookie viewCookie = null;
- 
-        // 쿠키가 있을 경우 
-        if (cookies != null && cookies.length > 0) 
-        {
-            for (int i = 0; i < cookies.length; i++)
-            {
-                // Cookie의 name이 cookie + postNo와 일치하는 쿠키를 viewCookie에 넣어줌 
-                if (cookies[i].getName().equals("cookie"+postNo))
-                { 
-                    viewCookie = cookies[i];
-                }
-            }
-        }
-        if (viewCookie == null) {    
-            // 쿠키 생성(이름, 값)
-            Cookie newCookie = new Cookie("cookie"+postNo, "|" + postNo + "|");
-            // 쿠키 추가
-            response.addCookie(newCookie);
-            // 쿠키를 추가 시키고 조회수 증가시킴
-            int result = service.addReadCount(postNo);
-        }else {
-                // 쿠키 값 받아옴.
-                String value = viewCookie.getValue();
-            }
+		 Cookie[] cookies = request.getCookies();
+	       
+	        // 비교하기 위해 새로운 쿠키
+	        Cookie viewCookie = null;
+	 
+	        // 쿠키가 있을 경우 
+	        if (cookies != null && cookies.length > 0) 
+	        {
+	            for (int i = 0; i < cookies.length; i++)
+	            {
+	                // Cookie의 name이 cookie + postNo와 일치하는 쿠키를 viewCookie에 넣어줌 
+	                if (cookies[i].getName().equals("cookie"+postNo))
+	                { 
+	                    viewCookie = cookies[i];
+	                }
+	            }
+	        }
+	        if (viewCookie == null) {    
+	            // 쿠키 생성(이름, 값)
+	            Cookie newCookie = new Cookie("cookie"+postNo, "|" + postNo + "|");
+	            // 쿠키 추가
+	            response.addCookie(newCookie);
+	            // 쿠키를 추가 시키고 조회수 증가시킴
+	            int result = service.addReadCount(postNo);
+	        }else {
+	                // 쿠키 값 받아옴.
+	                String value = viewCookie.getValue();
+	            }
         Heart heart = new Heart();
         heart.setPostNo(postNo);
-        String userId = "홍길동";
-        heart.setUserId(userId);
-        int result = service.printHeart(heart);
+
+        
+        if(loginUser != null) {
+            heart.setUserId(loginUser.getUserId());
+            int result = service.printHeart(heart);
+            mv.addObject("heart",result);
+        }else {
+        	mv.addObject("heart",0);
+        }
 		if(!file.isEmpty()) {
 			if(communityPost != null) {
 				mv.addObject("post",communityPost);
 				mv.addObject("file",file);
-				mv.addObject("heart",result);
+				
 				mv.setViewName("community/detail");
 			}else {
 				mv.addObject("msg","게시글 상세조회 실패");
@@ -321,11 +334,14 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value = "Register.pick", method = RequestMethod.GET)
-	public String postRegister (Model model,HttpServletRequest request,Community_Post post) {
+	public String postRegister (Model model,HttpServletRequest request,Community_Post post,HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		String postContents = request.getParameter("contents");
 		String postTitle = request.getParameter("title");
 		post.setPostContents(postContents);
 		post.setPostTitle(postTitle);
+		post.setUserId(loginUser.getUserId());
+		post.setUserNickName(loginUser.getUserNickName());
 		int result = service.registerCoummunityPost(post);
 		if(result>0) {
 			return "redirect:mainView.pick";
@@ -419,8 +435,9 @@ public class CommunityController {
 	@ResponseBody 
 	@RequestMapping(value="addReply.pick",method=RequestMethod.POST)
 	public String addReply(@ModelAttribute Community_Reply reply, HttpSession session) {
-		reply.setUserId("user01");
-		reply.setUserNickName("홍길동");
+		 Member loginUser = (Member)session.getAttribute("loginUser");
+		reply.setUserId(loginUser.getUserId());
+		reply.setUserNickName(loginUser.getUserNickName());
 		int result = service.registerReply(reply);
 		if(result > 0) {
 			return "success";
@@ -487,11 +504,13 @@ public class CommunityController {
 
 		@ResponseBody
 	    @RequestMapping(value = "heart.pick", method = RequestMethod.POST, produces = "application/json")
-	    public int heart(HttpServletRequest httpRequest) throws Exception {
+	    public int heart(HttpServletRequest httpRequest,HttpSession session) throws Exception {
 	        int heart = Integer.parseInt(httpRequest.getParameter("heart"));
 	        int postNo = Integer.parseInt(httpRequest.getParameter("postNo"));
 	        Heart Heart = new Heart();
+			 Member loginUser = (Member)session.getAttribute("loginUser");
 	        Heart.setPostNo(postNo);
+	        Heart.setUserId(loginUser.getUserId());
 	        System.out.println(heart);
 	        if(heart >= 1) {
 	            service.removeHeart(Heart);
@@ -504,6 +523,30 @@ public class CommunityController {
 	        }
 	        return heart;
 	    }
+		@ResponseBody
+		@RequestMapping(value = "reportReply.pick")
+		public String reportReply(HttpSession session,@RequestParam("postNo")int postNo,@RequestParam("replyContents")String replyContents,@RequestParam("replyAllNo")int replyAllNo,Community_Report_Reply report) {
+			 Member loginUser = (Member)session.getAttribute("loginUser");
+			 String answer = "success";
+			report.setReplyContents(replyContents);
+			report.setReplyAllNo(replyAllNo);
+			report.setPostNo(postNo);
+			report.setUserId(loginUser.getUserId());
+			Community_Report_Reply report2 = service.doubleReport(report);
+			int result = 0;
+			if(report2 != null) {
+				System.out.println("중복방지성공");
+				 answer = "error";
+			}else {
+				result = service.registerReplyReport(report);
+				 answer = "success";
+			}
+			if(result > 0 ) {
+				return answer;
+			}else {
+				return answer;
+			}
+		}
 		
 		
 	}
