@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.pick.my.common.PageInfo;
 import com.pick.my.goods.domain.Goods;
+import com.pick.my.goods.domain.GoodsFile;
+import com.pick.my.goods.domain.GoodsPayment;
+import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
 import com.pick.my.goods.service.GoodsService;
 import com.pick.my.goods.store.GoodsStore;
@@ -65,5 +68,91 @@ public class GoodsServiceImpl implements GoodsService{
 		
 		return searchList;
 	}
+
+	@Override
+	public int registerReview(Review review) {
+		int result = store.insertReview(review);
+		
+		return result;
+	}
+
+	@Override
+	public List<Review> showReviewList(int goodsNo) {
+		List<Review> rList = store.selectReview(goodsNo);
+		
+		return rList;
+	}
+
+	@Override
+	public int removeReview(int revNo) {
+		int result = store.deleteReview(revNo);
+		
+		return result;
+	}
+
+	@Override
+	public int modifyReview(Review review) {
+		int result = store.updateReview(review);
+		
+		return result;
+	}
+
+	@Override
+	public int insertReply(Review review) {
+		int result = store.registerReply(review);
+		
+		return result;
+	}
+
+	@Override
+	public List<Review> showReplyList(int goodsNo) {
+		List<Review> reList = store.selectReply(goodsNo);
+		
+		return reList;
+	}
+
+	@Override
+	public int removeReply(int revNo) {
+		int result = store.deleteReply(revNo);
+		
+		return result;
+	}
+
+	@Override
+	public int modifyReply(Review review) {
+		int result = store.updateReply(review);
+		
+		return result;
+	}
+
+	@Override
+	public int insertSubFile(GoodsFile File) {
+		int result = store.insertSubFile(File);
+		
+		return result;
+	}
+
+	@Override
+	public List<GoodsFile> showFileList(int goodsNo) {
+		List<GoodsFile> fList = store.showFileList(goodsNo);
+		
+		return fList;
+	}
+
+	@Override
+	public int updateFileList(GoodsFile subImg) {
+		int fileResult = store.updateFileList(subImg);
+		
+		return fileResult;
+	}
+
+	@Override
+	public int registerPayInfo(GoodsPayment pay) {
+		int result = store.insertPayInfo(pay);
+		
+		return result;
+	}
+
+
 
 }

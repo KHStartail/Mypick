@@ -10,6 +10,9 @@ public class Review {
 	private int revStar;
 	private String imgPath;
 	private long imgSize;
+	private int goodsNo;
+	private String userId;
+	private int replyNo;
 	
 	public Review() {}
 
@@ -61,11 +64,49 @@ public class Review {
 		this.imgSize = imgSize;
 	}
 
+	
+	
+	public int getGoodsNo() {
+		return goodsNo;
+	}
+
+	public void setGoodsNo(int goodsNo) {
+		this.goodsNo = goodsNo;
+	}
+
+	
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
+	
+
+	public int getReplyNo() {
+		return replyNo;
+	}
+
+	public void setReplyNo(int replyNo) {
+		this.replyNo = replyNo;
+	}
+
 	@Override
 	public String toString() {
 		return "Review [revNo=" + revNo + ", revContents=" + revContents + ", revDate=" + revDate + ", revStar="
-				+ revStar + ", imgPath=" + imgPath + ", imgSize=" + imgSize + "]";
+				+ revStar + ", imgPath=" + imgPath + ", imgSize=" + imgSize + ", goodsNo=" + goodsNo + ", userId="
+				+ userId + ", replyNo=" + replyNo + "]";
 	}
+
+	
+	
+
+
+
+	
 	
 	
 }

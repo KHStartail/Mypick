@@ -16,6 +16,7 @@ public class Goods {
 	private String idolName;
 	private String groupName;
 	private String goodsIntro;
+	private String goodsAmount;
 	
 	
 	public Goods() {}
@@ -141,14 +142,29 @@ public class Goods {
 		this.goodsIntro = goodsIntro;
 	}
 
+	
+	
+
+	public String getGoodsAmount() {
+		return goodsAmount;
+	}
+
+
+	public void setGoodsAmount(String goodsAmount) {
+		this.goodsAmount = goodsAmount;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Goods [goodsNo=" + goodsNo + ", goodsName=" + goodsName + ", goodsPrice=" + goodsPrice + ", uploadDate="
 				+ uploadDate + ", imgSize=" + imgSize + ", imgPath=" + imgPath + ", userId=" + userId + ", idolNo="
 				+ idolNo + ", goodsContents=" + goodsContents + ", idolName=" + idolName + ", groupName=" + groupName
-				+ ", goodsIntro=" + goodsIntro + "]";
+				+ ", goodsIntro=" + goodsIntro + ", goodsAmount=" + goodsAmount + "]";
 	}
+
+
+
 
 
 

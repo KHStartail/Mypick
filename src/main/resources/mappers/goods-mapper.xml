@@ -11,11 +11,44 @@
 		<result property="imgSize" column="IMG_SIZE"/>
 		<result property="imgPath" column="IMG_PATH"/>
 		<result property="userId" column="USER_ID"/>
-		<result property="idolNo" column="IDOL_NO"/>
 		<result property="goodsContents" column="GOODS_CONTENTS"/>
 		<result property="idolName" column="IDOL_NAME"/>
 		<result property="groupName" column="GROUP_NAME"/>
 		<result property="goodsIntro" column="GOODS_INTRO"/>
+		<result property="goodsAmount" column="GOODS_AMOUNT"/>
+	</resultMap>
+	<resultMap type="Review" id="reviewResultMap">
+		<id property="revNo" column="REV_NO"/>
+		<result property="revContents" column="REV_CONTENTS"/>
+		<result property="revDate" column="REV_DATE"/>
+		<result property="revStar" column="REV_STAR"/>
+		<result property="imgPath" column="IMG_PATH"/>
+		<result property="imgSize" column="IMG_SIZE"/>
+		<result property="goodsNo" column="GOODS_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="replyNo" column="REPLY_NO"/>
+	</resultMap>
+	<resultMap type="GoodsFile" id="fileResultMap">
+		<id property="imgNo" column="IMG_NO"/>
+		<result property="imgSize" column="IMG_SIZE"/>	
+		<result property="imgPath" column="IMG_PATH"/>	
+		<result property="goodsNo" column="GOODS_NO"/>	
+		<result property="imgName" column="IMG_NAME"/>	
+		<result property="imgReName" column="IMG_RENAME"/>	
+		<result property="userId" column="USER_ID"/>	
+	</resultMap>
+	<resultMap type="GoodsPayment" id="paymentResultMap">
+		<id property="goodsNo" column="GOODS_NO"/>
+		<result property="goodsAmount" column="GOODS_AMOUNT"/>	
+		<result property="goodsPrice" column="GOODS_PRICE"/>	
+		<result property="goodsDelivery" column="GOODS_DELIVERY"/>	
+		<result property="userId" column="USER_ID"/>	
+		<result property="userName" column="USER_NAME"/>	
+		<result property="userAddr" column="USER_ADDR"/>	
+		<result property="userPhone" column="USER_PHONE"/>	
+		<result property="userEmail" column="USER_EMAIL"/>	
+		<result property="userMsg" column="USER_MSG"/>	
+		<result property="paymentDate" column="PAYMENT_DATE"/>	
 	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
@@ -24,6 +57,10 @@
 	
 	<select id="selectAllList" resultMap="goodsResultMap">
 		SELECT * FROM GOODS ORDER BY GOODS_NO DESC
+	</select>
+	
+	<select id="selectFileList" resultMap="fileResultMap">
+		SELECT * FROM GOODS_FILE WHERE GOODS_NO = #{goodsNo} ORDER BY IMG_NO DESC
 	</select>
 	
 	<select id="selectOneGoods" resultMap="goodsResultMap">
@@ -48,8 +85,16 @@
 		</if>
 	</select>
 	
+	<insert id="insertPayInfo" parameterType="GoodsPayment">
+		INSERT INTO GOODS_PAYMENT VALUES(#{goodsNo},#{goodsAmount},#{goodsPrice},#{goodsDelivery},#{userId},#{userName},#{userAddr},#{userPhone},#{userEmail},#{userMsg},DEFAULT)
+	</insert>
+	
 	<insert id="insertGoods" parameterType="Goods">
-		INSERT INTO GOODS VALUES(SEQ_GOODS.NEXTVAL,#{goodsName},#{goodsPrice},SYSDATE,#{imgSize},#{imgPath},'user01',1,#{goodsContents},#{idolName},#{groupName},#{goodsIntro})
+		INSERT INTO GOODS VALUES(SEQ_GOODS.NEXTVAL,#{goodsName},#{goodsPrice},SYSDATE,#{imgSize},#{imgPath},#{userId},#{goodsContents},#{idolName},#{groupName},#{goodsIntro},#{goodsAmount})
+	</insert>
+	
+	<insert id="insertSubFile" parameterType="GoodsFile">
+		INSERT INTO GOODS_FILE VALUES(SEQ_GOODS_FILE.NEXTVAL,#{imgSize},#{imgPath},SEQ_GOODS.CURRVAL,#{imgName},#{imgReName},#{userId})
 	</insert>
 	
 	<delete id="deleteGoods">
@@ -58,5 +103,42 @@
 	
 	<update id="updateGoods" parameterType="Goods">
 		UPDATE GOODS SET GOODS_NAME=#{goodsName}, GOODS_PRICE=#{goodsPrice},UPLOAD_DATE=DEFAULT, IMG_SIZE=#{imgSize}, IMG_PATH=#{imgPath}, GOODS_CONTENTS=#{goodsContents},IDOL_NAME=#{idolName},GROUP_NAME=#{groupName},GOODS_INTRO=#{goodsIntro} WHERE GOODS_NO = #{goodsNo}
+	</update>
+	
+	<update id="updateFileList" parameterType="GoodsFile">
+		INSERT INTO GOODS_FILE VALUES(SEQ_GOODS_FILE.NEXTVAL,#{imgSize},#{imgPath},#{goodsNo},#{imgName},#{imgReName},#{userId})
+	</update>
+	
+	
+	<insert id="insertReview" parameterType="Review">
+		INSERT INTO REVIEW VALUES(SEQ_REVIEW.NEXTVAL,#{revContents},DEFAULT,#{revStar},#{imgPath},#{imgSize},#{goodsNo},#{userId},DEFAULT)
+	</insert>
+	
+	<select id="selectReview" resultMap="reviewResultMap">
+		SELECT * FROM REVIEW WHERE GOODS_NO = #{goodsNo} AND REPLY_NO IS NULL
+	</select>
+	
+	<delete id="deleteReview">
+		DELETE FROM REVIEW WHERE REV_NO = #{revNo}
+	</delete>
+	
+	<update id="updateReview">
+		UPDATE REVIEW SET REV_CONTENTS=#{revContents}, REV_DATE=SYSDATE WHERE GOODS_NO = #{goodsNo} AND REV_NO =#{revNo}
+	</update>
+	
+	<insert id="insertReply" parameterType="Review">
+		INSERT INTO REVIEW VALUES(SEQ_REVIEW.NEXTVAL, #{revContents}, DEFAULT, DEFAULT, DEFAULT, DEFAULT, #{goodsNo}, #{userId}, #{replyNo})
+	</insert>
+	
+	<select id="selectReply" resultMap="reviewResultMap">
+		SELECT R1.* FROM REVIEW R1 INNER JOIN REVIEW R2 ON R1.REPLY_NO = R2.REV_NO WHERE R1.GOODS_NO = #{goodsNo}
+	</select>
+	
+ 	<delete id="deleteReply">
+		DELETE FROM REVIEW WHERE REV_NO = #{revNo}
+	</delete>
+	
+	<update id="updateReply">
+		UPDATE REVIEW SET REV_CONTENTS=#{revContents}, REV_DATE=SYSDATE WHERE GOODS_NO = #{goodsNo} AND REV_NO =#{revNo}
 	</update>
 </mapper>

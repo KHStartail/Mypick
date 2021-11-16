@@ -76,7 +76,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg">
-                            <img src="resources/goodsFiles/${goods.imgPath }" alt="">
+                            <img src="resources/goodsFiles/${goods.imgPath }" alt="" style="height: 300px; width: 250px">
                         <c:if test="${goods.idolName == null }">
                             <div class="product__label">
                                 <span>${goods.groupName }</span>

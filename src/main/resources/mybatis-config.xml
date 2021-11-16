@@ -16,6 +16,7 @@
       <typeAlias type="com.pick.my.supporting.domain.SupReply" alias="SupReply"></typeAlias>
       <typeAlias type="com.pick.my.supporting.domain.SupFile" alias="SupFile"></typeAlias>
       <typeAlias type="com.pick.my.goods.domain.Goods" alias="Goods"/>
+      <typeAlias type="com.pick.my.goods.domain.Review" alias="Review"/>
       <typeAlias type="com.pick.my.idol.domain.Idol" alias="Idol"/>
    </typeAliases>
    <mappers>

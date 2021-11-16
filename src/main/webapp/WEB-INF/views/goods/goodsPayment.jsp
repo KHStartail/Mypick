@@ -14,7 +14,7 @@
             <!-- Css Styles -->
             <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
             <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
-            <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+            <link rel="stylesheet" href="assets/css/goodsStyle.css" type="text/css">
             <link rel="stylesheet" href="assets/css/header.css">
             <link rel="stylesheet" href="assets/css/login.css">
             <link rel="stylesheet" href="assets/css/goods.css">
@@ -41,26 +41,30 @@
                     </tr>
                     <tr >
                         <td style="text-align: left;">
-                            <img src="assets/images/air.png" alt="" style="width: 250px;">
-                            누군지 모르는 아이돌의 Airpot
+                            <img src="resources/goodsFiles/${goods.imgPath }" alt="" style="width: 250px;">
+                            <span style="color:black; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;${goods.goodsName }</span>
                         </td>
-                        <td>1</td>
-                        <td>3000</td>
-                        <td>33000</td>
+                        <td>${goods.goodsAmount }</td>
+                        <td>3000 ₩</td>
+                        <td>${goods.goodsPrice * goods.goodsAmount } ₩</td>
                     </tr>
                     <tr>
                         <td colspan="3">
-                            상품합계 ₩30000 &nbsp;&nbsp;➕&nbsp;&nbsp;배송비 ₩3000
+                            상품합계 ₩${goods.goodsPrice * goods.goodsAmount } &nbsp;&nbsp;➕&nbsp;&nbsp;배송비 ₩3000
                         </td>
                         <td>
-                            |&nbsp;&nbsp;총 합계 <span>₩ 33000</span>
+                            |&nbsp;&nbsp;총 합계 <span>₩ ${goods.goodsPrice * goods.goodsAmount +3000}</span>
                         </td>
                     </tr>
                 </table>
             </div>
         </section>
 <!-- 결제-----------배송정보---------- -->
+        <form action="goodsPayInfo.pick" method="post">
         <section>
+        	<input type="hidden" name="goodsNo" value="${goods.goodsNo }">
+        	<input type="hidden" name="goodsAmount" value="${goods.goodsAmount }">
+        	<input type="hidden" name="goodsPrice" value="${goods.goodsPrice }">
             <div class="pay-label">
                 <span>배송 정보</span>
             </div>
@@ -68,29 +72,29 @@
                 <table class="send-table">
                     <tr>
                         <td>주문하시는 분</td>
-                        <td><input type="text" name="" id=""></td>
+                        <td><input type="text" name="userName" id=""></td>
                     </tr>
                     <tr>
                         <td>주소</td>
-                        <td><input type="text" name="" id=""></td>
+                        <td><input type="text" name="userAddr" id=""></td>
                     </tr>
                     <tr>
                         <td>휴대전화</td>
                         <td>
-                            <input type="text" name="" id="" style="width: 100px;">-
-                            <input type="text" name="" id="" style="width: 150px;">-
-                            <input type="text" name="" id="" style="width: 150px;">
+                            <input type="text" name="userPhone1" id="" style="width: 100px;">-
+                            <input type="text" name="userPhone2" id="" style="width: 150px;">-
+                            <input type="text" name="userPhone3" id="" style="width: 150px;">
                         </td>
                     </tr>
                     <tr>
                         <td>이메일</td>
                         <td>
-                            <input type="text" name="" id="">
+                            <input type="text" name="userEmail" id="">
                         </td>
                     </tr>
                     <tr>
                         <td>배송메세지</td>
-                        <td><textarea name="" id="" cols="100" rows="5"></textarea></td>
+                        <td><textarea name="userMsg" id="" cols="100" rows="5"></textarea></td>
                     </tr>
                 </table>
             </div>
@@ -146,9 +150,10 @@
                     ※ 순차배송일이 각각 다른 상품을 함께 주문하실 경우 순차배송일이 가장 늦은 상품의 배송일자 기준으로 합배송(묶음배송) 됩니다.</p>
             </div>
             <div class="btn-payment">
-                <button type="reset">결제하기</button>
+                <button type="submit">결제하기</button>
             </div>
         </div>
+       </form>
                     <!-- ***** Footer Start ***** -->
 <jsp:include page="/footer.jsp"></jsp:include>
 </body>
