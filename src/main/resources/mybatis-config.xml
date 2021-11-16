@@ -20,11 +20,13 @@
       <typeAlias type="com.pick.my.goods.domain.GoodsPayment" alias="GoodsPayment"/>
       <typeAlias type="com.pick.my.goods.domain.Review" alias="Review"/>
       <typeAlias type="com.pick.my.idol.domain.Idol" alias="Idol"/>
+      <typeAlias type="com.pick.my.member.domain.Member" alias="Member"/>
    </typeAliases>
    <mappers>
       <mapper resource="mappers/supporting-mapper.xml"></mapper>
       <mapper resource="mappers/community-mapper.xml"></mapper>
       <mapper resource="mappers/goods-mapper.xml"></mapper>
       <mapper resource="mappers/idol-mapper.xml"/>
+      <mapper resource="mappers/member-mapper.xml"></mapper>
    </mappers>
 </configuration>

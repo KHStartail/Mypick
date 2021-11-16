@@ -64,9 +64,18 @@
                     <div>
                        
                     </div>
+                    	<c:if test ="${loginUser.userId eq null}">
                     <ul class="serv-ul">
-                        <li class="serv-li" onclick="location.href='/loginView.kh';">로그인</li>
+                        <li class="serv-li"><a href="loginView.pick">로그인</a></li>
                     </ul>
+                 </c:if>
+                
+	            <c:if test="${loginUser.userId ne null and userId ne ''}">
+	
+	    			 <ul class="serv-ul">
+                        <li class="serv-li"><a onclick="location.href='/logout.pick';">로그아웃</a></li>
+                    </ul>
+				</c:if>
                 </li>
             </ul>
         </div>
