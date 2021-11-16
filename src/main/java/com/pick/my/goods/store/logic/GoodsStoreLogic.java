@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.pick.my.common.PageInfo;
 import com.pick.my.goods.domain.Goods;
+import com.pick.my.goods.domain.GoodsFile;
+import com.pick.my.goods.domain.GoodsPayment;
 import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
 import com.pick.my.goods.store.GoodsStore;
@@ -76,5 +78,84 @@ public class GoodsStoreLogic implements GoodsStore{
 		
 		return result;
 	}
+
+	@Override
+	public List<Review> selectReview(int goodsNo) {
+		List<Review> rList = sqlSession.selectList("goodsMapper.selectReview", goodsNo);
+		
+		return rList;
+	}
+
+	@Override
+	public int deleteReview(int revNo) {
+		int result = sqlSession.delete("goodsMapper.deleteReview", revNo);
+		
+		return result;
+	}
+
+	@Override
+	public int updateReview(Review review) {
+		int result = sqlSession.update("goodsMapper.updateReview",review);
+		
+		return result;
+	}
+
+	@Override
+	public int registerReply(Review review) {
+		int result = sqlSession.insert("goodsMapper.insertReply",review);
+		
+		return result;
+	}
+
+	@Override
+	public List<Review> selectReply(int goodsNo) {
+		List<Review> reList = sqlSession.selectList("goodsMapper.selectReply",goodsNo);
+		
+		return reList;
+	}
+
+	@Override
+	public int deleteReply(int revNo) {
+		int result = sqlSession.delete("goodsMapper.deleteReply",revNo);
+		
+		return result;
+	}
+
+	@Override
+	public int updateReply(Review review) {
+		int result = sqlSession.update("goodsMapper.updateReply",review);
+		
+		return result;
+	}
+
+	@Override
+	public int insertSubFile(GoodsFile File) {
+		int result = sqlSession.insert("goodsMapper.insertSubFile",File);
+		
+		return result;
+	}
+
+	@Override
+	public List<GoodsFile> showFileList(int goodsNo) {
+		List<GoodsFile> fList = sqlSession.selectList("goodsMapper.selectFileList",goodsNo);
+		
+		return fList;
+	}
+
+	@Override
+	public int updateFileList(GoodsFile subImg) {
+		int fileResult = sqlSession.insert("goodsMapper.updateFileList",subImg);
+		
+		return fileResult;
+	}
+
+	@Override
+	public int insertPayInfo(GoodsPayment pay) {
+		int result = sqlSession.insert("goodsMapper.insertPayInfo",pay);
+		
+		return result;
+	}
+
+
 
 }

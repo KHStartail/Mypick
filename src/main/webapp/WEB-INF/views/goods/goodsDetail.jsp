@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <!-- Google Font -->
             <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
             rel="stylesheet">
@@ -56,6 +58,9 @@
     <!-- Breadcrumb End -->
 
     <!-- Shop Details Section Begin -->
+<%--     <c:url var="gPayment" value="goodsPayment.pick">
+        <c:param name="goodsNo" value="${goods.goodsNo }"></c:param>
+    </c:url> --%>
     <section class="product-details spad">
     <input type="hidden" value="${goods.goodsNo }" id="goodsNo">
         <div class="container">
@@ -87,11 +92,11 @@
                         <div class="product__details__option">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input type="text" id="amount" value="1">
                                 </div>
                             </div>
                             <a href="#" class="primary-btn">Add to cart</a>
-                            <a href="#" class="primary-btn">Buy Now</a>
+                            <a onclick="goBuy(${goods.goodsNo})" class="primary-btn">Buy Now</a>
                         </div>
                     </div>
                 </div>
@@ -116,9 +121,9 @@
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
                             <div class="row d-flex justify-content-center">
                                 <div class="col-lg-8">
-                                    <p>
-                                    	<h5>${goods.goodsContents }</h5>
-                                    </p>
+                                   <c:forEach items="${fList}" var="file">
+                                    	<img alt="" src="/resources/goodsSubFiles/${file.imgReName }">
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
@@ -213,7 +218,7 @@
                                             <p>Review</p>
                                         </div>
                        <!--  -->
-                                       <form action="goodsReviewInsert.pick" method="post" name="revForm">
+                                       <form action="goodsReviewInsert.pick" method="post" name="revForm" enctype="multipart/form-data">
                                        	<input type="hidden" name="goodsNo" value="${goods.goodsNo }">
                                         <div class="rev-star">
                                             <input type="file" name="revFile" id="">
@@ -226,42 +231,93 @@
                                             </span>
                                         </div>
                                         <div class="rev-input">
-                                            <input type="hidden" name="star">
-                                            <textarea name="" id="" cols="60" rows="5"></textarea>
+                                            <input type="hidden" name="revStar">
+                                            <textarea name="revContents" id="" cols="60" rows="5"></textarea>
                                             <button type="submit">등록</button>
                                         </div>
                                        </form>
                          <!--  -->
                                         <div class="rev-list">
                                             <div class="rev-label">
-                                                <p>등록된 리뷰(1)</p>
+                                                <p>등록된 리뷰()</p>
                                             </div>
-                                         <form action="goodsReview.pick" method="get"></form>
+                         			<c:forEach items="${rList }" var="review">
                                             <div class="rev-img">
-                                                <img src="img/key.png" alt="">
+                                                <img src="resources/goodsFiles/${review.imgPath }" alt="">
                                             </div>
                                             <div class="rev-con">
-                                                <p>2021.11.05 19:42&nbsp;next벨</p><br>
-                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo unde enim magni! Possimus cumque velit at dolorem porro obcaecati omnis, earum, dolor, optio ipsam ex repellat fugit magnam iste provident!</p>
+                                                <p><fmt:formatDate value="${review.revDate }" pattern="yy.MM.dd HH:mm"/>&nbsp;&nbsp;${review.userId }&nbsp;&nbsp;
+                                                	<c:if test="${review.revStar == 0 }">
+                                                		<img src="assets/images/star0.png" alt="">
+                                                	</c:if>
+                                                	<c:if test="${review.revStar == 1 }">
+                                                		<img src="assets/images/star1.png" alt="">
+                                                	</c:if>
+                                                	<c:if test="${review.revStar == 2 }">
+                                                		<img src="assets/images/star2.png" alt="">
+                                                	</c:if>
+                                                	<c:if test="${review.revStar == 3 }">
+                                                		<img src="assets/images/star3.png" alt="">
+                                                	</c:if>
+                                                	<c:if test="${review.revStar == 4 }">
+                                                		<img src="assets/images/star4.png" alt="">
+                                                	</c:if>
+                                                	<c:if test="${review.revStar == 5 }">
+                                                		<img src="assets/images/star5.png" alt="">
+                                                	</c:if>
+                                                </p><br>
+                                                <textarea rows="5" cols="40" readonly id="revCon" name="revContents">${review.revContents }</textarea>
+                                                <%-- <p>${review.revContents }</p> --%>
                                                 <div class="rev-btn">
-                                                    <button type="submit"><a href="#">수정</a> </button>
-                                                    <button type="submit"><a href="#">삭제</a> </button>
+												    <c:url var="rDelete" value="goodsReviewDelete.pick">
+												    	<c:param name="revNo" value="${review.revNo }"></c:param>
+												    	<c:param name="imgPath" value="${review.imgPath }"></c:param>
+												    	<c:param name="goodsNo" value="${review.goodsNo }"></c:param>
+												    </c:url>
+                                                    <button type="button" onclick="showReply(this,${review.goodsNo },${review.revNo })" id="replyBtn"><a href="#">답글</a> </button>
+                                                    <button type="button" onclick="modifyReview(this,${review.goodsNo },${review.revNo },'${review.revContents }')" id="updateBtn"><a href="#">수정</a> </button>
+                                                    <button type="button" id="deleteBtn"><a href="${rDelete }">삭제</a> </button>
                                                 </div>
                                             </div>
                                         </div>
+                             <!-- 리뷰 댓글이 없는 경우 -->
                                         <div class="rev-re-list">
                                             <div class="rev-re-img">
                                                 <img src="assets/images/arrow.png" alt="">
                                             </div>
                                             <div class="rev-re-con">
-                                                <p>2021.11.05 19:42&nbsp;매니저</p><br>
-                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo unde enim magni! Possimus cumque velit at dolorem porro obcaecati omnis, earum, dolor, optio ipsam ex repellat fugit magnam iste provident!</p>
+                                                <p>Review 답글 작성</p><br>
+                                                <textarea rows="5" cols="40" id="replyCon" name="revContents">${review.revContents }</textarea>
                                                 <div class="rev-re-btn">
-                                                    <button type="submit"><a href="#">수정</a> </button>
-                                                    <button type="submit"><a href="#">삭제</a> </button>
+                                                	<input type="hidden" name="revNo" value="${review.revNo }">
+                                                    <button type="button" onclick="insertReply(this,${review.goodsNo },${review.revNo })"><a href="#">등록</a> </button>
+                                                    <button type="button" onclick="closeReply(this)"><a href="#">취소</a> </button>
                                                 </div>
                                             </div>
                                         </div>
+                            <!-- 리뷰 댓글이 있는 경우 -->
+                            		<c:forEach items="${reList }" var="reply">
+                            		<c:if test="${review.revNo == reply.replyNo }">
+                                        <div class="rev-re-list-show">
+                                            <div class="rev-re-img">
+                                                <img src="assets/images/arrow.png" alt="">
+                                            </div>
+                                            <div class="rev-re-con">
+                                                <p><fmt:formatDate value="${reply.revDate }" pattern="yy.MM.dd HH:mm"/>&nbsp;&nbsp;${reply.userId }</p><br>
+                                                <textarea rows="5" cols="40" id="replyCon" readonly name="revContents">${reply.revContents }</textarea>
+                                                <div class="rev-re-btn">
+                                                	<c:url var="reDelete" value="goodsReplyDelete.pick">
+												    	<c:param name="revNo" value="${reply.revNo }"></c:param>
+												    	<c:param name="goodsNo" value="${reply.goodsNo }"></c:param>
+												    </c:url>
+                                                    <button type="button" onclick="modifyReply(this,${reply.goodsNo},${reply.revNo },'${reply.revContents }')"><a href="#">수정</a> </button>
+                                                    <button type="button"><a href="${reDelete }">삭제</a> </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </c:if>
+                                        </c:forEach>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
@@ -398,7 +454,7 @@
     </c:url>
     <c:url var="gDelete" value="goodsDelete.pick">
     	<c:param name="goodsNo" value="${goods.goodsNo }"></c:param>
-    	<c:param name="imgName" value="${goods.imgPath }"></c:param>
+    	<c:param name="imgPath" value="${goods.imgPath }"></c:param>
     </c:url>
         <div class="manager-btn">
             <button type="submit"><a href="${gUpdate }">수정</a></button>
@@ -419,5 +475,111 @@
 <script src="assets/js/jquery.nicescroll.min.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/goodsStar.js"></script>
+<script>
+	function modifyReview(obj, goodsNo, revNo, revContents){
+		$revModi = $(obj).parent().prev();
+		$revModi.attr("readonly",false);		
+		$(obj).prev().hide();
+		$(obj).hide();
+		$(obj).next().hide();
+		$(obj).parent().append("<button type='submit' id='newModify' onclick='modifyCommit(this,"+goodsNo+","+revNo+")'>완료</button>");
+		$(obj).parent().children().css('color','white');
+		$(obj).parent().children().css('font-size','14px');
+	}
+
+	function modifyCommit(obj,goodsNo, revNo){
+		var modifiedContent = $(obj).parent().prev().val();
+		$.ajax({
+			url : "goodsReviewModify.pick",
+			type : "post",
+			data : {
+				"goodsNo" : goodsNo,
+				"revNo" : revNo,
+				"revContents" : modifiedContent
+			},
+			success : function(data){
+				if(data == "success"){
+					location.reload();
+				}else{
+					alert("수정 실패");
+				}
+			},
+			error : function(){
+				alert("Ajax 통신 실패");
+			}
+		});
+	}
+	
+	function showReply(obj, goodsNo, revNo){
+		$(obj).parent().parent().parent().next().css('display','block');
+		
+	}
+	
+	function closeReply(obj){
+		$(obj).parent().parent().parent().css('display','none');
+	}
+	
+	function insertReply(obj, goodsNo, revNo){
+		var replyCon = $(obj).parent().parent().children("textarea").val();
+		$.ajax({
+			url : "insertReply.pick",
+			type : "post",
+			data : {
+				"goodsNo" : goodsNo,
+				"replyNo" : revNo,
+				"revContents" : replyCon
+			},
+			success : function(data){
+				if(data == "success"){
+					location.reload();
+				}else{
+					alert("등록 실패");
+				}
+			},
+			error : function(){
+				alert("Ajax 통신 실패");
+			}	
+		});
+	}
+	
+	function modifyReply(obj, goodsNo, revNo, revContents){
+		$revModi = $(obj).parent().prev();
+		$revModi.attr("readonly",false);		
+		$(obj).hide();
+		$(obj).next().hide();
+		$(obj).parent().append("<button type='submit' onclick='replyCommit(this,"+goodsNo+","+revNo+")'>완료</button>");
+		$(obj).parent().children().css('color','white');
+		$(obj).parent().children().css('font-size','14px');
+	}
+	
+	function replyCommit(obj, goodsNo, revNo){
+		var modifyReply = $(obj).parent().prev().val();
+		$.ajax({
+			url : "goodsReplyModify.pick",
+			type : "post",
+			data : {
+				"goodsNo" : goodsNo,
+				"revNo" : revNo,
+				"revContents" : modifyReply
+			},
+			success : function(data){
+				if(data == "success"){
+					location.reload();
+				}else{
+					alert("수정 실패");
+				}
+			},
+			error : function(){
+				alert("Ajax 통신 실패");
+			}
+		});
+	}
+	
+	function goBuy(goodsNo){
+		var goodsAmount = $("#amount").val();
+		location.href = "goodsPayment.pick?goodsNo="+goodsNo+"&goodsAmount="+goodsAmount;
+		console.log(amount);
+	}
+</script>
 </body>
 </html>

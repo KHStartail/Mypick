@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,6 +50,9 @@
                 <form action="goodsModify.pick" method="post" enctype="multipart/form-data">
                 	<input type="hidden" name="goodsNo" value="${goods.goodsNo }">
                 	<input type="hidden" name="imgPath" value="${goods.imgPath }">
+                	 <c:forEach items="${fList }" var="file">
+	                	<input type="hidden" name="imgNo" vlaue="${file.imgNo }">
+                     </c:forEach>
                 <div class="inner-container">
                     <div class="insert-label">
                             <label>상품명 :</label><input type="text" name="goodsName" value="${goods.goodsName }" placeholder="상품명을 입력하세요"><br>
@@ -63,12 +68,14 @@
                                 <input type="file" name="reloadMainFile">
                             </div>
                         </div>
-       <!--                  <div class="input-file">
+                        <div class="input-file">
                             <div>
-                                상세 이미지 파일을 첨부해주세요
-                                <input type="file" name="servFile" id="">
+                        <c:forEach items="${fList }" var="file">
+                                ${file.imgName }&nbsp;
+                        </c:forEach>
+                                <input name="reloadSubFile" type="file" multiple="multiple">
                             </div>
-                        </div> -->
+                        </div> 
                     </div>
                     <div class="insert-detail">
                         <label>내용 :</label><br>

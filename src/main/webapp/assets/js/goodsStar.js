@@ -35,5 +35,5 @@ function lock(star){
 
 function mark(star){
     lock(star);
-    document.revForm.star.value = star;
+    document.revForm.revStar.value = star;
 }
