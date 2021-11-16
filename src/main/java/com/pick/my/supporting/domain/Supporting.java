@@ -1,14 +1,14 @@
 package com.pick.my.supporting.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Supporting {
 	private int supNo;
-	private int userNo;
+	private String writer;
 	private int supCategory;
 	private String supTitle;
 	private String supContents;
-	private Date scheduleDate;
+	private String scheduleDate;
 	private String supPlace;
 	private String groupName;
 	private Date supStartDate;
@@ -19,8 +19,8 @@ public class Supporting {
 	private int supGrade;
 	private int imgNo;
 	private String imgName;
+	private String imgReName;
 	private String imgPath;
-	private long imgSize;
 	
 	public Supporting() {};
 	
@@ -33,14 +33,13 @@ public class Supporting {
 	}
 
 
-	public int getUserNo() {
-		return userNo;
+	public String getWriter() {
+		return writer;
 	}
 
-	public void setUserNo(int userNo) {
-		this.userNo = userNo;
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
-
 
 	public int getSupCategory() {
 		return supCategory;
@@ -72,12 +71,12 @@ public class Supporting {
 	}
 
 
-	public Date getScheduleDate() {
+	public String getScheduleDate() {
 		return scheduleDate;
 	}
 
 
-	public void setScheduleDate(Date scheduleDate) {
+	public void setScheduleDate(String scheduleDate) {
 		this.scheduleDate = scheduleDate;
 	}
 
@@ -181,34 +180,29 @@ public class Supporting {
 		this.imgName = imgName;
 	}
 
+	public String getImgReName() {
+		return imgReName;
+	}
+	
+	public void setImgReName(String imgReName) {
+		this.imgReName = imgReName;
+	}
 
 	public String getImgPath() {
 		return imgPath;
 	}
 
-
 	public void setImgPath(String imgPath) {
 		this.imgPath = imgPath;
 	}
 
-
-	public long getImgSize() {
-		return imgSize;
-	}
-
-
-	public void setImgSize(long imgSize) {
-		this.imgSize = imgSize;
-	}
-
-
 	@Override
 	public String toString() {
-		return "Supporting [supNo=" + supNo + ", userNo=" + userNo + ", supCategory=" + supCategory + ", supTitle="
+		return "Supporting [supNo=" + supNo + ",writer=" + writer + ", supCategory=" + supCategory + ", supTitle="
 				+ supTitle + ", supContents=" + supContents + ", scheduleDate=" + scheduleDate + ", supPlace="
 				+ supPlace + ", groupName=" + groupName + ", supStartDate=" + supStartDate + ", supEndDate="
 				+ supEndDate + ", sumMoney=" + sumMoney + ", goalMoney=" + goalMoney + ", supPartiwon=" + supPartiwon
-				+ ", supGrade=" + supGrade + ", imgNo=" + imgNo + ", imgName=" + imgName + ", imgPath=" + imgPath
-				+ ", imgSize=" + imgSize + "]";
+				+ ", supGrade=" + supGrade + ", imgNo=" + imgNo + ", imgName=" + imgName + ", imgReName=" + imgReName
+				+ ", imgPath=" + imgPath + "]";
 	}
 }

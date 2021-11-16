@@ -8,7 +8,6 @@
  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
     <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
-    <link rel="stylesheet" href="assets/css/owl-carousel.css">
     <link rel="stylesheet" href="assets/css/lightbox.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/login.css">
@@ -17,14 +16,14 @@
 		<jsp:include page="/header.jsp"></jsp:include>
 		<div id="imgBox"></div>
 		<ul id="contextBox">
-			<li>날짜 : {supporting.scheduleDate}</li>
-			<li>장소 : {supporting.supPlace}</li>
-			<li>내용 : {supporting.supContents}</li>
-			<li>서포팅기간 : {supporting.supStartDate} ~ {supporting.supEndDate }</li>
+			<li>날짜 : {Supporting.scheduleDate}</li>
+			<li>장소 : {Supporting.supPlace}</li>
+			<li>내용 : {Supporting.supContents}</li>
+			<li>서포팅기간 : {Supporting.supStartDate} ~ {Supporting.supEndDate }</li>
 		</ul>
 		<div id="moneyBox">
-			<div id="sumMoney">모인 금액<br>{supporting.sumMoney}</div>
-			<div id="goalMoney">목표 금액<br>{supporting.goalMoney}</div>
+			<div id="sumMoney">모인 금액<br>{Supporting.sumMoney}</div>
+			<div id="goalMoney">목표 금액<br>{Supporting.goalMoney}</div>
 		</div>
 		<div id="percent">달성률</div>
 		<div class="contentsBox">
@@ -59,6 +58,6 @@
 			</tbody>
 		</table>
 		<br><br>
-		<jsp:include page="/footer.jsp"></jsp:include>
+<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>

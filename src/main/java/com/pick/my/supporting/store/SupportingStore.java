@@ -1,18 +1,20 @@
 package com.pick.my.supporting.store;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.pick.my.common.PaymentHistory;
+import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
 import com.pick.my.supporting.domain.SupReplyReport;
 import com.pick.my.supporting.domain.Supporting;
 
 public interface SupportingStore {
-	public List<Supporting> selectAllSupporting(int supCategory);
-	public List<Supporting> selectAllPreSupporting(int supCategory);
-//	public List<Supporting> findKeywordPreSupporting(HashMap<string groupName, string keyword>);
-//	public List<Supporting> findKeywordSupporting(HashMap<string groupName, string keyword>);
+	public List<Supporting> selectAllSupporting();
+	public List<Supporting> selectAllPreSupporting();
+	public List<Supporting> selectSearchPreSupporting(HashMap<String, String> searchMap);
+	public List<Supporting> selectSearchSupporting(HashMap<String, String> searchMap);
 	public Supporting selectPreSupportingOne(int supNo);
 	public Supporting selectSupportingOne(int supNo);
 	public int insertSupporting(Supporting supporting);
@@ -22,10 +24,10 @@ public interface SupportingStore {
 	public List<SupReply> selectSupReply(int supNo);
 	public int insertSupReply(SupReply supReply);
 	public int updaterSupReply(SupReply supReply);
-	public int deleteSupReply(int supReAllNo);
+	public int deleteSupReply(SupReply supReply); 
 	public int insertSupReplyChild(SupReply supReply);
 	public int updateSupReplyChild(SupReply supReply);
-	public int deleteSupReplyChild(int supReAllNo);
+	public int deleteSupReplyChild(SupReply supReply);
 	public int insertSupReply(SupReplyReport reportSupReply);
 	public int selectReportSupReply(int supReAllNo, int supNo);
 	////////////////////////참여, 결제관련내용////////////////
@@ -89,5 +91,14 @@ public interface SupportingStore {
 	 * @param supGrade
 	 * @return
 	 */
-	public int updateCode(int supNo, int supGrade); 
+	public int updateCode(int supNo, int supGrade);
+	
+	/**
+	 * 파일DB저장
+	 * @param file
+	 * @return
+	 */
+	public int insertFile(SupFile file); 
+	public int updateFile(SupFile file); 
+	public int deleteFile(SupFile file);
 }
