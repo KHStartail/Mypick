@@ -503,9 +503,9 @@ public class CommunityController {
 	            heart=1;
 	        }
 	        return heart;
-
 	    }
-	
+		
+		
 	}
 	
 

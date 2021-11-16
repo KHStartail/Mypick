@@ -127,9 +127,9 @@
 						<c:param name="postNo" value="${post.postNo }"></c:param>
 					</c:url> <a class="btn btn-primary" href="${cModify }">수정하기</a> <input
 					type="submit" class="btn btn-primary" value="삭제하기">
-					<c:url var="cReport" value="Report.pick">
-						<c:param name="postNo" value="${post.postNo }"><a class="btn btn-primary" href="${cReport }">신고하기</a> </c:param>
-					</c:url> </td>
+					<a class="btn btn-primary" onclick="report(${post.postNo });">신고하기</a> 
+					
+				</td>
 			</tr>
 		</table>
 	</form>
@@ -154,6 +154,7 @@
 		<tbody class="reply-body" id="reply-body">
 		<tr>
 			<td>		
+			
 			</td>
 		</tr>
 		</tbody>
@@ -389,7 +390,9 @@
                 }
             });
         });
-
+        function report(postNo){
+        	$postNo = 
+        } 
 	</script>
 </footer>
 </html>

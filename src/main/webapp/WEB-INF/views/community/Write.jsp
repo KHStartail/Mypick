@@ -110,6 +110,7 @@ input_element.addEventListener("keyup", () => {
 			<table>
 				<tr>
 					<td class="img_wrap">
+					
 					</td>
 
 				</tr>
@@ -277,10 +278,10 @@ function fileDelete(fileNum){
             
         });
     }
-   function doDel(obj){
-	   
-	   $(obj).remove();
-   }
+    function doDel(obj){
+ 	   
+ 	   $(obj).remove();
+    }
     
     function goWrite() {
     	var $totalImg = document.getElementsByClassName('count').length;
