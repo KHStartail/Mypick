@@ -9,19 +9,27 @@
 		<result property="idolName" column="IDOL_NAME"/>
 		<result property="groupName" column="GROUP_NAME"/>
 		<result property="filePath" column="FILE_PATH"/>
-		<result property="fileSize" column="FILE_SIZE"/>
 	</resultMap>
 
 	<insert id="insertIdolmember" parameterType="Idol">
 		INSERT INTO IDOL VALUES(SEQ_IDOLNUM.NEXTVAL, #{idolName}, #{groupName}, #{filePath})
 	</insert>
 	
+	<select id="selectOneIdol" parameterType="_int" resultMap="idolResultMap">
+		SELECT * FROM IDOL WHERE IDOL_NO = #{idolNo }
+	</select>
+	
 	<select id="selectSearchList" resultMap="idolResultMap">
 		SELECT * FROM IDOL WHERE IDOL_NAME LIKE '%'  || #{searchValue} || '%'
 	</select>
 	
+	<update id="updateIdolmember" parameterType="Idol">
+		UPDATE IDOL SET IDOL_NAME = #{idolName }, GROUP_NAME = #{groupName }, FILE_PATH = #{filePath } WHERE IDOL_NO = #{idolNo}
+	</update>
 
-
+	<delete id="deleteIdolmember" parameterType="_int">
+		DELETE FROM IDOL WHERE IDOL_NO = #{idolNo}
+	</delete>
 
 
 

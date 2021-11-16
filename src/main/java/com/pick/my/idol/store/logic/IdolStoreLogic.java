@@ -24,8 +24,8 @@ public class IdolStoreLogic implements IdolStore {
 
 	@Override
 	public Idol selectOne(int idolNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Idol idol = sqlSession.selectOne("idolMapper.selectOneIdol", idolNo);
+		return idol;
 	}
 
 	@Override
@@ -36,14 +36,14 @@ public class IdolStoreLogic implements IdolStore {
 
 	@Override
 	public int updateIdol(Idol idol) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.update("idolMapper.updateIdolmember", idol);
+		return result;
 	}
 
 	@Override
 	public int deleteIdol(int idolNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.delete("idolMapper.deleteIdolmember",idolNo);
+		return result;
 	}
 
 }
