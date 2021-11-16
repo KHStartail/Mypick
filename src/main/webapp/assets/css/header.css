@@ -59,8 +59,8 @@ body{
    }
    
    .drop{
-      display:none;
-   	 background-color : #eee;
+      	display:none;
+   	 	background-color : #eee;
    }
    
    #box:hover .drop{
@@ -72,10 +72,12 @@ body{
    }
    .b-ul box{
    	 background-color : #eee;
+   	 text-align : center;
    }
    .dropdown{
    		width: 100px;
    		height: 30px;
+   		background-color : #eee;
    }
          
     .mypage{

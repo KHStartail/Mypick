@@ -212,6 +212,9 @@
    </c:if>
 	<jsp:include page="/footer.jsp"></jsp:include>
 	<script>
+	$("#searchBox").focus(function(){
+		$("#searchBox").val("");
+	});
 	$(document).ready(function() {
 		$('#myCarousel').carousel({
 		interval: 10000

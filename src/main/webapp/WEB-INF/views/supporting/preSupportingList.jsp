@@ -131,17 +131,21 @@
 					</div>
 				</div>
 			</div>
-					</c:forEach>
+		</c:forEach>
         </div>
         <div class="swiper-slide">
+        </div>
+        <div class="swiper-slide">
+        </div>
+        <div class="swiper-slide">
+        </div>
+        <div class="swiper-slide">
+        </div>
+        <div class="swiper-slide">
+        </div>
+        <!-- <div class="swiper-slide">
         Slide 2
-        </div>
-        <div class="swiper-slide">
-        Slide 7
-        </div>
-        <div class="swiper-slide">
-        Slide 9
-        </div>
+        </div> -->
     </div>
 	      <div class="swiper-button-next"></div>
 	      <div class="swiper-button-prev"></div>
@@ -154,7 +158,7 @@
 	<script>
 	//검색
 	var search = document.getElementById("#searchBox");
-	$("#searchBox").on('keydown', function(){
+	$("#searchBox").focus(function(){
 		$("#searchBox").val("");
 	});
 	
