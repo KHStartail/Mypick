@@ -79,7 +79,7 @@ p {
   margin: 0 0 15px 0;
 }
 
-img {
+ img:not(.footerLogo) {
   max-width: 100%;
 }
 
