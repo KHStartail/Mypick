@@ -14,6 +14,7 @@ public class Community_Post {
 	private Date updateDate;
 	private String userNickName;
 	private String status;
+	private int heartCount;
 	
 	public Community_Post() {}
 
@@ -97,11 +98,19 @@ public class Community_Post {
 		this.status = status;
 	}
 
+	public int getHeartCount() {
+		return heartCount;
+	}
+
+	public void setHeartCount(int heartCount) {
+		this.heartCount = heartCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Community_Post [postNo=" + postNo + ", groupNo=" + groupNo + ", userId=" + userId + ", postTitle="
 				+ postTitle + ", postContents=" + postContents + ", viewsCount=" + viewsCount + ", createDate="
 				+ createDate + ", updateDate=" + updateDate + ", userNickName=" + userNickName + ", status=" + status
-				+ "]";
+				+ ", heartCount=" + heartCount + "]";
 	}
 }

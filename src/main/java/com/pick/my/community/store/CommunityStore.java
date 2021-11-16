@@ -15,7 +15,7 @@ public interface CommunityStore {
 	public int insertCoummunityPost(Community_Post post);
 	public int insertFile(Community_File File);
 	public int updateCommunityPost(Community_Post communityPost);
-	public List<Community_Reply> selectAllReply(List<Community_Reply> rList);
+	public List<Community_Reply> selectAllReply(int postNo);
 	public int insertReply(Community_Reply reply);
 	public int updateReply(Community_Reply reply);
 	public int deleteReply(Community_Reply reply);
@@ -28,5 +28,10 @@ public interface CommunityStore {
 	public int deletePost(int postNo);
 	public int deleteFile(int postNo);
 	public int updatePost(Community_Post communityPost);
-	public int updateFile(Community_File File);
+	public int ReinsertFile(Community_File File);
+	public Community_Post selectCommunityPostNo(Community_Post communityPost);
+	public int updateFile(List<String> fileNames);
+	public int selectHeart(Heart heart);
+	public int insertHeartCount(int postNo);
+	public int deleteHeartCount(int postNo);
 }

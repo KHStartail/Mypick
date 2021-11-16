@@ -8,6 +8,8 @@
 	content="text/html; charset=UTF-8,width=device-width, initial-scale=1">
 
 <!-- include libraries(jQuery, bootstrap) -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"
 	rel="stylesheet">
@@ -16,8 +18,7 @@
 <link rel="stylesheet" href="assets/css/login.css">
 <link rel="stylesheet" href="assets/css/input.css">
 <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
@@ -101,7 +102,7 @@ input_element.addEventListener("keyup", () => {
 				추가</button>
 			<input id="input_file" multiple="multiple" type="file"
 				style="display: none;"> <span
-				style="font-size: 10px; color: gray;">※첨부파일은 최대 10개까지 등록이
+				style="font-size: 10px; color: gray;">※첨부파일은 최대 4개까지 등록이
 				가능합니다.</span>
 			<div class="data_file_txt" id="data_file_txt" style="margin: 40px;">
 
@@ -112,8 +113,8 @@ input_element.addEventListener("keyup", () => {
 				<tr>
 					<td class="img_wrap">
 					<c:if test="${not empty files }">
-					<c:forEach items="${files }" var="file">
-		<img src="/resources/upload/${file.fileRename }"style="width:100px;height: 100px; margin-left: 10;" onclick = 'doDel(this)'>
+					<c:forEach items="${files }" var="file" varStatus="index">
+		<img src="/resources/upload/${file.fileRename }"style="width:100px;height: 100px; margin-left: 10;" class="count" id="${file.fileRename }" onclick = 'doDel(this,"${file.fileRename }")'>
 					</c:forEach>
 					</c:if>
 						<c:if test="${ empty files }">
@@ -152,8 +153,9 @@ $(document).ready(function()
 		// input file 파일 첨부시 fileCheck 함수 실행
 		{
 			$("#input_file").on("change", fileCheck);
+			
 		});
-
+var deleteFiles = [];
 /**
  * 첨부파일로직
  */
@@ -167,7 +169,7 @@ $(function () {
 // 파일 현재 필드 숫자 totalCount랑 비교값
 var fileCount = 0;
 // 해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
-var totalCount = 10;
+var totalCount = 4;
 // 파일 고유넘버
 var fileNum = 0;
 // 첨부파일 배열
@@ -220,7 +222,7 @@ function fileDelete(fileNum){
  * 폼 submit 로직
  */
 	function registerAction(){
-		
+	var postNo = $("#postNo")
 	var form = $("form")[0];        
  	var formData = new FormData(form);
 		for (var x = 0; x < content_files.length; x++) {
@@ -232,7 +234,7 @@ function fileDelete(fileNum){
 	$.ajax({
    	      type: "POST",
    	   	  enctype: "multipart/form-data",
-   	      url: "update.pick",
+   	      url: "reUpload.pick",
        	  data : formData,
        	  processData: false,
    	      contentType: false,
@@ -279,23 +281,49 @@ function fileDelete(fileNum){
             	newImg.setAttribute("height", 100);
             	newImg.setAttribute("margin-left", 10);
             	newImg.setAttribute("onclick",'doDel(this)');
+            	newImg.setAttribute("class",'count');
             }
             reader.readAsDataURL(f);
         });
     }
-   function doDel(obj){
+   function doDel(obj,fileName){
+	   deleteFiles.push(fileName);
 	   $(obj).remove();
    }
-    
+   function goDelete(deleteFiles){
+	   if(deleteFiles != null){
+		   jQuery.ajaxSettings.traditional = true;
+	   $.ajax({
+	   	      url: "deleteImg.pick",
+	   	      type: "POST",
+	       	  data : {"deleteFiles" : deleteFiles},
+	   	      success: function (data) {
+	   	    	if(data != 0){
+	   	    		
+				}else{
+					alert("이미지파일 삭제 실패했습니다.");
+				}
+	   	      },error: function (request,xhr, status, error) {
+	   	     return false;
+	   	      }
+	   	    });
+   }else{
+	   console.log("지우는게없어요");
+   }
+	   }
     function goWrite() {
+    	var $totalImg = document.getElementsByClassName('count').length;
+    	if($totalImg <= 4){
+    	goDelete(deleteFiles);
     	var title = $("#postTitle").val();
     	var contents = $("#summernote").val();
     	var postNo = $("#postNo").val();
-    	registerAction()
     	location.href='update.pick?title='+title+'&contents='+contents+'&postNo='+postNo;
+    	registerAction($("#postNo"))    		
+    	}else{
+    		alert("사진의개수는 4개까지입니다.")
+    	}
     }
-   
-    
 </script>
 
 </body>

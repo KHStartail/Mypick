@@ -16,7 +16,7 @@
 			<th>그룹명</th>
 			<th>사진유무</th>
 		</tr>
-		<c:if test="${ empty iList }">
+		<c:if test="${empty iList }">
 			<tr>
 				<td colspan="5" align="center">조회된 정보가 없습니다.</td>
 			</tr>
