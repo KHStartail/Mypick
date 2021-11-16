@@ -42,23 +42,34 @@ public class SupportingStoreLogic implements SupportingStore{
 		return ssList;	
 	}
 
+	
 	@Override
 	public Supporting selectPreSupportingOne(int supNo) {
 		Supporting supporting = sqlSession.selectOne("SupportingMapper.selectOneSupporting", supNo);
 		return supporting;
 	}
 
+	
 	@Override
 	public Supporting selectSupportingOne(int supNo) {
 		Supporting supporting  = sqlSession.selectOne("SupportingMapper.selectOnePreSupporting", supNo);
 		return supporting;
 	}
 
+	
+	@Override
+	public List<SupFile> selectFileList(int supNo) {
+		List<SupFile> fList = sqlSession.selectList("SupportingMapper.selectFileList", supNo);
+		return fList;
+	}
+	
 	@Override
 	public int insertSupporting(Supporting supporting) {
 		int result = sqlSession.insert("SupportingMapper.insertSupporting", supporting);
 		return result;
 	}
+
+	
 	@Override
 	public int insertFile(SupFile file) {
 		int result = sqlSession.insert("SupportingMapper.insertFile", file);
@@ -84,8 +95,8 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 	
 	@Override
-	public int deleteFile(SupFile file) {
-		int result = sqlSession.delete("SupportingMapper.deleteFile",file);
+	public int deleteFile(int supNo) {
+		int result = sqlSession.delete("SupportingMapper.deleteFile",supNo);
 		return result;
 	}
 
@@ -208,4 +219,5 @@ public class SupportingStoreLogic implements SupportingStore{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 }

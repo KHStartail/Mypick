@@ -18,7 +18,6 @@
 			<result property="sumMoney" column="SUM_MONEY"></result>
 			<result property="supPartiwon" column="SUP_PARTIWON"></result>
 			<result property="supGrade" column="SUP_CODE"></result>
-			<result property="imgNo" column="IMG_NO"></result>
 			<result property="imgName" column="IMG_NAME"></result>
 			<result property="imgReName" column="IMG_RENAME"></result>
 			<result property="imgPath" column="IMG_PATH"></result>
@@ -31,29 +30,37 @@
 			<result property="filePath" column="SUP_FILEPATH"></result>
 			<result property="fileReName" column="SUP_FILERENAME"></result>
 		</resultMap>
-		
-		
+		<!-- 진행중서포팅  목록 -->
 	  	<select id="selectAllSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 ORDER BY SUP_ENDDATE DESC
 		</select>
+		<!-- 모집중서포팅  목록 -->
 		<select id="selectAllPreSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 ORDER BY SUP_ENDDATE DESC
 		</select>
 		<!-- 파일보기 -->
-		<select id="searchPreSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
+		<select id="selectFileList" resultMap="fileResultMap">
+			SELECT * FROM SUPPORTING_FILE WHERE SUP_NO = #{supNo}
 		</select>
-		<select id="searchSupporting" resultMap="supportingResultMap">
+		<!-- 모집중 서포팅 검색 -->
+		<select id="searchPreSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
 		</select>
-		<select id="selectOneSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 2
+		<!-- 진행중 서포팅 검색 -->
+		<select id="searchSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
 		</select>
-		<select id="selectOnePreSupporting" resultMap="supportingResultMap">
+		<!-- 모집중 서포팅 상세 -->
+		<select id="selectOneSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 1
 		</select>
+		<!-- 진행중 서포팅 상세 -->
+		<select id="selectOnePreSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 2
+		</select>
+		<!-- 서포팅 작성 --> 
 		<insert id="insertSupporting" parameterType="Supporting">
-		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, 1, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgReName}, #{imgPath})
+		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, 1, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, 1, DEFAULT, DEFAULT, #{imgName}, #{imgReName}, #{imgPath})
 		</insert>
 		<!-- 파일 삽입 -->
 		<insert id="insertFile" parameterType="SupFile">
@@ -67,17 +74,21 @@
 				VALUES(SEQ_SUP_NO.NEXTVAL,#{userNo}, DEFAULT, #{supTitle}, #{supContents},#{scheduleDate}, #{supPlace }, #{groupName } , TO_DATE('#{supStartDate }', 'YYYY/MM/DD'), TO_DATE('#{supEndDate }', 'YYYY/MM/DD'), #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgReName}, #{imgPath})
 			</if>
 		-->
-
+		<!-- 서포팅수정 -->
 		<update id="updateSupporting" parameterType="Supporting">
 			UPDATE SUPPORTING SET SUP_TITLE = #{supTitle}, SUP_CONTENTS = #{supContents}, SCHEDULE_DATE = #{scheduleDate}, SUP_PLACE = #{supPlace }, SUP_STARTDATE = #{supStartDate }, SUP_ENDDATE = #{supEndDate}, GOAL_MONEY = #{goalMoney}, IMG_NAME = #{imgName}, IMG_PATH = #{imgPath}, WHERE SUP_NO = #{supNo}
 		</update>
-		<update id="updateFile" parameterType="SupFile">
-			UPDATE SUPPORTING_FILE SET SUP_FILENAME = #{fileName} , SUP_FILEPATH = #{filePath} WHERE SUP_NO = #{supNo}
+		<!-- 파일 수정 -->
+	   <update id="updateFile" parameterType="SupFile">
+			UPDATE SUPPORTING_FILE SET SUP_FILEPATH = #{filePath}, SUP_FILERENAME = #{fileReName} WHERE SUP_NO = #{supNo}
 		</update>
+		<!-- 서포팅 삭제 -->
 		<delete id="deleteSupporting" parameterType="_int">
 			DELETE FROM SUPPORTING WHERE SUP_NO = #{supNo}
 		</delete>
-		
+ 		<delete id="deleteFile" parameterType="SupFile">
+			DELETE FROM SUPPORTING_FILE WHERE SUP_NO = #{supNo}		
+		</delete>
 		<!-- 진행중 댓글 -->
 		<resultMap type="SupReply" id="replyResultMap">
 			<id property="supReAllNo" column="SUP_REPLY_ALLNO"></id>

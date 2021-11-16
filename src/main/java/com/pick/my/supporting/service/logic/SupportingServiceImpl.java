@@ -3,6 +3,8 @@ package com.pick.my.supporting.service.logic;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,18 +64,24 @@ public class SupportingServiceImpl implements SupportingService{
 		int result = store.insertSupporting(supporting);
 		return result;
 	}
+
+	@Override
+	public List<SupFile> printFileList(int supNo) {
+		List<SupFile> fList= store.selectFileList(supNo);
+		return fList;
+	}
 	@Override
 	public int insertFile(SupFile file) {
 		int result = store.insertFile(file);
 		return result;
 	}
+
 	@Override
 	public int modifySupporting(Supporting supporting) {
 		int result = store.updateSupporting(supporting);
 		return result;
 	}
-	
-	
+
 	@Override
 	public int updateFile(SupFile file) {
 		int result = store.updateFile(file);
@@ -87,8 +95,8 @@ public class SupportingServiceImpl implements SupportingService{
 	}
 	
 	@Override
-	public int deleteFile(SupFile file) {
-		int result = store.deleteFile(file);
+	public int deleteFile(int supNo) {
+		int result = store.deleteFile(supNo);
 		return result;
 	}
 
@@ -211,5 +219,4 @@ public class SupportingServiceImpl implements SupportingService{
 		//성공.실패.진행중변경
 		return 0;
 	}
-
 }

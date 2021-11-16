@@ -98,7 +98,8 @@ public interface SupportingStore {
 	 * @param file
 	 * @return
 	 */
+	public List<SupFile> selectFileList(int supNo);
 	public int insertFile(SupFile file); 
 	public int updateFile(SupFile file); 
-	public int deleteFile(SupFile file);
+	public int deleteFile(int supNo);
 }

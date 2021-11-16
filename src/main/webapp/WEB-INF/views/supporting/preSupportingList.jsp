@@ -19,30 +19,21 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <style>
- 	  html,
-      body {
-        position: relative;
-        height: 100%;
-        text-align : center;
-      }
-
-      body {
-        background: #eee;
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color: #000;
-        margin: 0;
-        padding: 0 0 100px 0;
-      }
+		body{	
+			text-align:center;
+		}
       .swiper {
         width: 100%;
         height: 100%;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .swiper-slide {
         text-align: center;
         font-size: 18px;
         background: #fff;
+        height: calc((100% - 30px) / 2);
 
         /* Center slide text vertically */
         display: -webkit-box;
@@ -58,39 +49,14 @@
         -webkit-align-items: center;
         align-items: center;
       }
-
-      .swiper-slide img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .btn{
-      	width: 200px;
-      	height:200px;
-      }
-      #searchBox{
-      	height: 30px;
-      }
-      .searchButton{
-      	height: 30px;
-      	text-align:center;
-      }
-      p { margin:20px 0px; }
-      
-      .btn-p{
-      	width: 200px;
-      	height: 100px;
-      	border : 2px solid ;
-      	background-color: blue;
-      	border-radius : 5px;
-      	font-color : white;
-      		
-      }
-      
       .w-button{
       	width : 100px;
       	height: 30px;
+      } 
+      .card {
+      	width: 300px;
+      	height: 400px;
+      	margin-bottom : 30px;
       }
     </style>
   </head>
@@ -102,80 +68,50 @@
 	<h3>일정 인원수가 달성시, 서포팅이 진행됩니다!</h3><br><br><br>
 	<input type="text" value="그룹이름을 입력해주세요." id="searchBox" size="30">
 	<input type="submit" value="검색" class="searchButton"><br><br><br><br>
-	<!-- Slider main container -->
 	<c:if test="${empty pList }"><br><br><br>
 		<h1>조회된 게시글이 없습니다.</h1>
 	</c:if>
 	<c:if test="${not empty pList }">
-	<body>
-    <!-- Swiper -->
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-        	<!-- list로 내용불러오기 
-        	이미지 경로설정, 리스트 가로세로 3개씩 총 한번에 9개 한 슬라이드에 넣기
-        	-->
- 		<c:forEach items="${pList}" var="Supporting">
-        	<div class="col-4">
-	        	<div class="card">
-				   	<div class="card-body">
-		        			<h3 class="card-title"><a href="${psOne }">${Supporting.supTitle }</a></h3>
-					    	<img src="/resources/supportingFiles/${Supporting.imgReName }" alt="IMG">
-					    	<div class="percentBox"></div><br>
-					    	<p class="card-text">
-						    	<c:url var="psOne" value="presupportingDetail.pick">
-									<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-								</c:url>
-					    	</p>
-					    	<a href="getParticipation.pick" class="btn-p">참여하기</a>
+		<div class="row"> 
+			<c:forEach items="${pList}" var="Supporting" varStatus="sLength">
+				<c:url var="psOne" value="presupportingDetail.pick">
+					<c:param name="supNo" value="${Supporting.supNo}"></c:param>
+				</c:url>
+			<div class="col-4">
+				<div class="card">
+				<a href="${psOne }"> 
+					<img src="${Supporting.imgPath }" class="card-img-top" alt="img">
+					<div class="card-body"> 
+						<h5 class="card-title">${Supporting.supTitle }</h5>
+						<p class="card-text">${Supporting.supContents }</p> 
+						<a href="#" class="btn btn-primary">참여하기</a> 
 					</div>
+				</a> 
 				</div>
 			</div>
-		</c:forEach>
-        </div>
-        <div class="swiper-slide">
-        </div>
-        <div class="swiper-slide">
-        </div>
-        <div class="swiper-slide">
-        </div>
-        <div class="swiper-slide">
-        </div>
-        <div class="swiper-slide">
-        </div>
-        <!-- <div class="swiper-slide">
-        Slide 2
-        </div> -->
-    </div>
-	      <div class="swiper-button-next"></div>
-	      <div class="swiper-button-prev"></div>
-	      <div class="swiper-pagination"></div>
-    </div>
-	<button class="w-button" onclick="location.href='supportingWriteView.pick';">서포팅모집</button><br><br><br><br>
+			</c:forEach>		
+		</div>
+	<div class="swiper-pagination"></div>
+   	<button class="w-button" onclick="location.href='supportingWriteView.pick';">서포팅모집</button><br><br><br><br>
 	</c:if>
-</div>
 <jsp:include page="/footer.jsp"></jsp:include>
-	<script>
-	//검색
-	var search = document.getElementById("#searchBox");
-	$("#searchBox").focus(function(){
-		$("#searchBox").val("");
-	});
-	
-	 //swiper js
-	// Initialize Swiper
-	     var swiper = new Swiper(".mySwiper", {
-	       cssMode: true,
-	       navigation: {
-	         nextEl: ".swiper-button-next",
-	         prevEl: ".swiper-button-prev",
-	       },
-	       pagination: {
-	         el: ".swiper-pagination",
-	       },
-	       mousewheel: true,
-	       keyboard: true,
-	     });
-	</script>
+<script>
+//검색
+var search = document.getElementById("#searchBox");
+$("#searchBox").focus(function(){
+	$("#searchBox").val("");
+});
+	var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 3,
+    grid: {
+      rows: 2,
+    },
+    spaceBetween: 30,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+  });
+</script>
 </body>
 </html>

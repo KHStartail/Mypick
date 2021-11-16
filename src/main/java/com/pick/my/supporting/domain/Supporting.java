@@ -17,7 +17,6 @@ public class Supporting {
 	private int goalMoney;
 	private int supPartiwon;
 	private int supGrade;
-	private int imgNo;
 	private String imgName;
 	private String imgReName;
 	private String imgPath;
@@ -161,16 +160,6 @@ public class Supporting {
 	}
 
 
-	public int getImgNo() {
-		return imgNo;
-	}
-
-
-	public void setImgNo(int imgNo) {
-		this.imgNo = imgNo;
-	}
-
-
 	public String getImgName() {
 		return imgName;
 	}
@@ -202,7 +191,7 @@ public class Supporting {
 				+ supTitle + ", supContents=" + supContents + ", scheduleDate=" + scheduleDate + ", supPlace="
 				+ supPlace + ", groupName=" + groupName + ", supStartDate=" + supStartDate + ", supEndDate="
 				+ supEndDate + ", sumMoney=" + sumMoney + ", goalMoney=" + goalMoney + ", supPartiwon=" + supPartiwon
-				+ ", supGrade=" + supGrade + ", imgNo=" + imgNo + ", imgName=" + imgName + ", imgReName=" + imgReName
+				+ ", supGrade=" + supGrade + ", imgName=" + imgName + ", imgReName=" + imgReName
 				+ ", imgPath=" + imgPath + "]";
 	}
 }

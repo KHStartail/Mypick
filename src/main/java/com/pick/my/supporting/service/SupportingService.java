@@ -3,6 +3,8 @@ package com.pick.my.supporting.service;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pick.my.common.PaymentHistory;
@@ -99,7 +101,8 @@ public interface SupportingService {
 	 * @param supFile
 	 * @return
 	 */
+	public List<SupFile> printFileList(int supNo);
 	public int insertFile(SupFile supFile); 
 	public int updateFile(SupFile file); 
-	public int deleteFile(SupFile file);
+	public int deleteFile(int supNo);
 }
