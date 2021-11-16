@@ -24,8 +24,8 @@ public class IdolServiceImpl implements IdolService{
 
 	@Override
 	public Idol printOndIdol(int idolNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Idol idol = store.selectOne(idolNo);
+		return idol;
 	}
 
 	@Override
@@ -36,14 +36,14 @@ public class IdolServiceImpl implements IdolService{
 
 	@Override
 	public int modifyIdol(Idol idol) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.updateIdol(idol);
+		return result;
 	}
 
 	@Override
 	public int removeIdol(int idolNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.deleteIdol(idolNo);
+		return result;
 	}
 
 }

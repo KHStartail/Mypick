@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardMapper">
+	<resultMap type="Board" id="boardResultMap">
+		<id property="boardNo" column="BOARD_NO" />
+		<result property="boardTitle" column="BOARD_TITLE" />
+		<result property="boardContents" column="BOARD_COUNTENTS" />
+		<result property="boardWriter" column="BOARD_WRITER" />
+		<result property="boardFileName" column="BOARD_FILENAME" />
+		<result property="boardFileReName" column="BOARD_FILERENAME" />
+		<result property="boardCount" column="BOARD_COUNT" />
+		<result property="bCreateDate" column="B_CREATE_DATE" />
+		<result property="bUpdateDate" column="B_UPDATE_DATE" />
+		<result property="bStatus" column="B_STATUS" />
+	</resultMap>
+	<resultMap type="Reply" id="replyResultMap">
+		<id property="ReplyNo" column="REPLY_NO"></id>
+		<result property="replyContents" column="REPLY_CONTENTS"/>
+		<result property="refBoardNo" column="REF_BOARD_NO"/>
+		<result property="replyWriter" column="REPLY_WRITER"/>
+		<result property="rCreateDate" column="R_CREATE_DATE"/>
+		<result property="rUpdateDate" column="R_UPDATE_DATE"/>
+		<result property="rStatus" column="R_STATUS"/>
+	</resultMap>
+
+
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*) FROM
+		BOARD WHERE B_STATUS = 'Y'
+	</select>
+
+	<select id="selectAllList" resultMap="boardResultMap">
+		SELECT * FROM BOARD WHERE
+		B_STATUS ='Y' ORDER BY BOARD_NO DESC
+	</select>
+	<select id="selectOneBoard" resultMap="boardResultMap">
+		SELECT * FROM BOARD WHERE BOARD_NO = #{boardNo}
+	</select>
+	<select id="selectReplyList" resultMap="replyResultMap">
+		SELECT * FROM BOARD_REPLY WHERE REF_BOARD_NO = #{boardNo} AND R_STATUS = 'Y' ORDER BY REPLY_NO DESC
+	</select>
+	<insert id="insertBoard" parameterType="Board">
+		INSERT INTO BOARD
+		VALUES(SEQ_BOARDNUM.NEXTVAL, #{boardTitle }, #{boardContents },
+		#{boardWriter }, #{boardFileName }, #{boardFileReName }, DEFAULT,
+		DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	<delete id="deleteBoard" parameterType="_int">
+		DELETE FROM BOARD WHERE BOARD_NO = #{boardNo}
+	</delete>
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BOARD SET BOARD_TITLE = #{boardTitle},BOARD_COUNTENTS = #{boardContents},BOARD_FILENAME = #{boardFileName},BOARD_FILERENAME=#{boardFileReName},B_UPDATE_DATE = DEFAULT WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<insert id="insertReply" parameterType="Reply">
+		INSERT INTO BOARD_REPLY VALUES(SEQ_REPLYNUM.NEXTVAL, #{replyContents }, #{refBoardNo }, #{replyWriter }, SYSDATE, SYSDATE, DEFAULT)
+	</insert>
+	
+	<update id="updateReply" parameterType="Reply">
+		UPDATE BOARD_REPLY SET REPLY_CONTENTS = #{replyContents} WHERE REF_BOARD_NO =#{refBoardNo} AND REPLY_NO = #{replyNo} AND R_STATUS = 'Y'
+	</update>
+	
+	<update id="deleteReply">
+		UPDATE BOARD_REPLY SET R_STATUS = 'N' WHERE REF_BOARD_NO =#{refBoardNo} AND REPLY_NO = #{ReplyNo}
+	</update>
+</mapper>

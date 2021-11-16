@@ -16,7 +16,7 @@ public interface CommunityService {
 	public int insertFile(Community_File File);
 	public List<Community_Post> printAllPost(PageInfo pi);
 	public int modifyCommunityPost(Community_Post communityPost);
-	public List<Community_Reply> printAllReply(List<Community_Reply> rList);
+	public List<Community_Reply> printAllReply(int postNo);
 	public int registerReply(Community_Reply reply);
 	public int modifyReply(Community_Reply reply);
 	public int removeReply(Community_Reply reply);
@@ -28,5 +28,10 @@ public interface CommunityService {
 	public int removePost(int postNo);
 	public int removeFile(int postNo);
 	public int modifyPost(Community_Post communityPost);
-	public int modifyFile(Community_File File);
+	public int ReinsertFile(Community_File File);
+	public Community_Post printCommunityPostNo (Community_Post communityPost);
+	public int modifyFile(List<String> fileNames);
+	public int printHeart(Heart heart);
+	public int insertHeartCount(int postNo);
+	public int removeHeartCount(int postNo);
 }

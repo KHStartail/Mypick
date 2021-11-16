@@ -69,7 +69,7 @@
 					<td><a href="${cDetail }">${Post.postTitle }</a></td>
 					<td>${Post.userNickName }</td>
 					<td>${Post.viewsCount }<img src="/resources/img/eye.png"></td>
-					<td>0 <img src="/resources/img/heart.png"></td>
+					<td>${Post.heartCount } <img src="/resources/img/heart.png"></td>
 					<td>${Post.updateDate }</td>
 				</tr>
 		</c:forEach>
@@ -150,4 +150,14 @@
 <br>
 <br>
 <jsp:include page="/footer.jsp"></jsp:include>
+<script>
+   if(self.name != 'reload'){
+	   self.name= 'reload';
+	   self.location.reload(true);
+   }else{
+	   self.name='';
+   }
+
+</script>
+
 </html>

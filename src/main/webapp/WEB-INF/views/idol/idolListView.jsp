@@ -16,15 +16,22 @@
 			<th>그룹명</th>
 			<th>사진유무</th>
 		</tr>
-		<c:if test="${ empty iList }">
+		<c:if test="${empty iList }">
 			<tr>
-				<td colspan="5" align="center">조회된 정보가 없습니다.</td>
+				<td colspan="3" align="center">조회된 아이돌이 없습니다.</td>
 			</tr>
 		</c:if>
 		<c:if test="${not empty iList }">
 		<c:forEach items="${iList }" var="idol">
 			<tr>
-				<td align="center">${idol.idolName }</td>
+				<td align="center">
+					<c:url var="iDetail" value="idoldetail.pick">
+						<c:param name="idolNo" value="${idol.idolNo }"></c:param>
+					</c:url>
+					<a href="${iDetail }">
+						${idol.idolName }
+					</a>
+				</td>
 				<td align="center">${idol.groupName }</td>
 				<td align="center">
 					<c:if test="${not empty idol.filePath }">O</c:if>

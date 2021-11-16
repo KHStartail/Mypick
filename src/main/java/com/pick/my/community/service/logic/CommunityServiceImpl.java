@@ -12,12 +12,10 @@ import com.pick.my.community.domain.Heart;
 import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.service.CommunityService;
 import com.pick.my.community.store.CommunityStore;
-
 @Service
 public class CommunityServiceImpl implements CommunityService{
 	@Autowired
 	private CommunityStore store;
-
 	@Override
 	public int getListcount() {
 		int totalCount = store.getListcount();
@@ -32,8 +30,8 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int addReadCount(int postNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.addReadCount(postNo);
+		return result;
 	}
 
 	@Override
@@ -54,41 +52,37 @@ public class CommunityServiceImpl implements CommunityService{
 		return 0;
 	}
 
-	@Override
-	public List<Community_Reply> printAllReply(List<Community_Reply> rList) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public int registerReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.insertReply(reply);
+		return result;
 	}
 
 	@Override
 	public int modifyReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.updateReply(reply);
+		return result;
 	}
 
 	@Override
 	public int removeReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result =store.deleteReply(reply);
+		return result;
 	}
 
 	@Override
 	public int saveHeart(Heart heart) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.insertHeart(heart);
+		return result;
 	}
 
 	@Override
 	public int removeHeart(Heart heart) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.deleteHeart(heart);
+		return result;
 	}
+
 
 	@Override
 	public List<Community_Post> printAllPost(PageInfo pi) {
@@ -131,10 +125,46 @@ public class CommunityServiceImpl implements CommunityService{
 		int result = store.updatePost(communityPost);
 		return result;
 	}
+	
 
 	@Override
-	public int modifyFile(Community_File File) {
-		int result = store.updateFile(File);
+	public List<Community_Reply> printAllReply(int postNo) {
+		List<Community_Reply> rList = store.selectAllReply(postNo);
+		return rList;
+	}
+
+	@Override
+	public int ReinsertFile(Community_File File) {
+		int result = store.ReinsertFile(File);
+		return result;
+	}
+
+	@Override
+	public Community_Post printCommunityPostNo(Community_Post communityPost) {
+		Community_Post postNo = store.selectCommunityPostNo(communityPost);
+		return postNo;
+	}
+
+	@Override
+	public int modifyFile(List<String> fileNames) {
+		int result =store.updateFile(fileNames);
+		return result;
+	}
+
+	@Override
+	public int printHeart(Heart heart) {
+		int result = store.selectHeart(heart);
+		return result;
+	}
+	@Override
+	public int insertHeartCount(int postNo) {
+		int result = store.insertHeartCount(postNo);
+		return result;
+	}
+
+	@Override
+	public int removeHeartCount(int postNo) {
+		int result = store.deleteHeartCount(postNo);
 		return result;
 	}
 

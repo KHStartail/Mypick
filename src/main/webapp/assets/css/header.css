@@ -10,6 +10,10 @@ body{
     z-index: 5;
     background-color: white;
 }
+.dropdown{
+	
+	
+}
     .logo{
         width: 25%;
         height: 87%;
@@ -26,33 +30,56 @@ body{
         height: 100%;
         float: left;
     }
-     #h-ul{
-         margin: 0;
-         width: 100%;
-         height: 20%;
-         list-style-type: none;
-         margin-top: 100px;
-         margin-left: 170px;
-        }
-        #h-ul li{
-         padding-top: 35px;
-         text-align: center;
-         float: left;
-         width: 35%;
-         height: 100%;
-        }
-        #h-ul a{
-            display: block;
-        }
-        .m-list{
-            text-decoration: none;
-            color: black;
-            font-size: 20px;
-            font-weight: bolder;
-        }
-        #h-ul li a:hover{
-            color: #fb5849;
-        }
+    #h-ul{
+        margin: 0;
+        width: 100%;
+        height: 20%;
+        list-style-type: none;
+        margin-top: 100px;
+        margin-left: 170px;
+   }
+	   #h-ul li{
+	    padding-top: 35px;
+	    text-align: center;
+	    float: left;
+	    width: 35%;
+	    height: 100%;
+   }
+   #h-ul a{
+       display: block;
+   }
+   .m-list{
+       text-decoration: none;
+       color: black;
+       font-size: 20px;
+       font-weight: bolder;
+   }
+   #h-ul li a:hover{
+       color: #fb5849;
+   }
+   
+   .drop{
+      	display:none;
+   	 	background-color : #eee;
+   }
+   
+   #box:hover .drop{
+   	display:block;
+   }
+   
+   .drop a{
+  	 color : black;
+   }
+   .b-ul box{
+   	 background-color : #eee;
+   	 text-align : center;
+   }
+   .dropdown{
+   		width: 100px;
+   		height: 30px;
+   		background-color : #eee;
+   }
+         
     .mypage{
         margin-top: 70px;
         margin-right: 50px;

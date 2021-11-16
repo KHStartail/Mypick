@@ -46,10 +46,13 @@
         </nav>
         <div id="h-1">
             <ul id="h-ul">
-                <li><a href="#" class="m-list">SUPPORTING</a></li>
-                <li class="b-ul">
-                    <a href="../mypick/find.html" class="m-list">GOODS</a>
+                <li id="box" class="b-ul"><a href="#" class="m-list">SUPPORTING</a>
+	                <ul class="drop">
+		                <li class="b-ul box"><a href="presupportingList.pick" class="dropdown">PRESUPPORTING</a></li><br>
+		                <li class="b-ul box"><a href="supportingList.pick" class="dropdown">SUPPORTING</a></li>
+	                </ul>
                 </li>
+                <li class="b-ul"><a href="../mypick/find.html" class="m-list">GOODS</a></li>
             </ul>
         </div>
         <div class="logo">
@@ -61,9 +64,18 @@
                     <div>
                        
                     </div>
+                    	<c:if test ="${loginUser.userId eq null}">
                     <ul class="serv-ul">
-                        <li class="serv-li" onclick="location.href='/loginView.kh';">로그인</li>
+                        <li class="serv-li"><a href="loginView.pick">로그인</a></li>
                     </ul>
+                 </c:if>
+                
+	            <c:if test="${loginUser.userId ne null and userId ne ''}">
+	
+	    			 <ul class="serv-ul">
+                        <li class="serv-li"><a onclick="location.href='/logout.pick';">로그아웃</a></li>
+                    </ul>
+				</c:if>
                 </li>
             </ul>
         </div>
@@ -80,8 +92,14 @@
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="#">Supportting</a></li>
+                            <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
+                            <li class="submenu">
+                                <a href="javascript:;">Supporting</a>
+                                <ul>
+                                    <li><a href="presupportingList.pick">모집중 서포팅</a></li>
+                                    <li><a href="supportingList.pick">진행중 서포팅</a></li>
+                                 </ul>
+                            </li>
                             <li class="scroll-to-section"><a href="#">Goods</a></li>
                             <!-- <li class="submenu">
                                 <a href="javascript:;">MyPage<a>

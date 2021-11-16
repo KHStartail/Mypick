@@ -33,8 +33,8 @@ public class CommunityStoreLogic implements CommunityStore{
 
 	@Override
 	public int addReadCount(int postNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("CommunityPostMapper.addReadCount",postNo);
+		return result;
 	}
 
 	@Override
@@ -56,39 +56,39 @@ public class CommunityStoreLogic implements CommunityStore{
 	}
 
 	@Override
-	public List<Community_Reply> selectAllReply(List<Community_Reply> rList) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Community_Reply> selectAllReply(int postNo) {
+		List<Community_Reply> rList = sqlSession.selectList("CommunityPostMapper.replyList",postNo);
+		return rList;
 	}
 
 	@Override
 	public int insertReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("CommunityPostMapper.insertReply",reply);
+		return result;
 	}
 
 	@Override
 	public int updateReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.update("CommunityPostMapper.updateReply",reply);
+		return result;
 	}
 
 	@Override
 	public int deleteReply(Community_Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.delete("CommunityPostMapper.deleteReply",reply);
+		return result;
 	}
 
 	@Override
 	public int insertHeart(Heart heart) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("CommunityPostMapper.insertLike",heart);
+		return result;
 	}
 
 	@Override
 	public int deleteHeart(Heart heart) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.delete("CommunityPostMapper.deleteHeart",heart);
+		return result;
 	}
 
 	@Override
@@ -137,10 +137,42 @@ public class CommunityStoreLogic implements CommunityStore{
 		return result;
 	}
 
+
 	@Override
-	public int updateFile(Community_File File) {
-		int result = sqlSession.update("CommunityPostMapper.updateFile",File);
+	public int ReinsertFile(Community_File File) {
+		int result = sqlSession.insert("CommunityPostMapper.reUpload",File);
 		return result;
 	}
+
+	@Override
+	public Community_Post selectCommunityPostNo(Community_Post communityPost) {
+		Community_Post postNo = sqlSession.selectOne("CommunityPostMapper.postNo",communityPost);
+		return postNo;
+	}
+
+	@Override
+	public int updateFile(List<String> fileNames) {
+		int result = sqlSession.delete("CommunityPostMapper.deleteFileName",fileNames);
+		return result;
+	}
+
+	@Override
+	public int selectHeart(Heart heart) {
+		int result = sqlSession.selectOne("CommunityPostMapper.selectHeart",heart);
+		return result;
+	}
+
+	@Override
+	public int insertHeartCount(int postNo) {
+		int result = sqlSession.delete("CommunityPostMapper.insertHeart",postNo);
+		return result;
+	}
+
+	@Override
+	public int deleteHeartCount(int postNo) {
+		int result =sqlSession.delete("CommunityPostMapper.deleteHeartCount",postNo);
+		return result;
+	}
+
 
 }

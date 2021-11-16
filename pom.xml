@@ -15,13 +15,22 @@
 	</properties>
 	<dependencies>
 	<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+	<!-- 대용량파일처리 -->
 		<dependency>
 		    <groupId>commons-io</groupId>
 		    <artifactId>commons-io</artifactId>
 		    <version>2.6</version>
 		</dependency>
-		<!-- ojbc6.jar, mybatis, spring-mybatis, spring-jdbc, common-dbcp -->
+				
+		<!-- commons-fileupload -->
+		<!-- multipart등을 사용할수 있음 -->
+		<dependency>
+		  <groupId>commons-fileupload</groupId>
+		  <artifactId>commons-fileupload</artifactId>
+		  <version>1.3.1</version>
+		</dependency>
 		
+		<!-- ojbc6.jar, mybatis, spring-mybatis, spring-jdbc, common-dbcp -->
 		<!-- 순수 mybatis -->
 		<dependency>
 		    <groupId>org.mybatis</groupId>
@@ -35,7 +44,11 @@
 		    <artifactId>mybatis-spring</artifactId>
 		    <version>1.3.2</version>
 		</dependency>
-		
+		<dependency>
+		    <groupId>net.nurigo</groupId>
+		    <artifactId>javaSDK</artifactId>
+		    <version>2.2</version>
+		</dependency>
 		<!-- Spring에서 JDBC를 사용하는데 DataSource를 사용하도록 해주는 라이브러리 -->
 		<dependency>
 		    <groupId>org.springframework</groupId>

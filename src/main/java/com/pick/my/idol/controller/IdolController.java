@@ -118,14 +118,16 @@ public class IdolController {
 			@ModelAttribute IdolSearch search
 			, Model model) {
 		List<Idol> searchList = service.printSearchAll(search);
-		if(!searchList.isEmpty()) {
+		if(!searchList.isEmpty() && searchList != null) {
 			model.addAttribute("iList", searchList);
 			model.addAttribute("search", search);
 			return "idol/idolListView";
 		}else {
-			return "idol/Error";
+			
+			return "idol/idolListView";
 		}
 	}
+
 	
 	@RequestMapping(value = "idolModify.pick", method=RequestMethod.POST)
 	public String idolModify(

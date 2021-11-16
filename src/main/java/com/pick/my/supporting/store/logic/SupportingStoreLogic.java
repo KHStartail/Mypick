@@ -1,10 +1,14 @@
 package com.pick.my.supporting.store.logic;
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.pick.my.common.PaymentHistory;
+import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
 import com.pick.my.supporting.domain.SupReplyReport;
@@ -13,49 +17,76 @@ import com.pick.my.supporting.store.SupportingStore;
 
 @Repository
 public class SupportingStoreLogic implements SupportingStore{
-
-	@Override
-	public List<Supporting> selectAllSupporting(int supCategory) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public List<Supporting> selectAllPreSupporting(int supCategory) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-//	public List<Supporting> findKeywordPreSupporting(HashMap<string groupName, string keyword>);
-//	public List<Supporting> findKeywordSupporting(HashMap<string groupName, string keyword>);
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
 	
 	@Override
+	public List<Supporting> selectAllPreSupporting() {
+		List<Supporting> pList = sqlSession.selectList("SupportingMapper.selectAllPreSupporting");
+		return pList;
+	}
+	@Override
+	public List<Supporting> selectAllSupporting() {
+		List<Supporting> sList = sqlSession.selectList("SupportingMapper.selectAllSupporting");
+		return sList;
+	}
+	@Override
+	public List<Supporting> selectSearchPreSupporting(HashMap<String, String> searchMap){
+		List<Supporting> psList = sqlSession.selectList("SupportingMapper.searchPreSupporting", searchMap);
+		return psList;	
+	}
+	@Override
+	public List<Supporting> selectSearchSupporting(HashMap<String, String> searchMap){
+		List<Supporting> ssList = sqlSession.selectList("SupportingMapper.searchSupporting", searchMap);
+		return ssList;	
+	}
+
+	@Override
 	public Supporting selectPreSupportingOne(int supNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Supporting supporting = sqlSession.selectOne("SupportingMapper.selectOneSupporting", supNo);
+		return supporting;
 	}
 
 	@Override
 	public Supporting selectSupportingOne(int supNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Supporting supporting  = sqlSession.selectOne("SupportingMapper.selectOnePreSupporting", supNo);
+		return supporting;
 	}
 
 	@Override
 	public int insertSupporting(Supporting supporting) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("SupportingMapper.insertSupporting", supporting);
+		return result;
+	}
+	@Override
+	public int insertFile(SupFile file) {
+		int result = sqlSession.insert("SupportingMapper.insertFile", file);
+		return result;
 	}
 
 	@Override
 	public int updateSupporting(Supporting supporting) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.update("SupportingMapper.updateSupporting", supporting);
+		return result;
+	}
+
+	@Override
+	public int updateFile(SupFile file) {
+		int result = sqlSession.update("SupportingMapper.updateFile", file);
+		return result;
 	}
 
 	@Override
 	public int deleteSupporting(int supNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.delete("SupportingMapper.deleteSupporting", supNo);
+		return result;
+	}
+	
+	@Override
+	public int deleteFile(SupFile file) {
+		int result = sqlSession.delete("SupportingMapper.deleteFile",file);
+		return result;
 	}
 
 	@Override
@@ -77,7 +108,7 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 
 	@Override
-	public int deleteSupReply(int supReAllNo) {
+	public int deleteSupReply(SupReply supReply) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -95,7 +126,7 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 
 	@Override
-	public int deleteSupReplyChild(int supReAllNo) {
+	public int deleteSupReplyChild(SupReply supReply) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

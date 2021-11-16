@@ -39,7 +39,7 @@ function kakaoLogin(){
             console.log(authobj);
             window.Kakao.API.request({
                 url: '/v2/user/me',
-                seccess: res =>{
+                seccess: res => {
                     const kakao_account = res/kakao_account;
                     console.log(kakao_account);
                 }
@@ -58,7 +58,6 @@ function kakaoLogin(){
 						<div class="login-title">
 							<h2 class="text-center text-primary">MyPick 로그인</h2>
 						</div>
-						<form>
 							<div class="select-role">
 								<div class="btn-group btn-group-toggle" data-toggle="buttons">
 									<label class="btn active">
@@ -75,41 +74,43 @@ function kakaoLogin(){
 									</label>
 								</div>
 							</div>
+							<form action="/login.pick" method="post">
 							<div class="input-group custom">
-								<input type="text" class="form-control form-control-lg" placeholder="아이디">
+								<input name="userId" type="text" class="form-control form-control-lg" placeholder="아이디">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
 							</div>
 							<div class="input-group custom">
-								<input type="password" class="form-control form-control-lg" placeholder="**********">
+								<input name="userPwd" type="password" class="form-control form-control-lg" placeholder="**********">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
 								</div>
 							</div>
+							
 							<div class="row pb-30">
 								<div class="col-6">
-									<div class="forgot-password" style="position: absolute; top: 50%; left: 25%; width: 150%; text-align: center;"><a href="forgot-id.html">아이디 찾기</a>/<a href="forgot-password.html">비밀번호 찾기</a></div>
+<!-- 									<div class="forgot-password" style="position: absolute; top: 50%; left: 25%; width: 150%; text-align: center;"><a href="location.href='findIdView.pick">아이디 찾기</a>/<a href="location.href='findPwdView.pick">비밀번호 찾기</a></div> -->
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="input-group mb-0">
-										<!--
-											use code for form submit
-											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-										-->
-										<a class="btn btn-primary btn-lg btn-block" href="index.html" style="background : #fb5849dc" >로그인</a>
+										
+											
+											<input class="btn btn-primary btn-lg btn-block" type="submit" value="로그인">
+										
+<!-- 										<input class="btn btn-primary btn-lg btn-block" type="submit" style="background : #fb5849dc" value="로그인"> -->
 									</div><br>
                                     <a href="javascript:kakaoLogin();"><img src="https://t1.daumcdn.net/cfile/tistory/99BEE8465C3D7D1214"></a>
 
 									<div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
 									<div class="input-group mb-0">
-										<a class="btn btn-outline-primary btn-lg btn-block" href="memberjoin.html">회원가입</a>
+										<a class="btn btn-outline-primary btn-lg btn-block" href="enrollView.pick">회원가입</a>
 									</div>
 								</div>
 							</div>
-						</form>
+							</form>
 					</div>
 			</div>
 		</div>
