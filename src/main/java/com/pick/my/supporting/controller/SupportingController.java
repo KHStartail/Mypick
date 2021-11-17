@@ -3,6 +3,7 @@ package com.pick.my.supporting.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,9 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +42,7 @@ import com.pick.my.supporting.service.SupportingService;
 public class SupportingController {
 	@Autowired
 	private SupportingService service;
-	private Supporting supporting;
+	
 	//모집중 서포팅 게시글 전체 조회
 	@RequestMapping(value="presupportingList.pick", method=RequestMethod.GET)
 	public ModelAndView preSupportingListView(ModelAndView mv) {
@@ -56,24 +59,22 @@ public class SupportingController {
 	
 	//진행중 서포팅 게시글 전체 조회
 	@RequestMapping(value="supportingList.pick", method=RequestMethod.GET)
-	public ModelAndView supportingListView(ModelAndView mv) {
-//	Member loginUser = (Member)session.getAttribute("UserNickName");
-//		if(loginUser != null) {
-			List<Supporting> sList = service.printAllSupporting();//int supCategory);
-			if(!sList.isEmpty()) {
-				mv.addObject("sList", sList);
-				mv.setViewName("supporting/supportingList");
-			}else{
-				mv.addObject("msg", "진행중 서포팅 게시글 전체조회 실패");
-				mv.setViewName("supporting/supportError");
-			}
-			return mv;
+	public ModelAndView supportingListView(ModelAndView mv, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		List<Supporting> sList = service.printAllSupporting();
+		if(!sList.isEmpty()) {
+			mv.addObject("userId", loginUser);
+			mv.addObject("sList", sList);
+			mv.setViewName("supporting/supportingList");
+			
+		}else{
+			mv.addObject("msg", "진행중 서포팅 게시글 전체조회 실패");
+			mv.setViewName("supporting/supportError");
+		
+		}
+		return mv;
 	}
-		/*
-		 * }else { 
-		 * 	alert('로그인 후 이용해주세요');
-		 * }
-		 */
 
 	/*
 	 * //모집중 검색
@@ -104,9 +105,13 @@ public class SupportingController {
 	@RequestMapping(value="presupportingDetail.pick", method=RequestMethod.GET)
 	public ModelAndView presupportingDetail(@RequestParam("supNo") int supNo, ModelAndView mv) {
 		Supporting supporting = service.preSupportingOne(supNo);
-		System.out.println(supporting);
+		List<SupFile> fileList = service.printFileList(supNo);
 		if(supporting!=null) {
+			HttpSession session;
+			Member userOne = service.printOneUser(supporting.getUserNo());
+				mv.addObject("userNickName", userOne.getUserNickName());
 				mv.addObject("supporting", supporting);
+				mv.addObject("fList",fileList);
 				mv.setViewName("supporting/preSupportingDetailView");
 		}else{
 			mv.addObject("msg", "서포팅 상세조회 실패");
@@ -116,20 +121,20 @@ public class SupportingController {
 	}
 	//진행중 상세조회
 	@RequestMapping(value="supportingDetail.pick", method=RequestMethod.GET)
-	public  ModelAndView supportingDetail(HttpSession session, @RequestParam("supNo") int supNo,  ModelAndView mv) {
+	public  ModelAndView supportingDetail(HttpServletResponse response, HttpSession session, @RequestParam("supNo") int supNo,  ModelAndView mv) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		if(loginUser!=null) {
-			Supporting supporting = service.supportingOne(supNo);
-			if(supporting!=null) {
+		Supporting supporting = service.supportingOne(supNo);
+		List<SupFile> fileList = service.printFileList(supNo);
+		Member userOne = service.printOneUser(supporting.getUserNo());
+		if(supporting!=null) {
+				mv.addObject("userId", loginUser.getUserId()); //로그인했으니까
 				mv.addObject("supporting", supporting);
+				mv.addObject("userNickName", userOne.getUserNickName());
+				mv.addObject("fList", fileList);
 				mv.setViewName("supporting/supportingDetailView");
-			}else{
+		}else{
 				mv.addObject("msg", "서포팅 상세조회 실패");
 				mv.setViewName("supporting/supportError");
-			}
-		}else {
-			mv.addObject("loginUser", loginUser);
-			mv.setViewName("supporting/supportingDetailView");
 		}
 		return mv;
 	}
@@ -147,13 +152,14 @@ public class SupportingController {
 			, @ModelAttribute Supporting supporting
 			, @ModelAttribute SupFile supFile
 			, MultipartHttpServletRequest multiRequest
-			, Model model) {
-		//HttpSession session) {
-		//Member loginUser = (Member)session.getAttribute("UserNickName");
+			, Model model, HttpSession session,HttpServletRequest request) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//포맷시 date import: java.utill.Date
 		supporting.setScheduleDate(scheduleDate);
 		supporting.setSupStartDate(Date.valueOf(supStartDate));
 		supporting.setSupEndDate(Date.valueOf(supEndDate));
+		supporting.setUserNo(loginUser.getUserNo());
 		if(!uploadFile.getOriginalFilename().equals("")) {
 			String renameFileName = saveFile(uploadFile, supporting, multiRequest);
 			if(renameFileName != null) {
@@ -263,13 +269,13 @@ public class SupportingController {
 			@RequestParam("sDate") String scheduleDate
 			, @RequestParam("startDate") String supStartDate
 			, @RequestParam("endDate") String supEndDate
-			, @RequestParam("supFileRename") String fileRename
+			, @RequestParam("imgReName") String fileRename
+			, @RequestParam("fileReName") String filesRename
 			, @RequestParam(value= "reloadFile", required=false) MultipartFile reloadFile
 			, @ModelAttribute Supporting supporting
 			, @ModelAttribute SupFile supFile
 			, MultipartHttpServletRequest multiRequest
 			, Model model) {
-		//수정시  업로드된 파일 있을경우, 삭제 후 다시 업로드
 		
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//포맷시 date import: java.utill.Date
 		supporting.setScheduleDate(scheduleDate);
@@ -278,10 +284,13 @@ public class SupportingController {
 		//기존파일삭제
 		if(reloadFile!=null && !reloadFile.isEmpty()) {
 			if(supporting.getImgPath()!=null) {
-				deleteFile(supporting.getSupNo(),supporting.getImgReName(),multiRequest);
-				deleteFileList(supFile.getSupNo(),supFile.getFileReName(), multiRequest);
+				/*
+				 * deleteFile(supporting.getSupNo(),supporting.getImgReName(),multiRequest);
+				 *deleteFileList(supFile.getSupNo(),supFile.getFileReName(), multiRequest);
+				 */	
 			}
 		}
+		
 		//새파일 업로드(대표이미지)
 		String FileRename = saveFile(reloadFile, supporting, multiRequest);
 		if(FileRename!=null) {
@@ -300,7 +309,7 @@ public class SupportingController {
 					fileRoot = contextRoot + "\\supportingFiles\\";
 				//	System.out.println(contextRoot);
 					File folder = new File(fileRoot);
-					System.out.println(folder);
+				//	System.out.println(folder);
 					if (!folder.exists()) {
 						folder.mkdir(); // 폴더 생성
 					}
@@ -375,14 +384,15 @@ public class SupportingController {
 	//서포팅 삭제
 	@RequestMapping(value="supportingDelete.pick", method=RequestMethod.GET)
 	public String deleteSupporitng(@RequestParam("supNo") int supNo
-			, @RequestParam("fileNames") List<SupFile> fileNames
-			, @RequestParam("imgName") String imgName
 			, Model model, HttpServletRequest request) {
+		List<SupFile> subFileList = service.printFileList(supNo);
+		Supporting supporting = service.preSupportingOne(supNo);
 		int result = service.removeSupporting(supNo);
 		if(result >  0) {
-			if(fileNames != null) {
-				deleteFile(supNo, imgName,request);
+			for(SupFile supFile : subFileList) {
+				deleteFileList(supFile.getFileName(), supFile.getSupNo(), request);
 			}
+			deleteFile(supporting.getSupNo(), supporting.getImgName(), request);
 			return "redirect:presupportingList.pick";
 		}else {
 			model.addAttribute("msg", "서포팅 삭제 실패!");
@@ -390,40 +400,52 @@ public class SupportingController {
 		}
 	}
 	
-	//파일삭제
+	//대표이미지파일삭제
 	public void deleteFile(int supNo, String imgName, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String fullPath = root + "\\supportingFiles";
 		File file = new File(fullPath + "\\" + imgName);
-			if(file.exists()) {
-				file.delete();
-				int result = service.deleteFile(supNo);
-			}
+		if(file.exists()) {
+			file.delete();
+		}
 	}
 	
 	//다중파일 삭제
-	public void deleteFileList(int supNo, String fileName, HttpServletRequest request) {
+	public void deleteFileList(String fileNames, int supNo, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String filePath = root + "\\supportingFiles";
-	//	for(int i =0; i < filePath.(); i++) {
-	//		File file = new File(filePath + "\\" +fileName.get(i));
-	//		if(file.exists()) {
-	//			file.delete();
-	//		}
-	//	}
+		File file = new File(filePath + "\\" +fileNames);
+		int result = service.deleteFile(supNo);
+		if(file.exists()) {
+			file.delete();
+		}
 	}
 	//서포팅 
 	//public String addSupReply(@RequestParam("supNo") int supNo, HttpServeltRequest, Model model){
-		
-
 	//public String addSupReplyChild(int, HttpServletRequest, Model) 
 	//public String modifySupReply(int, Model, HttpServeltRequest)
 	//public String modifySupReplyChild(int, Model, HttpServletRequest)
 	//public String deleteSupReply(int, Model, HttpServletRequest
 	//public String deleteSupReplyChild(int, Model, HttpServletRequest)
 	//public String reportSupReply(SupReplyReport, Model, HttpServletRequest)
-	//서포팅 결제
-	public String getPayment(@ModelAttribute PaymentHistory ph, @RequestParam("supNo") int supNo, Model model) {
+	
+	@RequestMapping(value="movePayPage.pick", method=RequestMethod.POST)
+	public ModelAndView movePayPage(HttpSession session, @RequestParam("supNo") int supNo, @RequestParam("supTitle") String supTitle, ModelAndView mv) {
+		Supporting supporting = service.supportingOne(supNo);
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userNickName = loginUser.getUserNickName();
+		mv.addObject("supporting", supporting);
+		mv.addObject("userNickName", userNickName);
+		mv.setViewName("supporting/paypage");
+		return mv;
+	}
+	//서포팅 결제(DB저장)
+	@RequestMapping(value="getPayment.pick", method=RequestMethod.POST)
+	public String getPayment(HttpSession session, @ModelAttribute PaymentHistory ph, @RequestParam("supNo") int supNo, ModelAndView mv) {
+		Member loginUser = (Member)session.getAttribute("userId");
+		ph.setUserId(loginUser);
+		ph.setSupNo(supNo);
+		mv.setViewName("supporting/paypage");
 		return null;
 	}
 	//모집중에서 진행중으로 이동

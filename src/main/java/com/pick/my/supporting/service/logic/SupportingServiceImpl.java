@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pick.my.common.PaymentHistory;
+import com.pick.my.member.domain.Member;
 import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
@@ -218,5 +219,11 @@ public class SupportingServiceImpl implements SupportingService{
 	public int updateCode(int supNo, int supGrade) {
 		//성공.실패.진행중변경
 		return 0;
+	}
+
+	@Override
+	public Member printOneUser(int userNo) {
+		Member mOne = store.selectUserOne(userNo);
+		return mOne;
 	}
 }

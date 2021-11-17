@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.pick.my.common.PaymentHistory;
+import com.pick.my.member.domain.Member;
 import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
@@ -102,4 +103,5 @@ public interface SupportingStore {
 	public int insertFile(SupFile file); 
 	public int updateFile(SupFile file); 
 	public int deleteFile(int supNo);
+	public Member selectUserOne(int userNo);
 }

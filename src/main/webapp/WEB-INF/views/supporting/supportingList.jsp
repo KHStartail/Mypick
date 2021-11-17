@@ -19,91 +19,100 @@
  		body{	
 			text-align:center;
 		}
-      .swiper {
-        width: 100%;
-        height: 100%;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
-        height: calc((100% - 30px) / 2);
-
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-      }
       .w-button{
       	width : 100px;
       	height: 30px;
+      	 margin: auto;
+ 		 width: 50%;
       } 
       .card {
-      	width: 300px;
-      	height: 400px;
       	margin-bottom : 30px;
+      	color: white;
       }
+      .card-header{
+      	height: 100px;
+      	background-color : #FA908C;
+      }
+      .container img {
+      	height: 250px;
+      }
+      .searchButton{
+		width : 100px;
+      	height:40px;
+      	border : 1px solid;
+	 	border-radius: 5px;
+	 	margin-top: 5px;
+	 	margin-bottom: 10px;
+	  	background-color : #483CFA;
+	  	color: white;
+		}
 </style>
 </head>
 <body>
-	<jsp:include page="/header.jsp"></jsp:include>
-	<h1>진행중 서포팅 리스트</h1>
-	<h2>울애긔 기살리자!</h2>
-	<input type="text" value="그룹이름을 입력해주세요." id="searchBox">
-	<input type="submit" value="검색" id="button"> <br><br>
-	<c:if test="${empty sList }">
-	<br><br><br>
-		<h1>조회된 게시글이 없습니다.</h1>
-	</c:if>
-	<c:if test="${not empty sList }">
-	<div class="row"> 
-			<c:forEach items="${sList}" var="Supporting" varStatus="sLength">
-				<c:url var="psOne" value="presupportingDetail.pick">
-					<c:param name="supNo" value="${Supporting.supNo}"></c:param>
-				</c:url>
-				<div class="col-3">
-					<div class="card" onclick="return check()">
-						<c:url var="ssOne" value="supportingDetail.pick">
-							<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-						</c:url>
-		           		<h3 class="card-title"><a href="${supporting}">${Supporting.supTitle }</a></h3>
-		            	<img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-		            	<div class="percentBox"></div>
-					</div>
-				</div>
-			</c:forEach>		
-		</div>
-   	<button class="w-button" onclick="location.href='supportingWriteView.pick';">서포팅모집</button><br><br><br><br>
-	</c:if>
-	<jsp:include page="/footer.jsp"></jsp:include>
-	<script>
+<script>
 	$(document).ready(function() {
-		function check() {
-			if(${loginUser}==null){
-				alert("로그인하세요.");
-				window.location = "supportingList.pick";
-			}
+		function loginCheck() {
+			alert("로그인하세요.");
+			window.location.href = "supportingList.pick";
 		}
 		
 		$("#searchBox").focus(function(){
 			$("#searchBox").val("");
 		});
+		
 		$('#myCarousel').carousel({
 			interval: 10000
 		})
+		
+		function letGoSup(){
+			alert("로그인 후 이용해주세요");
+			window.history.back();
+		}
+		
 	});
-	</script>
+</script>
+<jsp:include page="/header.jsp"></jsp:include>
+<div class="container">
+	<h1>진행중 서포팅 리스트</h1><br>
+	<h2>울애긔 기살리자!</h2>
+	<p>마감일이 가까운 순으로 먼저 보여집니다.</p><br>
+	<input type="text" value="그룹이름을 입력해주세요." id="searchBox">
+	<input type="submit" value="검색" class="searchButton"> <br><br>
+	<div class="row">
+		<c:if test="${empty sList }">
+		<br><br><br>
+			<h1>조회된 게시글이 없습니다.</h1>
+		</c:if>
+		<c:if test="${not empty sList }">
+		<div class="row"> 
+			<c:forEach items="${sList}" var="Supporting" varStatus="sLength">
+				<c:url var="psOne" value="presupportingDetail.pick">
+					<c:param name="supNo" value="${Supporting.supNo}"></c:param>
+				</c:url>
+				<div class="col-3">
+					<c:if test="${userId eq null }">
+						<div class="card" style="cursor : pointer;" onclick="letGoSup();">
+			           		<div class="card-header"><h3>${Supporting.supTitle }</h3></div><br>
+							<div class="card-text"><img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image"></div>
+			            	<div class="percentBox"></div>
+						</div>
+					</c:if>
+					<c:if test="${userId ne null }">
+						<c:url var="ssOne" value="supportingDetail.pick">
+							<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+						</c:url>
+						<div class="card" style="cursor : pointer;" onclick="location.href='${ssOne}';">
+			           		<div class="card-header"><h3>${Supporting.supTitle }</h3></div><br>
+							<div class="card-text"><img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image"></div>
+			            	<div class="percentBox"></div>
+						</div>
+					</c:if>
+				</div>
+			</c:forEach>		
+		</div>
+		</c:if>
+	</div>
+</div>
+<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>

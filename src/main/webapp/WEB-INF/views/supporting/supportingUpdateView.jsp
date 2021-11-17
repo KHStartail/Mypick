@@ -25,6 +25,22 @@
 	body{
 		text-align : center;
 	}
+	table{
+		border : 1px solid #eee;
+		width : 800px;
+	}
+	input{
+		border : 1px solid #eee;
+	}
+	textarea{
+		border : 1px solid #eee;
+	}
+	#mainFile{
+		width : 400px;
+	}
+	#btn-multiUpload {
+		width : 400px;
+	}
 	#f-btn{
 		width: 100px;
 		height: 50px;
@@ -35,6 +51,23 @@
 	#file-list{
 	
 	}
+	td:first-child{
+		width:30%;
+	}
+	.btn{
+	 	width : 100px;
+	 	height: 40px;
+	 	border : 1px solid;
+	 	border-radius: 5px;
+	 	padding : 10px 5px;
+	 	margin-top: 5px;
+	 	margin-bottom: 10px;
+	  	background-color : #483CFA;
+	  	color: white;
+	 }
+	 .img_wrap{
+	 	height: 300px;
+	 }
 </style>
 </head>
 <body>
@@ -77,37 +110,41 @@
 		}
 	}
 </script>	
-<jsp:include page="/header.jsp"></jsp:include>
-<h1>서포팅 수정</h1>
-<h1>${supporting.supNo }번</h1>
+<jsp:include page="/header.jsp"></jsp:include><br><br>
+<div class="container">
+<h1>서포팅 수정</h1><br>
 	<form action="supportingUpdate.pick" onsubmit="return check()" method="post" enctype="multipart/form-data">
 	<input type="hidden" name ="supNo" value="${supporting.supNo }">
 	<input type="hidden" name="imgName" value="${supporting.imgName }">
 	<input type="hidden" name="imgReName" value="${supporting.imgReName }">
-		<table align="center" border="1">
+	<c:forEach var="fList" items="${fList }">
+		<input type="hidden" name="fileName" value="${fList.fileName }">
+		<input type="hidden" name="fileReName" value="${fList.fileReName }">
+	</c:forEach>
+		<table align="center" >
 			<tr>
 				<td>제목</td>
-				<td><input type="text" size="50" name="supTitle" value="${supporting.supTitle}"></td>
+				<td><input type="text" size="90" name="supTitle" value="${supporting.supTitle}"></td>
 			</tr>
 			<tr>
 				<td>스케줄 날짜</td>
-				<td><input type="text" size="50" id="sDate" name="sDate"></td>
+				<td><input type="text" size="90" id="sDate" name="sDate"></td>
 			</tr>
 			<tr>
 				<td>스케줄 장소</td>
-				<td><input type="text" size="50" name="supPlace" value="${supporting.supPlace}"></td>
+				<td><input type="text" size="90" name="supPlace" value="${supporting.supPlace}"></td>
 			</tr>
 			<tr>
 				<td>그룹이름</td>
-				<td><input type="text" size="50" name="groupName"  value="${supporting.groupName}"></td>
+				<td><input type="text" size="90" name="groupName"  value="${supporting.groupName}"></td>
 			</tr>
 			<tr>
 				<td>목표금액</td>
-				<td><input type="text" size="50" name="goalMoney" id="gMoney" value="${supporting.goalMoney}"></td>
+				<td><input type="text" size="90" name="goalMoney" id="gMoney" value="${supporting.goalMoney}"></td>
 			</tr>
 			<tr>
 				<td>기간</td>
-				<td><input type="text" size="50" id="during" data-range="true" data-multiple-dates-separator=" ~ " data-language="ko" class="datepicker-here"/>
+				<td><input type="text" size="90" id="during" data-range="true" data-multiple-dates-separator=" ~ " data-language="ko" class="datepicker-here"/>
 				</td>
 			</tr>
 			<tr>
@@ -118,29 +155,29 @@
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea rows="7" cols="50"  name="supContents">${supporting.supContents }</textarea></td>
+				<td><textarea rows="7" cols="90"  name="supContents">${supporting.supContents }</textarea></td>
 			</tr>
 			<tr>
 				<td>대표이미지 파일</td>
 				<td><input id="mainFile" type="file" name="reloadFile"></td>
 			</tr>
 			<tr>
-				<td><span id="fileList">파일 추가 : 최대 5개까지 등록 가능합니다.</span></td>
+				<td><span id="fileList">파일 추가 </span></td>
 				<td><input id="btn-multiUpload" type="file" name="subFile" multiple="multiple"></td>  
 			</tr>
 			<tr>
-				<td>이미지 미리보기</td>
-               <td class="img_wrap"></td>
+				<td>이미지 <br> 최대미리보기</td>
+               	<td class="img_wrap"></td>
             </tr>
 			<tr>
 				<td colspan="2">
-					<input type="submit" id="submit" value="수정">
-					<input type="reset" value="취소" onclick="location.href='presupportingList.pick'">
+					<input type="submit" id="submit" value="수정" class="btn">
+					<input type="reset" value="취소"  class="btn" onclick="location.href='presupportingList.pick'">
 				</td>
 			</tr>
 		</table>
-	</form>
+	</form><br><br>
+</div>
 <jsp:include page="/footer.jsp"></jsp:include>
-	
 </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.pick.my.common.PaymentHistory;
+import com.pick.my.member.domain.Member;
 import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
@@ -218,6 +219,11 @@ public class SupportingStoreLogic implements SupportingStore{
 	public int updateCode(int supNo, int supGrade) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	@Override
+	public Member selectUserOne(int userNo) {
+		Member mOne = sqlSession.selectOne("memberMapper.selectUserOne", userNo);
+		return mOne;
 	}
 
 }

@@ -13,51 +13,54 @@
 <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <!-- swiper-js CDN -->
 <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<!-- 부트스트랩 css -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <style>
 		body{	
 			text-align:center;
 		}
-      .swiper {
-        width: 100%;
-        height: 100%;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
-        height: calc((100% - 30px) / 2);
-
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-      }
+		.searchButton{
+		width : 100px;
+      	height:40px;
+      	border : 1px solid;
+	 	border-radius: 5px;
+	 	margin-top: 5px;
+	 	margin-bottom: 10px;
+	  	background-color : #483CFA;
+	  	color: white;
+		}
       .w-button{
       	width : 100px;
-      	height: 30px;
+      	height: 50px;
+      	border : 1px solid;
+	 	border-radius: 5px;
+	 	margin-top: 5px;
+	 	margin-bottom: 10px;
+	  	background-color : #483CFA;
+	  	color: white;
       } 
       .card {
       	width: 300px;
-      	height: 400px;
+      	height: 350px;
       	margin-bottom : 30px;
       }
+      
+      img.card-img-top{
+      	width : 100%;
+      	height: 200px;
+      }
+      .card body{
+      	height : 100px;
+      }
+      
     </style>
   </head>
 <body>
@@ -78,15 +81,13 @@
 					<c:param name="supNo" value="${Supporting.supNo}"></c:param>
 				</c:url>
 			<div class="col-4">
-				<div class="card">
-				<a href="${psOne }"> 
-					<img src="${Supporting.imgPath }" class="card-img-top" alt="img">
+				<div class="card" style="cursor : pointer;" onclick="location.href='${psOne }';">
+					<img src="/resources/supportingFiles/${Supporting.imgReName }" class="card-img-top" alt="Image">
 					<div class="card-body"> 
 						<h5 class="card-title">${Supporting.supTitle }</h5>
 						<p class="card-text">${Supporting.supContents }</p> 
 						<a href="#" class="btn btn-primary">참여하기</a> 
 					</div>
-				</a> 
 				</div>
 			</div>
 			</c:forEach>		
@@ -94,6 +95,7 @@
 	<div class="swiper-pagination"></div>
    	<button class="w-button" onclick="location.href='supportingWriteView.pick';">서포팅모집</button><br><br><br><br>
 	</c:if>
+</div>
 <jsp:include page="/footer.jsp"></jsp:include>
 <script>
 //검색

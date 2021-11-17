@@ -15,56 +15,95 @@
 	<link rel="stylesheet" href="assets/css/header.css">
 	<link rel="stylesheet" href="assets/css/login.css">
 <style>
- #imgBox{
- 	border : 1px solid;
- 	float: left;
- 	width: width: 50%;
- }
- #contextBox{
- 	border : 1px solid;
- 	width: 50%;
- 	float : left;
- }
- .filesBox {
- 	heigth : 500px;
- 	display : flex;
- 	justify-content : center;
- 	align-items: center;
- 	border : solid 1px gray;
- }
+	body {
+		text-align:center;
+	}
+	ul{
+		text-align:center;
+	}
+	li{
+		display:inline-block;	
+	}
+	 img{
+	 	margin-right : 5px; 
+	 	width : 45%;
+	 	margin-left : 20px;
+	 	margin-bottom : 10px;
+	 }
+	 .row img:first-child{
+	 }
+	 #contextBox{
+	 	padding : 30px;
+	 	border : 1px solid #eee;
+	 	width: 50%;
+	 	float : left;
+	 	margin-bottom : 10px;
+ 	 }
+	 .filesBox {
+		width : 100%;
+	 	margin-top: 10px;
+		padding : 10px;
+	 	heigth : 500px;
+	 	display : flex;
+	 	justify-content : center;
+	 	align-items: center;
+	 }
+	 .center {
+	 	width: 100%;
+	 	text-align : center;
+	 	display : flex;
+	 	justify-content : center;
+	 	align-items: center;
+	 }
+	 .btn{
+	 	width : 100px;
+	 	height: 40px;
+	 	border : 1px solid;
+	 	border-radius: 5px;
+	 	padding : 10px 5px;
+	  	background-color : #483CFA;
+	  	color: white;
+	 }
 </style>
 </head>
 <body>
-<jsp:include page="/header.jsp"></jsp:include>
-<div class="container">
-<input type="hidden" value="${supporting.supNo }" id="supNo">
-		<h1>${supporting.supNo }</h1>
-		<div id="imgBox"><img src="resources/supportingFiles/${supporting.imgPath }"></div>
-		<ul id="contextBox">
-			<li>작성자 : ${supporting.writer }</li>
-			<li>날짜 : ${supporting.scheduleDate}</li>
-			<li>장소 : ${supporting.supPlace} </li>
-			<li>참여마감일 : <fmt:formatDate pattern="yyyy-MM-dd" value="${supporting.supStartDate}"/></li>
-			<li>목표인원 : ${supporting.supPartiwon} / 20명</li>
-			<li>내용 : ${supporting.supContents}</li>
-		</ul><br>
-		<div id="percent">참여인원percent </div> <!-- percent 고민좀 해보기 -->
-		<button id="participation">참여하기</button>
+<jsp:include page="/header.jsp"></jsp:include><br><br>
+<h1>${supporting.supTitle }</h1>
+<div class="container"><br><br>
+	<input type="hidden" value="${supporting.supNo }" id="supNo">
+	<div class="row">
+		<img src="/resources/supportingFiles/${supporting.imgReName }">
+		<div id="contextBox">
+		<ul>
+			<li>작성자 : ${userNickName }</li>
+			<br><li>날짜 : ${supporting.scheduleDate}</li>
+			<br><li>장소 : ${supporting.supPlace} </li>
+			<br><li>참여마감일 : <fmt:formatDate pattern="yyyy-MM-dd" value="${supporting.supStartDate}"/></li>
+			<br><li>목표인원 : ${supporting.supPartiwon} / 20명</li>
+			<br><li>내용 : ${supporting.supContents}</li>
+	        <br><li id="percent">참여인원percent </li> <!-- percent 고민좀 해보기 -->
+		</ul><br><br>
+		<button class="btn" id="participation">참여하기</button>
+		</div><br><br>
+		<div class="center">
+		<!-- 수정/삭제버튼 sessionUserId가 작성자랑 동일시에 보이게 -->
+			<c:url var ="sModify" value="modifySupportingView.pick">
+				<c:param name="supNo" value="${supporting.supNo }"></c:param>
+			</c:url>
+			<c:url var ="sDelete" value="supportingDelete.pick">
+				<c:param name="supNo" value="${supporting.supNo }"></c:param>
+			</c:url>
+			<a href="${sModify }" class="btn">수정</a>&nbsp;&nbsp;&nbsp;
+			<a href="${sDelete }" class="btn">삭제</a>&nbsp;&nbsp;&nbsp;
+			<a href="presupportingList.pick" class="btn">목록</a>
+		</div>
 		<div class="filesBox">
 			<c:forEach items="${fList}" var="files">
-				<img src="${files.filePath }">
+				<img src="/resources/supportingFiles/${files.fileReName }">
 			</c:forEach>
 		</div>
-		<c:url var ="sModify" value="modifySupportingView.pick">
-			<c:param name="supNo" value="${supporting.supNo }"></c:param>
-		</c:url>
-		<c:url var ="sDelete" value="supportingDelete.pick">
-			<c:param name="supNo" value="${supporting.supNo }"></c:param>
-		</c:url>
-		<a href="${sModify }">수정</a>&nbsp;&nbsp;&nbsp;
-		<a href="${sDelete }">삭제</a>&nbsp;&nbsp;&nbsp;
-		<a href="presupportingList.pick">목록</a>
-<jsp:include page="/footer.jsp"></jsp:include>
+	</div>
 </div>
+<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>

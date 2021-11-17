@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pick.my.common.PaymentHistory;
+import com.pick.my.member.domain.Member;
 import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
@@ -105,4 +106,5 @@ public interface SupportingService {
 	public int insertFile(SupFile supFile); 
 	public int updateFile(SupFile file); 
 	public int deleteFile(int supNo);
+	public Member printOneUser(int userNo);
 }

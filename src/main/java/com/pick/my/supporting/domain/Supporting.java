@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Supporting {
 	private int supNo;
-	private String writer;
+	private int userNo;
 	private int supCategory;
 	private String supTitle;
 	private String supContents;
@@ -32,12 +32,13 @@ public class Supporting {
 	}
 
 
-	public String getWriter() {
-		return writer;
+
+	public int getUserNo() {
+		return userNo;
 	}
 
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
 	public int getSupCategory() {
@@ -187,11 +188,11 @@ public class Supporting {
 
 	@Override
 	public String toString() {
-		return "Supporting [supNo=" + supNo + ",writer=" + writer + ", supCategory=" + supCategory + ", supTitle="
+		return "Supporting [supNo=" + supNo + ", userNo=" + userNo + ", supCategory=" + supCategory + ", supTitle="
 				+ supTitle + ", supContents=" + supContents + ", scheduleDate=" + scheduleDate + ", supPlace="
 				+ supPlace + ", groupName=" + groupName + ", supStartDate=" + supStartDate + ", supEndDate="
 				+ supEndDate + ", sumMoney=" + sumMoney + ", goalMoney=" + goalMoney + ", supPartiwon=" + supPartiwon
-				+ ", supGrade=" + supGrade + ", imgName=" + imgName + ", imgReName=" + imgReName
-				+ ", imgPath=" + imgPath + "]";
+				+ ", supGrade=" + supGrade + ", imgName=" + imgName + ", imgReName=" + imgReName + ", imgPath="
+				+ imgPath + "]";
 	}
 }

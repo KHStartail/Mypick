@@ -5,7 +5,7 @@
   <mapper namespace="SupportingMapper">
   		<resultMap type="Supporting" id="supportingResultMap">
 			<id property="supNo" column="SUP_NO"></id>
-			<result property="writer" column="USER_NO"></result>
+			<result property="userNo" column="USER_NO"></result>
 			<result property="supCategory" column="SUP_CATEGORY"></result>
 			<result property="supTitle" column="SUP_TITLE"></result>
 			<result property="supContents" column="SUP_CONTENTS"></result>
@@ -60,11 +60,11 @@
 		</select>
 		<!-- 서포팅 작성 --> 
 		<insert id="insertSupporting" parameterType="Supporting">
-		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, 1, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, 1, DEFAULT, DEFAULT, #{imgName}, #{imgReName}, #{imgPath})
+		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, #{userNo} , DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, 1, DEFAULT, DEFAULT, #{imgName}, #{imgReName}, #{imgPath})
 		</insert>
 		<!-- 파일 삽입 -->
 		<insert id="insertFile" parameterType="SupFile">
-			INSERT INTO SUPPORTING_FILE VALUES(SEQ_SUP_FILENO.NEXTVAL, #{supNo}, #{fileName }, #{filePath}, #{fileReName})
+			INSERT INTO SUPPORTING_FILE VALUES(SEQ_SUP_FILENO.NEXTVAL, SEQ_SUP_NO.CURRVAL, #{fileName }, #{filePath}, #{fileReName})
 		</insert>
 		 	<!--
 		 	<if test="datepicker.toString()=='AM'">
@@ -86,7 +86,8 @@
 		<delete id="deleteSupporting" parameterType="_int">
 			DELETE FROM SUPPORTING WHERE SUP_NO = #{supNo}
 		</delete>
- 		<delete id="deleteFile" parameterType="SupFile">
+		<!-- 파일삭제 -->
+ 		<delete id="deleteFile" parameterType="_int">
 			DELETE FROM SUPPORTING_FILE WHERE SUP_NO = #{supNo}		
 		</delete>
 		<!-- 진행중 댓글 -->
