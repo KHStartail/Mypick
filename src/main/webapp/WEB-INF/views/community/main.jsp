@@ -29,6 +29,32 @@
 	height: 100%;
 	object-fit: cover;
 }
+#nav{
+height: 200px;
+width: 150px;
+border: 1px solid black; 
+background-color: rgb(240, 240, 106);
+position: fixed;
+bottom: 45%;
+left: 90%;
+border-radius: 30%;
+}#nav div{
+text-align:center;
+height: 50px;
+width: 125px;
+margin-left: 15px;
+margin-top:25px;
+border: 1px solid black; 
+background-color: #3498DB;
+font-weight: bold;
+line-height: 50px;
+border-radius: 9%;
+
+}#nav a{
+color: white;
+width : 100%;
+display: inline-block;
+}
 </style>
 <title>커뮤니티메인페이지</title>
 <jsp:include page="/header.jsp"></jsp:include>
@@ -40,6 +66,14 @@
 	<div class="box"
 		style="background: #BDBDBD; position: relative; left: 48%; bottom: 80px">
 		<img class="profile" src="/resources/idolImg/ban.png">
+	</div>
+	<div id="nav">
+		<div id="nav1">
+			<a href="#">캘린더</a>
+		</div>
+		<div id="nav2">
+			<a href="index.jsp">메인으로</a>
+		</div>
 	</div>
 	<table class="table table-hover"
 		style="width: 60%; position: relative; left: 20%">
@@ -132,9 +166,14 @@
 			</div>
 		</div>
 	</div>
+	<c:if test="${not empty loginUser }">
 	<a class="btn btn-primary" href="WriteView.pick"
 		style="margin-left: 70%;">글쓰기</a>
-
+	</c:if>
+	<c:if test="${empty loginUser }">
+	<a class="btn btn-primary" onclick="alert('로그인 이후 가능한 서비스 입니다.')";
+		style="margin-left: 70%;">글쓰기</a>
+	</c:if>
 
 
 </body>

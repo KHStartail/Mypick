@@ -2,7 +2,7 @@ $("textarea[name=content]").summernote({
     placeholder: '여기에 내용 입력하세요~',
     tabsize: 2,
     height: 100, // 에디터 높이
-    width: 1200,
+    width: 1000,
     defaultFontName: '바탕체',
     lang : 'ko-KR',
     codemirror: { // codemirror options

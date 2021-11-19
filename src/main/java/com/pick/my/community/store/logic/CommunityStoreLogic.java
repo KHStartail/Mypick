@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
+import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
+import com.pick.my.community.domain.Community_Report_Reply;
 import com.pick.my.community.domain.Heart;
 import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.store.CommunityStore;
@@ -173,6 +175,31 @@ public class CommunityStoreLogic implements CommunityStore{
 		int result =sqlSession.delete("CommunityPostMapper.deleteHeartCount",postNo);
 		return result;
 	}
+
+	@Override
+	public int insertReplyReport(Community_Report_Reply reply) {
+		int result = sqlSession.insert("CommunityPostMapper.insertReplyReport",reply);
+		return result;
+	}
+
+	@Override
+	public Community_Report_Reply doubleReport(Community_Report_Reply report) {
+		report = sqlSession.selectOne("CommunityPostMapper.doubleReport",report);
+		return report;
+	}
+
+	@Override
+	public int insertPostReport(Community_Post_Report postReport) {
+		int result = sqlSession.insert("CommunityPostMapper.insertPostReport",postReport);
+		return result;
+	}
+
+	@Override
+	public Community_Post_Report checkReport(Community_Post_Report postReport) {
+		Community_Post_Report report = sqlSession.selectOne("CommunityPostMapper.selectPostReport",postReport);
+		return report;
+	}
+
 
 
 }

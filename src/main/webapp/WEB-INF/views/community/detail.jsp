@@ -17,16 +17,17 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
 	rel="stylesheet">
-
 <title>MyPick 메인</title>
-
 
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/assets/js/toastr.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+<	
+
 <!-- include summernote css/js-->
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css"
@@ -48,6 +49,7 @@
 <link rel="stylesheet" href="assets/css/header.css">
 <link rel="stylesheet" href="assets/css/login.css">
 <link rel="stylesheet" href="assets/css/detail.css">
+<link rel="stylesheet" href="assets/css/toastr.min.css">
 <script src="assets/js/search.js"></script>
 
 <script>
@@ -62,7 +64,7 @@
 
 		document.getElementsByTagName('head')[0].appendChild(oScript);
 		oScript.remove();
-	}
+	}	
 		
 </script>
 <style>
@@ -83,10 +85,12 @@
 	<div class="All">
 		<div class="poto">
 			<c:if test="${empty file }">
-				<li><input type="radio" id="slide1" name="slide" checked>
-					<label for="slide1"></label> <img
-					src="https://dribbble.s3.amazonaws.com/users/322/screenshots/872485/coldchase.jpg"
-					alt="Panel 1"></li>
+				<ul class="slider" style="float: left;">
+						<li><input type="radio" id="slide1"
+							name="slide" checked> <label for="slide1"></label>
+							<img src="/resources/idolImg/no_img.png"
+							alt="Panel1" style="width: 200%; box-shadow: 4px 4px 3px #666;"></li>
+				</ul>
 			</c:if>
 			<c:if test="${not empty file }">
 				<ul class="slider" style="float: left;">
@@ -97,7 +101,6 @@
 							alt="Panel ${index.count }" style="width: 200%; box-shadow: 4px 4px 3px #666;"></li>
 					</c:forEach>
 				</ul>
-
 			</c:if>
 		</div>
 		<div class="board">
@@ -113,21 +116,25 @@
 			</div>
 		</div>
 	</div>
-		<form action="CommunityDelete.pick" onsubmit="return confirm('삭제하시겠습니까?')" method="get"style="margin-left: 84%;margin-top: 2%">
+		<form action="CommunityDelete.pick" onsubmit="return confirm('삭제하시겠습니까?')" method="get"style="margin-left: 84%;">
 		<c:forEach items="${file }" var="file">
 			<input type="hidden" value="${file.fileRename }" id="fileName"
 				name="fileName">
 		</c:forEach>
 		<input type="hidden" value="${post.postNo }" id="postNo" name="postNo">
-		<table id="table" style="margin-left: 5%; margin-top: -10%;">
+		<table id="table" style="margin-left: 5%;">
 			<tr>
 				<td>
-				작성자 : ${post.userId } 작성일 : ${post.updateDate }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				작성자 : ${post.userNickName } 작성일 : ${post.updateDate }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<c:if test ="${loginUser.userId eq post.userId}">
 				<c:url var="cModify" value="modifyView.pick">
 						<c:param name="postNo" value="${post.postNo }"></c:param>
 					</c:url> <a class="btn btn-primary" href="${cModify }">수정하기</a> <input
 					type="submit" class="btn btn-primary" value="삭제하기">
+					</c:if>
+						<c:if test ="${loginUser.userId ne post.userId}">
 					<a class="btn btn-primary" onclick="report(${post.postNo });">신고하기</a> 
+					</c:if>
 					
 				</td>
 			</tr>
@@ -147,6 +154,7 @@
 				<td class="list-group-item" ><textarea id="summernote" 
 						name="content" id="content" onclick="onScript();" rows="5" cols="140" ></textarea>
 					<button type="button" id="rSubmit" class="btn btn-dark mt-3">댓글작성</button>
+					<input type="hidden" value="${loginUser.userId }" id="loginUser">
 				<hr>
 				</td>
 				</tr>
@@ -215,9 +223,25 @@
 		<script>
 	$(window).on('load',function(){
 	getReplyList();		
-
+	
+	var modal = new tingle.modal({
+	    footer: true,
+	    stickyFooter: false,
+	    closeMethods: ['overlay', 'button', 'escape'],
+	    closeLabel: "Close",
+	    cssClass: ['custom-class-1', 'custom-class-2'],
+	    onOpen: function() {
+	        console.log('modal open');
+	    },
+	    onClose: function() {
+	        console.log('modal closed');
+	    },
+	    beforeClose: function() {
+	        return true; 
+	        return false;
+	    }
+	});
 	$("#rSubmit").on("click",function(){
-		//var boardNo = $("#boardNo").val();
 		var postNo = '${post.postNo }';
 		var rContents = $("#summernote").val();
 		$.ajax({
@@ -233,13 +257,13 @@
 						getReplyList();
 					// 작성 후 내용 초기화
 					rContents.val("");
-					alert("댓글 등록 성공");
+					toastr.success('성공', '댓글을 작성하셨습니다..'); 
 				}else{
-					alert("댓글 등록 실패");
+					toastr.warning('실패', '댓글등록 실패했습니다..');
 				}
 			},
 			 error: function (request,xhr, status, error) {
-		   	     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				 toastr.error('실패', '로그인후 이용해주세요.');
 			},
 			complete : function() {
 				location.reload();
@@ -262,15 +286,22 @@
 					var $rWriter;
 					var $rContent;
 					var $rCreateDate;
-					var $btnArea;									
+					var $btnArea;	
+					var $loginUser = $("#loginUser").val();
 					$("#rCount").text("댓글("+data.length+")"); // 댓글 갯수
 					if(data.length > 0){
 						for(var i in data){
 							$tr = $("<tr id='modifyTr' class='list-group list-group-flush'>");
 							$rWriter = $("<td style='font-weight : bold' colspan='4'>").text('작성자 : '+data[i].userNickName);
+							<c:if test ="${loginUser.userId ne data[i].userId}"> 
 							$btnArea = $("<td colspan='4' align='right'>").append("<a href='#' onclick='modifyReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>수정</a>").append("<a href='#' onclick='removeReply("+postNo+","+data[i].replyAllNo+")'>삭제</a>");
+							</c:if>
+							if($loginUser != data[i].userId){
+							$btnArea = $("<td colspan='4' align='right'>").append("<a href='#' onclick='reportReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>신고</a>");
+							}
 							$rCreateDate = $("<td style='font-size : 20px' align='right'>").text(data[i].replyDate);												
 							$rContent = $("<td class='list-group-item'>").html(data[i].replyContents+'<hr>');
+							
 							$tr.append($rWriter);
 							$tr.append($rCreateDate);
 							$tr.append($btnArea);
@@ -286,7 +317,28 @@
 			})
 		}
 	});
-
+	function reportReply(obj,postNo,replyAllNo,replyContents){
+		$.ajax({
+			url : "reportReply.pick",
+			type : "get",
+			data : {
+				"postNo" : postNo,
+				"replyAllNo" : replyAllNo,
+				"replyContents" : replyContents
+			},
+			success : function(data){
+				if(data == "success"){
+					toastr.success('신고되었습니다.');
+				}else{
+					toastr.warning('실패', '이미 신고되었습니다.');
+					location.reload();
+				}
+			},error : function(request, status, error){
+				toastr.error('실패', '로그인후 이용해주세요');
+				location.reload();
+			}
+		})
+	}
 	function modifyReply(obj,postNo,replyAllNo,replyContents){
 			  if($('#thead').css('display') == 'none'){
 		            $('#thead').show();
@@ -295,11 +347,12 @@
 		        }
 		$trModify = $("<tr>");
 		$trModify
-		.append("<td><textarea rows='5' cols='140' name='content' id='content' class='content' onclick='onScript();'>"+replyContents+"</textarea>></td>");
+		.append("<td><textarea rows='5' cols='100' name='content' id='content' class='content' onclick='onScript();'>"+replyContents+"</textarea>></td>");
 		$trModify
-		.append("<td><button class='btn btn-dark mt-3' onclick='modifyReplyCommit("+postNo+","+replyAllNo+")'>수정</button></td>");
+		.append("<td><button class='btn btn-dark mt-3' style='height:70px; width:100px' onclick='modifyReplyCommit("+postNo+","+replyAllNo+");'>수정하기</button></td>");
 		$(obj).parent().parent().after($trModify);
 	}
+
 	
 	function modifyReplyCommit(postNo,replyAllNo){
 		var content = $("#content").val();
@@ -316,7 +369,7 @@
 				location.reload();
 				getReplyList();
 			}else{
-				alert("댓글 수정 실패");
+				toastr.warning('실패', '댓글수정을 실패했습니다..');
 				location.reload();
 			}
 		},
@@ -345,25 +398,24 @@
 			data : {"postNo" : postNo,"ReplyAllNo" : replyAllNo},
 			success : function(data){
 				if(data =="success"){
-					getReplyList();
+					toastr.success('성공!', '댓글을삭제하셨습니다..'); 
 					location.reload();
 				}else{
-					alert("댓글 삭제 실패!");
+					toastr.error('실패', '댓글삭제를 실패했습니다..');
 					location.reload();
 				}
 			}
 		});
 	} 
 	// 하트
+	
 	var heartval = ${heart};
 
         if(heartval>0) {
-            console.log(heartval);
             $("#heart").prop("src", "/resources/img/Red.png");
             $(".heart").prop('name',heartval)
         }
         else {
-            console.log(heartval);
             $("#heart").prop("src", "/resources/img/Black.png");
             $(".heart").prop('name',heartval)
         }
@@ -385,14 +437,81 @@
                     else{
                         $('#heart').prop("src","/resources/img/Black.png");
                     }
-
-
                 }
             });
         });
         function report(postNo){
-        	$postNo = 
-        } 
+        	confirm('신고하시겠습니까?')
+        	modal.open();
+        	$.ajax({
+        		url : 'reportPost.pick',
+        		type : 'post',
+        		data : {"postNo" : postNo},
+        		success : function(data){
+        			if(data == "success"){
+        				toastr.options = {
+      						  "closeButton": false,
+      						  "debug": false,
+      						  "newestOnTop": false,
+      						  "progressBar": false,
+      						  "positionClass": "toast-top-full-width",
+      						  "preventDuplicates": false,
+      						  "onclick": null,
+      						  "showDuration": "300",
+      						  "hideDuration": "1000",
+      						  "timeOut": "5000",
+      						  "extendedTimeOut": "1000",
+      						  "showEasing": "swing",
+      						  "hideEasing": "linear",
+      						  "showMethod": "fadeIn",
+      						  "hideMethod": "fadeOut"
+      						}
+        				toastr.success('신고처리', '신고하셨습니다.'); 
+
+        			}else{
+        				toastr.options = {
+      						  "closeButton": false,
+      						  "debug": false,
+      						  "newestOnTop": false,
+      						  "progressBar": false,
+      						  "positionClass": "toast-top-full-width",
+      						  "preventDuplicates": false,
+      						  "onclick": null,
+      						  "showDuration": "300",
+      						  "hideDuration": "1000",
+      						  "timeOut": "5000",
+      						  "extendedTimeOut": "1000",
+      						  "showEasing": "swing",
+      						  "hideEasing": "linear",
+      						  "showMethod": "fadeIn",
+      						  "hideMethod": "fadeOut"
+      						}
+        				toastr.warning('신고처리', '이미 신고하셨습니다.');
+        			}
+        		},error : function(){
+    				toastr.options = {
+  						  "closeButton": false,
+  						  "debug": false,
+  						  "newestOnTop": false,
+  						  "progressBar": false,
+  						  "positionClass": "toast-top-full-width",
+  						  "preventDuplicates": false,
+  						  "onclick": null,
+  						  "showDuration": "300",
+  						  "hideDuration": "1000",
+  						  "timeOut": "5000",
+  						  "extendedTimeOut": "1000",
+  						  "showEasing": "swing",
+  						  "hideEasing": "linear",
+  						  "showMethod": "fadeIn",
+  						  "hideMethod": "fadeOut"
+  						}
+        			toastr.error('신고처리', '신고는 로그인후 이용가능합니다.');
+        		}
+        	})
+        }
+        
+        
 	</script>
 </footer>
 </html>
