@@ -129,7 +129,7 @@ public class IdolController {
 	}
 
 	
-	@RequestMapping(value = "idolModify.pick", method=RequestMethod.POST)
+	@RequestMapping(value = "idolModify.pick", method=RequestMethod.GET)
 	public String idolModify(
 			@RequestParam("idolNo") int iNo
 			,Model model) {

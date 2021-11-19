@@ -23,7 +23,7 @@
            <link rel="stylesheet" href="assets/css/goods.css">
            <link rel="stylesheet" href="assets/css/goods_detail.css">
            <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
-           <link rel="stylesheet" href="assets/css/mypageMain.css">
+           <link rel="stylesheet" href="assets/css/mypageModify.css">
            
            <!--------------------------------->
            <link rel="stylesheet" href="assets/css/elegant-icons.css" type="text/css">
@@ -45,14 +45,14 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="breadcrumb__text">
-                        <h2>My Page</h2>
+                        <h2>Profile</h2>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="breadcrumb__links">
                         <a href="/">Home</a>
                         <a href="myPageMain.pick">My Page</a>
-                        <span>main</span>
+                        <span>modify</span>
                     </div>
                 </div>
             </div>
@@ -60,36 +60,33 @@
     </div>
     <section id="first-section">
         <div id="intro">
-            <p>userId</p>
-            <div id="intro-img">
-                <img src="assets/images/솔미2.png" alt="">
+            <div id="part-img">
+                <div id="intro-id">
+                    user01
+                </div>
+                <div id="intro-img">
+                    <img src="img/솔미2.png" alt="">
+                </div>
+                <div id="update-btn">
+                    <button><a href="#">사진 변경</a></button>
+                </div>
             </div>
-            <p>nickName</p>
-            <div id="update-btn">
-                <button><a href="myPageModify.pick">정보수정</a></button>
+            <div id="part-text">
+                <div id="profile-div">
+                    <label>닉네임</label><input type="text" name="" id=""><br>
+                    <label>비밀번호</label><input type="text" name="" id=""><br>
+                    <label>핸드폰번호</label><input type="text" name="" id=""><button>인증</button><br>
+                    <label>주소</label><input type="text" name="" id=""><button>검색</button><br>
+                    <label>이메일</label><input type="text" name="" id="">
+                </div>
+                <div id="part-btn">
+                    <button>수정 완료</button>
+                    <button>회원 탈퇴</button>
+                </div>
             </div>
         </div>
     </section>
-    <section id="second-section">
-        <div class="mypage-menu">
-            <div class="menu-icon" onclick="location.href='mypageCart.pick'">
-                <img src="assets/images/menu-cart.png" alt="">
-            </div>
-            <p class="menu-label">장바구니</p>
-        </div>
-        <div class="mypage-menu">
-            <div class="menu-icon" onclick="location.href='historySupport.pick'">
-                <img src="assets/images/menu-pay.png" alt="">
-            </div>
-            <p class="menu-label">결제 내역</p>
-        </div>
-        <div class="mypage-menu">
-            <div class="menu-icon" onclick="location.href='postSupport.pick'">
-                <img src="assets/images/menu-bubble.png" alt="">
-            </div>
-            <p class="menu-label">게시글 관리</p>
-        </div>
-    </section>
+    <!-- -------------- -->
 <jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>
