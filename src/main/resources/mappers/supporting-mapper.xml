@@ -5,7 +5,7 @@
   <mapper namespace="SupportingMapper">
   		<resultMap type="Supporting" id="supportingResultMap">
 			<id property="supNo" column="SUP_NO"></id>
-			<result property="writer" column="USER_NO"></result>
+			<result property="userNo" column="USER_NO"></result>
 			<result property="supCategory" column="SUP_CATEGORY"></result>
 			<result property="supTitle" column="SUP_TITLE"></result>
 			<result property="supContents" column="SUP_CONTENTS"></result>
@@ -18,7 +18,6 @@
 			<result property="sumMoney" column="SUM_MONEY"></result>
 			<result property="supPartiwon" column="SUP_PARTIWON"></result>
 			<result property="supGrade" column="SUP_CODE"></result>
-			<result property="imgNo" column="IMG_NO"></result>
 			<result property="imgName" column="IMG_NAME"></result>
 			<result property="imgReName" column="IMG_RENAME"></result>
 			<result property="imgPath" column="IMG_PATH"></result>
@@ -31,33 +30,49 @@
 			<result property="filePath" column="SUP_FILEPATH"></result>
 			<result property="fileReName" column="SUP_FILERENAME"></result>
 		</resultMap>
-		
-		
+		<!-- 전체  모집중 서포팅 수 -->
+		<select id="selectPreSupListCount" resultType="_int">
+			SELECT COUNT(*) FROM SUPPORTING WHERE SUP_CATEGORY = 1
+		</select>
+		<!-- 전체  진행중 서포팅 수 -->
+		<select id="selectSupListCount" resultType="_int">
+			SELECT COUNT(*) FROM SUPPORTING WHERE SUP_CATEGORY = 2
+		</select>
+		<!-- 진행중서포팅  목록 -->
 	  	<select id="selectAllSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 ORDER BY SUP_ENDDATE DESC
 		</select>
+		<!-- 모집중서포팅  목록 -->
 		<select id="selectAllPreSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 ORDER BY SUP_ENDDATE DESC
 		</select>
 		<!-- 파일보기 -->
-		<select id="searchPreSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
+		<select id="selectFileList" resultMap="fileResultMap">
+			SELECT * FROM SUPPORTING_FILE WHERE SUP_NO = #{supNo}
 		</select>
-		<select id="searchSupporting" resultMap="supportingResultMap">
+		<!-- 모집중 서포팅 검색 -->
+		<select id="searchPreSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
 		</select>
-		<select id="selectOneSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 2
+		<!-- 진행중 서포팅 검색 -->
+		<select id="searchSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
 		</select>
-		<select id="selectOnePreSupporting" resultMap="supportingResultMap">
+		<!-- 모집중 서포팅 상세 -->
+		<select id="selectOneSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 1
 		</select>
+		<!-- 진행중 서포팅 상세 -->
+		<select id="selectOnePreSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 2
+		</select>
+		<!-- 서포팅 작성 --> 
 		<insert id="insertSupporting" parameterType="Supporting">
-		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, 1, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgReName}, #{imgPath})
+		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, #{userNo} , DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, 1, DEFAULT, DEFAULT, #{imgName}, #{imgReName}, #{imgPath})
 		</insert>
 		<!-- 파일 삽입 -->
 		<insert id="insertFile" parameterType="SupFile">
-			INSERT INTO SUPPORTING_FILE VALUES(SEQ_SUP_FILENO.NEXTVAL, #{supNo}, #{fileName }, #{filePath}, #{fileReName})
+			INSERT INTO SUPPORTING_FILE VALUES(SEQ_SUP_FILENO.NEXTVAL, SEQ_SUP_NO.CURRVAL, #{fileName }, #{filePath}, #{fileReName})
 		</insert>
 		 	<!--
 		 	<if test="datepicker.toString()=='AM'">
@@ -67,40 +82,79 @@
 				VALUES(SEQ_SUP_NO.NEXTVAL,#{userNo}, DEFAULT, #{supTitle}, #{supContents},#{scheduleDate}, #{supPlace }, #{groupName } , TO_DATE('#{supStartDate }', 'YYYY/MM/DD'), TO_DATE('#{supEndDate }', 'YYYY/MM/DD'), #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgReName}, #{imgPath})
 			</if>
 		-->
-
+		<!-- 서포팅수정 -->
 		<update id="updateSupporting" parameterType="Supporting">
 			UPDATE SUPPORTING SET SUP_TITLE = #{supTitle}, SUP_CONTENTS = #{supContents}, SCHEDULE_DATE = #{scheduleDate}, SUP_PLACE = #{supPlace }, SUP_STARTDATE = #{supStartDate }, SUP_ENDDATE = #{supEndDate}, GOAL_MONEY = #{goalMoney}, IMG_NAME = #{imgName}, IMG_PATH = #{imgPath}, WHERE SUP_NO = #{supNo}
 		</update>
-		<update id="updateFile" parameterType="SupFile">
-			UPDATE SUPPORTING_FILE SET SUP_FILENAME = #{fileName} , SUP_FILEPATH = #{filePath} WHERE SUP_NO = #{supNo}
+		<!-- 파일 수정 -->
+	   <update id="updateFile" parameterType="SupFile">
+			UPDATE SUPPORTING_FILE SET SUP_FILEPATH = #{filePath}, SUP_FILERENAME = #{fileReName} WHERE SUP_NO = #{supNo}
 		</update>
+		<!-- 서포팅 삭제 -->
 		<delete id="deleteSupporting" parameterType="_int">
 			DELETE FROM SUPPORTING WHERE SUP_NO = #{supNo}
 		</delete>
-		
+		<!-- 파일삭제 -->
+ 		<delete id="deleteFile" parameterType="_int">
+			DELETE FROM SUPPORTING_FILE WHERE SUP_NO = #{supNo}		
+		</delete>
 		<!-- 진행중 댓글 -->
-		<resultMap type="SupReply" id="replyResultMap">
+		<resultMap type="SupReply" id="supReplyResultMap">
 			<id property="supReAllNo" column="SUP_REPLY_ALLNO"></id>
-			<result property="supNo" column="SUP_NO"></result>
 			<result property="supReChild" column="SUP_REPLY_CHILD"></result>
 			<result property="supReNo" column="SUP_REPLY_NO"></result>
-			<result property="supReWriter" column="SUP_REPLY_WRITER"></result>
+			<result property="supNo" column="SUP_NO"></result>
 			<result property="supReContents" column="SUP_REPLY_COMENTS"></result>
 			<result property="supReDate" column="SUP_REPLY_DATE"></result>
+			<result property="supReWriter" column="SUP_REPLY_WRITER"></result>
 		</resultMap>
-	<!-- 
-		<select id="replyAll" resultType="replyResultMap">
+		<!-- 댓글전체리스트 -->
+		<!-- 
+		<select id="replyAll" resultType="supReplyResultMap">
 			SELECT * FROM SUPPORTING_REPLY WHERE SUP_NO = #{supNo}
 		</select>
-		<insert id="insertSupReply"	parameterType="SupReply">
-			INSERT INTO SUPPORTING_REPLY VALUES (SEQ_REPLY_ALLNO.NEXTVAL, #{supNo}, ? ,#{supReplyNo}, #{userNickName}, #{supReContents}, SYSDATE )
+		-->
+		<!-- 댓글 등록 -->
+		<!-- 
+		<insert id="insertReply"	parameterType="SupReply">
+			INSERT INTO SUPPORTING_REPLY VALUES (SEQ_REPLY_ALLNO.NEXTVAL, #{supNo}, DEFAULT ,#{supReplyNo}, #{userNickName}, #{supReContents}, SYSDATE )
 		</insert> 
-		<update id="updateSupReply" parameterType="SupReply">		
+		-->
+		<!-- 댓글 수정 -->
+<!-- 
+		<update id="updateReply" parameterType="SupReply">		
 			UPDATE SUPPORTING_REPLY SET SUP_REPLY_COMENTS = #{supReContents}, SUP_REPLY_DATE = SYSDATE WHERE REPLY_ALLNO = #{supReAllNo}
 		</update>
-		<delete id="deleteSupReply" parameterType="_int">
+-->
+		<!-- 댓글 삭제 -->
+	<!-- 
+		<delete id="deleteReply" parameterType="_int">
 			DELETE FROM SUPPORTING_REPLY WHERE SUP_REPLY_ALLNO = #{supReAllNo}
 		</delete>
 	-->
+		<!-- 신고부분  -->
+		<resultMap type="supReportReply" id="supReport">
+			<id property="reportNo" column="REPORT_NO"></id>
+			<result property="supReAllNo" column="SUP_REPLY_ALLNO"></result>
+			<result property="supNo" column="SUP_NO"></result>
+			<result property="userNo" column="USER_NO"></result>
+		</resultMap>
+		<insert id="insertReportSupRe" parameterType="supReportReply">
+			INSERT INTO VALUES(SEQ_REPORT_NO.NEXTVAL, #{supReAllNo}, #{supNo}, #{userNo})
+		</insert>
+		<resultMap type="PaymentHistory" id="paymentResultMap">
+			<id property="payNo" column="PAY_NO"></id>
+			<result property="supNo" column="SUP_NO"></result>
+			<result property="supTitle" column="SUP_TITLE"></result>
+			<result property="supAmount" column="SUP_AMOUNT"></result>
+			<result property="userName" column="USER_NAME"></result>
+			<result property="userNickName" column="USER_NICKNAME"></result>
+			<result property="userPhone" column="USER_PHONE"></result>
+			<result property="userEmail" column="USER_EMAIL"></result>
+			<result property="paymentDate" column="PAYMENT_DATE"></result>
+		</resultMap>
+		<insert id="insertHistory"	parameterType="paymentHistory">
+			INSERT INTO PAYMENT_HISTORY VALUES(SEQ_PAY_NO.NEXTVAL,#{supNo},#{supTitle}, #{supAmount}, #{userName}, #{userNickName}, #{userPhone}, #{userEmail}, SYSDATE)
+		</insert>
 </mapper>
 	

@@ -3,9 +3,13 @@ package com.pick.my.supporting.service;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pick.my.common.PageInfo;
 import com.pick.my.common.PaymentHistory;
+import com.pick.my.member.domain.Member;
 import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
@@ -13,8 +17,10 @@ import com.pick.my.supporting.domain.SupReplyReport;
 import com.pick.my.supporting.domain.Supporting;
 
 public interface SupportingService {
-	public List<Supporting> printAllSupporting();
-	public List<Supporting> printAllPreSupporting();
+	public int getPreSupListCount();
+	public int getSupListCount();
+	public List<Supporting> printAllSupporting(PageInfo pi);
+	public List<Supporting> printAllPreSupporting(PageInfo pi);
 	public List<Supporting> findKeywordPreSupporting(HashMap<String, String> searchMap);
 	public List<Supporting> findKeywordSupporting(HashMap<String, String> searchMap);
 	public Supporting preSupportingOne(int supNo);
@@ -31,7 +37,7 @@ public interface SupportingService {
 	public int modifyrSupReplyChild(SupReply supReply);
 	public int removeSupReplyChild(SupReply supReply);
 	public int reportSupReply(SupReplyReport reportSupReply);
-	public int reportSupReplyCheck(int supReAllNo, int supNo);
+	public int reportSupReplyCheck(int reportNo);
 	//////////////결제및참여관련////////
 	/**
 	 * 인원체크, 20명이상이면 카테고리변경(모집중 >> 진행중)
@@ -99,7 +105,9 @@ public interface SupportingService {
 	 * @param supFile
 	 * @return
 	 */
+	public List<SupFile> printFileList(int supNo);
 	public int insertFile(SupFile supFile); 
 	public int updateFile(SupFile file); 
-	public int deleteFile(SupFile file);
+	public int deleteFile(int supNo);
+	public Member printOneUser(int userNo);
 }

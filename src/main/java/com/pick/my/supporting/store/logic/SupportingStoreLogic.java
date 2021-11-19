@@ -3,11 +3,14 @@ package com.pick.my.supporting.store.logic;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.pick.my.common.PageInfo;
 import com.pick.my.common.PaymentHistory;
+import com.pick.my.member.domain.Member;
 import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
@@ -20,14 +23,26 @@ public class SupportingStoreLogic implements SupportingStore{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	
 	@Override
-	public List<Supporting> selectAllPreSupporting() {
+	public int selectPreSupListCount() {
+		int count = sqlSession.selectOne("SupportingMapper.selectPreSupListCount");
+		return count;
+	}
+
+	@Override
+	public int selectSupListCount() {
+		int count = sqlSession.selectOne("SupportingMapper.selectSupListCount");
+		return count;
+	}
+	@Override
+	public List<Supporting> selectAllPreSupporting(PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
+		RowBounds rowBounds  = new RowBounds(offset, pi.getBoardLimit());
 		List<Supporting> pList = sqlSession.selectList("SupportingMapper.selectAllPreSupporting");
 		return pList;
 	}
 	@Override
-	public List<Supporting> selectAllSupporting() {
+	public List<Supporting> selectAllSupporting(PageInfo pi) {
 		List<Supporting> sList = sqlSession.selectList("SupportingMapper.selectAllSupporting");
 		return sList;
 	}
@@ -42,23 +57,34 @@ public class SupportingStoreLogic implements SupportingStore{
 		return ssList;	
 	}
 
+	
 	@Override
 	public Supporting selectPreSupportingOne(int supNo) {
 		Supporting supporting = sqlSession.selectOne("SupportingMapper.selectOneSupporting", supNo);
 		return supporting;
 	}
 
+	
 	@Override
 	public Supporting selectSupportingOne(int supNo) {
 		Supporting supporting  = sqlSession.selectOne("SupportingMapper.selectOnePreSupporting", supNo);
 		return supporting;
 	}
 
+	
+	@Override
+	public List<SupFile> selectFileList(int supNo) {
+		List<SupFile> fList = sqlSession.selectList("SupportingMapper.selectFileList", supNo);
+		return fList;
+	}
+	
 	@Override
 	public int insertSupporting(Supporting supporting) {
 		int result = sqlSession.insert("SupportingMapper.insertSupporting", supporting);
 		return result;
 	}
+
+	
 	@Override
 	public int insertFile(SupFile file) {
 		int result = sqlSession.insert("SupportingMapper.insertFile", file);
@@ -84,63 +110,62 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 	
 	@Override
-	public int deleteFile(SupFile file) {
-		int result = sqlSession.delete("SupportingMapper.deleteFile",file);
+	public int deleteFile(int supNo) {
+		int result = sqlSession.delete("SupportingMapper.deleteFile",supNo);
 		return result;
 	}
-
 	@Override
 	public List<SupReply> selectSupReply(int supNo) {
-		// TODO Auto-generated method stub
-		return null;
+		List<SupReply> rList = sqlSession.selectList("SupportingMapper.replyAll", supNo);
+		return rList;
 	}
 
 	@Override
 	public int insertSupReply(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("SupportingMapper.insertReply", supReply);
+		return result;
 	}
 
 	@Override
-	public int updaterSupReply(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateSupReply(SupReply supReply) {
+		int result = sqlSession.update("SupportingMapper.updateReply", supReply);
+		return result;
 	}
 
 	@Override
 	public int deleteSupReply(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.delete("SupportingMapper.deleteReply", supReply);
+		return result;
 	}
 
 	@Override
 	public int insertSupReplyChild(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("SupportingMapper.insertReplyChild", supReply);
+		return result;
 	}
 
 	@Override
 	public int updateSupReplyChild(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.update("SupportingMapper.updateReplyChild", supReply);
+		return result;
 	}
 
 	@Override
 	public int deleteSupReplyChild(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.delete("SupportingMapper.deleteReplyChild", supReply);
+		return result;
 	}
 
 	@Override
-	public int insertSupReply(SupReplyReport reportSupReply) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertsReplyReport(SupReplyReport reportSupReply) {
+		int result = sqlSession.delete("SupportingMapper.insertReportSupRe", reportSupReply);
+		return result;
 	}
 
 	@Override
-	public int selectReportSupReply(int supReAllNo, int supNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int selectReportSupReply(int reportNo) {
+		 int result = sqlSession.selectOne("SupportingMapper.selectReportSupRe", reportNo);
+		 return result;
 	}
 
 	@Override
@@ -187,8 +212,8 @@ public class SupportingStoreLogic implements SupportingStore{
 
 	@Override
 	public int insertPaymentHistory(PaymentHistory paymentHistory) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("SupportingMapper.insertHistory", paymentHistory);
+		return result;
 	}
 
 	@Override
@@ -208,4 +233,10 @@ public class SupportingStoreLogic implements SupportingStore{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public Member selectUserOne(int userNo) {
+		Member mOne = sqlSession.selectOne("memberMapper.selectUserOne", userNo);
+		return mOne;
+	}
+
 }

@@ -16,210 +16,145 @@
 <link  rel="stylesheet"  href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 <style>
- 	  html,
-      body {
-        position: relative;
-        height: 100%;
-        text-align : center;
-      }
-/*
-
-      body {
-        background: #eee;
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color: #000;
-        margin: 0;
-        padding: 0 0 100px 0;
-      }
-      .swiper {
-        width: 100%;
-        height: 100%;
-      }
-	
-		.card-text{
-			overflow : hidden;
-			height : 200px;
-		}	
-		 p { margin:20px 0px; } */
-		 
-		 .carousel {
-			margin-bottom: 0;
-			padding: 0 40px 30px 40px;
+ 		body{	
+			text-align:center;
 		}
-		
-		.carousel-control {
-			left: -12px;
-		}
-		.carousel-control.right {
-			right: -12px;
-		}
-		
-		.carousel-indicators {
-			right: 50%;
-			top: auto;
-			bottom: 0px;
-			margin-right: -19px;
-		}
-		
-		.carousel-indicators li {
-			background: #c0c0c0;
-		}
-		
-		.carousel-indicators .active {
-			background: #333333;
-		}
+	      .w-button{
+	      	width : 100px;
+	      	height: 30px;
+	      	 margin: auto;
+	 		 width: 50%;
+	      } 
+	      .card {
+	      	margin-bottom : 30px;
+	      	color: white;
+	      }
+	      .card-header{
+	      	height: 100px;
+	      	background-color : #FA908C;
+	      }
+	      .container img {
+	      	height: 250px;
+	      }
+	      .searchButton{
+			width : 100px;
+	      	height:40px;
+	      	border : 1px solid;
+		 	border-radius: 5px;
+		 	margin-top: 5px;
+		 	margin-bottom: 10px;
+		  	background-color : #483CFA;
+		  	color: white;
+			}
+		.pagination{
+	      	text-align : center;
+	      	display: inline-block;
+      	}
 </style>
 </head>
 <body>
-	<jsp:include page="/header.jsp"></jsp:include>
-	<h1>진행중 서포팅 리스트</h1>
-	<h2>울애긔 기살리자!</h2>
-	<input type="text" value="그룹이름을 입력해주세요." id="searchBox">
-	<input type="submit" value="검색" id="button"> <br><br>
-	<c:if test="${empty sList }">
-	<br><br><br>
-		<h1>조회된 게시글이 없습니다.</h1>
-	</c:if>
-	<c:if test="${not empty sList }">
-		<div class="well">
-		    <div id="myCarousel" class="carousel slide">
-		    <ol class="carousel-indicators">
-		        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-		        <li data-target="#myCarousel" data-slide-to="1"></li>
-		        <li data-target="#myCarousel" data-slide-to="2"></li>
-		    </ol>
-     
-		    <!-- Carousel items -->
-		    <div class="carousel-inner">
-			<c:forEach items="${sList}" var="Supporting">
-			    <div class="item active">
-			          <div class="row-fluid">
-			            <div class="col-4">
-			            	<div class="card" style="width: 18rem;">
-					            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
-					            	<a href="${ssOne }" class="thumbnail">
-					            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-					            	<div class="percentBox"></div>
-					            		<c:url var="ssOne" value="supportingDetail.pick">
-											<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-										</c:url>
-					            	</a>
-					        </div>
-			            </div>
-			            <div class="col-4">
-			            	<div class="card" style="width: 18rem;">
-				             	<h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
-				            	<a href="${ssDetail }" class="thumbnail">
-				            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-				            	<div class="percentBox"></div>
-				            		<c:url var="ssOne" value="supportingDetail.pick">
-										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-									</c:url>
-				            	</a>
-				            </div>
-			            </div>
-			            <div class="col-4">
-			           		<div class="card" style="width: 18rem;">
-				            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
-				            	<a href="${ssOne }" class="thumbnail">
-				            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-				            	<div class="percentBox"></div>
-			            			<c:url var="ssOne" value="supportingDetail.pick">
-										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-									</c:url>
-				            	</a>
-				            </div>
-			            </div>
-			        </div><!--/row-fluid-->
-			    </div><!--/item-->
-			     
-			    <div class="item">
-			          <div class="row-fluid">
-			             <div class="col-4">
-			            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
-			            	<a href="${ssOne }" class="thumbnail">
-			            	<img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-			            	<div class="percentBox"></div>
-		            			<c:url var="ssOne" value="supportingDetail.pick">
-									<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-								</c:url>
-			            	</a>
-			            </div>
-			            <div class="col-4">
-			             	<h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
-			            	<a href="${ssOne }" class="thumbnail">
-			            	<img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-			            	<div class="percentBox"></div>
-			            		<c:url var="ssOne" value="supportingDetail.pick">
-									<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-								</c:url>
-			            	</a>
-			            </div>
-			             <div class="col-4">
-			            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
-			            	<a href="${ssOne }" class="thumbnail">
-			            	<img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-			            	<div class="percentBox"></div>
-			            		<c:url var="ssOne" value="supportingDetail.pick">
-									<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-								</c:url>
-			            	</a>
-			            </div>
-			        </div><!--/row-fluid-->
-			    </div><!--/item-->
-			     
-			    <div class="item">
-			        <div class="row-fluid">
-			            <div class="col-4">
-			            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
-			            	<a href="${ssOne }" class="thumbnail">
-			            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-			            	<div class="percentBox"></div>
-			            		<c:url var="ssOne" value="supportingDetail.pick">
-										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-								</c:url>
-			            	</a>
-			            </div>
-			            <div class="col-4">
-			             	<h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
-			            	<a href="${ssOne}" class="thumbnail">
-			            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-			            	<div class="percentBox"></div>
-			            		<c:url var="ssOne" value="supportingDetail.pick">
-										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-								</c:url>
-			            	</a>
-			            </div>
-			            <div class="col-4">
-			            <h3 class="card-title"><a href="${ssOne }">${Supporting.supTitle }</a></h3>
-			            	<a href="${ssOne }" class="thumbnail">
-			            	<img src="/resources/SupportingFiles/${Supporting.imgReName }" alt="Image" style="max-width:33.3%;" /><br>
-			            	<div class="percentBox"></div>
-			            		<c:url var="ssOne" value="supportingDetail.pick">
-										<c:param name="supNo" value="${Supporting.supNo }"></c:param>
-								</c:url>
-			            	</a>
-			            </div>
-			        </div><!--/row-fluid-->
-			    </div><!--/item-->
-		</c:forEach>
-    	</div><!--/carousel-inner-->
-	   <a class="left carousel-control" href="#myCarousel" data-slide="prev">PREV</a>
-	   <a class="right carousel-control" href="#myCarousel" data-slide="next">NEXT</a>
-	   </div><!--/myCarousel-->
-    </div><!--/well--><br><br><br>
-   </c:if>
-	<jsp:include page="/footer.jsp"></jsp:include>
-	<script>
-	$("#searchBox").focus(function(){
-		$("#searchBox").val("");
-	});
+<script>
 	$(document).ready(function() {
+		function loginCheck() {
+			alert("로그인하세요.");
+			window.location.href = "supportingList.pick";
+		}
+		
+		$("#searchBox").focus(function(){
+			$("#searchBox").val("");
+		});
+		
 		$('#myCarousel').carousel({
-		interval: 10000
+			interval: 10000
 		})
+		
+		function letGoSup(){
+			alert("로그인 후 이용해주세요");
+			window.history.back();
+		}
+		
 	});
-	</script>
+</script>
+<jsp:include page="/header.jsp"></jsp:include>
+<div class="container">
+	<h1>진행중 서포팅 리스트</h1><br>
+	<h2>울애긔 기살리자!</h2>
+	<p>마감일이 가까운 순으로 먼저 보여집니다.</p><br>
+	<input type="text" value="그룹이름을 입력해주세요." id="searchBox">
+	<input type="submit" value="검색" class="searchButton"> <br><br>
+	<div class="row">
+		<c:if test="${empty sList }">
+		<br><br><br>
+			<h1>조회된 게시글이 없습니다.</h1>
+		</c:if>
+		<c:if test="${not empty sList }">
+			<div class="row"> 
+				<c:forEach items="${sList}" var="Supporting" varStatus="sLength">
+					<c:url var="psOne" value="presupportingDetail.pick">
+						<c:param name="supNo" value="${Supporting.supNo}"></c:param>
+					</c:url>
+					<div class="col-3">
+						<c:if test="${userId eq null }">
+							<div class="card" style="cursor : pointer;" onclick="letGoSup();">
+				           		<div class="card-header"><h3>${Supporting.supTitle }</h3></div><br>
+								<div class="card-text"><img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image"></div>
+				            	<div class="percentBox"></div>
+							</div>
+						</c:if>
+						<c:if test="${userId ne null }">
+							<c:url var="ssOne" value="supportingDetail.pick">
+								<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+							</c:url>
+							<div class="card" style="cursor : pointer;" onclick="location.href='${ssOne}';">
+				           		<div class="card-header"><h3>${Supporting.supTitle }</h3></div><br>
+								<div class="card-text"><img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image"></div>
+				            	<div class="percentBox"></div>
+							</div>
+						</c:if>
+					</div>
+				</c:forEach><br>
+			</div>
+			<div class="pagination">
+				<table>
+				<tr align="center" height="20">
+					<td colspan="6">
+					<!-- RequestParam의 page를 가져온다 -->
+						<c:url var="before" value="supportingList.pick">
+							<c:param name="page" value="${pi.currentPage - 1}"></c:param>
+						</c:url>
+						<c:if test="${pi.currentPage <= 1}">
+							[이전]
+						</c:if>
+						<c:if test="${pi.currentPage > 1}">
+							<a href="${before }">[이전]</a>
+						</c:if>
+						
+						<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
+							<c:url var="pagination" value="supportingList.pick">
+								<c:param name="page" value="${p }"></c:param>
+							</c:url>
+							<c:if test="${p eq pi.currentPage }">
+								<font color="red" size="4">[${p }]</font>
+							</c:if>
+							<c:if test="${p ne pi.currentPage }">
+								<a href="${pagination }">${p }</a>&nbsp;
+							</c:if>
+						</c:forEach>
+						<c:url var="after" value="supportingList.pick">
+							<c:param name="page" value="${pi.currentPage + 1}"></c:param>
+						</c:url>
+						<c:if test="${pi.currentPage >= pi.maxPage}">
+							[다음]
+						</c:if><c:if test="${pi.currentPage < pi.maxPage }">
+							<a href="${after }">[다음]</a>
+						</c:if>
+					</td>
+				</tr>
+				</table>
+			</div><br>
+		</c:if>
+	</div>
+</div>
+<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>

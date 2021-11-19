@@ -21,8 +21,31 @@
  <script src="assets/air-datepicker/dist/js/datepicker.js"></script> <!-- Air datepicker js -->
  <script src="assets/air-datepicker/dist/js/lang/datepicker.ko.js"></script> <!-- 달력 한글 추가를 위해 커스텀 -->
 <style>
+	#btn-mutiupload{
+		display:none;
+	}
+	#file-list{
+	
+	}
+	
 	body{
 		text-align : center;
+	}
+	table{
+		border : 1px solid #eee;
+		width : 800px;
+	}
+	input{
+		border : 1px solid #eee;
+	}
+	textarea{
+		border : 1px solid #eee;
+	}
+	#mainFile{
+		width : 400px;
+	}
+	#btn-multiUpload {
+		width : 400px;
 	}
 	#f-btn{
 		width: 100px;
@@ -34,11 +57,29 @@
 	#file-list{
 	
 	}
+	td:first-child{
+		width:30%;
+	}
+	.btn{
+	 	width : 100px;
+	 	height: 40px;
+	 	border : 1px solid;
+	 	border-radius: 5px;
+	 	padding : 10px 5px;
+	 	margin-top: 5px;
+	 	margin-bottom: 10px;
+	  	background-color : #483CFA;
+	  	color: white;
+	 }
+	 .img_wrap{
+	 	height: 300px;
+	 }
 </style>
 </head>
 <body>
-<jsp:include page="/header.jsp"></jsp:include>
-<h1>서포팅 등록</h1>
+<jsp:include page="/header.jsp"></jsp:include><br><br>
+<h1>서포팅 등록</h1><br>
+<div class="contaier">
 	<form name="dataForm" id="dataForm" onsubmit="return registerAction()" action ="supportingRegister.pick" method="post" enctype="multipart/form-data">
 		<table align="center" border="1">
 			<tr>
@@ -85,7 +126,7 @@
 				<td><input id="mainFile" type="file" name="uploadFile"></td>
 			</tr>
 			<tr>
-				<td><span id="fileList">파일 추가 : 최대 5개까지 등록 가능합니다.</span></td>
+				<td><span id="fileList">파일 추가 <br>최대 5개까지 등록 가능</span></td>
 				<td><input id="btn-multiUpload" type="file" name="subFile" multiple="multiple">  
 			</tr>
 			<tr>
@@ -94,12 +135,13 @@
             </tr>
 			<tr>
 				<td colspan="2">
-					<input type="submit" id="submit" value="등록">
-					<input type="reset" value="목록" onclick="location.href='presupportingList.pick'">
+					<input type="submit" id="submit" value="등록"  class="btn">
+					<input type="reset" value="목록"   class="btn" onclick="location.href='presupportingList.pick'">
 				</td>
 			</tr>
 		</table>
 	</form>
+</div>
 <jsp:include page="/footer.jsp"></jsp:include>
 <script>
 	//목표금액 설정
