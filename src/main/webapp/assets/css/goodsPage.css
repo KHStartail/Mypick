@@ -1,0 +1,16 @@
+.shop__last__option a, .shop__last__option font{
+	font-size: 20px;
+	color: black;
+	letter-spacing: 25px;
+}
+
+.shop__last__option font{
+	color : red;
+}
+
+.shop__last__option a:hover{
+	color : white;
+	background-color: #b8bac9;
+	border-radius: 200px;
+	transition : all 0.5s;
+}

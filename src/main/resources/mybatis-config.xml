@@ -18,6 +18,7 @@
       <typeAlias type="com.pick.my.goods.domain.Goods" alias="Goods"/>
       <typeAlias type="com.pick.my.goods.domain.GoodsFile" alias="GoodsFile"/>
       <typeAlias type="com.pick.my.goods.domain.GoodsPayment" alias="GoodsPayment"/>
+      <typeAlias type="com.pick.my.goods.domain.Cart" alias="Cart"/>
       <typeAlias type="com.pick.my.goods.domain.Review" alias="Review"/>
       <typeAlias type="com.pick.my.idol.domain.Idol" alias="Idol"/>
       <typeAlias type="com.pick.my.member.domain.Member" alias="Member"/>

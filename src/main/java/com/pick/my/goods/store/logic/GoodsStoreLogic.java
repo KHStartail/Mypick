@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.pick.my.common.PageInfo;
+import com.pick.my.goods.domain.Cart;
 import com.pick.my.goods.domain.Goods;
 import com.pick.my.goods.domain.GoodsFile;
 import com.pick.my.goods.domain.GoodsPayment;
@@ -154,6 +155,20 @@ public class GoodsStoreLogic implements GoodsStore{
 		int result = sqlSession.insert("goodsMapper.insertPayInfo",pay);
 		
 		return result;
+	}
+
+	@Override
+	public int insertCart(Cart cart) {
+		int result = sqlSession.insert("goodsMapper.insertCart",cart);
+		
+		return result;
+	}
+
+	@Override
+	public List<Goods> selectSlideGoods(String groupName) {
+		List<Goods> gList = sqlSession.selectList("goodsMapper.selectSlideGoods",groupName);
+		
+		return gList;
 	}
 
 

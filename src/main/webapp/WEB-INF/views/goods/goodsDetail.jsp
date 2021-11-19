@@ -8,12 +8,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="assets/js/cartAlert.js"></script> 
+<script src="assets/js/deleteAlert.js"></script>
+<script type="assets/js/toastr.min.js"></script>
             <!-- Google Font -->
             <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
             rel="stylesheet">
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
             rel="stylesheet">
-        
+
             <!-- Css Styles -->
             <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
             <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
@@ -22,7 +25,10 @@
             <link rel="stylesheet" href="assets/css/login.css">
             <link rel="stylesheet" href="assets/css/goods.css">
             <link rel="stylesheet" href="assets/css/goods_detail.css">
+            <link rel="stylesheet" href="assets/css/deleteAlert.css">
+             <link rel="stylesheet" href="assets/css/cartAlert.css">
             <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
+            <link rel="stylesheet" href="assets/css/toastr.min.css">
             <!--------------------------------->
             <link rel="stylesheet" href="assets/css/elegant-icons.css" type="text/css">
             <link rel="stylesheet" href="assets/css/nice-select.css" type="text/css">
@@ -63,6 +69,7 @@
     </c:url> --%>
     <section class="product-details spad">
     <input type="hidden" value="${goods.goodsNo }" id="goodsNo">
+    <input type="hidden" value="${goods.groupName }" id="groupName">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
@@ -83,11 +90,11 @@
                         </c:if>
                         <h4>${goods.goodsName }</h4>
                         <h5>${goods.goodsPrice } ₩</h5>                        
-                        <p>${goods.goodsIntro }</p>
+                        <%-- <p>${goods.goodsIntro }</p> --%>
                         <ul>
-                            <li>tab1: <span>여기에는</span></li>
-                            <li>tab2: <span>뭐가</span></li>
-                            <li>tab3: <span>들어가야할까</span></li>
+                            <li>상세 소개<!-- : <span>여기에는</span> --></li>
+                            <li><span>${goods.goodsIntro }</span></li>
+                            <!-- <li>tab3: <span>들어가야할까</span></li> -->
                         </ul>
                         <div class="product__details__option">
                             <div class="quantity">
@@ -95,8 +102,34 @@
                                     <input type="text" id="amount" value="1">
                                 </div>
                             </div>
-                            <a href="#" class="primary-btn">Add to cart</a>
-                            <a onclick="goBuy(${goods.goodsNo})" class="primary-btn">Buy Now</a>
+                            <c:if test="${loginUser != null }">
+                            <a id="cart-btn" class="primary-btn">Add to cart</a>
+<!--                             <div id="black-bg1"></div>  -->
+			                <div id="modal-wrap1">
+						        <div class="alert-line1"></div>
+						        <!-- <div class="alert-logo1">
+		 				            <img src="assets/images/mypic_logo.png" alt="">
+						        </div> -->
+						        <div class="alert-text1">
+						            <span>장바구니에 담으시겠습니까?</span>
+						        </div>
+						        <div class="alert-btn1">
+						            <button type="button" onclick="goCart(this,${goods.goodsNo},'${goods.goodsName }',${goods.goodsPrice })"><a id="cart-ok" href="">OK</a></button>
+						            <button type="button" class="cart-close"><a href="#"id="cart-no">Cancel</a></button>
+					            </div> 
+			                    <div class="alert-line2"></div>
+			                </div>
+                            </c:if>
+                            <c:if test="${loginUser == null }">
+                            <a href="loginView.pick" class="primary-btn">Add to cart</a>
+                            </c:if>
+                            
+                            <c:if test="${loginUser != null }">
+                            	<a onclick="goBuy(${goods.goodsNo})" class="primary-btn">Buy Now</a>
+                            </c:if>
+                            <c:if test="${loginUser == null }">
+                            	<a href="loginView.pick" class="primary-btn">Buy Now</a>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -233,7 +266,12 @@
                                         <div class="rev-input">
                                             <input type="hidden" name="revStar">
                                             <textarea name="revContents" id="" cols="60" rows="5"></textarea>
-                                            <button type="submit">등록</button>
+                                            <c:if test="${loginUser != null }">
+                                            	<button type="submit">등록</button>
+                                            </c:if>
+                                            <c:if test="${loginUser == null }">
+                                            	<button type="button" onclick="location.href='loginView.pick'">등록</button>
+                                            </c:if>
                                         </div>
                                        </form>
                          <!--  -->
@@ -274,9 +312,13 @@
 												    	<c:param name="imgPath" value="${review.imgPath }"></c:param>
 												    	<c:param name="goodsNo" value="${review.goodsNo }"></c:param>
 												    </c:url>
+												    <c:if test="${loginUser.userGrade == 'manager' }">
                                                     <button type="button" onclick="showReply(this,${review.goodsNo },${review.revNo })" id="replyBtn"><a href="#">답글</a> </button>
+                                                    </c:if>
+                                                    <c:if test="${reply.userId == loginUser.userId }">
                                                     <button type="button" onclick="modifyReview(this,${review.goodsNo },${review.revNo },'${review.revContents }')" id="updateBtn"><a href="#">수정</a> </button>
                                                     <button type="button" id="deleteBtn"><a href="${rDelete }">삭제</a> </button>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                         </div>
@@ -310,8 +352,10 @@
 												    	<c:param name="revNo" value="${reply.revNo }"></c:param>
 												    	<c:param name="goodsNo" value="${reply.goodsNo }"></c:param>
 												    </c:url>
+												    <c:if test="${loginUser.userGrade == 'manager' }">
                                                     <button type="button" onclick="modifyReply(this,${reply.goodsNo},${reply.revNo },'${reply.revContents }')"><a href="#">수정</a> </button>
                                                     <button type="button"><a href="${reDelete }">삭제</a> </button>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                         </div>
@@ -341,24 +385,38 @@
             </div>
             <div class="row">
                 <div class="related__products__slider owl-carousel">
+                <c:forEach items="${gList }" var="slide">
+                 <c:url var="gDetail" value="goodsDetail.pick">
+            		<c:param name="goodsNo" value="${slide.goodsNo }"></c:param>
+            	</c:url>
+            	<c:if test="${goods.goodsNo != slide.goodsNo }">
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
-                                <img src="assets/images/air.png" alt="">
-                                <div class="product__label">
-                                    <span>그룹명</span>
-                                </div>
+                                <img src="resources/goodsFiles/${slide.imgPath }" alt="">
+                                <c:if test="${slide.idolName == null }">
+                            <div class="product__label">
+                                <span>${slide.groupName }</span>
+                            </div>
+                        </c:if>
+                        <c:if test="${slide.idolName != null }">
+                            <div class="product__label">
+                                <span>${slide.groupName }⭐${slide.idolName }</span>
+                            </div>
+                        </c:if>
                             </div>
                             <div class="product__item__text">
-                                <h6><a href="#">Dozen Cupcakes</a></h6>
-                                <div class="product__item__price">$32.00</div>
-                                <div class="cart_add">
-                                    <a href="#">Detail View</a>
-                                </div>
+                            <h6><a href="#">${slide.goodsName }</a></h6>
+                            <div class="product__item__price">${slide.goodsPrice }₩</div>
+                            <div class="cart_add">
+                                <a href="${gDetail }">Detail View</a>
                             </div>
                         </div>
+                        </div>
                     </div>
-                    <div class="col-lg-3">
+                    </c:if>
+                    </c:forEach>
+<!--                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
                                 <img src="assets/images/case.png" alt="">
@@ -442,7 +500,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -457,9 +515,30 @@
     	<c:param name="imgPath" value="${goods.imgPath }"></c:param>
     </c:url>
         <div class="manager-btn">
+        <c:if test="${loginUser.userGrade == 'manager' }">
             <button type="submit"><a href="${gUpdate }">수정</a></button>
-            <button type="submit"><a href="${gDelete }">삭제</a></button>
+            <button type="button" id="delete-btn"><a href="#">삭제</a></button>
+        </c:if>
+                <div id="black-bg"></div> 
+	                <div id="modal-wrap">
+				        <div class="alert-line"></div>
+				        <div class="alert-logo">
+ 				            <img src="assets/images/mypic_logo.png" alt="">
+				        </div>
+				        <div class="alert-text">
+				            <span>삭제하시겠습니까?</span>
+				        </div>
+				        <div class="alert-btn">
+				            <button type="button"><a href="${gDelete }">OK</a></button>
+				            <button type="button" class="delete-close"><a href="#">Cancel</a></button>
+			            </div> 
+	                    <div class="alert-line"></div>
+	                </div>
+	       <!-- 장바구니 팝업 -->
+
+	                
             <button type="submit" onclick="location.href='goodsList.pick'">목록</button>
+    	</div>
         </div>
     </section>
     <!-- Related Products Section End -->
@@ -580,6 +659,54 @@
 		location.href = "goodsPayment.pick?goodsNo="+goodsNo+"&goodsAmount="+goodsAmount;
 		console.log(amount);
 	}
+	
+	function goCart(obj,goodsNo,goodsName, goodsPrice){
+		var goodsAmount = $("#amount").val();
+		$.ajax({
+			url : "cartAdd.pick",
+			type : "post",
+			data : {
+				"goodsNo" : goodsNo,
+				"goodsName" : goodsName,
+				"goodsPrice" : goodsPrice,
+				"goodsAmount" : goodsAmount
+			},
+			success : function(data){
+				if(data == "success"){
+					toastr.options = {
+							  "closeButton": false,
+							  "debug": false,
+							  "newestOnTop": false,
+							  "progressBar": false,
+							  "positionClass": "toast-top-right",
+							  "preventDuplicates": false,
+							  "onclick": null,
+							  "showDuration": "300",
+							  "hideDuration": "1000",
+							  "timeOut": "5000",
+							  "extendedTimeOut": "1000",
+							  "showEasing": "swing",
+							  "hideEasing": "linear",
+							  "showMethod": "fadeIn",
+							  "hideMethod": "fadeOut"
+							}
+						toastr.success('알림','장바구니에 등록되었습니다!');
+/* 					$(obj).parent().parent().css('display','block');
+					$(obj).hide();
+					$(obj).prev().html("장바구니로 이동하시겠습니까?");
+					$(obj).parent().append("<button type='button'><a id='cart-ok' href="">OK</a></button>"); */
+				}else{
+					alert("실패");
+				}
+			},
+			error : function(){
+				alert("실패");
+			}
+			
+		});
+	}
+	
+
 </script>
 </body>
 </html>
