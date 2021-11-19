@@ -51,15 +51,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int searchId(int userNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public String searchId(int phoneNumber) {
+		String userId = store.searchId(phoneNumber);
+		return userId;
 	}
 
 	@Override
-	public int searchPwd(Member memberOne) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Member searchPwd(Member member) {
+		Member member2 = store.searchPwd(member);
+		return member2;
 	}
 	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) { 
 		String api_key = "NCSYUKDSLQQNRQPN"; 
@@ -80,6 +80,11 @@ public class MemberServiceImpl implements MemberService {
 			System.out.println(e.getCode());
 			} 
 		}
+	@Override
+	public int modifyPwd(Member member) {
+		int result = store.modifyPwd(member);
+		return result;
+	}
 	}
 
 	

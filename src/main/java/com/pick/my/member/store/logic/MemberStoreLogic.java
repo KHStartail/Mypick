@@ -45,15 +45,21 @@ public class MemberStoreLogic implements MemberStore{
 	}
 
 	@Override
-	public int searchId(int userNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public String searchId(int phoneNumber) {
+		String userId = sqlSession.selectOne("memberMapper.selectId",phoneNumber);
+		return userId;
 	}
 
 	@Override
-	public int searchPwd(Member memberOne) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Member searchPwd(Member member) {
+		Member member2 = sqlSession.selectOne("memberMapper.selectPwd",member);
+		return member2;
+	}
+
+	@Override
+	public int modifyPwd(Member member) {
+		int result = sqlSession.update("memberMapper.updatePwd",member);
+		return result;
 	}
 
 }
