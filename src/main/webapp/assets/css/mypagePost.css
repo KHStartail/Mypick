@@ -1,0 +1,43 @@
+#contents-div{
+    margin-top: 2%;
+    margin-left: 2%;
+    width: 75%;
+    height: auto;
+    float: left;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+    #commu-section{
+        width: 80%;
+    }
+
+    .commu-label{
+        font-size: 40px;
+        width: 70%;
+        font-weight: bold;
+    }
+
+    .commu-info{
+        margin-top: 5%;
+        margin-left: 10%;
+        width: 100%;
+        border-top: 2px solid black;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.548);
+    }
+        .commu-info table{
+            text-align: center;
+            width: 100%;
+            color: gray;
+            
+        }
+            .commu-info table tr:nth-child(1){
+                height: 70px;
+            }
+            .commu-info table tr:nth-child(2){
+                height: 50px;
+                border-top: 1px solid rgba(128, 128, 128, 0.548);
+                border-bottom: 1px solid rgba(128, 128, 128, 0.548);
+            }
+            .commu-info table :nth-child(1){
+                width: 70%;
+            }
+
