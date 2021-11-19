@@ -29,6 +29,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
+import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
 import com.pick.my.community.domain.Community_Report_Reply;
 import com.pick.my.community.domain.Heart;
@@ -106,13 +107,15 @@ public class CommunityController {
 		return strResult;
 	}
 	@RequestMapping(value="mainView.pick")
-	public ModelAndView mainView(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
+	public ModelAndView mainView(ModelAndView mv, @RequestParam(value="page", required=false) Integer page,HttpSession session) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
 	      int currentPage = (page != null) ? page : 1;
 	      int totalCount = service.getListcount();
 	      PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 	      List<Community_Post> cList = service.printAllPost(pi);
 	      
 	      if(!cList.isEmpty()) {
+	    	  mv.addObject("loginUser",loginUser);
 	    	  mv.addObject("cList",cList);
 	    	  mv.addObject("pi",pi);
 	    	  mv.setViewName("community/main");
@@ -169,6 +172,8 @@ public class CommunityController {
 	        if (viewCookie == null) {    
 	            // 쿠키 생성(이름, 값)
 	            Cookie newCookie = new Cookie("cookie"+postNo, "|" + postNo + "|");
+	            //쿠키 지속시간 (-1 브라우저종료,세션이 만료시 쿠키만료)
+	            newCookie.setMaxAge(-1);
 	            // 쿠키 추가
 	            response.addCookie(newCookie);
 	            // 쿠키를 추가 시키고 조회수 증가시킴
@@ -246,60 +251,6 @@ public class CommunityController {
 		}
 		return mv;
 }
-	@ResponseBody
-	@RequestMapping(value = "update.pick", method = RequestMethod.POST)
-	public String fileUpdate(@RequestParam("postNo") int postNo,@RequestParam("article_file") List<MultipartFile> multipartFile, HttpServletRequest request,Community_File File) {
-		
-		String strResult = "{ \"result\":\"FAIL\" }";
-		String contextRoot = request.getSession().getServletContext().getRealPath("resources");
-		String fileRoot;
-		
-		try {
-			// 파일이 있으면.
-			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
-				for(MultipartFile file:multipartFile) {
-					fileRoot = contextRoot + "\\upload\\";
-					File folder = new File(fileRoot);
-					if (!folder.exists()) {
-						folder.mkdir(); // 폴더 생성
-					}
-					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
-					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-					
-					File targetFile = new File(fileRoot + savedFileName);	
-					try {
-						InputStream fileStream = file.getInputStream();
-						FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
-						File.setFileName(file.getOriginalFilename());
-						File.setFileRename(savedFileName);
-						File.setFileSize(file.getSize());
-						int result = service.insertFile(File);
-						if(result > 0) {
-							strResult = "{ \"result\":\"OK\" }";
-						}else {
-							strResult = "{ \"result\":\"FAIL\" }";
-						}
-					} catch (Exception e) {
-						//파일삭제
-						FileUtils.deleteQuietly(targetFile);	//저장된 현재 파일 삭제
-						e.printStackTrace();
-						break;
-					}
-				}
-//				strResult = "{ \"result\":\"OK\" }";
-			}
-			// 파일이 없으면.
-//			else
-//				strResult = "{ \"result\":\"OK\" }";
-		
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return strResult;
-	}
-	
-	
 	
 	@RequestMapping(value="CommunityDelete.pick",method = RequestMethod.GET)
 	public String CommunityDelete(Model model,@RequestParam("postNo")int postNo,@RequestParam(value="fileName", required=false) List<String> fileRenames,HttpServletRequest request) {
@@ -382,7 +333,7 @@ public class CommunityController {
 	@RequestMapping(value = "reUpload.pick", method = RequestMethod.POST)
 	public String fileReUpload(
 			@RequestParam("article_file") List<MultipartFile> multipartFile
-			, HttpServletRequest request,Community_File File,@RequestParam int postNo) {
+			, HttpServletRequest request,Community_File File,@RequestParam int postNo,HttpSession session) {
 		
 		String strResult = "{ \"result\":\"FAIL\" }";
 		String contextRoot = request.getSession().getServletContext().getRealPath("resources");
@@ -408,6 +359,8 @@ public class CommunityController {
 						File.setFileRename(savedFileName);
 						File.setFileSize(file.getSize());
 						File.setPostNo(postNo);
+						Member loginUser = (Member)session.getAttribute("loginUser");
+						File.setUserId(loginUser.getUserId());
 						int result = service.ReinsertFile(File);
 						if(result > 0) {
 							strResult = "{ \"result\":\"OK\" }";
@@ -532,16 +485,40 @@ public class CommunityController {
 			report.setReplyAllNo(replyAllNo);
 			report.setPostNo(postNo);
 			report.setUserId(loginUser.getUserId());
+			report.setUserNickName(loginUser.getUserNickName());
 			Community_Report_Reply report2 = service.doubleReport(report);
 			int result = 0;
 			if(report2 != null) {
-				System.out.println("중복방지성공");
 				 answer = "error";
 			}else {
 				result = service.registerReplyReport(report);
 				 answer = "success";
 			}
 			if(result > 0 ) {
+				return answer;
+			}else {
+				return answer;
+			}
+		}
+		@ResponseBody
+		@RequestMapping(value="reportPost.pick",method = RequestMethod.POST)
+		public String reportPost(@RequestParam("postNo")int postNo,HttpSession session,Community_Post_Report reportPost,Community_Post post) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			post = service.printOnePost(postNo);
+			reportPost.setPostTitle(post.getPostTitle());
+			reportPost.setPostNo(postNo);
+			reportPost.setUserNickName(post.getUserNickName());
+			reportPost.setWriterNickName(loginUser.getUserId());
+			Community_Post_Report reportPost2 = service.checkReport(reportPost); 
+			String answer = "success";
+			int result = 0;
+			if(reportPost2 == null) {
+				result = service.registerPostReport(reportPost);
+				answer = "success";
+			}else {
+				answer = "error";
+			}
+			if(result >0 ) {
 				return answer;
 			}else {
 				return answer;

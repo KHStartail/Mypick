@@ -47,8 +47,15 @@
 		<result property="rStatus" column="R_STATUS" />
 		<result property="replyContents" column="REPLYCONTETNS" />
 		<result property="postNo" column="POST_NO" />
+		<result property="userNickName" column="MEMBER_NICKNAME" />
 	</resultMap>
-
+	<resultMap type="pReport" id="pReportResultMap">
+		<id property="reportNo" column="REPORT_NO"></id>
+		<result property="postNo" column="POST_NO" />
+		<result property="postTitle" column="POST_TITLE" />
+		<result property="userNickName" column="USER_NICKNAME" />
+		<result property="writerNickName" column="WRTIER_NICKNAME" />
+	</resultMap>
 
 
 	<select id="selectListCount" resultType="_int">
@@ -104,8 +111,14 @@
 		#{userId}
 	</select>
 	<select id="doubleReport" resultMap="rReportResultMap">
-	SELECT * FROM COMMUNITY_REPLY_REPORT WHERE MEMBER_ID = #{userId} AND REPLY_ALLNO = #{replyAllNo}
+		SELECT * FROM COMMUNITY_REPLY_REPORT WHERE MEMBER_ID = #{userId} AND
+		REPLY_ALLNO = #{replyAllNo}
 	</select>
+
+	<select id="selectPostReport" resultMap="pReportResultMap">
+		SELECT * FROM COMMUNITY_POST_REPORT WHERE POST_NO = #{postNo} AND WRTIER_NICKNAME = #{writerNickName}
+	</select>
+
 	<insert id="uploadFile" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
 		VALUES(SEQ_FILE.NEXTVAL,#{userId},#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
@@ -138,7 +151,13 @@
 	</insert>
 
 	<insert id="insertReplyReport" parameterType="rReport">
-	INSERT INTO COMMUNITY_REPLY_REPORT VALUES(SEQ_REPORT.NEXTVAL,#{userId},#{replyAllNo},DEFAULT,#{replyContents},#{postNo})
+		INSERT INTO COMMUNITY_REPLY_REPORT
+		VALUES(SEQ_REPORT.NEXTVAL,#{userId},#{replyAllNo},DEFAULT,#{replyContents},#{postNo},#{userNickName})
+	</insert>
+
+	<insert id="insertPostReport" parameterType="pReport">
+		INSERT INTO COMMUNITY_POST_REPORT
+		VALUES(SEQ_POST_REPORT.NEXTVAL,#{postNo},#{postTitle},#{userNickName},#{writerNickName})
 	</insert>
 
 	<delete id="deletePost" parameterType="_int">
@@ -177,10 +196,12 @@
 	</update>
 	<delete id="deleteHeart" parameterType="Heart">
 		DELETE FROM HEART
-		WHERE POST_NO = #{postNo} AND MEMBER_ID = #{userId}
+		WHERE
+		POST_NO = #{postNo} AND MEMBER_ID = #{userId}
 	</delete>
 	<delete id="deleteHeartCount" parameterType="Post">
-		UPDATE COMMUNITY_POST
+		UPDATE
+		COMMUNITY_POST
 		SET HEART_COUNT = HEART_COUNT - 1 WHERE POST_NO =
 		#{postNo}
 	</delete>

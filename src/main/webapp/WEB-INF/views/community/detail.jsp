@@ -17,16 +17,17 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
 	rel="stylesheet">
-
 <title>MyPick 메인</title>
-
 
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/assets/js/toastr.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+<	
+
 <!-- include summernote css/js-->
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css"
@@ -48,6 +49,7 @@
 <link rel="stylesheet" href="assets/css/header.css">
 <link rel="stylesheet" href="assets/css/login.css">
 <link rel="stylesheet" href="assets/css/detail.css">
+<link rel="stylesheet" href="assets/css/toastr.min.css">
 <script src="assets/js/search.js"></script>
 
 <script>
@@ -62,7 +64,7 @@
 
 		document.getElementsByTagName('head')[0].appendChild(oScript);
 		oScript.remove();
-	}
+	}	
 		
 </script>
 <style>
@@ -114,7 +116,7 @@
 			</div>
 		</div>
 	</div>
-		<form action="CommunityDelete.pick" onsubmit="return confirm('삭제하시겠습니까?')" method="get"style="margin-left: 84%;margin-top: 2%">
+		<form action="CommunityDelete.pick" onsubmit="return confirm('삭제하시겠습니까?')" method="get"style="margin-left: 84%;">
 		<c:forEach items="${file }" var="file">
 			<input type="hidden" value="${file.fileRename }" id="fileName"
 				name="fileName">
@@ -220,11 +222,26 @@
 	
 		<script>
 	$(window).on('load',function(){
-	console.log('안들어가짐?')
 	getReplyList();		
-
+	
+	var modal = new tingle.modal({
+	    footer: true,
+	    stickyFooter: false,
+	    closeMethods: ['overlay', 'button', 'escape'],
+	    closeLabel: "Close",
+	    cssClass: ['custom-class-1', 'custom-class-2'],
+	    onOpen: function() {
+	        console.log('modal open');
+	    },
+	    onClose: function() {
+	        console.log('modal closed');
+	    },
+	    beforeClose: function() {
+	        return true; 
+	        return false;
+	    }
+	});
 	$("#rSubmit").on("click",function(){
-		//var boardNo = $("#boardNo").val();
 		var postNo = '${post.postNo }';
 		var rContents = $("#summernote").val();
 		$.ajax({
@@ -240,13 +257,13 @@
 						getReplyList();
 					// 작성 후 내용 초기화
 					rContents.val("");
-					alert("댓글 등록 성공");
+					toastr.success('성공', '댓글을 작성하셨습니다..'); 
 				}else{
-					alert("댓글 등록 실패");
+					toastr.warning('실패', '댓글등록 실패했습니다..');
 				}
 			},
 			 error: function (request,xhr, status, error) {
-		   	     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				 toastr.error('실패', '로그인후 이용해주세요.');
 			},
 			complete : function() {
 				location.reload();
@@ -311,14 +328,13 @@
 			},
 			success : function(data){
 				if(data == "success"){
-					alert("신고되었습니다.")
+					toastr.success('신고되었습니다.');
 				}else{
-					
-					alert("이미 신고하셨습니다.")
+					toastr.warning('실패', '이미 신고되었습니다.');
 					location.reload();
 				}
 			},error : function(request, status, error){
-				alert("로그인이후 이용해주세요.")
+				toastr.error('실패', '로그인후 이용해주세요');
 				location.reload();
 			}
 		})
@@ -331,9 +347,9 @@
 		        }
 		$trModify = $("<tr>");
 		$trModify
-		.append("<td><textarea rows='5' cols='140' name='content' id='content' class='content' onclick='onScript();'>"+replyContents+"</textarea>></td>");
+		.append("<td><textarea rows='5' cols='100' name='content' id='content' class='content' onclick='onScript();'>"+replyContents+"</textarea>></td>");
 		$trModify
-		.append("<td><button class='btn btn-dark mt-3' onclick='modifyReplyCommit("+postNo+","+replyAllNo+")'>수정</button></td>");
+		.append("<td><button class='btn btn-dark mt-3' style='height:70px; width:100px' onclick='modifyReplyCommit("+postNo+","+replyAllNo+");'>수정하기</button></td>");
 		$(obj).parent().parent().after($trModify);
 	}
 
@@ -353,7 +369,7 @@
 				location.reload();
 				getReplyList();
 			}else{
-				alert("댓글 수정 실패");
+				toastr.warning('실패', '댓글수정을 실패했습니다..');
 				location.reload();
 			}
 		},
@@ -382,10 +398,10 @@
 			data : {"postNo" : postNo,"ReplyAllNo" : replyAllNo},
 			success : function(data){
 				if(data =="success"){
-					getReplyList();
+					toastr.success('성공!', '댓글을삭제하셨습니다..'); 
 					location.reload();
 				}else{
-					alert("댓글 삭제 실패!");
+					toastr.error('실패', '댓글삭제를 실패했습니다..');
 					location.reload();
 				}
 			}
@@ -396,12 +412,10 @@
 	var heartval = ${heart};
 
         if(heartval>0) {
-            console.log(heartval);
             $("#heart").prop("src", "/resources/img/Red.png");
             $(".heart").prop('name',heartval)
         }
         else {
-            console.log(heartval);
             $("#heart").prop("src", "/resources/img/Black.png");
             $(".heart").prop('name',heartval)
         }
@@ -426,7 +440,76 @@
                 }
             });
         });
- 
+        function report(postNo){
+        	confirm('신고하시겠습니까?')
+        	modal.open();
+        	$.ajax({
+        		url : 'reportPost.pick',
+        		type : 'post',
+        		data : {"postNo" : postNo},
+        		success : function(data){
+        			if(data == "success"){
+        				toastr.options = {
+      						  "closeButton": false,
+      						  "debug": false,
+      						  "newestOnTop": false,
+      						  "progressBar": false,
+      						  "positionClass": "toast-top-full-width",
+      						  "preventDuplicates": false,
+      						  "onclick": null,
+      						  "showDuration": "300",
+      						  "hideDuration": "1000",
+      						  "timeOut": "5000",
+      						  "extendedTimeOut": "1000",
+      						  "showEasing": "swing",
+      						  "hideEasing": "linear",
+      						  "showMethod": "fadeIn",
+      						  "hideMethod": "fadeOut"
+      						}
+        				toastr.success('신고처리', '신고하셨습니다.'); 
+
+        			}else{
+        				toastr.options = {
+      						  "closeButton": false,
+      						  "debug": false,
+      						  "newestOnTop": false,
+      						  "progressBar": false,
+      						  "positionClass": "toast-top-full-width",
+      						  "preventDuplicates": false,
+      						  "onclick": null,
+      						  "showDuration": "300",
+      						  "hideDuration": "1000",
+      						  "timeOut": "5000",
+      						  "extendedTimeOut": "1000",
+      						  "showEasing": "swing",
+      						  "hideEasing": "linear",
+      						  "showMethod": "fadeIn",
+      						  "hideMethod": "fadeOut"
+      						}
+        				toastr.warning('신고처리', '이미 신고하셨습니다.');
+        			}
+        		},error : function(){
+    				toastr.options = {
+  						  "closeButton": false,
+  						  "debug": false,
+  						  "newestOnTop": false,
+  						  "progressBar": false,
+  						  "positionClass": "toast-top-full-width",
+  						  "preventDuplicates": false,
+  						  "onclick": null,
+  						  "showDuration": "300",
+  						  "hideDuration": "1000",
+  						  "timeOut": "5000",
+  						  "extendedTimeOut": "1000",
+  						  "showEasing": "swing",
+  						  "hideEasing": "linear",
+  						  "showMethod": "fadeIn",
+  						  "hideMethod": "fadeOut"
+  						}
+        			toastr.error('신고처리', '신고는 로그인후 이용가능합니다.');
+        		}
+        	})
+        }
         
         
 	</script>

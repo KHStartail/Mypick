@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
+import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
 import com.pick.my.community.domain.Community_Report_Reply;
 import com.pick.my.community.domain.Heart;
@@ -178,6 +179,18 @@ public class CommunityServiceImpl implements CommunityService{
 	@Override
 	public Community_Report_Reply doubleReport(Community_Report_Reply report) {
 		report = store.doubleReport(report);
+		return report;
+	}
+
+	@Override
+	public int registerPostReport(Community_Post_Report postReport) {
+		int result = store.insertPostReport(postReport);
+		return result;
+	}
+
+	@Override
+	public Community_Post_Report checkReport(Community_Post_Report postReport) {
+		Community_Post_Report report = store.checkReport(postReport);
 		return report;
 	}
 

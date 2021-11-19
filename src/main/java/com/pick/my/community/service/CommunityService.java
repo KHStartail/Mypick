@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
+import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
 import com.pick.my.community.domain.Community_Report_Reply;
 import com.pick.my.community.domain.Heart;
@@ -37,4 +38,6 @@ public interface CommunityService {
 	public int removeHeartCount(int postNo);
 	public int registerReplyReport(Community_Report_Reply reply);
 	public Community_Report_Reply doubleReport(Community_Report_Reply report);
+	public int registerPostReport(Community_Post_Report postReport);
+	public Community_Post_Report checkReport(Community_Post_Report postReport);
 }

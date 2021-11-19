@@ -7,6 +7,7 @@ public class Community_Report_Reply {
 	private String rStatus;
 	private String replyContents;
 	private int postNo;
+	private String userNickName;
 	public Community_Report_Reply() {}
 
 	public int getReportNo() {
@@ -57,10 +58,19 @@ public class Community_Report_Reply {
 		this.postNo = postNo;
 	}
 
+	public String getUserNickName() {
+		return userNickName;
+	}
+
+	public void setUserNickName(String userNickName) {
+		this.userNickName = userNickName;
+	}
+
 	@Override
 	public String toString() {
 		return "Community_Report_Reply [reportNo=" + reportNo + ", userId=" + userId + ", replyAllNo=" + replyAllNo
-				+ ", rStatus=" + rStatus + ", replyContents=" + replyContents + ", postNo=" + postNo + "]";
+				+ ", rStatus=" + rStatus + ", replyContents=" + replyContents + ", postNo=" + postNo + ", userNickName="
+				+ userNickName + "]";
 	}
 
 	
