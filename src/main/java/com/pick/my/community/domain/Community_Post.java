@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Community_Post {
 
 	private int postNo;
-	private int groupNo;
+	private String groupName;
 	private String userId;
 	private String postTitle;
 	private String postContents;
@@ -26,12 +26,12 @@ public class Community_Post {
 		this.postNo = postNo;
 	}
 
-	public int getGroupNo() {
-		return groupNo;
+	public String getGroupName() {
+		return groupName;
 	}
 
-	public void setGroupNo(int groupNo) {
-		this.groupNo = groupNo;
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 
 	public String getUserId() {
@@ -89,7 +89,7 @@ public class Community_Post {
 	public void setUserNickName(String userNickName) {
 		this.userNickName = userNickName;
 	}
-	
+
 	public String getStatus() {
 		return status;
 	}
@@ -108,9 +108,13 @@ public class Community_Post {
 
 	@Override
 	public String toString() {
-		return "Community_Post [postNo=" + postNo + ", groupNo=" + groupNo + ", userId=" + userId + ", postTitle="
+		return "Community_Post [postNo=" + postNo + ", groupName=" + groupName + ", userId=" + userId + ", postTitle="
 				+ postTitle + ", postContents=" + postContents + ", viewsCount=" + viewsCount + ", createDate="
 				+ createDate + ", updateDate=" + updateDate + ", userNickName=" + userNickName + ", status=" + status
 				+ ", heartCount=" + heartCount + "]";
 	}
+
+	
+
+	
 }

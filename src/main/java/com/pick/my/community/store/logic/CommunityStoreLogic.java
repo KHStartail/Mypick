@@ -1,6 +1,7 @@
 package com.pick.my.community.store.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -94,10 +95,11 @@ public class CommunityStoreLogic implements CommunityStore{
 	}
 
 	@Override
-	public List<Community_Post> selectAllPost(PageInfo pi) {
+	public List<Community_Post> selectAllPost(Map<String, Object> map) {
+		PageInfo pi = (PageInfo) map.get("pi");
 		int offset = (pi.getCurrentPage() -1 ) * pi.getCommunityLimit();
 		RowBounds rowBounds = new RowBounds(offset,pi.getCommunityLimit());
-		List<Community_Post> cList = sqlSession.selectList("CommunityPostMapper.selectAllList",pi,rowBounds);
+		List<Community_Post> cList = sqlSession.selectList("CommunityPostMapper.selectAllList",map,rowBounds);
 		return cList;
 	}
 

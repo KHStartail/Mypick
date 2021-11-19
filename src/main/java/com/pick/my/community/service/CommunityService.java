@@ -1,6 +1,7 @@
 package com.pick.my.community.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
@@ -16,7 +17,7 @@ public interface CommunityService {
 	public int addReadCount(int postNo);
 	public int registerCoummunityPost(Community_Post post);
 	public int insertFile(Community_File File);
-	public List<Community_Post> printAllPost(PageInfo pi);
+	public List<Community_Post> printAllPost(Map<String, Object> map);
 	public int modifyCommunityPost(Community_Post communityPost);
 	public List<Community_Reply> printAllReply(int postNo);
 	public int registerReply(Community_Reply reply);

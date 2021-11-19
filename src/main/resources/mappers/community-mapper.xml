@@ -5,7 +5,7 @@
 <mapper namespace="CommunityPostMapper">
 	<resultMap type="Post" id="postResultMap">
 		<id property="postNo" column="POST_NO"></id>
-		<result property="groupNo" column="GROUP_NO" />
+		<result property="groupName" column="GROUP_NAME" />
 		<result property="userId" column="MEMBER_ID" />
 		<result property="userNickName" column="MEMBER_NICKNAME" />
 		<result property="postTitle" column="POST_TITLE" />
@@ -60,13 +60,13 @@
 
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*) FROM
-		COMMUNITY_POST WHERE STATUS = 'Y'
+		COMMUNITY_POST WHERE STATUS = 'Y'AND GROUP_NAME =#{groupName}
 	</select>
 
 	<select id="selectAllList" resultMap="postResultMap">
 		SELECT * FROM
 		COMMUNITY_POST WHERE
-		STATUS ='Y' ORDER BY POST_NO DESC
+		STATUS ='Y' AND GROUP_NAME =#{groupName} ORDER BY POST_NO DESC
 	</select>
 
 	<select id="selectSearchList" resultMap="postResultMap">
@@ -75,7 +75,7 @@
 		|| '%' OR
 		MEMBER_NICKNAME LIKE '%' || #{searchKeyword} || '%' AND
 		STATUS = 'Y'
-		ORDER BY CREATE_DATE DESC
+		AND GROUP_NAME = #{groupName} ORDER BY CREATE_DATE DESC
 	</select>
 
 	<select id="selectSearchListCount" resultType="_int">
@@ -84,7 +84,7 @@
 		COMMUNITY_POST WHERE POST_TITLE LIKE '%' ||
 		#{searchKeyword} || '%'
 		OR MEMBER_NICKNAME LIKE '%' ||
-		#{searchKeyword} || '%' AND STATUS = 'Y'
+		#{searchKeyword} || '%' AND STATUS = 'Y' AND GROUP_NAME = #{groupName}
 	</select>
 
 	<select id="selectOnePost" resultMap="postResultMap">
@@ -125,7 +125,7 @@
 	</insert>
 	<insert id="insertPost" parameterType="Post">
 		INSERT INTO COMMUNITY_POST
-		VALUES(SEQ_POST.NEXTVAL,0,#{userId},#{userNickName},#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
+		VALUES(SEQ_POST.NEXTVAL,#{groupName},#{userId},#{userNickName},#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
 	</insert>
 	<insert id="reUpload" parameterType="File">
 		INSERT INTO COMMUNITY_FILE

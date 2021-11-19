@@ -14,8 +14,11 @@
 	href="assets/css/community-main.css">
 <link
 	rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/css/toastr.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="/assets/js/toastr.min.js"></script>
+	
 <style>
 .box {
 	width: 150px;
@@ -171,7 +174,7 @@ display: inline-block;
 		style="margin-left: 70%;">글쓰기</a>
 	</c:if>
 	<c:if test="${empty loginUser }">
-	<a class="btn btn-primary" onclick="alert('로그인 이후 가능한 서비스 입니다.')";
+	<a class="btn btn-primary" onclick="toastr.error('비회원', '로그인이후 작성가능합니다.');"
 		style="margin-left: 70%;">글쓰기</a>
 	</c:if>
 
@@ -196,7 +199,26 @@ display: inline-block;
    }else{
 	   self.name='';
    }
-
+	toastr.options = {
+			  "closeButton": false,
+			  "debug": false,
+			  "newestOnTop": false,
+			  "progressBar": false,
+			  "positionClass": "toast-top-full-width",
+			  "preventDuplicates": false,
+			  "onclick": null,
+			  "showDuration": "300",
+			  "hideDuration": "1000",
+			  "timeOut": "5000",
+			  "extendedTimeOut": "1000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}
+	
+	
+   
 </script>
 
 </html>

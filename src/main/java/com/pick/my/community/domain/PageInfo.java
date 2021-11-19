@@ -18,6 +18,8 @@ public class PageInfo {
 	
 	private String searchKeyword;
 	
+	private String GroupName;
+	
 	public PageInfo() {}
 	
 	
@@ -128,6 +130,18 @@ public class PageInfo {
 
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
+	}
+
+	
+
+	public String getGroupName() {
+		return GroupName;
+	}
+
+
+
+	public void setGroupName(String groupName) {
+		GroupName = groupName;
 	}
 
 

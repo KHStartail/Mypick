@@ -1,6 +1,7 @@
 package com.pick.my.community.store;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.community.domain.Community_Post;
@@ -23,7 +24,7 @@ public interface CommunityStore {
 	public int deleteReply(Community_Reply reply);
 	public int insertHeart(Heart heart);
 	public int deleteHeart(Heart heart);
-	public List<Community_Post> selectAllPost(PageInfo pi);
+	public List<Community_Post> selectAllPost(Map<String, Object> map);
 	public List<Community_Post> selectSearchAll(PageInfo pi);
 	public int getSearchListcount(String searchKeyword);
 	public List<Community_File> selectOnePostFile(int postNo);

@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -107,14 +109,17 @@ public class CommunityController {
 		return strResult;
 	}
 	@RequestMapping(value="mainView.pick")
-	public ModelAndView mainView(ModelAndView mv, @RequestParam(value="page", required=false) Integer page,HttpSession session) {
+	public ModelAndView mainView(ModelAndView mv, @RequestParam(value="page", required=false) Integer page,HttpSession session,@RequestParam("groupName")String groupName) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
+			Map<String,Object>map = new HashMap<String,Object>();
 	      int currentPage = (page != null) ? page : 1;
 	      int totalCount = service.getListcount();
 	      PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-	      List<Community_Post> cList = service.printAllPost(pi);
-	      
+	      map.put("groupName", groupName);
+	      map.put("pi", pi);
+	      List<Community_Post> cList = service.printAllPost(map);
 	      if(!cList.isEmpty()) {
+	    	  mv.addObject("groupName",groupName);
 	    	  mv.addObject("loginUser",loginUser);
 	    	  mv.addObject("cList",cList);
 	    	  mv.addObject("pi",pi);
@@ -144,6 +149,7 @@ public class CommunityController {
 	
 	@RequestMapping(value="WriteView.pick")
 	public String writeView() {
+		
 		return"community/Write";
 	}
 	@RequestMapping(value="detailView.pick")

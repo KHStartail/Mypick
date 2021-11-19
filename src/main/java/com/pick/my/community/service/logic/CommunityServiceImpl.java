@@ -1,6 +1,7 @@
 package com.pick.my.community.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,8 +88,8 @@ public class CommunityServiceImpl implements CommunityService{
 
 
 	@Override
-	public List<Community_Post> printAllPost(PageInfo pi) {
-		List<Community_Post> cList = store.selectAllPost(pi);
+	public List<Community_Post> printAllPost(Map<String, Object> map) {
+		List<Community_Post> cList = store.selectAllPost(map);
 		return cList;
 	}
 
