@@ -60,7 +60,10 @@
       .card body{
       	height : 100px;
       }
-      
+      .pagination{
+      	text-align : center;
+      	display: inline-block;
+      }
     </style>
   </head>
 <body>
@@ -92,7 +95,44 @@
 			</div>
 			</c:forEach>		
 		</div>
-	<div class="swiper-pagination"></div>
+	<div class="pagination">
+		<table>
+			<tr align="center" height="20">
+				<td colspan="6">
+				<!-- RequestParam의 page를 가져온다 -->
+					<c:url var="before" value="presupportingList.pick">
+						<c:param name="page" value="${pi.currentPage - 1}"></c:param>
+					</c:url>
+					<c:if test="${pi.currentPage <= 1}">
+						[이전]
+					</c:if>
+					<c:if test="${pi.currentPage > 1}">
+						<a href="${before }">[이전]</a>
+					</c:if>
+					
+					<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
+						<c:url var="pagination" value="presupportingList.pick">
+							<c:param name="page" value="${p }"></c:param>
+						</c:url>
+						<c:if test="${p eq pi.currentPage }">
+							<font color="red" size="4">[${p }]</font>
+						</c:if>
+						<c:if test="${p ne pi.currentPage }">
+							<a href="${pagination }">${p }</a>&nbsp;
+						</c:if>
+					</c:forEach>
+					<c:url var="after" value="presupportingList.pick">
+						<c:param name="page" value="${pi.currentPage + 1}"></c:param>
+					</c:url>
+					<c:if test="${pi.currentPage >= pi.maxPage}">
+						[다음]
+					</c:if><c:if test="${pi.currentPage < pi.maxPage }">
+						<a href="${after }">[다음]</a>
+					</c:if>
+				</td>
+			</tr>
+		</table>
+	</div><br>
    	<button class="w-button" onclick="location.href='supportingWriteView.pick';">서포팅모집</button><br><br><br><br>
 	</c:if>
 </div>

@@ -2,18 +2,17 @@ package com.pick.my.common;
 
 import java.sql.Date;
 
-import com.pick.my.member.domain.Member;
-
 public class PaymentHistory {
 	private int payNo;
 	private int supNo;
 	private String supTitle;
 	private int supAmount;
-	private Member userId;
+	private String userNickName;
 	private String userName;
 	private String userPhone;
+	private String userEmail;
 	private Date paymentDate;
-	
+
 	public PaymentHistory() {}
 
 	public int getPayNo() {
@@ -48,14 +47,14 @@ public class PaymentHistory {
 		this.supAmount = supAmount;
 	}
 
-	public Member getUserId() {
-		return userId;
+	public String getUserNickName() {
+		return userNickName;
 	}
 
-	public void setUserId(Member userId) {
-		this.userId = userId;
+	public void setUserNickName(String userNickName) {
+		this.userNickName = userNickName;
 	}
-
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -72,6 +71,16 @@ public class PaymentHistory {
 		this.userPhone = userPhone;
 	}
 
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+	
+
 	public Date getPaymentDate() {
 		return paymentDate;
 	}
@@ -83,7 +92,8 @@ public class PaymentHistory {
 	@Override
 	public String toString() {
 		return "PaymentHistory [payNo=" + payNo + ", supNo=" + supNo + ", supTitle=" + supTitle + ", supAmount="
-				+ supAmount + ", userId=" + userId + ", userName=" + userName + ", userPhone=" + userPhone
-				+ ", paymentDate=" + paymentDate + "]";
+				+ supAmount + ", userNickName=" + userNickName + ", userName=" + userName + ", userPhone=" + userPhone
+				+ ", userEmail=" + userEmail + ", paymentDate=" + paymentDate + "]";
 	}
+
 }

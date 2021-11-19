@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pick.my.common.PageInfo;
 import com.pick.my.common.PaymentHistory;
 import com.pick.my.member.domain.Member;
 import com.pick.my.supporting.domain.SupFile;
@@ -23,16 +24,26 @@ public class SupportingServiceImpl implements SupportingService{
 	@Autowired
 	private SupportingStore store;
 
+	@Override
+	public int getPreSupListCount() {
+		int totalCount = store.selectPreSupListCount();
+		return totalCount;
+	}
 	
 	@Override
-	public List<Supporting> printAllPreSupporting() {
-		List<Supporting> pList = store.selectAllPreSupporting();
+	public int getSupListCount() {
+		int totalCount = store.selectSupListCount();
+		return totalCount;
+	}
+	@Override
+	public List<Supporting> printAllPreSupporting(PageInfo pi) {
+		List<Supporting> pList = store.selectAllPreSupporting(pi);
 		return pList;
 	}
 	
 	@Override
-	public List<Supporting> printAllSupporting() {
-		List<Supporting> sList= store.selectAllSupporting();
+	public List<Supporting> printAllSupporting(PageInfo pi) {
+		List<Supporting> sList= store.selectAllSupporting(pi);
 		return sList;
 	}	
 	//모집중검색
@@ -103,56 +114,55 @@ public class SupportingServiceImpl implements SupportingService{
 
 	@Override
 	public List<SupReply> printSupReply(int supNo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int registerSupReply(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.insertSupReply(supReply);
+		return result;
 	}
 
 	@Override
 	public int modifyrSupReply(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.updateSupReply(supReply);
+		return result;
 	}
 
 	@Override
 	public int removeSupReply(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.deleteSupReply(supReply);
+		return result;
 	}
 
 	@Override
 	public int registerSupReplyChild(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.insertSupReplyChild(supReply);
+		return result;
 	}
 
 	@Override
 	public int modifyrSupReplyChild(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.updateSupReplyChild(supReply);
+		return result;
 	}
 
 	@Override
 	public int removeSupReplyChild(SupReply supReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.deleteSupReplyChild(supReply);
+		return result;
 	}
 
 	@Override
 	public int reportSupReply(SupReplyReport reportSupReply) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = store.insertsReplyReport(reportSupReply);
+		return result;
 	}
 
 	@Override
-	public int reportSupReplyCheck(int supReAllNo, int supNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int reportSupReplyCheck(int reportNo) {
+		int result = store.selectReportSupReply(reportNo);
+		return result;
 	}
 
 	@Override
@@ -199,8 +209,8 @@ public class SupportingServiceImpl implements SupportingService{
 
 	@Override
 	public int addPaymentHistory(PaymentHistory paymentHistory) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result  = store.insertPaymentHistory(paymentHistory);
+		return result;
 	}
 
 	@Override

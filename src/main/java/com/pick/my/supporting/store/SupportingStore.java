@@ -3,6 +3,7 @@ package com.pick.my.supporting.store;
 import java.util.HashMap;
 import java.util.List;
 
+import com.pick.my.common.PageInfo;
 import com.pick.my.common.PaymentHistory;
 import com.pick.my.member.domain.Member;
 import com.pick.my.supporting.domain.SupFile;
@@ -12,8 +13,10 @@ import com.pick.my.supporting.domain.SupReplyReport;
 import com.pick.my.supporting.domain.Supporting;
 
 public interface SupportingStore {
-	public List<Supporting> selectAllSupporting();
-	public List<Supporting> selectAllPreSupporting();
+	public int selectPreSupListCount();
+	public int selectSupListCount();
+	public List<Supporting> selectAllSupporting(PageInfo pi);
+	public List<Supporting> selectAllPreSupporting(PageInfo pi);
 	public List<Supporting> selectSearchPreSupporting(HashMap<String, String> searchMap);
 	public List<Supporting> selectSearchSupporting(HashMap<String, String> searchMap);
 	public Supporting selectPreSupportingOne(int supNo);
@@ -24,13 +27,13 @@ public interface SupportingStore {
 	///////댓글 관련
 	public List<SupReply> selectSupReply(int supNo);
 	public int insertSupReply(SupReply supReply);
-	public int updaterSupReply(SupReply supReply);
+	public int updateSupReply(SupReply supReply);
 	public int deleteSupReply(SupReply supReply); 
 	public int insertSupReplyChild(SupReply supReply);
 	public int updateSupReplyChild(SupReply supReply);
 	public int deleteSupReplyChild(SupReply supReply);
-	public int insertSupReply(SupReplyReport reportSupReply);
-	public int selectReportSupReply(int supReAllNo, int supNo);
+	public int insertsReplyReport(SupReplyReport reportSupReply);
+	public int selectReportSupReply(int reportNo);
 	////////////////////////참여, 결제관련내용////////////////
 	/**
 	 * 인원체크, 20명이상이면 카테고리변경(모집중 >> 진행중)

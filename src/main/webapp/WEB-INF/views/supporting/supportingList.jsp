@@ -19,33 +19,37 @@
  		body{	
 			text-align:center;
 		}
-      .w-button{
-      	width : 100px;
-      	height: 30px;
-      	 margin: auto;
- 		 width: 50%;
-      } 
-      .card {
-      	margin-bottom : 30px;
-      	color: white;
-      }
-      .card-header{
-      	height: 100px;
-      	background-color : #FA908C;
-      }
-      .container img {
-      	height: 250px;
-      }
-      .searchButton{
-		width : 100px;
-      	height:40px;
-      	border : 1px solid;
-	 	border-radius: 5px;
-	 	margin-top: 5px;
-	 	margin-bottom: 10px;
-	  	background-color : #483CFA;
-	  	color: white;
-		}
+	      .w-button{
+	      	width : 100px;
+	      	height: 30px;
+	      	 margin: auto;
+	 		 width: 50%;
+	      } 
+	      .card {
+	      	margin-bottom : 30px;
+	      	color: white;
+	      }
+	      .card-header{
+	      	height: 100px;
+	      	background-color : #FA908C;
+	      }
+	      .container img {
+	      	height: 250px;
+	      }
+	      .searchButton{
+			width : 100px;
+	      	height:40px;
+	      	border : 1px solid;
+		 	border-radius: 5px;
+		 	margin-top: 5px;
+		 	margin-bottom: 10px;
+		  	background-color : #483CFA;
+		  	color: white;
+			}
+		.pagination{
+	      	text-align : center;
+	      	display: inline-block;
+      	}
 </style>
 </head>
 <body>
@@ -84,32 +88,70 @@
 			<h1>조회된 게시글이 없습니다.</h1>
 		</c:if>
 		<c:if test="${not empty sList }">
-		<div class="row"> 
-			<c:forEach items="${sList}" var="Supporting" varStatus="sLength">
-				<c:url var="psOne" value="presupportingDetail.pick">
-					<c:param name="supNo" value="${Supporting.supNo}"></c:param>
-				</c:url>
-				<div class="col-3">
-					<c:if test="${userId eq null }">
-						<div class="card" style="cursor : pointer;" onclick="letGoSup();">
-			           		<div class="card-header"><h3>${Supporting.supTitle }</h3></div><br>
-							<div class="card-text"><img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image"></div>
-			            	<div class="percentBox"></div>
-						</div>
-					</c:if>
-					<c:if test="${userId ne null }">
-						<c:url var="ssOne" value="supportingDetail.pick">
-							<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+			<div class="row"> 
+				<c:forEach items="${sList}" var="Supporting" varStatus="sLength">
+					<c:url var="psOne" value="presupportingDetail.pick">
+						<c:param name="supNo" value="${Supporting.supNo}"></c:param>
+					</c:url>
+					<div class="col-3">
+						<c:if test="${userId eq null }">
+							<div class="card" style="cursor : pointer;" onclick="letGoSup();">
+				           		<div class="card-header"><h3>${Supporting.supTitle }</h3></div><br>
+								<div class="card-text"><img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image"></div>
+				            	<div class="percentBox"></div>
+							</div>
+						</c:if>
+						<c:if test="${userId ne null }">
+							<c:url var="ssOne" value="supportingDetail.pick">
+								<c:param name="supNo" value="${Supporting.supNo }"></c:param>
+							</c:url>
+							<div class="card" style="cursor : pointer;" onclick="location.href='${ssOne}';">
+				           		<div class="card-header"><h3>${Supporting.supTitle }</h3></div><br>
+								<div class="card-text"><img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image"></div>
+				            	<div class="percentBox"></div>
+							</div>
+						</c:if>
+					</div>
+				</c:forEach><br>
+			</div>
+			<div class="pagination">
+				<table>
+				<tr align="center" height="20">
+					<td colspan="6">
+					<!-- RequestParam의 page를 가져온다 -->
+						<c:url var="before" value="supportingList.pick">
+							<c:param name="page" value="${pi.currentPage - 1}"></c:param>
 						</c:url>
-						<div class="card" style="cursor : pointer;" onclick="location.href='${ssOne}';">
-			           		<div class="card-header"><h3>${Supporting.supTitle }</h3></div><br>
-							<div class="card-text"><img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image"></div>
-			            	<div class="percentBox"></div>
-						</div>
-					</c:if>
-				</div>
-			</c:forEach>		
-		</div>
+						<c:if test="${pi.currentPage <= 1}">
+							[이전]
+						</c:if>
+						<c:if test="${pi.currentPage > 1}">
+							<a href="${before }">[이전]</a>
+						</c:if>
+						
+						<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
+							<c:url var="pagination" value="supportingList.pick">
+								<c:param name="page" value="${p }"></c:param>
+							</c:url>
+							<c:if test="${p eq pi.currentPage }">
+								<font color="red" size="4">[${p }]</font>
+							</c:if>
+							<c:if test="${p ne pi.currentPage }">
+								<a href="${pagination }">${p }</a>&nbsp;
+							</c:if>
+						</c:forEach>
+						<c:url var="after" value="supportingList.pick">
+							<c:param name="page" value="${pi.currentPage + 1}"></c:param>
+						</c:url>
+						<c:if test="${pi.currentPage >= pi.maxPage}">
+							[다음]
+						</c:if><c:if test="${pi.currentPage < pi.maxPage }">
+							<a href="${after }">[다음]</a>
+						</c:if>
+					</td>
+				</tr>
+				</table>
+			</div><br>
 		</c:if>
 	</div>
 </div>

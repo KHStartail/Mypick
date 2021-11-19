@@ -90,6 +90,10 @@
 	 .left{
 	 	text-align: left;
 	 }
+	 #btnCenter{
+	 	 display: flex;
+ 		 justify-content: center;
+	 }
 </style>
 </head>
 <body>
@@ -111,23 +115,23 @@
 	</div><br>
 	<aside id="aside">
 		<form onsubmit="moneyAction()" action="movePayPage.pick" method="post">
-			<input type="hidden" value="${supporing.supNo }">
-			<input type="hidden" value="${supporing.supTitle }">
+			<input type="hidden" name="supNo" value="${supporting.supNo }">
+			<input type="hidden" name="supTitle" value="${supporting.supTitle }">
+			<input type="hidden" name="userNickName" value="${userNickName }">
 			<div class="side">
 				<ul>
-					<li><input type="radio" name="money-check" id="one" value="10,000"><label for="10,000won">10,000원</label></li>
-					<li><input type="radio" name="money-check" id="two"  value="20,000"><label for="20,000won">20,000원</label></li>
-					<li><input type="radio" name="money-check" id="three"  value="30,000"><label for="30,000won">30,000원</label></li>
-					<li><input type="radio" name="money-check" id="four"  value="40,000"><label for="40,000won">40,000원</label></li>
-					<li>기타입력<br><input type="text" name="money-check" id="five" placeholder="추가금액을 입력해주세요"></li>
+					<li><input type="radio" name="money-check" id="one" value="10000"><label for="10,000won">10,000원</label></li>
+					<li><input type="radio" name="money-check" id="two"  value="20000"><label for="20,000won">20,000원</label></li>
+					<li><input type="radio" name="money-check" id="three"  value="30000"><label for="30,000won">30,000원</label></li>
+					<li><input type="radio" name="money-check" id="four"  value="40000"><label for="40,000won">40,000원</label></li>
+					<li>기타입력<br><input type="text" name="money-check-etc" id="five" placeholder="추가금액을 입력해주세요"></li>
 				</ul>
-					<input type="hidden" id="etcMoney" name="money-check">
 				<p>최소단위는 1,000원 입니다.<br>최소단위 이하는 서포팅이 취소될 시 환불되지 않습니다.</p>
-				<input type="submit" id="paybtn" onclick="showPopup();" value="서포팅 결제하기">
+				<input type="submit" id="paybtn" value="서포팅 결제하기">
 			</div><br>
 		</form><br>
 	</aside>
-	<button class="btn" onclick="location.href='supportingList.pick'">목록</button>
+	<button id="btnCenter" class="btn" onclick="location.href='supportingList.pick'">목록</button>
 	<div class="fListBox">
 		<c:forEach var="fList" items="${fList}">
 			<div class="contentsBox">
@@ -179,15 +183,12 @@
 				$("#five").val("");
 			}
 	});
-	//기타 금액 보내기
+// 	//기타 금액 보내기
 	function moneyAction(){
 		var etc = $("#five").val();
-		$("#etcMoney").val(etc);
-		//확인필요
-		var  t = $("#etcMoney").value.val(etc)
-		console.log(t);
+		if(etc == "")
+		$("#five").val(0);
 		//$("#etcMoney").value.val(etc);
-		return false;
  	}
 
 	
@@ -201,101 +202,80 @@
 	
 	getReplyList(); //댓글바로 보이게 하는 것
 	
+	//댓글 등록
 	$("#rSubmit").on("click", function(){
-	//	alert("test");
-	//	var boardNo = $("#boardNo").val(); //2가지 방법 
 		var supNo = '${Supporting.supNo}';
-		var rContents = $("#rContents").val(); //ajax 데이터를 보내는 방식 form대신
-		
+		var rContents = $("#rContents").val(); 
 		$.ajax({
-			url : "addReply.pick",
+			url : "addSupReply.pick",
 			type : "post",
-			data : {//400에러 주로 나는 부분
-				//객체이름 : js내 정의한 화면상 부분
+			data : {
 				"supNo" : supNo,
-				"supReContents" : supReContents
+				"supReContents" : rContents
 			},
 			success : function(data) {
 				if(data == "success") {
-					//responseBody로 붙여서 보낼것
-					alert("댓글 등록!");
-					//댓글 불러오기
+					alert("댓글 등록 완료");
 					getReplyList();
-					//작성 후 내용 초기화(깜박이지 않아서 초기화해줘야됨)
 					$("#rContents").val("");
 				}else {
-					alert("댓글 등록 실패!");
+					alert("댓글 등록 실패, 관리자에게 문의 바랍니다.");
 				}
 			},
 			error : function() {
-			//		alert("AJAX 통신오류.. 관리자에게 문의하세요");
+					alert("통신오류, 관리자에게 문의 바랍니다.");
 			},
-			complete : function() {
-				
-			}
 		});
 	});
-	
+//댓글리스트	
 	function getReplyList() {
-		//console.log("목록 출력!");
-	//function호출해야지만 ajax실행
 	 var supNo = '${Supporting.supNo }';
-	 
 		$.ajax({
-			url : "replyList.pick",
+			url : "supReplyList.pick",
 			type : "get",
 			data : { "supNo" : supNo },
 			dataType : "json",
-			// [{}, {}, {}]형태로 넘어옴
-			//json형태로 하기위해서 결과값받을때사용
 			success : function(data) {
-			//	console.log(data);
 			 var $tableBody = $("#rtb tbody"); //띄어쓰기로 후선 선택자를 이용해서
-			 $tableBody.html(""); //중복으로 append되지 않게 하는 
-			 var $tr;   // = $("<tr>"); //$열고 닫기 자동생김 또는 밑에처럼
+			 $tableBody.html(""); 
+			 var $tr;   
 			 var $rWriter;
 			 var $rContent;
 			 var $rCreateDate;
 			 var $btnArea;
 			 $("#rCount").text("댓글 (" + data.length +")");   //댓글갯수
-			 if(data.length > 0) { //data.length = 댓글의 갯수
+			 if(data.length > 0) { 
 				 for(var i in data){
-					 $tr = $("<tr id='modifyTr'>"); //id값이 여러개 생긴다 > this로 해결
-					 $rWriter = $("<td width='100'>").text(data[i].replyWriter);
-					 //json data라 댓글이 나오는것
-					 //배열이기때문에 인덱스로 보내야 되는것(객체화해서 받아오는것)
-					 //key값을 통해 value값을 받아오는 것
-					 $rContent = $("<td>").text(data[i].replyContents);
-					 $rCreateDate = $("<td width='100'>").text(data[i].rCreateDate);    
-					 $btnArea = $("<td width='100'>").append("<a href='#' onclick='modifyReply(this,"+supNo+","+data[i].supReAllNo+",\""+data[i].replyContents+"\");'>수정</a>&nbsp;").append("<a href='#' onclick='removeReply("+supNo+","+data[i].supReAllNo+")'>삭제</a>");  
-				 	//<a href="#" onclick="modifyReply(this,12,10,&quot;test1231231&quot;);">수정</a>을 jQuery객체로 만들면 탐색이 가능하다
+					 $tr = $("<tr id='modifyTr'>"); 
+					 $rWriter = $("<td width='100'>").text(data[i].supReWriter);
+					 $rContent = $("<td>").text(data[i].supReContents);
+					 $rCreateDate = $("<td width='100'>").text(data[i].supReDate);    
+					 $btnArea = $("<td width='100'>").append("<a href='#' onclick='modifyReply(this,"+supNo+","+data[i].supReAllNo+",\""+data[i].supReContents+"\");'>수정</a>&nbsp;").append("<a href='#' onclick='removeReply("+supNo+","+data[i].supReAllNo+")'>삭제</a>&nbsp;").append("<a href='#' onclick='reportReply(this,"+supNo+","+data[i].supReAllNo");'>삭제</a>");  
 					 $tr.append($rWriter);
-				 	$tr.append($rContent);
-				 	$tr.append($rCreateDate);
-				 	$tr.append($btnArea);
-				 	$tableBody.append($tr);
+				 	 $tr.append($rContent);
+				 	 $tr.append($rCreateDate);
+				 	 $tr.append($btnArea);
+				 	 $tableBody.append($tr);
 				 }
 			 }
 			},
 			error : function() {
-				// alert("AJAX 통신오류.. 관리자에게 문의하세요");
+				 alert("통신오류, 관리자에게 문의하세요");
 			}
 		});
 	}
 	
 	function modifyReply(obj, supNo, supReAllNo, supReContents) {
-	//	console.log(boardNo+","+replyNo+","+replyContents);
 		$trModify = $("<tr>");
 		$trModify.append("<td colspan='3'><input type='text' id='modifyReply' size='50' value='"+supReContents+"'></td>");
 		$trModify.append("<td><button onclick='modifyReplyCommit("+supNo+","+supReAllNo+")'>수정완료</button></td>");
-		$(obj).parent().parent().after($trModify); // obj : this를 가져온다, $("#modifyTr").after($trModify);
-		//td : parent(), tr : parent().parent() 
+		$(obj).parent().parent().after($trModify); 
 	}
 	
 	function modifyReplyCommit(supNo, supReAllNo) {
 		var modifiedContent = $("#modifyReply").val();
 		$.ajax({
-			url : "modifyReply.kh",
+			url : "modifySupReply.pick",
 			type : "post",
 			data : {
 				"supNo" : supNo,
@@ -306,25 +286,45 @@
 				if(data == "success") {
 					getReplyList();
 				}else{
-					alert("댓글 수정 실패!");
+					alert("댓글 수정 실패");
 				}
 			},
 			error : function() {
-			//	alert("Ajax통신 실패");
+				alert("통신 실패, 관리자 문의바람");
 			}
 		});
 	}
 	
 	function removeReply(supNo, supReAllNo) {
 		$.ajax({
-			url : "deleteReply.pick",
+			url : "deleteSupReply.pick",
 			type : "get",
-			data : {"supNo" : supNo, "supReAllNo" : supReAllNo },
+			data : {"supNo" : supNo, "supReAllNo" : supReAllNo},
 			success : function(data) {
 				if(data == "success") {
 					getReplyList();
 				}else{
-					alert("댓글 삭제 실패!");
+					alert("댓글 삭제 실패");
+				}
+			},error : function(){
+				alert("통신 오류 , 관리자 문의 바람");
+			}
+		});
+	}
+	
+	function reportReply(supNo, supReAllNo){
+		$.ajax({
+			url:"reportSupReply",
+			type: "get",
+			data : {
+				"supNo" : supNo,
+				"supReAllNo" : supReAllNo
+			}
+			success : function(data){
+				if(data =="success"){
+					alert("해당 댓글이 신고되었습니다.");
+				}else{
+					alert("댓글 신고 실패");
 				}
 			}
 		});

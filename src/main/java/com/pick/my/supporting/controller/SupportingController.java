@@ -15,26 +15,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pick.my.common.PageInfo;
+import com.pick.my.common.Pagination;
 import com.pick.my.common.PaymentHistory;
-import com.pick.my.community.domain.Community_File;
 import com.pick.my.member.domain.Member;
 import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
+import com.pick.my.supporting.domain.SupReply;
+import com.pick.my.supporting.domain.SupReplyReport;
 import com.pick.my.supporting.domain.Supporting;
 import com.pick.my.supporting.service.SupportingService;
 
@@ -45,10 +46,15 @@ public class SupportingController {
 	
 	//모집중 서포팅 게시글 전체 조회
 	@RequestMapping(value="presupportingList.pick", method=RequestMethod.GET)
-	public ModelAndView preSupportingListView(ModelAndView mv) {
-		List<Supporting> pList = service.printAllPreSupporting(); 
+	public ModelAndView preSupportingListView(ModelAndView mv
+			, @RequestParam(value="page", required=false) Integer page) {
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = service.getPreSupListCount();
+		PageInfo pi =  Pagination.getPageInfo(currentPage, totalCount); 
+		List<Supporting> pList = service.printAllPreSupporting(pi); 
 		 if(!pList.isEmpty()) { 
 			 mv.addObject("pList", pList); 
+			 mv.addObject("pi", pi);
 			 mv.setViewName("supporting/preSupportingList");
 		 }else {
 			 mv.addObject("msg", "모집중 서포팅 게시글 전체조회 실패"); 
@@ -59,19 +65,22 @@ public class SupportingController {
 	
 	//진행중 서포팅 게시글 전체 조회
 	@RequestMapping(value="supportingList.pick", method=RequestMethod.GET)
-	public ModelAndView supportingListView(ModelAndView mv, HttpSession session) {
+	public ModelAndView supportingListView(
+			ModelAndView mv
+			, HttpSession session
+			, @RequestParam(value="page", required=false) Integer page) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		
-		List<Supporting> sList = service.printAllSupporting();
+		int currentPage = (page != null)? page : 1;
+		int totalCount = service.getPreSupListCount();
+		PageInfo pi =  Pagination.getPageInfo(currentPage, totalCount); 
+		List<Supporting> sList = service.printAllSupporting(pi);
 		if(!sList.isEmpty()) {
 			mv.addObject("userId", loginUser);
 			mv.addObject("sList", sList);
 			mv.setViewName("supporting/supportingList");
-			
 		}else{
 			mv.addObject("msg", "진행중 서포팅 게시글 전체조회 실패");
 			mv.setViewName("supporting/supportError");
-		
 		}
 		return mv;
 	}
@@ -107,7 +116,6 @@ public class SupportingController {
 		Supporting supporting = service.preSupportingOne(supNo);
 		List<SupFile> fileList = service.printFileList(supNo);
 		if(supporting!=null) {
-			HttpSession session;
 			Member userOne = service.printOneUser(supporting.getUserNo());
 				mv.addObject("userNickName", userOne.getUserNickName());
 				mv.addObject("supporting", supporting);
@@ -125,11 +133,13 @@ public class SupportingController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		Supporting supporting = service.supportingOne(supNo);
 		List<SupFile> fileList = service.printFileList(supNo);
-		Member userOne = service.printOneUser(supporting.getUserNo());
+		String userId = loginUser.getUserId();
+		String userNickName = loginUser.getUserNickName(); 
+		//Member userOne = service.printOneUser(supporting.getUserNo());
 		if(supporting!=null) {
-				mv.addObject("userId", loginUser.getUserId()); //로그인했으니까
+				mv.addObject("userId", userId); 
 				mv.addObject("supporting", supporting);
-				mv.addObject("userNickName", userOne.getUserNickName());
+				mv.addObject("userNickName", userNickName);
 				mv.addObject("fList", fileList);
 				mv.setViewName("supporting/supportingDetailView");
 		}else{
@@ -420,33 +430,124 @@ public class SupportingController {
 			file.delete();
 		}
 	}
-	//서포팅 
-	//public String addSupReply(@RequestParam("supNo") int supNo, HttpServeltRequest, Model model){
-	//public String addSupReplyChild(int, HttpServletRequest, Model) 
-	//public String modifySupReply(int, Model, HttpServeltRequest)
-	//public String modifySupReplyChild(int, Model, HttpServletRequest)
-	//public String deleteSupReply(int, Model, HttpServletRequest
-	//public String deleteSupReplyChild(int, Model, HttpServletRequest)
-	//public String reportSupReply(SupReplyReport, Model, HttpServletRequest)
-	
+	//서포팅  댓글
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="addSupReply.pick", method=RequestMethod.POST) public
+	 * String addSupReply(HttpSession session){
+	 * 
+	 * Member loginUser = (Member)session.getAttribute("loginUser"); String
+	 * userNickName = loginUser.getUserNickName(); SupReply supReply = new
+	 * SupReply(); supReply.setSupReWriter(userNickName); int result =
+	 * service.registerSupReply(supReply); if(result> 0) { return "success"; }else {
+	 * return "fail"; } }
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="supReplyList.pick", method=RequestMethod.GET) public
+	 * String addSupReplyChild(HttpSession session, @ModelAttribute SupReply
+	 * supReply) { Member loginUser = (Member)session.getAttribute("loginUser");
+	 * String userNickName = loginUser.getUserNickName();
+	 * supReply.setSupReWriter(userNickName); int result =
+	 * service.registerSupReplyChild(supReply); if(result > 0 ) { return "success";
+	 * }else{ return "fail"; } }
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="modifySupReply.pick", method=RequestMethod.POST)
+	 * public String modifySupReply(@ModelAttribute SupReply supReply, HttpSession
+	 * session) { int result = service.modifyrSupReply(supReply); if(result>0) {
+	 * return "success"; }else{ return "fail"; } } public String
+	 * modifySupReplyChild(@ModelAttribute SupReply supReply) { int result =
+	 * service.removeSupReplyChild(supReply); if(result>0) { return "success"; }else
+	 * { return "fail"; } }
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="deleteSupReply.pick", method=RequestMethod.GET) public
+	 * String deleteSupReply(@ModelAttribute SupReply supReply) { int result =
+	 * service.removeSupReply(supReply); if(result > 0) { return "success"; }else {
+	 * return "fail"; } }
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="deleteSupReply.pick", method=RequestMethod.GET) public
+	 * String deleteSupReplyChild(@ModelAttribute SupReply supReply) { int result =
+	 * service.removeSupReplyChild(supReply); if(result>0) { return "success"; }else
+	 * { return "fail"; } }
+	 */
+	//신고하기
+	@ResponseBody
+	@RequestMapping(value="reportSupReply.pick", method=RequestMethod.GET)
+	public String reportSupReply(@ModelAttribute SupReplyReport report, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		report.setUserNo(userNo);
+		
+		int result = service.reportSupReply(report);
+		if(result>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	//결제페이지 이동
 	@RequestMapping(value="movePayPage.pick", method=RequestMethod.POST)
-	public ModelAndView movePayPage(HttpSession session, @RequestParam("supNo") int supNo, @RequestParam("supTitle") String supTitle, ModelAndView mv) {
+	public ModelAndView movePayPage(HttpSession session
+			, @RequestParam("userNickName") String userNickName
+			, @RequestParam("supNo") int supNo
+			, @RequestParam("supTitle") String supTitle
+			, @RequestParam(value="money-check", required=false, defaultValue="0") int money
+			, @RequestParam(value="money-check-etc") int plusMoney
+			, ModelAndView mv) {
 		Supporting supporting = service.supportingOne(supNo);
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		String userNickName = loginUser.getUserNickName();
+		String nickName = loginUser.getUserNickName();
+
 		mv.addObject("supporting", supporting);
 		mv.addObject("userNickName", userNickName);
+		mv.addObject("nickName", nickName);
+		mv.addObject("money",money);
+		mv.addObject("plusMoney",plusMoney);
 		mv.setViewName("supporting/paypage");
 		return mv;
 	}
-	//서포팅 결제(DB저장)
+	//서포팅 결제(DB저장)*이동만 확인
+	@ResponseBody
 	@RequestMapping(value="getPayment.pick", method=RequestMethod.POST)
-	public String getPayment(HttpSession session, @ModelAttribute PaymentHistory ph, @RequestParam("supNo") int supNo, ModelAndView mv) {
-		Member loginUser = (Member)session.getAttribute("userId");
-		ph.setUserId(loginUser);
-		ph.setSupNo(supNo);
-		mv.setViewName("supporting/paypage");
-		return null;
+	public ModelAndView getPayment(HttpSession session
+			, @ModelAttribute PaymentHistory ph
+			, @RequestParam("supNo") int supNo
+			, @RequestParam("supTitle") String supTitle
+			, @RequestParam("money") int supAmount
+			, @RequestParam("userNickName") String userNickName
+			, @RequestParam("userName") String userName
+			, @RequestParam("userPhone") String userPhone
+			, @RequestParam("userEmail") String userEmail
+			, HttpServletResponse response
+			, ModelAndView mv) {
+		try {
+			PrintWriter out = response.getWriter();
+			ph.setSupNo(supNo);
+			ph.setSupTitle(supTitle);
+			ph.setSupAmount(supAmount);
+			ph.setUserNickName(userNickName);
+			ph.setUserName(userName);
+			ph.setUserPhone(userPhone);
+			ph.setUserEmail(userEmail);
+			int result = service.addPaymentHistory(ph);
+			if(result > 0) {
+				out.println("<script>alert('결제내역은 마이페이지에서 확인바랍니다.');</script>");
+				mv.setViewName("supporting/supportingList");
+			}else {
+				out.println("<script>alert('결제오류 : 관리자에게 알려주세요.');</script>");
+				mv.setViewName("supporting/supportingList");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return mv;
 	}
 	//모집중에서 진행중으로 이동
 	public String updateCategory(@RequestParam("supNo")int supNo, Model model){
