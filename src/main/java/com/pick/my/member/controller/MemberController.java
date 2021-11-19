@@ -51,6 +51,7 @@ public class MemberController {
 		return "common/login";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="/login.pick", method=RequestMethod.POST)
 	public String memberLogin(HttpServletRequest request, HttpServletResponse response) {
 		String userId = request.getParameter("userId");
@@ -58,25 +59,17 @@ public class MemberController {
 		Member memberOne = new Member();
 		memberOne.setUserId(userId);
 		memberOne.setUserPwd(userPwd);
+		String answer = "success";
 		try {
 			Member loginUser = service.loginMember(memberOne);
 			if(loginUser != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("loginUser", loginUser);
-				response.setContentType("text/html; charset=utf-8");
-				PrintWriter out = response.getWriter();
-				out.println("<script>");
-				out.println("alert('로그인 완료')");
-				out.println("</script>");
+				answer = "success";
 			}else {
-				response.setContentType("text/html; charset=utf-8");
-				PrintWriter out = response.getWriter();
-				out.println("<script>");
-				out.println("alert('아이디와 비밀번호를 확인해주세요.')");
-				out.println("history.go(-1);");
-				out.println("</script>");
+				answer = "no";
 			}
-			return "redirect:index.jsp";
+			return answer;
 			
 			
 		}catch(Exception e) {

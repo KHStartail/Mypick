@@ -7,7 +7,7 @@
    <title>로그인 페이지</title>
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+<script type="text/javascript"src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<!-- CSS -->
@@ -123,15 +123,14 @@
 									</label>
 								</div>
 							</div>
-							<form action="/login.pick" method="post">
 							<div class="input-group custom">
-								<input name="userId" type="text" class="form-control form-control-lg" placeholder="아이디">
+								<input id="userId" name="userId" type="text" class="form-control form-control-lg" placeholder="아이디">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
 							</div>
 							<div class="input-group custom">
-								<input name="userPwd" type="password" class="form-control form-control-lg" placeholder="**********">
+								<input id="userPwd" name="userPwd" type="password" class="form-control form-control-lg" placeholder="**********">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
 								</div>
@@ -147,7 +146,7 @@
 									<div class="input-group mb-0">
 										
 											
-											<input class="btn btn-primary btn-lg btn-block" type="submit" value="로그인">
+											<input class="btn btn-primary btn-lg btn-block" type="button" onclick="login()"value="로그인">
 										
 <!-- 										<input class="btn btn-primary btn-lg btn-block" type="submit" style="background : #fb5849dc" value="로그인"> -->
 									</div><br>
@@ -159,7 +158,6 @@
 									</div>
 								</div>
 							</div>
-							</form>
 					</div>
 			</div>
 		</div>
@@ -179,7 +177,8 @@
 				data : {"userId" : userId, "userPwd" : userPwd},
 				success : function(data){
 					if(data == "success"){
-						window.location=document.referrer;
+						 window.location=document.referrer; 
+						
 					}else{
 						alert("아이디나 비밀번호를 다시 확인해주세요.");
 					}
