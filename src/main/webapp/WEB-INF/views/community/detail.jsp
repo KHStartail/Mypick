@@ -51,6 +51,7 @@
 <link rel="stylesheet" href="assets/css/detail.css">
 <link rel="stylesheet" href="assets/css/toastr.min.css">
 <script src="assets/js/search.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
 	$(document).ready(function() {
@@ -223,24 +224,7 @@
 		<script>
 	$(window).on('load',function(){
 	getReplyList();		
-	
-	var modal = new tingle.modal({
-	    footer: true,
-	    stickyFooter: false,
-	    closeMethods: ['overlay', 'button', 'escape'],
-	    closeLabel: "Close",
-	    cssClass: ['custom-class-1', 'custom-class-2'],
-	    onOpen: function() {
-	        console.log('modal open');
-	    },
-	    onClose: function() {
-	        console.log('modal closed');
-	    },
-	    beforeClose: function() {
-	        return true; 
-	        return false;
-	    }
-	});
+
 	$("#rSubmit").on("click",function(){
 		var postNo = '${post.postNo }';
 		var rContents = $("#summernote").val();
@@ -442,7 +426,10 @@
         });
         function report(postNo){
         	confirm('신고하시겠습니까?')
-        	modal.open();
+        	  Swal.fire({ icon: 'success', // Alert 타입 
+        		title: 'Alert가 실행되었습니다.', // Alert 제목 
+        		text: '이곳은 내용이 나타나는 곳입니다.', // Alert 내용 
+        		});
         	$.ajax({
         		url : 'reportPost.pick',
         		type : 'post',
