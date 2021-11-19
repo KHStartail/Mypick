@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pick.my.common.PageInfo;
 import com.pick.my.common.Pagination;
 import com.pick.my.community.domain.Community_File;
+import com.pick.my.goods.domain.Cart;
 import com.pick.my.goods.domain.Goods;
 import com.pick.my.goods.domain.GoodsFile;
 import com.pick.my.goods.domain.GoodsPayment;
 import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
 import com.pick.my.goods.service.GoodsService;
+import com.pick.my.member.domain.Member;
 
 @Controller
 public class GoodsController {
@@ -46,12 +50,16 @@ public class GoodsController {
 	//리스트
 	@RequestMapping(value="goodsList.pick", method=RequestMethod.GET)
 	public ModelAndView showGoodsList(ModelAndView mv,
-			@RequestParam(value="page", required = false)Integer page) {
+			@RequestParam(value="page", required = false)Integer page,HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
 		int currentPage = (page != null)? page : 1;
 		int totalCount = service.getListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 		List<Goods> gList = service.printAll(pi);
 		if(!gList.isEmpty()) {
+			mv.addObject("loginUser",loginUser);
 			mv.addObject("gList", gList);
 			mv.addObject("pi", pi);
 			mv.setViewName("goods/goodsList");
@@ -60,6 +68,12 @@ public class GoodsController {
 			mv.setViewName("goods/goodsList");
 		}
 		return mv;
+	}
+	
+	//알람뷰
+	@RequestMapping(value = "goodsAlert.pick", method=RequestMethod.GET)
+	public String goodsAlertView() {
+		return "goods/goodsAlert";
 	}
 	
 	
@@ -76,8 +90,10 @@ public class GoodsController {
 //			@RequestParam(value="subFile2", required = false)List<MultipartFile> subFile,
 //			HttpServletRequest request,
 			MultipartHttpServletRequest mRequest,
+			HttpSession session,
 			Model model) {
-
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		goods.setUserId(loginUser.getUserId());
 		if(!mainFile.getOriginalFilename().equals("")) {
 			String filePath = saveFile(mainFile, mRequest);
 			if(filePath != null ) {
@@ -184,13 +200,20 @@ public class GoodsController {
 	
 	@RequestMapping(value="goodsDetail.pick", method = RequestMethod.GET)
 	public ModelAndView goodsDetail(ModelAndView mv,
-			@RequestParam("goodsNo")int goodsNo) {
+			@RequestParam("goodsNo")int goodsNo,
+			@RequestParam("groupName") String groupName,
+			HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		Goods goods = service.printOne(goodsNo);
+		List<Goods> gList = service.printSlideGoods(groupName);
 		List<GoodsFile> fList = service.showFileList(goodsNo);
 		List<Review> rList = service.showReviewList(goodsNo);
 		List<Review> reList = service.showReplyList(goodsNo);
 		if(goods != null) {
+			mv.addObject("loginUser",loginUser);
 			mv.addObject("goods",goods);
+			mv.addObject("gList",gList);
 			mv.addObject("fList",fList);
 			mv.addObject("rList", rList);
 			mv.addObject("reList",reList);
@@ -208,7 +231,9 @@ public class GoodsController {
 	public String goodsDelete(Model model,
 			@RequestParam("goodsNo") int goodsNo,
 			@RequestParam("imgPath")String imgPath,
+			HttpSession session,
 			HttpServletRequest request) {
+		
 		
 		int result = service.removeGoods(goodsNo);
 		if(result > 0) {
@@ -333,7 +358,11 @@ public class GoodsController {
 			@RequestParam(value="revFile", required = false)MultipartFile revFile,
 			@RequestParam(value="goodsNo")int goodsNo,
 			HttpServletRequest request,
+			HttpSession session,
 			Model model) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		review.setUserId(loginUser.getUserId());
 		
 		if(!revFile.getOriginalFilename().equals("")) {
 			String filePath = saveFile(revFile, request);
@@ -392,8 +421,11 @@ public class GoodsController {
 	//답글 등록
 	@ResponseBody
 	@RequestMapping(value="insertReply.pick", method = RequestMethod.POST)
-	public String insertReply(@ModelAttribute Review review) {
+	public String insertReply(@ModelAttribute Review review, HttpSession session) {
 
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		review.setUserId(loginUser.getUserId());
+		
 		int result = service.insertReply(review);
 		if(result > 0) {
 			return "success";
@@ -448,16 +480,20 @@ public class GoodsController {
 	@RequestMapping(value="goodsPayment.pick", method = RequestMethod.GET)
 	public ModelAndView goodsPayment(ModelAndView mv,
 			@RequestParam("goodsNo")int goodsNo,
-			@RequestParam("goodsAmount")String amount) {
-		System.out.println(amount);
+			@RequestParam("goodsAmount")String amount,
+			HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
 		Goods goods = service.printOne(goodsNo);
 		if(goods != null) {
 			goods.setGoodsAmount(amount);
+			mv.addObject("loginUser",loginUser);
 			mv.addObject("goods", goods);
 			mv.setViewName("goods/goodsPayment");
 		}else {
 			mv.addObject("msg","조회 실패");
-			mv.setViewName("goods/goodsDetail?goodsNo="+goodsNo);
+			mv.setViewName("common/errorPage");
 		}
 
 		return mv;
@@ -469,17 +505,23 @@ public class GoodsController {
 			@ModelAttribute GoodsPayment pay,
 			@RequestParam("userPhone1") String userPhone1,
 			@RequestParam("userPhone2") String userPhone2,
-			@RequestParam("userPhone3") String userPhone3) {
+			@RequestParam("userPhone3") String userPhone3,
+			@RequestParam("userAddr2") String userAddr2,
+			@RequestParam("userAddr3") String userAddr3,
+			HttpSession session){
 		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		pay.setUserId(loginUser.getUserId());
 		pay.setUserPhone(userPhone1+userPhone2+userPhone3);
+		pay.setUserAddr(userAddr2+userAddr3);
 		
 		try {
 			int result = service.registerPayInfo(pay);
 			if(result > 0) {
-				return "goods/goodsList";
+				return "goods/goodsAlert";
 			}else {
 				request.setAttribute("msg", "실패");
-				return "";
+				return "common/errorPage";
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -489,7 +531,35 @@ public class GoodsController {
 		
 	}
 	
-	
+	//장바구니 등록
+	@ResponseBody
+	@RequestMapping(value="cartAdd.pick", method = RequestMethod.POST)
+	public String registerCart(HttpServletRequest request,
+			@ModelAttribute Cart cart,
+			@RequestParam("goodsNo")int goodsNo,
+			@RequestParam("goodsName")String goodsName,
+			@RequestParam("goodsPrice")int goodsPrice,
+			@RequestParam("goodsAmount")int goodsAmount,
+			HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		cart.setUserId(loginUser.getUserId());
+		cart.setGoodsNo(goodsNo);
+		cart.setGoodsName(goodsName);
+		cart.setGoodsPrice(goodsPrice);
+		System.out.println(cart.toString());
+		String answer = "success";
+		
+		int result = service.insertCart(cart);
+		if(result > 0) {
+			answer = "success";
+		}else {
+			answer = "no";
+		}
+
+		return answer;
+		
+	}
 	
 	
 	

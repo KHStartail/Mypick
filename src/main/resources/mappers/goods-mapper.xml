@@ -50,6 +50,13 @@
 		<result property="userMsg" column="USER_MSG"/>	
 		<result property="paymentDate" column="PAYMENT_DATE"/>	
 	</resultMap>
+	<resultMap type="Cart" id="cartResultMap">
+		<result property="goodsName" column="GOODS_NAME"/>
+		<result property="goodsPrice" column="GOODS_PRICE"/>
+		<result property="goodsAmount" column="GOODS_AMOUNT"/>
+		<result property="goodsNo" column="GOODS_NO"/>
+		<result property="userId" column="USER_ID"/>
+	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*) FROM GOODS
@@ -97,6 +104,10 @@
 		INSERT INTO GOODS_FILE VALUES(SEQ_GOODS_FILE.NEXTVAL,#{imgSize},#{imgPath},SEQ_GOODS.CURRVAL,#{imgName},#{imgReName},#{userId})
 	</insert>
 	
+	<insert id="insertCart" parameterType="Cart">
+		INSERT INTO CART VALUES(#{goodsName},#{goodsPrice},#{goodsAmount},#{goodsNo},#{userId})
+	</insert>
+	
 	<delete id="deleteGoods">
 		DELETE FROM GOODS WHERE GOODS_NO = #{goodsNo}
 	</delete>
@@ -116,6 +127,10 @@
 	
 	<select id="selectReview" resultMap="reviewResultMap">
 		SELECT * FROM REVIEW WHERE GOODS_NO = #{goodsNo} AND REPLY_NO IS NULL
+	</select>
+	
+	<select id="selectSlideGoods" resultMap="goodsResultMap">
+		SELECT * FROM GOODS WHERE GROUP_NAME = #{groupName}
 	</select>
 	
 	<delete id="deleteReview">

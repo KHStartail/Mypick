@@ -86,7 +86,7 @@
                     </div>
                     <div class="insert-btn">
                         <button type="submit">등록</button>
-                        <button type="reset">취소</button>
+                        <button type="reset"><a href="goodsList.pick">취소</a></button>
                     </div>
                 </div>
                 </form>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pick.my.common.PageInfo;
+import com.pick.my.goods.domain.Cart;
 import com.pick.my.goods.domain.Goods;
 import com.pick.my.goods.domain.GoodsFile;
 import com.pick.my.goods.domain.GoodsPayment;
@@ -151,6 +152,20 @@ public class GoodsServiceImpl implements GoodsService{
 		int result = store.insertPayInfo(pay);
 		
 		return result;
+	}
+
+	@Override
+	public int insertCart(Cart cart) {
+		int result = store.insertCart(cart);
+		
+		return result;
+	}
+
+	@Override
+	public List<Goods> printSlideGoods(String groupName) {
+		List<Goods> gList = store.selectSlideGoods(groupName);
+		
+		return gList;
 	}
 
 

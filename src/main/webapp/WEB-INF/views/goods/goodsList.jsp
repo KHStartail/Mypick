@@ -13,6 +13,8 @@
         rel="stylesheet">
     
         <!-- Css Styles -->
+        
+        <link rel="stylesheet" href="assets/css/goodsPage.css" type="text/css">
         <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="assets/css/goodsStyle.css" type="text/css">
@@ -72,6 +74,7 @@
             <c:forEach items="${gList }" var="goods">
             <c:url var="gDetail" value="goodsDetail.pick">
             	<c:param name="goodsNo" value="${goods.goodsNo }"></c:param>
+            	<c:param name="groupName" value="${goods.groupName }"></c:param>
             </c:url>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="product__item">
@@ -108,34 +111,39 @@
             </c:url>
             <!-- 클릭될때 -->
             <c:if test="${pi.currentPage <= 1 }">
-               [이전] 
+               <
             </c:if>
             <!-- 클릭안될때 -->
             <c:if test="${pi.currentPage > 1 }">
-               <a href="${before }">[이전]</a>
+               <a href="${before }">&nbsp;<</a>
             </c:if>
             <c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
                 <c:url var="pagination" value="goodsList.pick">
                   <c:param name="page" value="${p }"></c:param>
                </c:url>
                <c:if test="${p eq pi.currentPage }">
-                  <font color="red" size="4">[${p }]</font>
+                  <font color="red" size="4">&nbsp;${p }</font>
                </c:if>
                <c:if test="${p ne pi.currentPage }">
-                  <a href="${pagination }">${p }</a>&nbsp;               
+                  <a href="${pagination }">&nbsp;${p }</a>               
                </c:if>
             </c:forEach>
             <c:url var="after" value="goodsList.pick">
                <c:param name="page" value="${pi.currentPage +1 }"></c:param>
             </c:url>
             <c:if test="${pi.currentPage >= pi.maxPage }">
-               [다음]
+              >
             </c:if>
             <c:if test="${pi.currentPage < pi.maxPage }">
-               <a href="${after }">[다음]</a>
+               <a href="${after }"> &nbsp;> </a>
             </c:if>
 			</div>
 		</div>
+		<c:if test="${loginUser.userGrade == 'manager' }">
+		<div class="manager-btn">
+        	<button><a href="goodsInsertView.pick">굿즈 등록</a></button>
+        </div>
+        </c:if>
     </section>
         <!-- ***** Footer Start ***** -->
 	<jsp:include page="/footer.jsp"></jsp:include>

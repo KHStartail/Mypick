@@ -3,6 +3,7 @@ package com.pick.my.goods.store;
 import java.util.List;
 
 import com.pick.my.common.PageInfo;
+import com.pick.my.goods.domain.Cart;
 import com.pick.my.goods.domain.Goods;
 import com.pick.my.goods.domain.GoodsFile;
 import com.pick.my.goods.domain.GoodsPayment;
@@ -21,6 +22,7 @@ public interface GoodsStore {
 	public List<Goods> selectSearchAll(Search search);
 	public int insertReview(Review review);
 	public List<Review> selectReview(int goodsNo);
+	public List<Goods> selectSlideGoods(String groupName);
 	public int deleteReview(int revNo);
 	public int updateReview(Review review);
 	public int registerReply(Review review);
@@ -30,4 +32,5 @@ public interface GoodsStore {
 	public List<GoodsFile> showFileList(int goodsNo);
 	public int updateFileList(GoodsFile subImg);
 	public int insertPayInfo(GoodsPayment pay);
+	public int insertCart(Cart cart);
 }

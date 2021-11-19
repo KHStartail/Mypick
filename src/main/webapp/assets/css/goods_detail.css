@@ -1,4 +1,6 @@
-
+a,button{
+	cursor: pointer;
+}
 .justify-content-center{
     width: 900px;
     margin-left: 11%;

@@ -6,7 +6,7 @@ public class Cart {
 	private int goodsPrice;
 	private int goodsAmount;
 	private int goodsNo;
-	private int UserNo;
+	private String userId;
 	
 	public Cart() {}
 
@@ -42,19 +42,23 @@ public class Cart {
 		this.goodsNo = goodsNo;
 	}
 
-	public int getUserNo() {
-		return UserNo;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUserNo(int userNo) {
-		UserNo = userNo;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	@Override
 	public String toString() {
 		return "Cart [goodsName=" + goodsName + ", goodsPrice=" + goodsPrice + ", goodsAmount=" + goodsAmount
-				+ ", goodsNo=" + goodsNo + ", UserNo=" + UserNo + "]";
+				+ ", goodsNo=" + goodsNo + ", userId=" + userId + "]";
 	}
+
+
+
+
 	
 	
 }

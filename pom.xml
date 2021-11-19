@@ -14,6 +14,19 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
+	
+		<!-- validation -->
+
+		<dependency>
+		   <groupId>javax.validation</groupId>
+		   <artifactId>validation-api</artifactId>
+		   <version>1.0.0.GA</version>
+		</dependency>
+		<dependency>
+		   <groupId>org.hibernate</groupId>
+		   <artifactId>hibernate-validator</artifactId>
+		   <version>4.2.0.Final</version>
+		</dependency>
 	<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 	<!-- 대용량파일처리 -->
 		<dependency>
