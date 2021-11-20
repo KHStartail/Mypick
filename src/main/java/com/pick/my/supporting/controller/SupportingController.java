@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,10 +29,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.pick.my.common.PageInfo;
-import com.pick.my.common.Pagination;
 import com.pick.my.common.PaymentHistory;
 import com.pick.my.member.domain.Member;
+import com.pick.my.supporting.domain.Pagination;
 import com.pick.my.supporting.domain.SupFile;
 import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
@@ -85,31 +88,44 @@ public class SupportingController {
 		return mv;
 	}
 
-	/*
-	 * //모집중 검색
-	 * 
-	 * @RequestMapping(value="",method=RequestMethod.GET) public String
-	 * presupportingSearchList(@RequestParam("groupName")String
-	 * idolName, @RequestParam("keyword") String keyword, Model model){
-	 * HashMap<String, String> searchMap = new HashMap<String, String>();
-	 * searchMap.put("idolName", idolName); searchMap.put("keyword", keyword);
-	 * List<Supporting> psList = service.findKeywordPreSupporting(searchMap);
-	 * if(!psList.isEmpty()) { model.addAttribute("psList", psList);
-	 * model.addAttribute("psList", psList); return "supporting/preSupportingList";
-	 * }else { model.addAttribute("msg", "검색결과가 없습니다."); return
-	 * "supporting/supportError"; } } //진행중 검색
-	 * 
-	 * @RequestMapping(value="",method=RequestMethod.GET) public String
-	 * supportingSearchList(@RequestParam("groupName") String
-	 * idolName, @RequestParam("keyword") String keyword,Model model) {
-	 * HashMap<String, String> searchMap = new HashMap<String, String>();
-	 * searchMap.put("idolName", idolName); searchMap.put("keyword", keyword);
-	 * List<Supporting> ssList = service.findKeywordPreSupporting(searchMap);
-	 * if(!ssList.isEmpty()) { model.addAttribute("ssList", ssList);
-	 * model.addAttribute("ssList", ssList); return "supporting/supportingList";
-	 * }else { model.addAttribute("msg", "검색결과가 없습니다."); return
-	 * "supporting/supportError"; } }
-	 */
+	
+	  //모집중 검색
+	  @RequestMapping(value="presupportingSearch.pick",method=RequestMethod.GET) 
+	  public String  presupportingSearchList(
+			  	@RequestParam("groupName")String idolName
+			  , @RequestParam("keyword") String keyword
+			  , ModelAndView mv){
+	  HashMap<String, String> searchMap = new HashMap<String, String>();
+	  searchMap.put("idolName", idolName); 
+	  searchMap.put("keyword", keyword);
+	  List<Supporting> psList = service.findKeywordPreSupporting(searchMap);
+		  if(!psList.isEmpty()) { 
+			  mv.addObject("psList", psList);
+			  return "supporting/preSupportingList";
+		  }else { 
+			  mv.addObject("msg", "검색결과가 없습니다."); 
+			  return  "supporting/supportError"; 
+		  }
+	  }
+	  //진행중 검색
+	  @RequestMapping(value="supportingSearch.pick",method=RequestMethod.GET) 
+	  public String supportingSearchList(@RequestParam("groupName") String idolName
+			  , @RequestParam("keyword") String keyword
+			  ,Model model) {
+	  HashMap<String, String> searchMap = new HashMap<String, String>();
+	  searchMap.put("idolName", idolName); 
+	  searchMap.put("keyword", keyword);
+	  List<Supporting> ssList = service.findKeywordPreSupporting(searchMap);
+	  if(!ssList.isEmpty()) {
+		  model.addAttribute("ssList", ssList);
+		  model.addAttribute("ssList", ssList); 
+		  return "supporting/supportingList";
+	  }else { 
+		  model.addAttribute("msg", "검색결과가 없습니다."); 
+		  return "supporting/supportError";
+		  }
+	  }
+	 
 	//모집중 상세조회
 	@RequestMapping(value="presupportingDetail.pick", method=RequestMethod.GET)
 	public ModelAndView presupportingDetail(@RequestParam("supNo") int supNo, ModelAndView mv) {
@@ -129,17 +145,18 @@ public class SupportingController {
 	}
 	//진행중 상세조회
 	@RequestMapping(value="supportingDetail.pick", method=RequestMethod.GET)
-	public  ModelAndView supportingDetail(HttpServletResponse response, HttpSession session, @RequestParam("supNo") int supNo,  ModelAndView mv) {
+	public  ModelAndView supportingDetail(HttpServletResponse response
+			, HttpSession session, @RequestParam("supNo") int supNo
+			,  ModelAndView mv) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		Supporting supporting = service.supportingOne(supNo);
 		List<SupFile> fileList = service.printFileList(supNo);
-		String userId = loginUser.getUserId();
-		String userNickName = loginUser.getUserNickName(); 
-		//Member userOne = service.printOneUser(supporting.getUserNo());
+		int userNo = supporting.getUserNo();
+		Member mOne = service.printOneUser(userNo);
+		String NickName = mOne.getUserNickName();
 		if(supporting!=null) {
-				mv.addObject("userId", userId); 
-				mv.addObject("supporting", supporting);
-				mv.addObject("userNickName", userNickName);
+				mv.addObject("supporting", supporting); 
+				mv.addObject("userNickName", NickName); 
 				mv.addObject("fList", fileList);
 				mv.setViewName("supporting/supportingDetailView");
 		}else{
@@ -430,45 +447,89 @@ public class SupportingController {
 			file.delete();
 		}
 	}
-	//서포팅  댓글
+	//서포팅 댓글 목록
+	@ResponseBody
+	@RequestMapping(value="supReplyList.pick", method=RequestMethod.GET)
+	public void supReplyList(@RequestParam("supNo") int supNo
+			,HttpServletResponse response) throws Exception{
+		List<SupReply> rList =service.printSupReply(supNo);
+		if(!rList.isEmpty()) {
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd a HH:MM:SS").create();
+			gson.toJson(rList, response.getWriter());
+		}else {
+			System.out.println("데이터가 없습니다.");
+		}
+	}
+	
+		//서포팅  댓글
+	  @ResponseBody
+	  @RequestMapping(value="addSupReply.pick", method=RequestMethod.POST)
+	  public String addSupReply(@ModelAttribute SupReply supReply
+			  , HttpSession session){
+	  Member loginUser = (Member)session.getAttribute("loginUser"); 
+	  String userNickName = loginUser.getUserNickName();
+	  supReply.setSupReWriter(userNickName); 
+	  int result =  service.registerSupReply(supReply); 
+		  if(result> 0) { 
+			  return "success"; 
+		  }else {
+		      return "fail";
+		  } 
+	  }
+		
+	  //서포팅 댓글 수정
+	  @ResponseBody
+	  @RequestMapping(value="modifySupReply.pick", method=RequestMethod.POST)
+	  public String modifySupReply(@ModelAttribute SupReply supReply
+			  , HttpSession session) {
+		  Member loginUser = (Member)session.getAttribute("loginUser");
+		  String logUser = loginUser.getUserNickName();
+		  System.out.println(logUser);
+		  
+	//	  int check = service.printWriter(supReply);
+			  int result = service.modifyrSupReply(supReply); 
+			  if(result>0) {
+				  return "success"; 
+			  }else{ 
+				  return "fail"; 
+			  } 
+	  } 
+	  //서포팅 댓글 삭제
+	  @ResponseBody
+	  @RequestMapping(value="deleteSupReply.pick", method=RequestMethod.GET) 
+	  public String deleteSupReply(@ModelAttribute SupReply supReply, HttpSession session) {
+		  Member loginUser = (Member)session.getAttribute("loginUser");
+		  String logUser = loginUser.getUserNickName();
+		  String writer = supReply.getSupReWriter();
+		  if(logUser==writer) {
+			  int result = service.removeSupReply(supReply); 
+			  if(result > 0) { 
+				  return "success"; 
+				}else {
+					return "fail"; 
+				} 
+	  	  }else {
+			  return "noMatch";
+		  }
+	}
+	  
+	  
+	  /*
+		 * @ResponseBody
+		 * 
+		 * @RequestMapping(value="", method=RequestMethod.GET) public String
+		 * addSupReplyChild(HttpSession session , @ModelAttribute SupReply supReply) {
+		 * Member loginUser = (Member)session.getAttribute("loginUser"); String
+		 * userNickName = loginUser.getUserNickName();
+		 * supReply.setSupReWriter(userNickName); int result =
+		 * service.registerSupReplyChild(supReply); if(result > 0 ) { return "success";
+		 * }else{ return "fail"; } }
+		 */
 	/*
-	 * @ResponseBody
+	 * public String modifySupReplyChild(@ModelAttribute SupReply supReply) { int
+	 * result = service.removeSupReplyChild(supReply); if(result>0) { return
+	 * "success"; }else { return "fail"; } }
 	 * 
-	 * @RequestMapping(value="addSupReply.pick", method=RequestMethod.POST) public
-	 * String addSupReply(HttpSession session){
-	 * 
-	 * Member loginUser = (Member)session.getAttribute("loginUser"); String
-	 * userNickName = loginUser.getUserNickName(); SupReply supReply = new
-	 * SupReply(); supReply.setSupReWriter(userNickName); int result =
-	 * service.registerSupReply(supReply); if(result> 0) { return "success"; }else {
-	 * return "fail"; } }
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value="supReplyList.pick", method=RequestMethod.GET) public
-	 * String addSupReplyChild(HttpSession session, @ModelAttribute SupReply
-	 * supReply) { Member loginUser = (Member)session.getAttribute("loginUser");
-	 * String userNickName = loginUser.getUserNickName();
-	 * supReply.setSupReWriter(userNickName); int result =
-	 * service.registerSupReplyChild(supReply); if(result > 0 ) { return "success";
-	 * }else{ return "fail"; } }
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value="modifySupReply.pick", method=RequestMethod.POST)
-	 * public String modifySupReply(@ModelAttribute SupReply supReply, HttpSession
-	 * session) { int result = service.modifyrSupReply(supReply); if(result>0) {
-	 * return "success"; }else{ return "fail"; } } public String
-	 * modifySupReplyChild(@ModelAttribute SupReply supReply) { int result =
-	 * service.removeSupReplyChild(supReply); if(result>0) { return "success"; }else
-	 * { return "fail"; } }
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value="deleteSupReply.pick", method=RequestMethod.GET) public
-	 * String deleteSupReply(@ModelAttribute SupReply supReply) { int result =
-	 * service.removeSupReply(supReply); if(result > 0) { return "success"; }else {
-	 * return "fail"; } }
 	 * 
 	 * @ResponseBody
 	 * 
@@ -477,14 +538,14 @@ public class SupportingController {
 	 * service.removeSupReplyChild(supReply); if(result>0) { return "success"; }else
 	 * { return "fail"; } }
 	 */
-	//신고하기
+	  
+	// 댓글 신고하기
 	@ResponseBody
 	@RequestMapping(value="reportSupReply.pick", method=RequestMethod.GET)
 	public String reportSupReply(@ModelAttribute SupReplyReport report, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int userNo = loginUser.getUserNo();
 		report.setUserNo(userNo);
-		
 		int result = service.reportSupReply(report);
 		if(result>0) {
 			return "success";

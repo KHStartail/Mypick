@@ -68,7 +68,7 @@
 			interval: 10000
 		})
 		
-		function letGoSup(){
+		$("#check").on("click", function(){
 			alert("로그인 후 이용해주세요");
 			window.history.back();
 		}
@@ -95,8 +95,8 @@
 					</c:url>
 					<div class="col-3">
 						<c:if test="${userId eq null }">
-							<div class="card" style="cursor : pointer;" onclick="letGoSup();">
-				           		<div class="card-header"><h3>${Supporting.supTitle }</h3></div><br>
+							<div class="card" style="cursor : pointer;" id="check">
+				           		<div class="card-header" ><h3>${Supporting.supTitle }</h3></div><br>
 								<div class="card-text"><img src="/resources/supportingFiles/${Supporting.imgReName }" alt="Image"></div>
 				            	<div class="percentBox"></div>
 							</div>

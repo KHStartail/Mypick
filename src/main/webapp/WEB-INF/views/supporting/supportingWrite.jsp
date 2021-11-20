@@ -104,7 +104,7 @@
 			</tr>
 			<tr>
 				<td>기간</td>
-				<td><input type="text" size="50" id="during" data-range="true" data-multiple-dates-separator=" ~ " data-language="ko" class="datepicker-here"/>
+				<td><input type="text" value="스케줄 날짜 이전의 날짜를 선택하세요." size="50" id="during" data-range="true" data-multiple-dates-separator=" ~ " data-language="ko" class="datepicker-here"/>
 				</td>
 			</tr>
 			<tr>
@@ -163,8 +163,41 @@
 		    timepicker: true,
 		    timeFormat: "hh:ii AA"
 	}); 
+	$("#during").on("click", function(){
+		var alram = confirm("시작일은 오늘 이후에, 마감일은 스케쥴 날짜 이전을 등록하세요. 시작일까지 목표인원이 채워진다면 실제 서포팅을 진행할 수 있게 처리됩니다. 문의사항은 고객센터로 연락주세요.");		
+	});
 	
-
+	function registerAction(){
+		//서포팅 날짜
+		var scheduleCheck = /[^0-9]/g;
+		var scheduleDateVal = $("#datepicker").val();
+		var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
+		//211030
+		//서포팅 기간 시작일, 마감일 나누기
+		var during = $("#during").val();
+		sDateVal = during.substring(0,10);
+		eDateVal = during.substring(13);
+		//211010~211020
+		
+		//오늘 날짜 구하기 년도월일 이후 일이 안들어감
+		var today = new Date();
+		var year = today.getFullYear();
+		var month = today.getMonth() +1;
+		var date  = today.getDate();
+		var nowday = year+month+date;//string이니까
+		//211001
+		
+		//노실행..
+		if(scheduleDate > eDateVal && nowday < sDateVal) {
+			$("#supStartDate").val(sDateVal);
+			$("#supEndDate").val(eDateVal);
+			$("#scheduleDate").val(scheduleDate);
+		}else if(nowday > sDateVal){
+			alert("시작일까지 목표인원이 채워져야 합니다. 오늘 이후의 날짜를 고르세요.")
+		}else if(scheduleDate < eDateVal){
+			alert("종료일은 스케쥴 날짜보다 앞서야 합니다. 기간을 준수하세요.");
+		}
+	}
 	//파일 현재 필드 숫자 totalCount랑 비교값
 //	var fileCount = 0;
 	//해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
@@ -218,21 +251,7 @@
 //			console.log(fileList);
 //		}
 //	 
-	function registerAction(){
-		//서포팅 날짜
-		var scheduleCheck = /[^0-9]/g;
-		var scheduleDateVal = $("#datepicker").val();
-		var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
-		console.log(scheduleDate);
-		$("#scheduleDate").val(scheduleDate);
-		
-		//서포팅 기간 시작일, 마감일 나누기
-		var during = $("#during").val();
-		sDateVal = during.substring(0,10);
-		eDateVal = during.substring(13);
-		$("#supStartDate").val(sDateVal);
-		$("#supEndDate").val(eDateVal);
-		
+	
 		//다중파일부분
 	//	var form = $("#dataForm")[0];        
 	// 	var formData = new FormData(form);
@@ -243,7 +262,6 @@
 //				}
 	//		}
 			
-		}
 		
 
 //

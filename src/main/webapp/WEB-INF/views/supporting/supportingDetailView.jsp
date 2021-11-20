@@ -22,14 +22,14 @@
 	 text-align : center;
 	}
 	.container img{
-		width : 30%;
+		width : 400px;
 		height: 360px;
 		float: left;
 		margin-right : 10px;
 	}
 	#contextBox{
 		border : 1px solid #eee;
-		width : 300px;
+		width : 320px;
 		padding : 10px 10px;
 		height: 360px;
 		float: left;
@@ -89,10 +89,13 @@
 	 }
 	 .left{
 	 	text-align: left;
+	 	float : left;
 	 }
 	 #btnCenter{
-	 	 display: flex;
- 		 justify-content: center;
+	 	 position: absolute;
+		 left: 50%;
+		 transform: translateX(-50%);
+ 		 text-align:center;
 	 }
 </style>
 </head>
@@ -124,13 +127,13 @@
 					<li><input type="radio" name="money-check" id="two"  value="20000"><label for="20,000won">20,000원</label></li>
 					<li><input type="radio" name="money-check" id="three"  value="30000"><label for="30,000won">30,000원</label></li>
 					<li><input type="radio" name="money-check" id="four"  value="40000"><label for="40,000won">40,000원</label></li>
-					<li>기타입력<br><input type="text" name="money-check-etc" id="five" placeholder="추가금액을 입력해주세요"></li>
+					<li>기타입력<br><input type="text" name="money-check-etc" id="five" size="18" placeholder="추가금액을 입력해주세요"></li>
+					<p>최소단위는 1,000원 입니다.<br>최소단위 이하는 서포팅이 취소될 시 환불되지 않습니다.</p>
 				</ul>
-				<p>최소단위는 1,000원 입니다.<br>최소단위 이하는 서포팅이 취소될 시 환불되지 않습니다.</p>
 				<input type="submit" id="paybtn" value="서포팅 결제하기">
 			</div><br>
 		</form><br>
-	</aside>
+	</aside><br><br><br>
 	<button id="btnCenter" class="btn" onclick="location.href='supportingList.pick'">목록</button>
 	<div class="fListBox">
 		<c:forEach var="fList" items="${fList}">
@@ -140,11 +143,10 @@
 		</c:forEach>
 	</div>
 	<br><br><br>
-	<h3 class="left">댓글</h3><hr>
 	<table align="center" id="reply">
 		<tr>
 			<td>
-				<textarea rows="2" cols="55" id="rContents">최대 1000자 입력가능합니다.</textarea>
+				<textarea rows="2" cols="55" id="rContents" placeholder="최대 1000자 입력가능합니다."></textarea>
 			</td>
 			<td>
 				<button class="btn" id="rSubmit">등록</button>
@@ -155,26 +157,27 @@
 	<!-- 댓글 목록 -->
 	<table align="center" width="500" border="1" id="rtb">
 		<thead>
-			<tr>
+			<tr align="left" >
 				<!-- 댓글 개수 -->
 				<td colspan="4"><b id="rCount"></b></td>
 			</tr>
 		</thead>
 		<tbody>
+			<tr>
+				<td>작성자</td>
+				<td>댓글내용</td>
+				<td>날짜</td>
+				<td></td>
+			</tr>
 		</tbody>
 	</table>
 	<br><br>
 </div>
 <jsp:include page="/footer.jsp"></jsp:include>
 <script>
-	var userId = $("#Id").val();
-	function showPopup(){
-		 var userId = session.getAttribute("userId")
-		 if(userId == "null"){
-			 alert("로그인 후 결제가 가능합니다.");
-		 }
-	 };
-	 //기타금액 숫자 유효성 체크
+	getReplyList(); //댓글바로 보이게 하는 것
+
+	//기타금액 숫자 유효성 체크
 	 $("#five").keyup(function(e){
 			var moneyCheck = /[^0-9]/g; //숫자외의것들 true
 			var etc = $("#five").val();
@@ -183,7 +186,7 @@
 				$("#five").val("");
 			}
 	});
-// 	//기타 금액 보내기
+ 	//기타 금액 보내기
 	function moneyAction(){
 		var etc = $("#five").val();
 		if(etc == "")
@@ -200,11 +203,10 @@
 		$("#five").val("");
 	});
 	
-	getReplyList(); //댓글바로 보이게 하는 것
 	
 	//댓글 등록
 	$("#rSubmit").on("click", function(){
-		var supNo = '${Supporting.supNo}';
+		var supNo = '${supporting.supNo}';
 		var rContents = $("#rContents").val(); 
 		$.ajax({
 			url : "addSupReply.pick",
@@ -219,45 +221,49 @@
 					getReplyList();
 					$("#rContents").val("");
 				}else {
-					alert("댓글 등록 실패, 관리자에게 문의 바랍니다.");
+					alert("댓글 등록 실패");
 				}
 			},
 			error : function() {
 					alert("통신오류, 관리자에게 문의 바랍니다.");
 			},
+			complete : function() {
+				
+			}
 		});
 	});
 //댓글리스트	
 	function getReplyList() {
-	 var supNo = '${Supporting.supNo }';
+	 var supNo = '${supporting.supNo }';
 		$.ajax({
 			url : "supReplyList.pick",
 			type : "get",
 			data : { "supNo" : supNo },
 			dataType : "json",
 			success : function(data) {
-			 var $tableBody = $("#rtb tbody"); //띄어쓰기로 후선 선택자를 이용해서
-			 $tableBody.html(""); 
-			 var $tr;   
-			 var $rWriter;
-			 var $rContent;
-			 var $rCreateDate;
-			 var $btnArea;
-			 $("#rCount").text("댓글 (" + data.length +")");   //댓글갯수
-			 if(data.length > 0) { 
-				 for(var i in data){
-					 $tr = $("<tr id='modifyTr'>"); 
-					 $rWriter = $("<td width='100'>").text(data[i].supReWriter);
-					 $rContent = $("<td>").text(data[i].supReContents);
-					 $rCreateDate = $("<td width='100'>").text(data[i].supReDate);    
-					 $btnArea = $("<td width='100'>").append("<a href='#' onclick='modifyReply(this,"+supNo+","+data[i].supReAllNo+",\""+data[i].supReContents+"\");'>수정</a>&nbsp;").append("<a href='#' onclick='removeReply("+supNo+","+data[i].supReAllNo+")'>삭제</a>&nbsp;").append("<a href='#' onclick='reportReply(this,"+supNo+","+data[i].supReAllNo");'>삭제</a>");  
-					 $tr.append($rWriter);
-				 	 $tr.append($rContent);
-				 	 $tr.append($rCreateDate);
-				 	 $tr.append($btnArea);
-				 	 $tableBody.append($tr);
-				 }
-			 }
+				 var $tableBody = $("#rtb tbody"); //띄어쓰기로 후선 선택자를 이용해서
+				 $tableBody.html(""); 
+				 var $tr;   
+				 var $rWriter;
+				 var $rContent;
+				 var $rCreateDate;
+				 var $btnArea;
+				 $("#rCount").text("댓글 (" + data.length +")"); 
+				 if(data.length > 0) { 
+					 console.log(data[i]);
+					 for(var i in data){
+						 $tr = $("<tr id='modifyTr'>"); 
+						 $rWriter = $("<td width='100'>").text(data[i].supReWriter);
+						 $rContent = $("<td>").text(data[i].supReContents);
+						 $rCreateDate = $("<td width='100'>").text(data[i].supReDate);    
+						 $btnArea = $("<td width='100'>").append("<a href='#' onclick='modifyReply(this,"+supNo+","+data[i].supReAllNo+",\""+data[i].supReContents+"\");'>수정</a>&nbsp;").append("<a href='#' onclick='removeReply(this,"+supNo+","+data[i].supReAllNo+")'>삭제</a>&nbsp;").append("<a href='#' onclick='reportReply(this,"+supNo+","+data[i].supReAllNo+");'>신고</a>");  
+						 $tr.append($rWriter);
+					 	 $tr.append($rContent);
+					 	 $tr.append($rCreateDate);
+					 	 $tr.append($btnArea);
+					 	 $tableBody.append($tr);
+					 }
+				}
 			},
 			error : function() {
 				 alert("통신오류, 관리자에게 문의하세요");
@@ -268,7 +274,7 @@
 	function modifyReply(obj, supNo, supReAllNo, supReContents) {
 		$trModify = $("<tr>");
 		$trModify.append("<td colspan='3'><input type='text' id='modifyReply' size='50' value='"+supReContents+"'></td>");
-		$trModify.append("<td><button onclick='modifyReplyCommit("+supNo+","+supReAllNo+")'>수정완료</button></td>");
+		$trModify.append("<td><button class='btn' onclick='modifyReplyCommit("+supNo+","+supReAllNo+")'>수정완료</button></td>");
 		$(obj).parent().parent().after($trModify); 
 	}
 	
@@ -285,6 +291,8 @@
 			success : function(data) {
 				if(data == "success") {
 					getReplyList();
+				}else if(data =="noMatch"){
+					alert("작성자만 수정가능합니다");
 				}else{
 					alert("댓글 수정 실패");
 				}
@@ -295,7 +303,7 @@
 		});
 	}
 	
-	function removeReply(supNo, supReAllNo) {
+	function removeReply(object,supNo, supReAllNo) {
 		$.ajax({
 			url : "deleteSupReply.pick",
 			type : "get",
@@ -303,6 +311,10 @@
 			success : function(data) {
 				if(data == "success") {
 					getReplyList();
+					alert("댓글을 삭제했습니다.");
+				}else if(data =="noMatch"){
+					alert("작성자만  삭제가능합니다");
+					window.history.back();
 				}else{
 					alert("댓글 삭제 실패");
 				}
@@ -312,14 +324,14 @@
 		});
 	}
 	
-	function reportReply(supNo, supReAllNo){
+	function reportReply(object, supNo, supReAllNo){
 		$.ajax({
-			url:"reportSupReply",
+			url:"reportSupReply.pick",
 			type: "get",
 			data : {
 				"supNo" : supNo,
 				"supReAllNo" : supReAllNo
-			}
+			},
 			success : function(data){
 				if(data =="success"){
 					alert("해당 댓글이 신고되었습니다.");

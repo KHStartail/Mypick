@@ -110,4 +110,10 @@ public interface SupportingService {
 	public int updateFile(SupFile file); 
 	public int deleteFile(int supNo);
 	public Member printOneUser(int userNo);
+	/**
+	 * 댓글 작성자 찾기
+	 * @param supReply
+	 * @return
+	 */
+//	public int printWriter(SupReply supReply);
 }

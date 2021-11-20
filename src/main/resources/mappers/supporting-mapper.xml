@@ -101,37 +101,34 @@
 		<!-- 진행중 댓글 -->
 		<resultMap type="SupReply" id="supReplyResultMap">
 			<id property="supReAllNo" column="SUP_REPLY_ALLNO"></id>
+			<result property="supNo" column="SUP_NO"></result>
 			<result property="supReChild" column="SUP_REPLY_CHILD"></result>
 			<result property="supReNo" column="SUP_REPLY_NO"></result>
-			<result property="supNo" column="SUP_NO"></result>
+			<result property="supReWriter" column="SUP_REPLY_WRITER"></result>
 			<result property="supReContents" column="SUP_REPLY_COMENTS"></result>
 			<result property="supReDate" column="SUP_REPLY_DATE"></result>
-			<result property="supReWriter" column="SUP_REPLY_WRITER"></result>
 		</resultMap>
 		<!-- 댓글전체리스트 -->
-		<!-- 
-		<select id="replyAll" resultType="supReplyResultMap">
+		<select id="replyAll" resultMap="supReplyResultMap">
 			SELECT * FROM SUPPORTING_REPLY WHERE SUP_NO = #{supNo}
+		</select>
+		<!-- 
+		<select id="">
+			SELECT SUP_REPLY_WRITER FROM SUPPORTING_REPLY WHERE SUP_NO = #{supNo} AND SUP_REPLY_ALLNO = #{supReAllNo}
 		</select>
 		-->
 		<!-- 댓글 등록 -->
-		<!-- 
-		<insert id="insertReply"	parameterType="SupReply">
-			INSERT INTO SUPPORTING_REPLY VALUES (SEQ_REPLY_ALLNO.NEXTVAL, #{supNo}, DEFAULT ,#{supReplyNo}, #{userNickName}, #{supReContents}, SYSDATE )
+		<insert id="insertReply" parameterType="SupReply">
+			INSERT INTO SUPPORTING_REPLY VALUES (SEQ_REPLY_ALLNO.NEXTVAL, #{supNo}, DEFAULT ,null, #{supReWriter }, #{supReContents}, SYSDATE )
 		</insert> 
-		-->
 		<!-- 댓글 수정 -->
-<!-- 
 		<update id="updateReply" parameterType="SupReply">		
-			UPDATE SUPPORTING_REPLY SET SUP_REPLY_COMENTS = #{supReContents}, SUP_REPLY_DATE = SYSDATE WHERE REPLY_ALLNO = #{supReAllNo}
+			UPDATE SUPPORTING_REPLY SET SUP_REPLY_COMENTS = #{supReContents}, SUP_REPLY_DATE = SYSDATE WHERE SUP_REPLY_ALLNO = #{supReAllNo}
 		</update>
--->
 		<!-- 댓글 삭제 -->
-	<!-- 
-		<delete id="deleteReply" parameterType="_int">
+		<delete id="deleteReply" parameterType="SupReply">
 			DELETE FROM SUPPORTING_REPLY WHERE SUP_REPLY_ALLNO = #{supReAllNo}
 		</delete>
-	-->
 		<!-- 신고부분  -->
 		<resultMap type="supReportReply" id="supReport">
 			<id property="reportNo" column="REPORT_NO"></id>
@@ -140,7 +137,7 @@
 			<result property="userNo" column="USER_NO"></result>
 		</resultMap>
 		<insert id="insertReportSupRe" parameterType="supReportReply">
-			INSERT INTO VALUES(SEQ_REPORT_NO.NEXTVAL, #{supReAllNo}, #{supNo}, #{userNo})
+			INSERT INTO SUPPORTING_REPLY_REPORT VALUES(SEQ_REPORT_NO.NEXTVAL, #{supReAllNo}, #{supNo}, #{userNo})
 		</insert>
 		<resultMap type="PaymentHistory" id="paymentResultMap">
 			<id property="payNo" column="PAY_NO"></id>

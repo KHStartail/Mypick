@@ -114,7 +114,8 @@ public class SupportingServiceImpl implements SupportingService{
 
 	@Override
 	public List<SupReply> printSupReply(int supNo) {
-		return null;
+		List<SupReply> rList = store.selectSupReply(supNo);
+		return rList;
 	}
 
 	@Override
@@ -236,4 +237,10 @@ public class SupportingServiceImpl implements SupportingService{
 		Member mOne = store.selectUserOne(userNo);
 		return mOne;
 	}
+//
+//	@Override
+///	public int printWriter(SupReply supReply) {
+//		int result = store.selectReplyWriter(supReply);
+//		return result;
+//	}
 }
