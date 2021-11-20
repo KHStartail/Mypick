@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.pick.my.community.domain.Community_File;
+import com.pick.my.community.domain.Community_Main;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
@@ -41,4 +42,7 @@ public interface CommunityStore {
 	public Community_Report_Reply doubleReport(Community_Report_Reply report);
 	public int insertPostReport(Community_Post_Report postReport);
 	public Community_Post_Report checkReport(Community_Post_Report postReport);
+	public int insertMainImg(Community_Main main);
+	public int deleteMainImg(Community_Main main);
+	public Community_Main selectMainImg(Community_Main groupName);
 }

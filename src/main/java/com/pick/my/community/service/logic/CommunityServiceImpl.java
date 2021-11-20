@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pick.my.community.domain.Community_File;
+import com.pick.my.community.domain.Community_Main;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
@@ -193,6 +194,24 @@ public class CommunityServiceImpl implements CommunityService{
 	public Community_Post_Report checkReport(Community_Post_Report postReport) {
 		Community_Post_Report report = store.checkReport(postReport);
 		return report;
+	}
+
+	@Override
+	public int registerMainImg(Community_Main main) {
+		int result = store.insertMainImg(main);
+		return result;
+	}
+
+	@Override
+	public int removeMainImg(Community_Main main) {
+		int result = store.deleteMainImg(main);
+		return result;
+	}
+
+	@Override
+	public Community_Main printMainImg(Community_Main groupName) {
+		Community_Main main = store.selectMainImg(groupName);
+		return main;
 	}
 
 

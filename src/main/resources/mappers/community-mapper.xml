@@ -56,7 +56,10 @@
 		<result property="userNickName" column="USER_NICKNAME" />
 		<result property="writerNickName" column="WRTIER_NICKNAME" />
 	</resultMap>
-
+	<resultMap type="Main" id="MaintResultMap">
+		<id property="groupName" column="GROUP_NAME"></id>
+		<result property="mainImgName" column="MAINIMG_NAME" />
+	</resultMap>
 
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*) FROM
@@ -119,6 +122,10 @@
 		SELECT * FROM COMMUNITY_POST_REPORT WHERE POST_NO = #{postNo} AND WRTIER_NICKNAME = #{writerNickName}
 	</select>
 
+	<select id="selectMainImg"  resultMap="MaintResultMap">
+		SELECT * FROM COMMUNITY_MAIN WHERE GROUP_NAME = #{groupName}
+	</select>
+
 	<insert id="uploadFile" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
 		VALUES(SEQ_FILE.NEXTVAL,#{userId},#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
@@ -158,6 +165,11 @@
 	<insert id="insertPostReport" parameterType="pReport">
 		INSERT INTO COMMUNITY_POST_REPORT
 		VALUES(SEQ_POST_REPORT.NEXTVAL,#{postNo},#{postTitle},#{userNickName},#{writerNickName})
+	</insert>
+
+	<insert id="insertMainImg" parameterType="Main">
+		INSERT INTO COMMUNITY_MAIN
+		VALUES(#{groupName},#{mainImgName})
 	</insert>
 
 	<delete id="deletePost" parameterType="_int">
@@ -205,6 +217,9 @@
 		SET HEART_COUNT = HEART_COUNT - 1 WHERE POST_NO =
 		#{postNo}
 	</delete>
-
+		<delete id="deleteMainImg" parameterType="Main">
+		DELETE FROM COMMUNITY_MAIN WHERE GROUP_NAME = #{groupName}
+	</delete>
+	
 </mapper>
   

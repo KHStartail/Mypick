@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.pick.my.community.domain.Community_File;
+import com.pick.my.community.domain.Community_Main;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
@@ -111,23 +112,30 @@ public class CommunityController {
 	@RequestMapping(value="mainView.pick")
 	public ModelAndView mainView(ModelAndView mv, @RequestParam(value="page", required=false) Integer page,HttpSession session,@RequestParam("groupName")String groupName) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
+			Community_Main setMain = new Community_Main();
+			setMain.setGroupName(groupName);
+			Community_Main main = service.printMainImg(setMain);
 			Map<String,Object>map = new HashMap<String,Object>();
 	      int currentPage = (page != null) ? page : 1;
 	      int totalCount = service.getListcount();
 	      PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 	      map.put("groupName", groupName);
 	      map.put("pi", pi);
-	      List<Community_Post> cList = service.printAllPost(map);
-	      if(!cList.isEmpty()) {
-	    	  mv.addObject("groupName",groupName);
-	    	  mv.addObject("loginUser",loginUser);
-	    	  mv.addObject("cList",cList);
-	    	  mv.addObject("pi",pi);
-	    	  mv.setViewName("community/main");
-	      }else {
-		         mv.addObject("msg", "게시글 전체조회 실패");
-		         mv.setViewName("common/errorPage");
+	      if(main != null) {
+	    	  List<Community_Post> cList = service.printAllPost(map);
+		      if(!cList.isEmpty()) {
+		    	  mv.addObject("mainImgName",main);
+		    	  mv.addObject("groupName",groupName);
+		    	  mv.addObject("loginUser",loginUser);
+		    	  mv.addObject("cList",cList);
+		    	  mv.addObject("pi",pi);
+		    	  mv.setViewName("community/main");
+		      }else {
+			         mv.addObject("msg", "게시글 전체조회 실패");
+			         mv.setViewName("common/errorPage");
+		      }
 	      }
+	     
 		return mv;
 	}
 	@RequestMapping(value="postSearch.pick")
@@ -470,7 +478,6 @@ public class CommunityController {
 			 Member loginUser = (Member)session.getAttribute("loginUser");
 	        Heart.setPostNo(postNo);
 	        Heart.setUserId(loginUser.getUserId());
-	        System.out.println(heart);
 	        if(heart >= 1) {
 	            service.removeHeart(Heart);
 	            service.removeHeartCount(postNo);
@@ -530,7 +537,64 @@ public class CommunityController {
 				return answer;
 			}
 		}
-		
+		@ResponseBody
+	    @RequestMapping(value="mainImg.pick",method = RequestMethod.POST)
+	    public String result(@RequestParam("mainImg") MultipartFile mainImgName,HttpServletRequest request,HttpServletResponse response, Model model
+	    		,@ModelAttribute Community_Main main,@RequestParam("groupName")String groupName
+	    		){
+			if(mainImgName != null && !mainImgName.isEmpty()) {
+				if(main.getMainImgName() != null) {
+					deleteFile(main.getMainImgName(), request);
+				}
+				String savePath = saveFile(mainImgName, request);
+//				main = service.modifyMain();
+				if(savePath != null) {
+					main.setGroupName(groupName);
+					main.setMainImgName(mainImgName.getOriginalFilename());
+					int result = service.removeMainImg(main);
+					
+					if(result > 0) {
+						int result2 = service.registerMainImg(main);
+						if(result2 > 0 ) {
+							return "filelist";
+					}
+					}
+				}
+			}
+	      
+	        return "redirect:form";
+	    }
+		private String saveFile(MultipartFile file, HttpServletRequest request) {
+			String root = request.getSession()
+					.getServletContext().getRealPath("resources");
+			String savePath = root + "\\mainImgs";
+			File folder = new File(savePath);
+			if(!folder.exists()) {
+				folder.mkdir();
+			}
+			String filePath = folder + "\\" + file.getOriginalFilename();
+			try {
+				file.transferTo(new File(filePath)); 
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return filePath;
+		}
+
+		private void deleteFile(String filePath, HttpServletRequest request) {
+			String root = request.getSession()
+					.getServletContext().getRealPath("resources");
+			String deletePath = root + "\\mainImgs";
+			File deleteFile = new File(deletePath + "\\" + filePath);
+			Community_Main main = new Community_Main();
+			main.setMainImgName(filePath);
+
+			if(deleteFile.exists()) {
+				deleteFile.delete();
+			}
+		}
 		
 	}
 	

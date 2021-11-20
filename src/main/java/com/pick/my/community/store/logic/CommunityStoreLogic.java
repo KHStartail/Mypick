@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.pick.my.community.domain.Community_File;
+import com.pick.my.community.domain.Community_Main;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
@@ -200,6 +201,24 @@ public class CommunityStoreLogic implements CommunityStore{
 	public Community_Post_Report checkReport(Community_Post_Report postReport) {
 		Community_Post_Report report = sqlSession.selectOne("CommunityPostMapper.selectPostReport",postReport);
 		return report;
+	}
+
+	@Override
+	public int insertMainImg(Community_Main main) {
+		int result = sqlSession.insert("CommunityPostMapper.insertMainImg",main);
+		return result;
+	}
+
+	@Override
+	public int deleteMainImg(Community_Main main) {
+		int result = sqlSession.delete("CommunityPostMapper.deleteMainImg",main);
+		return result;
+	}
+
+	@Override
+	public Community_Main selectMainImg(Community_Main setmain) {
+		Community_Main main = sqlSession.selectOne("CommunityPostMapper.selectMainImg",setmain);
+		return main;
 	}
 
 

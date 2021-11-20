@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.pick.my.community.domain.Community_File;
+import com.pick.my.community.domain.Community_Main;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
@@ -41,4 +42,7 @@ public interface CommunityService {
 	public Community_Report_Reply doubleReport(Community_Report_Reply report);
 	public int registerPostReport(Community_Post_Report postReport);
 	public Community_Post_Report checkReport(Community_Post_Report postReport);
+	public int registerMainImg(Community_Main main);
+	public int removeMainImg(Community_Main main);
+	public Community_Main printMainImg(Community_Main groupName);
 }
