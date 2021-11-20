@@ -168,6 +168,20 @@ public class GoodsServiceImpl implements GoodsService{
 		return gList;
 	}
 
+	@Override
+	public int getMypageGoodsCount() {
+		int totalCount = store.selectMypageGoodsCount();
+		
+		return totalCount;
+	}
+
+	@Override
+	public List<GoodsPayment> printGoodsHistory(PageInfo pi) {
+		List<GoodsPayment> pList = store.selectGoodsHistory(pi);
+		
+		return pList;
+	}
+
 
 
 }

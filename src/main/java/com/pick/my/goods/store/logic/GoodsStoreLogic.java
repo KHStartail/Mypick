@@ -171,6 +171,22 @@ public class GoodsStoreLogic implements GoodsStore{
 		return gList;
 	}
 
+	@Override
+	public int selectMypageGoodsCount() {
+		int totalCount = sqlSession.selectOne("goodsMapper.selectHistoryCount");
+		
+		return totalCount;
+	}
+
+	@Override
+	public List<GoodsPayment> selectGoodsHistory(PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		List<GoodsPayment> pList = sqlSession.selectList("goodsMapper.selectGoodsHistory",pi,rowBounds);
+		
+		return pList;
+	}
+
 
 
 }

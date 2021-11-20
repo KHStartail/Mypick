@@ -69,6 +69,9 @@
         	<input type="hidden" name="goodsNo" value="${goods.goodsNo }">
         	<input type="hidden" name="goodsAmount" value="${goods.goodsAmount }">
         	<input type="hidden" name="goodsPrice" value="${goods.goodsPrice }">
+        	<input type="hidden" name="goodsName" value="${goods.goodsName }">
+        	<input type="hidden" name="imgPath" value="${goods.imgPath }">
+        	
             <div class="pay-label">
                 <span>배송 정보</span>
             </div>
