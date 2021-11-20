@@ -11,4 +11,36 @@ public class MypageController {
 	public String myPageMainView() {
 		return "myPage/mypageMain";
 	}
+
+	@RequestMapping(value="myPageModify.pick", method = RequestMethod.GET)
+	public String myPageModify() {
+		return "myPage/mypageModify";
+	}
+	
+	@RequestMapping(value="historyGoods.pick", method = RequestMethod.GET)
+	public String historyGoods() {
+		return "myPage/historyGoods";
+	}
+	
+	@RequestMapping(value="historySupport.pick", method = RequestMethod.GET)
+	public String historySupport() {
+		return "myPage/historySupport";
+	}
+	
+	@RequestMapping(value="postCommunity.pick", method = RequestMethod.GET)
+	public String postCommunity() {
+		return "myPage/postCommunity";
+	}
+	
+	@RequestMapping(value="postSupport.pick", method = RequestMethod.GET)
+	public String postSupport() {
+		return "myPage/postSupport";
+	}
+	
+	@RequestMapping(value="mypageCart.pick", method = RequestMethod.GET)
+	public String mypageCart() {
+		return "myPage/mypageCart";
+	}
+
 }
+
