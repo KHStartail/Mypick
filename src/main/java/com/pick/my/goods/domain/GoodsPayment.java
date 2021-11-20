@@ -19,6 +19,8 @@ public class GoodsPayment {
 	private String userEmail;
 	private String userMsg;
 	private Date paymentDate;
+	private String goodsName;
+	private String imgPath;
 	
 	public GoodsPayment() {}
 
@@ -109,13 +111,31 @@ public class GoodsPayment {
 	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
+	
+	
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
 
 	@Override
 	public String toString() {
 		return "GoodsPayment [goodsNo=" + goodsNo + ", goodsAmount=" + goodsAmount + ", goodsPrice=" + goodsPrice
 				+ ", goodsDelivery=" + goodsDelivery + ", userId=" + userId + ", userName=" + userName + ", userAddr="
 				+ userAddr + ", userPhone=" + userPhone + ", userEmail=" + userEmail + ", userMsg=" + userMsg
-				+ ", paymentDate=" + paymentDate + "]";
+				+ ", paymentDate=" + paymentDate + ", goodsName=" + goodsName + ", imgPath=" + imgPath + "]";
 	}
 	
 	

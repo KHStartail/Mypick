@@ -13,7 +13,9 @@ import com.pick.my.goods.domain.Search;
 public interface GoodsService {
 
 	public int getListCount();
+	public int getMypageGoodsCount();
 	public List<Goods> printAll(PageInfo pi);
+	public List<GoodsPayment> printGoodsHistory(PageInfo pi);
 	public int insertSubFile(GoodsFile File);
 	public int registerGoods(Goods goods);
 	public Goods printOne(int goodsNo);

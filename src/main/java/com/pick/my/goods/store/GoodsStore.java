@@ -13,7 +13,9 @@ import com.pick.my.goods.domain.Search;
 public interface GoodsStore {
 
 	public int selectListCount();
+	public int selectMypageGoodsCount();
 	public List<Goods> selectAll(PageInfo pi);
+	public List<GoodsPayment> selectGoodsHistory(PageInfo pi);
 	public int insertGoods(Goods goods);
 	public int insertSubFile(GoodsFile File);
 	public Goods printOne(int goodsNo);

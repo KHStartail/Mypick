@@ -47,6 +47,10 @@
             <div class="commu-label">
                 <span>커뮤니티 게시글</span>
             </div>
+            <div class="commu_reply">
+                <button>게시글</button>
+                <button>댓글</button>
+            </div>
             <div class="commu-info">
                 <table class="commu-table">
                     <tr>

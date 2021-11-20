@@ -16,6 +16,22 @@
         font-weight: bold;
     }
 
+        .commu_reply{
+            width: 30%;
+            margin-top: 5%;
+            margin-left: 10%;
+        }
+            .commu_reply button{
+                width: 90px;
+                height: 35px;
+                border: 1px solid grey;
+                border-radius: 5px;
+                background-color: #fa6153;
+                color: white;
+            }
+            .commu_reply button:first-child{
+                margin-right: 3%;
+            }
     .commu-info{
         margin-top: 5%;
         margin-left: 10%;

@@ -28,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pick.my.common.PageInfo;
-import com.pick.my.common.Pagination;
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.goods.domain.Cart;
 import com.pick.my.goods.domain.Goods;
@@ -36,6 +35,7 @@ import com.pick.my.goods.domain.GoodsFile;
 import com.pick.my.goods.domain.GoodsPayment;
 import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
+import com.pick.my.goods.domain.goodsPagination;
 import com.pick.my.goods.service.GoodsService;
 import com.pick.my.member.domain.Member;
 
@@ -56,7 +56,7 @@ public class GoodsController {
 		
 		int currentPage = (page != null)? page : 1;
 		int totalCount = service.getListCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+		PageInfo pi = goodsPagination.getPageInfo(currentPage, totalCount);
 		List<Goods> gList = service.printAll(pi);
 		if(!gList.isEmpty()) {
 			mv.addObject("loginUser",loginUser);
@@ -559,6 +559,28 @@ public class GoodsController {
 
 		return answer;
 		
+	}
+	
+	//마이페이지 결제내역
+	@RequestMapping(value="showHistoryGoods", method = RequestMethod.GET)
+	public ModelAndView showGoodsHistory(ModelAndView mv,
+			@RequestParam(value="page",required = false)Integer page,
+			HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		int currentPage = (page != null)? page : 1;
+		int totalCount = service.getMypageGoodsCount();
+		PageInfo pi = goodsPagination.getPageInfo(currentPage, totalCount);
+		List<GoodsPayment> pList = service.printGoodsHistory(pi);
+		if(!pList.isEmpty()) {
+			mv.addObject("loginUser",loginUser);
+			mv.addObject("pList",pList);
+			mv.addObject("pi",pi);
+			mv.setViewName("myPage/historyGoods");
+		}
+		
+		return mv;
 	}
 	
 	

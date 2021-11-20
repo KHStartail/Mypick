@@ -53,15 +53,17 @@
                         <th>주문금액</th>
                         <th>결제날짜</th>
                     </tr>
+                   <c:forEach items="${pList }" var="pay">
                     <tr >
                         <td style="text-align: left;">
-                            <img src="assets/images/air.png" alt="" style="width: 250px;">
-                            누군지 모르는 아이돌의 Airpot
+                            <img src="resources/goodsFiles/${pay.imgPath }" alt="" style="width: 250px;">
+                            ${pay.goodsName }
                         </td>
-                        <td>1</td>
-                        <td>33000</td>
-                        <td>21.11.19</td>
+                        <td>${pay.goodsAmount }</td>
+                        <td>${pay.goodsPrice*pay.goodsAmount + goodsdelivery }</td>
+                        <td>${pay.paymentDate }</td>
                     </tr>
+                  </c:forEach>
                 </table>
             </div>
         </div>

@@ -49,6 +49,8 @@
 		<result property="userEmail" column="USER_EMAIL"/>	
 		<result property="userMsg" column="USER_MSG"/>	
 		<result property="paymentDate" column="PAYMENT_DATE"/>	
+		<result property="goodsName" column="GOODS_NAME"/>	
+		<result property="imgPath" column="IMG_PATH"/>			
 	</resultMap>
 	<resultMap type="Cart" id="cartResultMap">
 		<result property="goodsName" column="GOODS_NAME"/>
@@ -62,8 +64,16 @@
 		SELECT COUNT(*) FROM GOODS
 	</select>
 	
+	<select id="selectHistoryCount" resultType="_int">
+		SELECT COUNT(*) FROM GOODS_PAYMENT
+	</select>
+	
 	<select id="selectAllList" resultMap="goodsResultMap">
 		SELECT * FROM GOODS ORDER BY GOODS_NO DESC
+	</select>
+	
+	<select id="selectGoodsHistory" resultMap="paymentResultMap">
+		SELECT * FROM GOODS_PAYMENT ORDER BY PAYMENT_DATE DESC
 	</select>
 	
 	<select id="selectFileList" resultMap="fileResultMap">
@@ -93,7 +103,7 @@
 	</select>
 	
 	<insert id="insertPayInfo" parameterType="GoodsPayment">
-		INSERT INTO GOODS_PAYMENT VALUES(#{goodsNo},#{goodsAmount},#{goodsPrice},#{goodsDelivery},#{userId},#{userName},#{userAddr},#{userPhone},#{userEmail},#{userMsg},DEFAULT)
+		INSERT INTO GOODS_PAYMENT VALUES(#{goodsNo},#{goodsAmount},#{goodsPrice},#{goodsDelivery},#{userId},#{userName},#{userAddr},#{userPhone},#{userEmail},#{userMsg},DEFAULT,#{goodsName},#{imgPath})
 	</insert>
 	
 	<insert id="insertGoods" parameterType="Goods">
