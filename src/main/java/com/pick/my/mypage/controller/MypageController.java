@@ -17,10 +17,6 @@ public class MypageController {
 		return "myPage/mypageModify";
 	}
 	
-	@RequestMapping(value="historyGoods.pick", method = RequestMethod.GET)
-	public String historyGoods() {
-		return "myPage/historyGoods";
-	}
 	
 	@RequestMapping(value="historySupport.pick", method = RequestMethod.GET)
 	public String historySupport() {
@@ -37,10 +33,7 @@ public class MypageController {
 		return "myPage/postSupport";
 	}
 	
-	@RequestMapping(value="mypageCart.pick", method = RequestMethod.GET)
-	public String mypageCart() {
-		return "myPage/mypageCart";
-	}
+
 
 }
 

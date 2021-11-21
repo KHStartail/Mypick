@@ -1,6 +1,7 @@
 package com.pick.my.goods.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.pick.my.common.PageInfo;
 import com.pick.my.goods.domain.Cart;
 import com.pick.my.goods.domain.Goods;
 import com.pick.my.goods.domain.GoodsFile;
+import com.pick.my.goods.domain.GoodsPageInfo;
 import com.pick.my.goods.domain.GoodsPayment;
 import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
@@ -29,7 +31,7 @@ public class GoodsServiceImpl implements GoodsService{
 	}
 
 	@Override
-	public List<Goods> printAll(PageInfo pi) {
+	public List<Goods> printAll(GoodsPageInfo pi) {
 		List<Goods> gList = store.selectAll(pi);
 		
 		return gList;
@@ -169,17 +171,45 @@ public class GoodsServiceImpl implements GoodsService{
 	}
 
 	@Override
-	public int getMypageGoodsCount() {
-		int totalCount = store.selectMypageGoodsCount();
+	public int getMypageGoodsCount(String userId) {
+		int totalCount = store.selectMypageGoodsCount(userId);
 		
 		return totalCount;
 	}
 
 	@Override
-	public List<GoodsPayment> printGoodsHistory(PageInfo pi) {
-		List<GoodsPayment> pList = store.selectGoodsHistory(pi);
+	public List<GoodsPayment> printGoodsHistory(Map<String, Object> map) {
+		List<GoodsPayment> pList = store.selectGoodsHistory(map);
 		
 		return pList;
+	}
+
+	@Override
+	public List<Cart> printCartList(String userId) {
+		List<Cart> cList = store.selectCartList(userId);
+		
+		return cList;
+	}
+
+	@Override
+	public int getListCount(Search search) {
+		int totalCount = store.getListCount(search);
+		
+		return totalCount;
+	}
+
+	@Override
+	public int deleteCart(String cartNo) {
+		int result = store.deleteCart(cartNo);
+		
+		return result;
+	}
+
+	@Override
+	public List<Cart> printCartPayment(String cartNo) {
+		List<Cart> cList = store.selectCartPayment(cartNo);
+		
+		return cList;
 	}
 
 

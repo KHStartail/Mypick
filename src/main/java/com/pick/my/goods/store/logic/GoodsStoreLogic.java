@@ -1,6 +1,7 @@
 package com.pick.my.goods.store.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,6 +12,7 @@ import com.pick.my.common.PageInfo;
 import com.pick.my.goods.domain.Cart;
 import com.pick.my.goods.domain.Goods;
 import com.pick.my.goods.domain.GoodsFile;
+import com.pick.my.goods.domain.GoodsPageInfo;
 import com.pick.my.goods.domain.GoodsPayment;
 import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
@@ -30,7 +32,7 @@ public class GoodsStoreLogic implements GoodsStore{
 	}
 
 	@Override
-	public List<Goods> selectAll(PageInfo pi) {
+	public List<Goods> selectAll(GoodsPageInfo pi) {
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		List<Goods> gList = sqlSession.selectList("goodsMapper.selectAllList", pi, rowBounds);
@@ -172,19 +174,49 @@ public class GoodsStoreLogic implements GoodsStore{
 	}
 
 	@Override
-	public int selectMypageGoodsCount() {
-		int totalCount = sqlSession.selectOne("goodsMapper.selectHistoryCount");
+	public int selectMypageGoodsCount(String userId) {
+		int totalCount = sqlSession.selectOne("goodsMapper.selectHistoryCount",userId);
 		
 		return totalCount;
 	}
 
 	@Override
-	public List<GoodsPayment> selectGoodsHistory(PageInfo pi) {
+	public List<GoodsPayment> selectGoodsHistory(Map<String, Object> map) {
+		GoodsPageInfo pi = (GoodsPageInfo)map.get("pi");
+		
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		List<GoodsPayment> pList = sqlSession.selectList("goodsMapper.selectGoodsHistory",pi,rowBounds);
+		List<GoodsPayment> pList = sqlSession.selectList("goodsMapper.selectGoodsHistory",map,rowBounds);
 		
 		return pList;
+	}
+
+	@Override
+	public List<Cart> selectCartList(String userId) {
+		List<Cart> cList = sqlSession.selectList("goodsMapper.selectCartList",userId);
+		
+		return cList;
+	}
+
+	@Override
+	public int getListCount(Search search) {
+		int totalCount = sqlSession.selectOne("goodsMapper.selectSearchListCount",search);
+		
+		return totalCount;
+	}
+
+	@Override
+	public int deleteCart(String cartNo) {
+		int result = sqlSession.delete("goodsMapper.deleteCart",cartNo);
+		
+		return result;
+	}
+
+	@Override
+	public List<Cart> selectCartPayment(String cartNo) {
+		List<Cart> cList = sqlSession.selectList("goodsMapper.selectCartPayment",cartNo);
+		
+		return cList;
 	}
 
 

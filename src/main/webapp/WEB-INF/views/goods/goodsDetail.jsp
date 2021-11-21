@@ -114,7 +114,7 @@
 						            <span>장바구니에 담으시겠습니까?</span>
 						        </div>
 						        <div class="alert-btn1">
-						            <button type="button" onclick="goCart(this,${goods.goodsNo},'${goods.goodsName }',${goods.goodsPrice })"><a id="cart-ok" href="">OK</a></button>
+						            <button type="button" onclick="goCart(this,${goods.goodsNo},'${goods.goodsName }',${goods.goodsPrice },'${goods.imgPath }','${goods.groupName }')"><a id="cart-ok" href="">OK</a></button>
 						            <button type="button" class="cart-close"><a href="#"id="cart-no">Cancel</a></button>
 					            </div> 
 			                    <div class="alert-line2"></div>
@@ -660,7 +660,7 @@
 		console.log(amount);
 	}
 	
-	function goCart(obj,goodsNo,goodsName, goodsPrice){
+	function goCart(obj,goodsNo,goodsName, goodsPrice,imgPath, groupName){
 		var goodsAmount = $("#amount").val();
 		$.ajax({
 			url : "cartAdd.pick",
@@ -669,7 +669,9 @@
 				"goodsNo" : goodsNo,
 				"goodsName" : goodsName,
 				"goodsPrice" : goodsPrice,
-				"goodsAmount" : goodsAmount
+				"goodsAmount" : goodsAmount,
+				"imgPath" : imgPath,
+				"groupName" : groupName
 			},
 			success : function(data){
 				if(data == "success"){

@@ -51,6 +51,7 @@
 		<result property="paymentDate" column="PAYMENT_DATE"/>	
 		<result property="goodsName" column="GOODS_NAME"/>	
 		<result property="imgPath" column="IMG_PATH"/>			
+		<result property="groupName" column="GROUP_NAME"/>			
 	</resultMap>
 	<resultMap type="Cart" id="cartResultMap">
 		<result property="goodsName" column="GOODS_NAME"/>
@@ -58,6 +59,9 @@
 		<result property="goodsAmount" column="GOODS_AMOUNT"/>
 		<result property="goodsNo" column="GOODS_NO"/>
 		<result property="userId" column="USER_ID"/>
+		<result property="imgPath" column="IMG_PATH"/>
+		<result property="groupName" column="GROUP_NAME"/>
+		<result property="cartNo" column="CART_NO"/>
 	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
@@ -65,7 +69,25 @@
 	</select>
 	
 	<select id="selectHistoryCount" resultType="_int">
-		SELECT COUNT(*) FROM GOODS_PAYMENT
+		SELECT COUNT(*) FROM GOODS_PAYMENT WHERE USER_ID = #{userId}
+	</select>
+	
+	<select id="selectSearchListCount" resultType="_int">
+		SELECT COUNT(*) FROM GOODS 
+		<if test="searchCondition.toString() == 'all'">
+			WHERE GOODS_NAME LIKE '%' || #{searchValue} || '%'
+			OR IDOL_NAME LIKE '%' || #{searchValue} || '%'
+			OR GROUP_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'goods'">
+			WHERE GOODS_NAME LIKE '%' || #{searchValue} || '%' 
+		</if>
+		<if test="searchCondition.toString() == 'member'">
+			WHERE IDOL_NAME LIKE '%' || #{searchValue} || '%' 
+		</if>
+		<if test="searchCondition.toString() == 'group'">
+			WHERE GROUP_NAME LIKE '%' || #{searchValue} || '%' 
+		</if>
 	</select>
 	
 	<select id="selectAllList" resultMap="goodsResultMap">
@@ -73,7 +95,11 @@
 	</select>
 	
 	<select id="selectGoodsHistory" resultMap="paymentResultMap">
-		SELECT * FROM GOODS_PAYMENT ORDER BY PAYMENT_DATE DESC
+		SELECT * FROM GOODS_PAYMENT WHERE USER_ID = #{userId} ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="selectCartList" resultMap="cartResultMap">
+		SELECT * FROM CART WHERE USER_ID = #{userId}
 	</select>
 	
 	<select id="selectFileList" resultMap="fileResultMap">
@@ -103,7 +129,7 @@
 	</select>
 	
 	<insert id="insertPayInfo" parameterType="GoodsPayment">
-		INSERT INTO GOODS_PAYMENT VALUES(#{goodsNo},#{goodsAmount},#{goodsPrice},#{goodsDelivery},#{userId},#{userName},#{userAddr},#{userPhone},#{userEmail},#{userMsg},DEFAULT,#{goodsName},#{imgPath})
+		INSERT INTO GOODS_PAYMENT VALUES(#{goodsNo},#{goodsAmount},#{goodsPrice},DEFAULT,#{userId},#{userName},#{userAddr},#{userPhone},#{userEmail},#{userMsg},DEFAULT,#{goodsName},#{imgPath},#{groupName})
 	</insert>
 	
 	<insert id="insertGoods" parameterType="Goods">
@@ -115,8 +141,12 @@
 	</insert>
 	
 	<insert id="insertCart" parameterType="Cart">
-		INSERT INTO CART VALUES(#{goodsName},#{goodsPrice},#{goodsAmount},#{goodsNo},#{userId})
+		INSERT INTO CART VALUES(#{goodsName},#{goodsPrice},#{goodsAmount},#{goodsNo},#{userId},#{imgPath},#{groupName},SEQ_CART.NEXTVAL)
 	</insert>
+	
+	<delete id="deleteCart">
+		DELETE FROM CART WHERE CART_NO = #{cartNo}
+	</delete>
 	
 	<delete id="deleteGoods">
 		DELETE FROM GOODS WHERE GOODS_NO = #{goodsNo}
@@ -141,6 +171,10 @@
 	
 	<select id="selectSlideGoods" resultMap="goodsResultMap">
 		SELECT * FROM GOODS WHERE GROUP_NAME = #{groupName}
+	</select>
+	
+	<select id="selectCartPayment" resultMap="cartResultMap">
+		SELECT * FROM CART WHERE CART_NO = #{cartNo}
 	</select>
 	
 	<delete id="deleteReview">

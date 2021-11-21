@@ -36,6 +36,7 @@
                 <span>굿즈 결제</span>
             </div>
             <div class="goods-info">
+            <form name="frm">
                 <table class="goods-table">
                     <tr>
                         <th>상품정보</th>
@@ -43,24 +44,29 @@
                         <th>배송비</th>
                         <th>주문금액</th>
                     </tr>
-                    <tr >
+                  <c:forEach items="cList" var="cart">
+                    <tr  style="border-bottom: 1px solid rgba(128, 128, 128, 0.548);">
+                        <td><input type="checkbox" name="chkbox" onClick="itemSum(this.form);" class="choiceOne" value="${cart.cartNo }" data-price="${cart.goodsPrice*cart.goodsAmount }"></td>
                         <td style="text-align: left;">
-                            <img src="resources/goodsFiles/${goods.imgPath }" alt="" style="width: 250px;">
-                            <span style="color:black; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;${goods.goodsName }</span>
+                            <img src="resources/goodsFiles/${cart.imgPath }" alt="" style="width: 200px; height: 200px;">
+                            &nbsp;&nbsp;${cart.goodsName }
                         </td>
-                        <td>${goods.goodsAmount }</td>
-                        <td>3000 ₩</td>
-                        <td>${goods.goodsPrice * goods.goodsAmount } ₩</td>
+                        <td>${cart.goodsAmount }</td>
+                        <td>3000</td>
+                        <td>${cart.goodsPrice * cart.goodsAmount }</td>
                     </tr>
+                   </c:forEach>
                     <tr>
                         <td colspan="3">
-                            상품합계 ₩${goods.goodsPrice * goods.goodsAmount } &nbsp;&nbsp;➕&nbsp;&nbsp;배송비 ₩3000
+                            상품합계&nbsp; ₩<input type="text" name="total" class="total-input" readonly> &nbsp;&nbsp;➕&nbsp;&nbsp;배송비 ₩3000
                         </td>
+                        <td></td>
                         <td>
-                            |&nbsp;&nbsp;총 합계 <span>₩ ${goods.goodsPrice * goods.goodsAmount +3000}</span>
+                            |&nbsp;&nbsp;총 합계 <span>₩<input type="text" name="total2" class="total-input" style="color: red;" readonly></span>
                         </td>
                     </tr>
                 </table>
+             </form>
             </div>
         </section>
 <!-- 결제-----------배송정보---------- -->
@@ -186,7 +192,7 @@
 	});
 	
 	
-	function payment(){
+/* 	function payment(){
 		var goodsName = '<c:out value="${goods.goodsName}"/>';
 		var goodsTotalPrice = '<c:out value="${goods.goodsPrice * goods.goodsAmount + 3000}"/>';
 		var userName = $("#userName").val();
@@ -215,11 +221,11 @@
 		    buyer_postcode : userAddr1
 		}, function(rsp) {
 		    if ( rsp.success ) {
-/* 		        var msg = '결제가 완료되었습니다.';
+ 		        var msg = '결제가 완료되었습니다.';
 	 	        msg += '고유ID : ' + rsp.imp_uid;
 		        msg += '상점 거래ID : ' + rsp.merchant_uid;
 		        msg += '결제 금액 : ' + rsp.paid_amount;
-		        msg += '카드 승인번호 : ' + rsp.apply_num; */
+		        msg += '카드 승인번호 : ' + rsp.apply_num; 
 		        form.submit();
 	
 		    } else {
@@ -228,7 +234,7 @@
 		    }
 		    alert(msg);
 		});
-	};
+	}; */
 	
 	
 	

@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,15 +30,16 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.pick.my.common.PageInfo;
 import com.pick.my.community.domain.Community_File;
 import com.pick.my.goods.domain.Cart;
 import com.pick.my.goods.domain.Goods;
 import com.pick.my.goods.domain.GoodsFile;
+import com.pick.my.goods.domain.GoodsPageInfo;
 import com.pick.my.goods.domain.GoodsPayment;
 import com.pick.my.goods.domain.Review;
 import com.pick.my.goods.domain.Search;
 import com.pick.my.goods.domain.goodsPagination;
+import com.pick.my.goods.domain.historyPagination;
 import com.pick.my.goods.service.GoodsService;
 import com.pick.my.member.domain.Member;
 
@@ -56,7 +60,7 @@ public class GoodsController {
 		
 		int currentPage = (page != null)? page : 1;
 		int totalCount = service.getListCount();
-		PageInfo pi = goodsPagination.getPageInfo(currentPage, totalCount);
+		GoodsPageInfo pi = goodsPagination.getPageInfo(currentPage, totalCount);
 		List<Goods> gList = service.printAll(pi);
 		if(!gList.isEmpty()) {
 			mv.addObject("loginUser",loginUser);
@@ -339,11 +343,21 @@ public class GoodsController {
 	//검색
 	@RequestMapping(value="goodsSearch.pick", method = RequestMethod.GET)
 	public String goodsSearchList(@ModelAttribute Search search,
-			Model model) {
+			Model model,
+			@RequestParam(value="page", required = false)Integer page) {
+		
+		int currentPage = (page != null)? page : 1;
+		int totalCount = service.getListCount(search);
+		GoodsPageInfo pi = goodsPagination.getPageInfo(currentPage, totalCount);
+		pi.setGoodsName(search.getSearchValue());
+		pi.setGroupName(search.getSearchValue());
+		pi.setIdolName(search.getSearchValue());
+		
 		List<Goods> searchList = service.printSearchAll(search);
 		if(!searchList.isEmpty()) {
 			model.addAttribute("gList",searchList);
 			model.addAttribute("search", search);
+			model.addAttribute("pi",pi);
 			return "goods/goodsList";
 		}else {
 			model.addAttribute("msg", "검색 실패");
@@ -540,13 +554,18 @@ public class GoodsController {
 			@RequestParam("goodsName")String goodsName,
 			@RequestParam("goodsPrice")int goodsPrice,
 			@RequestParam("goodsAmount")int goodsAmount,
+			@RequestParam("imgPath") String imgPath,
+			@RequestParam("groupName")String groupName,
 			HttpSession session) {
+		
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		cart.setUserId(loginUser.getUserId());
 		cart.setGoodsNo(goodsNo);
 		cart.setGoodsName(goodsName);
 		cart.setGoodsPrice(goodsPrice);
+		cart.setImgPath(imgPath);
+		cart.setGroupName(groupName);
 		System.out.println(cart.toString());
 		String answer = "success";
 		
@@ -560,28 +579,135 @@ public class GoodsController {
 		return answer;
 		
 	}
+
 	
 	//마이페이지 결제내역
-	@RequestMapping(value="showHistoryGoods", method = RequestMethod.GET)
+	
+	@RequestMapping(value="showHistoryGoods.pick", method = RequestMethod.GET)
+	public String historyGoods() {
+		return "myPage/historyGoods";
+	}
+	
+	@RequestMapping(value="historyGoods.pick", method = RequestMethod.GET)
 	public ModelAndView showGoodsHistory(ModelAndView mv,
 			@RequestParam(value="page",required = false)Integer page,
 			HttpSession session) {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
+		GoodsPayment pay = new GoodsPayment();
+		pay.setUserId(loginUser.getUserId());
 		
 		int currentPage = (page != null)? page : 1;
-		int totalCount = service.getMypageGoodsCount();
-		PageInfo pi = goodsPagination.getPageInfo(currentPage, totalCount);
-		List<GoodsPayment> pList = service.printGoodsHistory(pi);
+		int totalCount = service.getMypageGoodsCount(pay.getUserId());
+		GoodsPageInfo pi = historyPagination.getPageInfo(currentPage, totalCount);
+		Map<String,Object>map = new HashMap<String,Object>();
+		map.put("userId", pay.getUserId());
+		System.out.println(pay.getUserId());
+		map.put("pi",pi);
+		List<GoodsPayment> pList = service.printGoodsHistory(map);
 		if(!pList.isEmpty()) {
 			mv.addObject("loginUser",loginUser);
 			mv.addObject("pList",pList);
 			mv.addObject("pi",pi);
 			mv.setViewName("myPage/historyGoods");
+		}else {
+			mv.setViewName("myPage/historyGoods");
 		}
 		
 		return mv;
 	}
+	
+	//마이페이지 장바구니
+	@RequestMapping(value="showMypageCart.pick", method = RequestMethod.GET)
+	public String mypageCart() {
+		return "myPage/mypageCart";
+	}
+	
+	@RequestMapping(value="mypageCart.pick", method = RequestMethod.GET)	
+	public ModelAndView showMyPageCart(ModelAndView mv,
+			HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		Cart cart = new Cart();
+		cart.setUserId(loginUser.getUserId());
+		
+		List<Cart> cList = service.printCartList(cart.getUserId());
+		
+		if(!cList.isEmpty()) {
+			mv.addObject("loginUser",loginUser);
+			mv.addObject("cList",cList);
+			mv.setViewName("myPage/mypageCart");
+		}else {
+			mv.setViewName("myPage/mypageCart");
+		}
+		return mv;
+	}
+	
+	
+	//장바구니 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteCart.pick", method=RequestMethod.POST)
+	public String deleteCart(Model model,
+			HttpServletRequest request,
+			@RequestParam(value="choiceOne")List<String>choice) {
+
+		int result = 0;
+		for(int i =0; i<choice.size(); i++) {
+			result = service.deleteCart(choice.get(i));
+			System.out.println(result);
+		}
+
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+
+	//카트 결제창 출력
+	@RequestMapping(value="CartPaymentView.pick", method=RequestMethod.GET)
+	public String cartPaymentView() {
+		
+		return "goods/mypageCartPayment";
+	}
+	
+	//장바구니 결제
+	@ResponseBody
+	@RequestMapping(value="paymentCart.pick", method = RequestMethod.GET)
+	public String paymentCart(Model model,
+			HttpServletRequest request,
+			@RequestParam(value="choiceOne")List<String>choice) {
+		
+		
+		List<Cart> cList = new ArrayList<Cart>();
+		for(int i =0; i<choice.size(); i++) {
+			cList.addAll(service.printCartPayment(choice.get(i)));
+		}
+		System.out.println(cList.toString());
+		
+		if(!cList.isEmpty()) {
+			model.addAttribute("cList",cList);
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

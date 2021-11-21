@@ -104,6 +104,7 @@
             </div>
         </div>
         <br><br><br>
+                    ${pi}
        <div align="center" class="shop__last__option">         
          <div>
             <c:url var="before" value="goodsList.pick">
@@ -117,6 +118,7 @@
             <c:if test="${pi.currentPage > 1 }">
                <a href="${before }">&nbsp;<</a>
             </c:if>
+
             <c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
                 <c:url var="pagination" value="goodsList.pick">
                   <c:param name="page" value="${p }"></c:param>

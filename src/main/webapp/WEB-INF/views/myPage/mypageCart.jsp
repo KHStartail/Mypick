@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
            <!-- Google Font -->
            <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
            rel="stylesheet">
@@ -48,40 +49,133 @@
                 <span>장바구니</span>
             </div>
             <div class="goods-info">
+            <form name="frm">
                 <table class="goods-table">
                     <tr>
+                    	<th>
+                    		<input type="checkbox" id="choiceAll">
+                    		선택
+                    	</th>
                         <th>상품정보</th>
                         <th>수량</th>
                         <th>배송비</th>
                         <th>주문금액</th>
                     </tr>
-                    <tr >
+                    <c:forEach items="${cList }" var="cart">
+                    <tr  style="border-bottom: 1px solid rgba(128, 128, 128, 0.548);">
+                        <td><input type="checkbox" name="chkbox" onClick="itemSum(this.form);" class="choiceOne" value="${cart.cartNo }" data-price="${cart.goodsPrice*cart.goodsAmount }"></td>
                         <td style="text-align: left;">
-                            <img src="assets/images/air.png" alt="" style="width: 250px;">
-                            누군지 모르는 아이돌의 Airpot
+                            <img src="resources/goodsFiles/${cart.imgPath }" alt="" style="width: 200px; height: 200px;">
+                            &nbsp;&nbsp;${cart.goodsName }
                         </td>
-                        <td>1</td>
+                        <td>${cart.goodsAmount }</td>
                         <td>3000</td>
-                        <td>33000</td>
+                        <td>${cart.goodsPrice * cart.goodsAmount }</td>
                     </tr>
+                   </c:forEach>
                     <tr>
                         <td colspan="3">
-                            상품합계 ₩30000 &nbsp;&nbsp;➕&nbsp;&nbsp;배송비 ₩3000
+                            상품합계&nbsp; ₩<input type="text" name="total" class="total-input" readonly> &nbsp;&nbsp;➕&nbsp;&nbsp;배송비 ₩3000
                         </td>
+                        <td></td>
                         <td>
-                            |&nbsp;&nbsp;총 합계 <span>₩ 33000</span>
+                            |&nbsp;&nbsp;총 합계 <span>₩<input type="text" name="total2" class="total-input" style="color: red;" readonly></span>
                         </td>
                     </tr>
                 </table>
+                </form>
             </div>
         </div>
         <div id="btn-div">
-            <button type="button">삭제</button>
-            <button type="button">결제하기</button>
+            <button type="button" id="delete-btn">삭제</button>
+            <button type="button" id="pay-btn">결제하기</button>
         </div>
      </div>
     </section>
     <!-- ------------------------------------ -->
 <jsp:include page="/footer.jsp"></jsp:include>
+<script>
+	$(function(){
+		$("#choiceAll").click(function(){
+			var chk = $(this).is(":checked");
+			if(chk){
+				$(".choiceOne").prop('checked', true);
+			}else{
+				$(".choiceOne").prop('checked', false);
+			}
+		})
+	});
+	
+	function itemSum(frm){
+		var sum=0;
+		var count = frm.chkbox.length;
+		for(var i = 0; i<count; i++){
+			if(frm.chkbox[i].checked == true){
+				sum += parseInt(frm.chkbox[i].dataset.price);
+			}
+		}
+		console.log(sum);
+		frm.total.value=sum;
+		frm.total2.value=sum+3000;
+	}
+	
+	$(".choiceOne").click(function(){
+		$("#choiceAll").prop("checked",false);
+	});
+	
+	$("#pay-btn").click(function(){
+		var confirm_val = confirm("결제하시겠습니까?");
+		
+		if(confirm_val){
+			var checkArr = new Array();
+			$("input[class='choiceOne']:checked").each(function(){
+				checkArr.push(this.value);
+			});
+			console.log(checkArr.toString());
+			$.ajax({
+				url : "paymentCart.pick",
+				type : "get",
+				traditional : true,
+				data : { choiceOne : checkArr },
+				success : function(data){
+					alert("성공");
+/* 					location.href = "CartPaymentView.pick";		 */			
+				},
+				error : function(){
+					alert("실패");
+				}
+			});
+		}
+	});
+	
+	$("#delete-btn").click(function(){
+		var confirm_val = confirm("삭제하시겠습니까?");
+		
+		if(confirm_val){
+			var checkArr = new Array();
+			$("input[class='choiceOne']:checked").each(function(){
+				checkArr.push(this.value);
+			});
+			console.log(checkArr.toString());
+			$.ajax({
+				url : "deleteCart.pick",
+				type : "post",
+				traditional : true,
+				data : { choiceOne : checkArr },
+				success : function(data){
+					location.href = "mypageCart.pick";
+				},
+				error: function(){
+					alert("실패");
+				}
+			});
+		}
+	});
+	
+	
+	
+	
+</script>
+
 </body>
 </html>

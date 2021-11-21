@@ -21,6 +21,7 @@ public class GoodsPayment {
 	private Date paymentDate;
 	private String goodsName;
 	private String imgPath;
+	private String groupName;
 	
 	public GoodsPayment() {}
 
@@ -130,12 +131,23 @@ public class GoodsPayment {
 		this.imgPath = imgPath;
 	}
 
+	
+	
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
 	@Override
 	public String toString() {
 		return "GoodsPayment [goodsNo=" + goodsNo + ", goodsAmount=" + goodsAmount + ", goodsPrice=" + goodsPrice
 				+ ", goodsDelivery=" + goodsDelivery + ", userId=" + userId + ", userName=" + userName + ", userAddr="
 				+ userAddr + ", userPhone=" + userPhone + ", userEmail=" + userEmail + ", userMsg=" + userMsg
-				+ ", paymentDate=" + paymentDate + ", goodsName=" + goodsName + ", imgPath=" + imgPath + "]";
+				+ ", paymentDate=" + paymentDate + ", goodsName=" + goodsName + ", imgPath=" + imgPath + ", groupName="
+				+ groupName + "]";
 	}
 	
 	
