@@ -28,7 +28,7 @@
             <div id="profile-img">
                 <img src="assets/images/profile.png" alt="">
             </div>
-            <p>nickName</p>
+            <p>${loginUser.userNickName }</p>
         </div>
         <div id="sideMenu-div">
             <ul id="main-ul">

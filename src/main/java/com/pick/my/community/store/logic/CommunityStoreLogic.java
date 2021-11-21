@@ -24,8 +24,8 @@ public class CommunityStoreLogic implements CommunityStore{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int getListcount() {
-		int count = sqlSession.selectOne("CommunityPostMapper.selectListCount");
+	public int getListcount(String groupName) {
+		int count = sqlSession.selectOne("CommunityPostMapper.selectListCount",groupName);
 		return count;
 	}
 
@@ -96,11 +96,10 @@ public class CommunityStoreLogic implements CommunityStore{
 	}
 
 	@Override
-	public List<Community_Post> selectAllPost(Map<String, Object> map) {
-		PageInfo pi = (PageInfo) map.get("pi");
+	public List<Community_Post> selectAllPost(PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1 ) * pi.getCommunityLimit();
 		RowBounds rowBounds = new RowBounds(offset,pi.getCommunityLimit());
-		List<Community_Post> cList = sqlSession.selectList("CommunityPostMapper.selectAllList",map,rowBounds);
+		List<Community_Post> cList = sqlSession.selectList("CommunityPostMapper.selectAllList",pi,rowBounds);
 		return cList;
 	}
 
@@ -219,6 +218,22 @@ public class CommunityStoreLogic implements CommunityStore{
 	public Community_Main selectMainImg(Community_Main setmain) {
 		Community_Main main = sqlSession.selectOne("CommunityPostMapper.selectMainImg",setmain);
 		return main;
+	}
+
+	@Override
+	public List<Community_Post> selectMyPost(Map<String, Object> map) {
+		PageInfo pi = (PageInfo) map.get("pi");
+		int offset = (pi.getCurrentPage() -1 ) * pi.getCommunityLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getCommunityLimit());
+		System.out.println(rowBounds.toString());
+		List<Community_Post> pList = sqlSession.selectList("CommunityPostMapper.selectMyPost",map,rowBounds);
+		return pList;
+	}
+
+	@Override
+	public int myPageListcount(String userId) {
+		int count = sqlSession.selectOne("CommunityPostMapper.myPageListCount",userId);
+		return count;
 	}
 
 

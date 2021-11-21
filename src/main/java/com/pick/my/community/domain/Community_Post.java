@@ -10,8 +10,8 @@ public class Community_Post {
 	private String postTitle;
 	private String postContents;
 	private int viewsCount;
-	private Date createDate;
-	private Date updateDate;
+	private String createDate;
+	private String updateDate;
 	private String userNickName;
 	private String status;
 	private int heartCount;
@@ -66,19 +66,19 @@ public class Community_Post {
 		this.viewsCount = viewsCount;
 	}
 
-	public Date getCreateDate() {
+	public String getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
 
-	public Date getUpdateDate() {
+	public String getUpdateDate() {
 		return updateDate;
 	}
 
-	public void setUpdateDate(Date updateDate) {
+	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
 
@@ -113,6 +113,8 @@ public class Community_Post {
 				+ createDate + ", updateDate=" + updateDate + ", userNickName=" + userNickName + ", status=" + status
 				+ ", heartCount=" + heartCount + "]";
 	}
+
+	
 
 	
 

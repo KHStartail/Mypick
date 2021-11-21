@@ -78,12 +78,17 @@ public class MemberServiceImpl implements MemberService {
 		} catch (CoolsmsException e) {
 			System.out.println(e.getMessage());
 			System.out.println(e.getCode());
-			} 
+			}
 		}
 	@Override
 	public int modifyPwd(Member member) {
 		int result = store.modifyPwd(member);
 		return result;
+	}
+	@Override
+	public Member userchk(Member userEmail) {
+		Member chk = store.userchk(userEmail);
+		return chk;
 	}
 	}
 

@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +54,7 @@ public class CommunityController {
 	@RequestMapping(value = "upload.pick", method = RequestMethod.POST)
 	public String fileUpload(
 			@RequestParam("article_file") List<MultipartFile> multipartFile
-			, HttpServletRequest request,Community_File File,Community_Post post,HttpSession session) {
+			, HttpServletRequest request,Community_File File,Community_Post post,HttpSession session,@RequestParam("gorupName")String gorupName) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String postContents = request.getParameter("contents");
 		String postTitle = request.getParameter("postTitle");
@@ -59,6 +62,8 @@ public class CommunityController {
 		post.setPostTitle(postTitle);
 		post.setUserId(loginUser.getUserId());
 		post.setUserNickName(loginUser.getUserNickName());
+		post.setGroupName(gorupName);
+		System.out.println(post.toString());
 		int result = service.registerCoummunityPost(post);
 		Community_Post postNo = service.printCommunityPostNo(post);
 		String strResult = "{ \"result\":\"FAIL\" }";
@@ -110,19 +115,22 @@ public class CommunityController {
 		return strResult;
 	}
 	@RequestMapping(value="mainView.pick")
-	public ModelAndView mainView(ModelAndView mv, @RequestParam(value="page", required=false) Integer page,HttpSession session,@RequestParam("groupName")String groupName) {
+	public ModelAndView mainView(ModelAndView mv
+			, @RequestParam(value="page", required=false) Integer page
+			,@RequestParam("groupName")String groupName
+			, HttpServletRequest request) throws Exception {
+			HttpSession session = request.getSession();
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			Community_Main setMain = new Community_Main();
 			setMain.setGroupName(groupName);
 			Community_Main main = service.printMainImg(setMain);
-			Map<String,Object>map = new HashMap<String,Object>();
 	      int currentPage = (page != null) ? page : 1;
-	      int totalCount = service.getListcount();
+	      int totalCount = service.getListcount(setMain.getGroupName());
 	      PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-	      map.put("groupName", groupName);
-	      map.put("pi", pi);
+ 	      pi.setGroupName(groupName);
 	      if(main != null) {
-	    	  List<Community_Post> cList = service.printAllPost(map);
+	    	  List<Community_Post> cList = service.printAllPost(pi);
+	    	  System.out.println(pi.toString());
 		      if(!cList.isEmpty()) {
 		    	  mv.addObject("mainImgName",main);
 		    	  mv.addObject("groupName",groupName);
@@ -156,8 +164,8 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="WriteView.pick")
-	public String writeView() {
-		
+	public String writeView(@RequestParam("groupName")String groupName,Model model) {
+		model.addAttribute("gorupName",groupName);
 		return"community/Write";
 	}
 	@RequestMapping(value="detailView.pick")
@@ -253,35 +261,37 @@ public class CommunityController {
 		return mv;
 	}
 	@RequestMapping(value="update.pick",method=RequestMethod.GET)
-	public ModelAndView boardUpdate(@RequestParam("postNo")int postNo,ModelAndView mv,HttpServletRequest request,@ModelAttribute Community_Post communityPost,@RequestParam("title")String postTitle,@RequestParam("contents") String postContents) {
+	public ModelAndView boardUpdate(@RequestParam("postNo")int postNo,ModelAndView mv,HttpServletRequest request,@ModelAttribute Community_Post communityPost,@RequestParam("title")String postTitle,@RequestParam("contents") String postContents,@RequestParam("groupName")String groupName) throws UnsupportedEncodingException {
 		communityPost.setPostTitle(postTitle);
 		communityPost.setPostContents(postContents);
 		communityPost.setPostNo(postNo);
 		int result = service.modifyPost(communityPost);
+		String encodedParam = URLEncoder.encode(groupName, "UTF-8");
 		if(result > 0) {
-			mv.setViewName("redirect:mainView.pick");
+			mv.setViewName("redirect:mainView.pick?groupName="+encodedParam);
 		}else {
 			mv.addObject("msg","게시글 수정 실패").setViewName("common/errorPage");
 		}
 		return mv;
 }
 	
-	@RequestMapping(value="CommunityDelete.pick",method = RequestMethod.GET)
-	public String CommunityDelete(Model model,@RequestParam("postNo")int postNo,@RequestParam(value="fileName", required=false) List<String> fileRenames,HttpServletRequest request) {
+	@RequestMapping(value="communityDelete.pick",method = RequestMethod.GET)
+	public String CommunityDelete(
+			Model model
+			,@RequestParam("postNo")int postNo
+			,@RequestParam("groupName")String groupName
+			,@RequestParam(value="fileName", required=false) List<String> fileRenames
+			,HttpServletRequest request) throws UnsupportedEncodingException {
+		Community_Post post = service.printOnePost(postNo);
+		System.out.println(groupName);
+		String encodedParam = URLEncoder.encode(groupName, "UTF-8");
 		int result = service.removePost(postNo);
 		if(result > 0) {
 			if(fileRenames != null) {
 				int result2 = service.removeFile(postNo);
 				deleteFile(fileRenames,request);
-				if(result2 >0) {
-					return "redirect:mainView.pick";
-				}else {
-					return "redirect:mainView.pick";
-				}
-			}else {
-				
-				return "redirect:mainView.pick";
 			}
+			return "redirect:mainView.pick?groupName="+encodedParam; 
 		}else {
 			model.addAttribute("msg","게시글 삭제 실패");
 			return "common/errorPage";
@@ -308,6 +318,7 @@ public class CommunityController {
 		post.setUserId(loginUser.getUserId());
 		post.setUserNickName(loginUser.getUserNickName());
 		int result = service.registerCoummunityPost(post);
+		
 		if(result>0) {
 			return "redirect:mainView.pick";
 		}else {
@@ -596,6 +607,28 @@ public class CommunityController {
 			}
 		}
 		
+	    @RequestMapping(value="postCommunity.pick", method = RequestMethod.GET)
+	    public ModelAndView postCommunity(@RequestParam(value="page", required=false) Integer page,ModelAndView mv,HttpSession session,ArrayList<Community_Post> pList) {
+	    	Member loginUser = (Member)session.getAttribute("loginUser");
+	    	Community_Post post = new Community_Post();
+	    	post.setUserId(loginUser.getUserId());
+	    	  int currentPage = (page != null) ? page : 1;
+		      int totalCount = service.myPageListcount(post.getUserId());
+		      PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+		  	Map<String,Object>map = new HashMap<String,Object>();
+		  	 map.put("userId", post.getUserId());
+		  	 map.put("pi", pi);
+		      pList = (ArrayList<Community_Post>) service.printMyPost(map);
+	    	if(!pList.isEmpty()) {
+		    	  mv.addObject("pList",pList);
+		    	  mv.addObject("pi",pi);
+		    	  mv.addObject("loginUser",loginUser);
+		    	  mv.setViewName("myPage/postCommunity");
+	    	}else {
+	    		  mv.setViewName("myPage/postCommunity");
+	    	}
+	        return mv;
+	    }
 	}
 	
 

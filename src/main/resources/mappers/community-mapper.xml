@@ -126,6 +126,15 @@
 		SELECT * FROM COMMUNITY_MAIN WHERE GROUP_NAME = #{groupName}
 	</select>
 
+	<select id="selectMyPost" resultMap="postResultMap">
+		SELECT * FROM COMMUNITY_POST WHERE MEMBER_ID = #{userId} AND STATUS = 'Y'
+	</select>
+	
+	<select id="myPageListCount" resultType="_int">
+		SELECT COUNT(*) FROM
+		COMMUNITY_POST WHERE STATUS = 'Y'AND MEMBER_ID =#{userId}
+	</select>
+	
 	<insert id="uploadFile" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
 		VALUES(SEQ_FILE.NEXTVAL,#{userId},#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})

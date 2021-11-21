@@ -103,18 +103,18 @@ input_element.addEventListener("keyup", () => {
 				style="font-size: 10px; color: gray;">※첨부파일은 최대 4개까지 등록이
 				가능합니다.</span>
 			<div class="data_file_txt" id="data_file_txt" style="margin: 40px;">
-
 				<br />
 				<div id="articlefileChange"></div>
 			</div>
+			
 			<table>
 				<tr>
 					<td class="img_wrap">
 					
 					</td>
-
 				</tr>
 			</table>
+			<input type="hidden" id="groupName" value="${gorupName }" name="gorupName">
 			<br>
 		</div>
 		<br><br>
@@ -132,7 +132,7 @@ input_element.addEventListener("keyup", () => {
 			<textarea id="summernote" name="content" id="content"></textarea>
 			<br><br>
 			<input id="subBtn" type="button" value="글 작성"
-				onclick="goWrite();" style="position: relative; left: 30%" />
+				onclick="goWrite();" style="position: relative; left: 20%" />
 		</div>
 	</form>
 	<br><br>
@@ -289,7 +289,8 @@ function fileDelete(fileNum){
     	var title = $("#postTitle").val();
     	var contents = $("#summernote").val();
     	registerAction(contents)
-    	location.href='mainView.pick';
+    	var groupName = $("#groupName").val();
+    	location.href="mainView.pick?groupName="+groupName;
     	}else{
     		alert("사진의개수는 4개까지입니다.")
     	}

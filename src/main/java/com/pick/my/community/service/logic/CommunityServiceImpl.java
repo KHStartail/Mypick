@@ -21,8 +21,8 @@ public class CommunityServiceImpl implements CommunityService{
 	@Autowired
 	private CommunityStore store;
 	@Override
-	public int getListcount() {
-		int totalCount = store.getListcount();
+	public int getListcount(String groupName) {
+		int totalCount = store.getListcount(groupName);
 		return totalCount;
 	}
 
@@ -89,8 +89,8 @@ public class CommunityServiceImpl implements CommunityService{
 
 
 	@Override
-	public List<Community_Post> printAllPost(Map<String, Object> map) {
-		List<Community_Post> cList = store.selectAllPost(map);
+	public List<Community_Post> printAllPost(PageInfo pi) {
+		List<Community_Post> cList = store.selectAllPost(pi);
 		return cList;
 	}
 
@@ -213,6 +213,20 @@ public class CommunityServiceImpl implements CommunityService{
 		Community_Main main = store.selectMainImg(groupName);
 		return main;
 	}
+
+	@Override
+	public List<Community_Post> printMyPost(Map<String, Object> map) {
+		List<Community_Post> pList = store.selectMyPost(map);
+		return pList;
+	}
+
+	@Override
+	public int myPageListcount(String userId) {
+		int totalCount = store.myPageListcount(userId);
+		return totalCount;
+	}
+
+
 
 
 }

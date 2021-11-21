@@ -1,13 +1,8 @@
 package com.pick.my.mypage.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.pick.my.community.domain.Community_Post;
 
 @Controller
 public class MypageController {
@@ -32,13 +27,6 @@ public class MypageController {
         return "myPage/historySupport";
     }
 
-    @RequestMapping(value="postCommunity.pick", method = RequestMethod.GET)
-    public ModelAndView postCommunity(ModelAndView mv,HttpSession session,Community_Post post) {
-    	
-    	
-    	
-        return mv;
-    }
 
     @RequestMapping(value="postSupport.pick", method = RequestMethod.GET)
     public String postSupport() {

@@ -12,4 +12,5 @@ public interface MemberService {
 	public Member searchPwd(Member member);
 	public void certifiedPhoneNumber(String userPhoneNumber,int randomNumber);
 	public int modifyPwd(Member member);
+	public Member userchk(Member member);
 }

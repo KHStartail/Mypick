@@ -65,6 +65,9 @@
 </style>
 <title>커뮤니티메인페이지</title>
 <jsp:include page="/header.jsp"></jsp:include>
+<style>
+     @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+</style>
 </head>
 <body>
 	<form name="dataForm" id="dataForm">
@@ -72,22 +75,14 @@
 			<img id="main_Img" alt="아이돌배너" src="/resources/mainImgs/${mainImgName.mainImgName }">
 			<input id="input_img" type="file" size="50" name="reloadFile"
 				style="display: none;">
+	<input type="hidden" id="groupName" value="${groupName}">
 		</div>
 	</form>
-	<input type="hidden" id="groupName" value="${groupName}">
 	
 	
 	<div class="box"
 		style="background: #BDBDBD; position: relative; left: 48%; bottom: 80px">
 		<img class="profile" src="/resources/idolImg/ban.png">
-	</div>
-	<div id="nav">
-		<div id="nav1">
-			<a href="#">캘린더</a>
-		</div>
-		<div id="nav2">
-			<a href="index.jsp">메인으로</a>
-		</div>
 	</div>
 	<table class="table table-hover"
 		style="width: 60%; position: relative; left: 20%">
@@ -108,7 +103,7 @@
 		</c:if>
 		<c:if test="${not empty cList }">
 			<c:forEach items="${cList }" var="Post">
-				<tbody>
+				<tbody style="font-family: 'Jeju Gothic', sans-serif;">
 					<tr>
 						<td>${Post.postNo }</td>
 						<c:url var="cDetail" value="detailView.pick">
@@ -125,11 +120,10 @@
 		</tbody>
 	</table>
 	<hr />
-
 	<nav aria-label="Page navigation example"
 		style="position: relative; left: 20%; width: 100px; float: left">
 		<ul class="pagination" style="width: 100px;">
-			<c:url var="before" value="mainView.pick">
+			<c:url var="before" value="mainView.pick?groupName=${groupName}">
 				<c:param name="page" value="${pi.currentPage - 1 }"></c:param>
 			</c:url>
 			<c:if test="${pi.currentPage <= 1 }">
@@ -139,7 +133,7 @@
 				<li class="page-item"><a class="page-link" href="${before }"><</a></li>
 			</c:if>
 			<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endnavi }">
-				<c:url var="pagination" value="mainView.pick">
+				<c:url var="pagination" value="mainView.pick?groupName=${groupName}">
 					<c:param name="page" value="${p }"></c:param>
 				</c:url>
 				<c:if test="${p eq pi.currentPage }">
@@ -150,7 +144,7 @@
 						href="${pagination }">${p }</a></li>
 				</c:if>
 			</c:forEach>
-			<c:url var="after" value="mainView.pick">
+			<c:url var="after" value="mainView.pick?groupName=${groupName}">
 				<c:param name="page" value="${pi.currentPage + 1 }"></c:param>
 			</c:url>
 			<c:if test="${pi.currentPage >= pi.maxPage }">
@@ -180,7 +174,7 @@
 		</div>
 	</div>
 	<c:if test="${not empty loginUser }">
-		<a class="btn btn-primary" href="WriteView.pick"
+		<a class="btn btn-primary" href="WriteView.pick?groupName=${groupName}"
 			style="margin-left: 70%;">글쓰기</a>
 	</c:if>
 	<c:if test="${empty loginUser }">
@@ -208,12 +202,6 @@ $(document).ready(function() {
     $("#input_img").on("change", handleImgFileSelect);
 }); 
 
-   if(self.name != 'reload'){
-	   self.name= 'reload';
-	   self.location.reload(true);
-   }else{
-	   self.name='';
-   }
 	toastr.options = {
 			  "closeButton": false,
 			  "debug": false,
