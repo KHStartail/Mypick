@@ -44,6 +44,10 @@
 	<select id="selectUserOne" resultMap="memberResultMap">
 		SELECT * FROM MEMBER WHERE USER_NO = #{userNo}
 	</select>
+	<select id="kakaoChk" resultMap="memberResultMap">
+		SELECT * FROM MEMBER WHERE USER_EMAIL =  #{userEmail}
+	</select>
+	
 	
  	 </mapper>
   

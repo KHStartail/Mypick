@@ -28,21 +28,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.json.simple.JSONObject;
 
-import net.nurigo.java_sdk.Coolsms;
-import net.nurigo.java_sdk.api.Message;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.pick.my.member.domain.Member;
 import com.pick.my.member.service.MemberService;
 
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 
 @Controller
 public class MemberController {
 	
+	private kakao_restapi kakao = new kakao_restapi();
 	@Autowired
 	private MemberService service;
 
@@ -54,6 +52,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="/login.pick", method=RequestMethod.POST)
 	public String memberLogin(HttpServletRequest request, HttpServletResponse response) {
+		
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		Member memberOne = new Member();
@@ -358,6 +357,34 @@ public class MemberController {
 
 	        return userInfo;
 	    }
+	    
+	    @RequestMapping(value = "kakoLogin.pick", produces = "application/json", method = { RequestMethod.GET, RequestMethod.POST })
+	    public String login(@RequestParam("code") String code, HttpSession session,Model model,Member member) {
+	        String access_Token = kakao.getAccessToken(code);
+	        HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
+	        System.out.println("login Controller : " + userInfo);
+	        member.setUserEmail(userInfo.get("email")+"");
+	        Member loginUser = service.userchk(member);
+	        if(loginUser != null) {
+				session.setAttribute("loginUser", loginUser);
+	            session.setAttribute("userId", userInfo.get("email")+"");
+	            session.setAttribute("access_Token", access_Token);
+				 return "redirect:index.jsp";
+	        }else {
+	        	  model.addAttribute("email",userInfo.get("email")+"");
+	        	  return"member/memberJoin";
+	        }
+
+	    }
+	    @RequestMapping(value="logout.pick")
+	    public String logout(HttpSession session) {
+	        kakao.kakaoLogout((String)session.getAttribute("access_Token"));
+	        session.removeAttribute("access_Token");
+	        session.removeAttribute("userId");
+	        return "redirect:index.jsp";
+	    }
+
+	    
 	 }
 	
 

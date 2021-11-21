@@ -105,7 +105,7 @@ input_element.addEventListener("keyup", () => {
 				style="font-size: 10px; color: gray;">※첨부파일은 최대 4개까지 등록이
 				가능합니다.</span>
 			<div class="data_file_txt" id="data_file_txt" style="margin: 40px;">
-
+		
 				<br />
 				<div id="articlefileChange"></div>
 			</div>
@@ -131,17 +131,18 @@ input_element.addEventListener("keyup", () => {
 			<input type="text" id="postTitle" name="postTitle"placeholder="제목" value="${post.postTitle }" style="	height: 3rem;
 	width: 75rem;">
 			<label class="placeholder-text" for="fname" id="placeholder-fname">
-
+			
 			</label>
 		</div>
 			
 		<br> <br>
+		<input type="hidden" value="${post.groupName }" id="groupName" name="groupName">	
 		<input type="hidden" value="${post.postNo }" id="postNo" name="postNo">
 		<div>
 			<textarea id="summernote" name="content" id="content">${post.postContents }</textarea>
 			<br><br>
 			<input id="subBtn" type="button" value="수정완료"
-				onclick="goWrite();" style="position: relative; left: 30%" />
+				onclick="goWrite();" style="position: relative; left: 20%" />
 		</div>
 		
 	</form>
@@ -318,7 +319,8 @@ function fileDelete(fileNum){
     	var title = $("#postTitle").val();
     	var contents = $("#summernote").val();
     	var postNo = $("#postNo").val();
-    	location.href='update.pick?title='+title+'&contents='+contents+'&postNo='+postNo;
+    	var groupName = $("#groupName").val();
+    	location.href='update.pick?title='+title+'&contents='+contents+'&postNo='+postNo+'&groupName='+groupName
     	registerAction($("#postNo"))    		
     	}else{
     		alert("사진의개수는 4개까지입니다.")

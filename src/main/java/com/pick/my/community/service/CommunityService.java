@@ -1,8 +1,10 @@
 package com.pick.my.community.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pick.my.community.domain.Community_File;
+import com.pick.my.community.domain.Community_Main;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
@@ -11,7 +13,7 @@ import com.pick.my.community.domain.Heart;
 import com.pick.my.community.domain.PageInfo;
 
 public interface CommunityService {
-	public int getListcount();
+	public int getListcount(String groupName);
 	public Community_Post printOnePost(int postNo);
 	public int addReadCount(int postNo);
 	public int registerCoummunityPost(Community_Post post);
@@ -40,4 +42,9 @@ public interface CommunityService {
 	public Community_Report_Reply doubleReport(Community_Report_Reply report);
 	public int registerPostReport(Community_Post_Report postReport);
 	public Community_Post_Report checkReport(Community_Post_Report postReport);
+	public int registerMainImg(Community_Main main);
+	public int removeMainImg(Community_Main main);
+	public Community_Main printMainImg(Community_Main groupName);
+	public List<Community_Post>printMyPost(Map<String, Object> map);
+	public int myPageListcount(String userId);
 }

@@ -11,4 +11,5 @@ public interface MemberStore {
 	public String searchId(int phoneNumber);
 	public Member searchPwd(Member member);
 	public int modifyPwd(Member member);
+	public Member userchk(Member member);
 }

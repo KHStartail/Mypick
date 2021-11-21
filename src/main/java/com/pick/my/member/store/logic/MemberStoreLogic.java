@@ -62,4 +62,11 @@ public class MemberStoreLogic implements MemberStore{
 		return result;
 	}
 
+
+	@Override
+	public Member userchk(Member member) {
+		Member chk = sqlSession.selectOne("memberMapper.kakaoChk",member);
+		return chk;
+	}
+
 }
