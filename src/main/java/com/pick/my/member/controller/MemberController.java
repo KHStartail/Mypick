@@ -102,10 +102,6 @@ public class MemberController {
 	public String managerEnrollview() {
 		return "member/managerJoin";
 	}
-	@RequestMapping(value="home.pick",method=RequestMethod.GET)
-	public String homeView() {
-		return "redirect:index.jsp";
-	}
 	@RequestMapping(value="memberModifyView.pick",method=RequestMethod.GET)
 	public String memberModifyView() {
 		return "member/membermodify";
