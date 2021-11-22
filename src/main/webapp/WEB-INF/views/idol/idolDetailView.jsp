@@ -178,8 +178,8 @@
 		<p>${group.idolName } </p>
 		</c:if>	
 		</c:forEach>
-					
-					
+
+
 	
 	
 	<script src="assets/js/caljquery.min.js"></script>
