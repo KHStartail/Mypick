@@ -178,7 +178,7 @@
 
 	<insert id="insertPostReport" parameterType="pReport">
 		INSERT INTO COMMUNITY_POST_REPORT
-		VALUES(SEQ_POST_REPORT.NEXTVAL,#{postNo},#{postTitle},#{userNickName},#{writerNickName})
+		VALUES(SEQ_POST_REPORT.NEXTVAL,#{postNo},#{postTitle},#{userNickName},#{writerNickName},'Y')
 	</insert>
 
 	<insert id="insertMainImg" parameterType="Main">
