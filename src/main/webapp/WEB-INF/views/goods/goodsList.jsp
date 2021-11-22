@@ -24,7 +24,30 @@
         <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css"type="text/css">
 
  
-    </head>
+<style>
+.zoom {
+            display:inline-block;
+            position: relative;
+        }
+ 
+        /* magnifying glass icon */
+        .zoom:after {
+            content:'';
+            display:block;
+            width:33px;
+            height:33px;
+            position:absolute;
+            top:0;
+            right:0;
+            background:url(icon.png);
+        }
+ 
+        .zoom img {
+            display: block;
+        }
+        .zoom img::selection { background-color: transparent; }
+
+</style>
 </head>
 <body>
         <!-- ***** Header Area Start ***** -->
@@ -40,7 +63,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="breadcrumb__links">
-                        <a href="./index.html">Home</a>
+                        <a href="/">Home</a>
                         <span>Goods</span>
                     </div>
                 </div>
@@ -79,7 +102,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg">
-                            <img src="resources/goodsFiles/${goods.imgPath }" alt="" style="height: 300px; width: 250px">
+                            <img  class="ex5"src="resources/goodsFiles/${goods.imgPath }" alt="" style="height: 300px; width: 250px">
                         <c:if test="${goods.idolName == null }">
                             <div class="product__label">
                                 <span>${goods.groupName }</span>
@@ -117,6 +140,7 @@
             <c:if test="${pi.currentPage > 1 }">
                <a href="${before }">&nbsp;<</a>
             </c:if>
+
             <c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
                 <c:url var="pagination" value="goodsList.pick">
                   <c:param name="page" value="${p }"></c:param>
@@ -147,6 +171,19 @@
     </section>
         <!-- ***** Footer Start ***** -->
 	<jsp:include page="/footer.jsp"></jsp:include>
-
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src='assets/js/jquery.zoom.js'></script>
+	<script src='assets/js/jquery.Wheelzoom.js'></script>
+		<script>
+		$(document).ready(function(){
+			$('#ex1').zoom();
+			$('#ex2').zoom({ on:'grab' });
+			$('#ex3').zoom({ on:'click' });
+			$('#ex4').zoom({ on:'toggle' });
+			$('.ex5').wheelzoom();
+//			$('#ex5').wheelzoom({zoom:0.05});
+//			$('#ex5').trigger('wheelzoom.reset')
+		});
+	</script>
 </body>
 </html>

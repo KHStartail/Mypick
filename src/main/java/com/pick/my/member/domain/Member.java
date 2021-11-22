@@ -17,6 +17,7 @@ public class Member {
   private String fileName;
   private String filePath;
   private long fileSize;
+  private Object kakao;
 
   public Member() {
 	  super();
@@ -152,6 +153,14 @@ public long getFileSize() {
 
 public void setFileSize(long fileSize) {
 	this.fileSize = fileSize;
+}
+
+public Object getKakao() {
+	return kakao;
+}
+
+public void setKakao(Object kakao) {
+	this.kakao = kakao;
 }
 
 @Override

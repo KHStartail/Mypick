@@ -74,7 +74,7 @@
 <script>
 	window.onload = function() {
 		//서포팅 날짜 체크
-		$("#sDate").datepicker({
+		$("#datepicker").datepicker({
 				language: 'ko',
 			    timepicker: true,
 			    timeFormat: "hh:ii AA"
@@ -91,93 +91,104 @@
 				alert("숫자만 입력가능합니다.");
 			}
 		});
-
-		
-		function check(){
-			//서포팅 날짜
-			var scheduleCheck = /[^0-9]/g;
-			var scheduleDateVal = $("#datepicker").val();
-			var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
-			console.log(scheduleDate);
-			$("#scheduleDate").val(scheduleDate);
-			
-			//서포팅 기간 시작일, 마감일 나누기
-			var during = $("#during").val();
-			sDateVal = during.substring(0,10);
-			eDateVal = during.substring(13);
-			$("#supStartDate").val(sDateVal);
-			$("#supEndDate").val(eDateVal);
-		}
 	}
 </script>	
 <jsp:include page="/header.jsp"></jsp:include><br><br>
 <div class="container">
 <h1>서포팅 수정</h1><br>
 	<form action="supportingUpdate.pick" onsubmit="return check()" method="post" enctype="multipart/form-data">
-	<input type="hidden" name ="supNo" value="${supporting.supNo }">
-	<input type="hidden" name="imgName" value="${supporting.imgName }">
-	<input type="hidden" name="imgReName" value="${supporting.imgReName }">
-	<c:forEach var="fList" items="${fList }">
-		<input type="hidden" name="fileName" value="${fList.fileName }">
-		<input type="hidden" name="fileReName" value="${fList.fileReName }">
-	</c:forEach>
-		<table align="center" >
-			<tr>
-				<td>제목</td>
-				<td><input type="text" size="90" name="supTitle" value="${supporting.supTitle}"></td>
-			</tr>
-			<tr>
-				<td>스케줄 날짜</td>
-				<td><input type="text" size="90" id="sDate" name="sDate"></td>
-			</tr>
-			<tr>
-				<td>스케줄 장소</td>
-				<td><input type="text" size="90" name="supPlace" value="${supporting.supPlace}"></td>
-			</tr>
-			<tr>
-				<td>그룹이름</td>
-				<td><input type="text" size="90" name="groupName"  value="${supporting.groupName}"></td>
-			</tr>
-			<tr>
-				<td>목표금액</td>
-				<td><input type="text" size="90" name="goalMoney" id="gMoney" value="${supporting.goalMoney}"></td>
-			</tr>
-			<tr>
-				<td>기간</td>
-				<td><input type="text" size="90" id="during" data-range="true" data-multiple-dates-separator=" ~ " data-language="ko" class="datepicker-here"/>
+		<input type="hidden" name ="supNo" value="${supporting.supNo }">
+		<input type="hidden" name="imgName" value="${supporting.imgName }">
+		<input type="hidden" name="imgReName" value="${supporting.imgReName }">
+		<c:forEach var="fList" items="${fList }">
+			<input type="hidden" name="fileName" value="${fList.fileName }">
+			<input type="hidden" name="fileReName" value="${fList.fileReName }">
+		</c:forEach>
+			<table align="center" >
+				<tr>
+					<td>제목</td>
+					<td><input type="text" size="90" name="supTitle" value="${supporting.supTitle}"></td>
+				</tr>
+				<tr>
+					<td>스케줄 날짜</td>
+					<td><input type="text" size="90" id="datepicker" name="sDate"></td>
+				</tr>
+				<tr>
+					<td>스케줄 장소</td>
+					<td><input type="text" size="90" name="supPlace" value="${supporting.supPlace}"></td>
+				</tr>
+				<tr>
+					<td>그룹이름</td>
+					<td><input type="text" size="90" name="groupName"  value="${supporting.groupName}"></td>
+				</tr>
+				<tr>
+					<td>목표금액</td>
+					<td><input type="text" size="90" name="goalMoney" id="gMoney" value="${supporting.goalMoney}"></td>
+				</tr>
+				<tr>
+					<td>기간</td>
+					<td><input type="text"  placeholder="스케줄 날짜 이전의 날짜를 선택하세요." size="90" id="during" data-range="true" data-multiple-dates-separator=" ~ " data-language="ko" class="datepicker-here"/>
+					</td>
+				</tr>
+				<tr>
+				<td>
+					<input type="hidden" id="supStartDate" name="startDate">
+					<input type="hidden" id="supEndDate" name="endDate">
 				</td>
-			</tr>
-			<tr>
-			<td>
-				<input type="hidden" id="supStartDate" name="startDate">
-				<input type="hidden" id="supEndDate" name="endDate">
-			</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td><textarea rows="7" cols="90"  name="supContents">${supporting.supContents }</textarea></td>
-			</tr>
-			<tr>
-				<td>대표이미지 파일</td>
-				<td><input id="mainFile" type="file" name="reloadFile"></td>
-			</tr>
-			<tr>
-				<td><span id="fileList">파일 추가 </span></td>
-				<td><input id="btn-multiUpload" type="file" name="subFile" multiple="multiple"></td>  
-			</tr>
-			<tr>
-				<td>이미지 <br> 최대미리보기</td>
-               	<td class="img_wrap"></td>
-            </tr>
-			<tr>
-				<td colspan="2">
-					<input type="submit" id="submit" value="수정" class="btn">
-					<input type="reset" value="취소"  class="btn" onclick="location.href='presupportingList.pick'">
-				</td>
-			</tr>
-		</table>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td><textarea rows="7" cols="90"  name="supContents">${supporting.supContents }</textarea></td>
+				</tr>
+				<tr>
+					<td>대표이미지 파일</td>
+					<td><input id="mainFile" type="file" name="reloadFile" onchange="setPreview(event);"></td>
+				</tr>
+				<tr>
+					<td>대표이미지 <br>미리보기</td>
+	               	<td><div id="preview"></div></td>
+	            </tr>
+				<tr>
+					<td><span id="fileList">파일 추가 </span></td>
+					<td><input id="btn-multiUpload" type="file" name="subFile" multiple="multiple"></td>  
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="submit" id="submit" value="수정" class="btn">
+						<input type="reset" value="취소"  class="btn" onclick="location.href='presupportingList.pick'">
+					</td>
+				</tr>
+			</table>
 	</form><br><br>
 </div>
 <jsp:include page="/footer.jsp"></jsp:include>
+<script>
+function setPreview(event){
+	var reader = new FileReader();
+	reader.onload = function(event){
+		var img = document.createElement("img");
+		img.setAttribute("src", event.target.result);
+		img.setAttribute("class", "col-lg-6");
+		document.querySelector("div#preview").appendChild(img);
+	};
+	reader.readAsDataURL(event.target.files[0]);
+}
+
+function check(){
+	//서포팅 날짜
+	var scheduleCheck = /[^0-9]/g;
+	var scheduleDateVal = $("#datepicker").val();
+	var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
+	console.log(scheduleDate);
+	$("#scheduleDate").val(scheduleDate);
+	
+	//서포팅 기간 시작일, 마감일 나누기
+	var during = $("#during").val();
+	sDateVal = during.substring(0,10);
+	eDateVal = during.substring(13);
+	$("#supStartDate").val(sDateVal);
+	$("#supEndDate").val(eDateVal);
+}
+</script>
 </body>
 </html>

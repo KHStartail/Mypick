@@ -1,6 +1,7 @@
 package com.pick.my.community.store.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.pick.my.community.domain.Community_File;
+import com.pick.my.community.domain.Community_Main;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
@@ -22,8 +24,8 @@ public class CommunityStoreLogic implements CommunityStore{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int getListcount() {
-		int count = sqlSession.selectOne("CommunityPostMapper.selectListCount");
+	public int getListcount(String groupName) {
+		int count = sqlSession.selectOne("CommunityPostMapper.selectListCount",groupName);
 		return count;
 	}
 
@@ -199,6 +201,48 @@ public class CommunityStoreLogic implements CommunityStore{
 		Community_Post_Report report = sqlSession.selectOne("CommunityPostMapper.selectPostReport",postReport);
 		return report;
 	}
+
+	@Override
+	public int insertMainImg(Community_Main main) {
+		int result = sqlSession.insert("CommunityPostMapper.insertMainImg",main);
+		return result;
+	}
+
+	@Override
+	public int deleteMainImg(Community_Main main) {
+		int result = sqlSession.delete("CommunityPostMapper.deleteMainImg",main);
+		return result;
+	}
+
+	@Override
+	public Community_Main selectMainImg(Community_Main setmain) {
+		Community_Main main = sqlSession.selectOne("CommunityPostMapper.selectMainImg",setmain);
+		return main;
+	}
+
+	@Override
+	public List<Community_Post> selectMyPost(Map<String, Object> map) {
+		PageInfo pi = (PageInfo) map.get("pi");
+		int offset = (pi.getCurrentPage() -1 ) * pi.getCommunityLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getCommunityLimit());
+		System.out.println(rowBounds.toString());
+		List<Community_Post> pList = sqlSession.selectList("CommunityPostMapper.selectMyPost",map,rowBounds);
+		return pList;
+	}
+
+	@Override
+	public int myPageListcount(String userId) {
+		int count = sqlSession.selectOne("CommunityPostMapper.myPageListCount",userId);
+		return count;
+	}
+
+	@Override
+	public  List<Community_Post_Report> printReportPost() {
+		List<Community_Post_Report> post = sqlSession.selectList("CommunityPostMapper.reportPost");
+		return post;
+	}
+
+
 
 
 

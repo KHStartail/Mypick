@@ -35,13 +35,7 @@ public interface SupportingStore {
 	public int insertsReplyReport(SupReplyReport reportSupReply);
 	public int selectReportSupReply(int reportNo);
 	////////////////////////참여, 결제관련내용////////////////
-	/**
-	 * 인원체크, 20명이상이면 카테고리변경(모집중 >> 진행중)
-	 * @param supNo
-	 * @param supPartiwon
-	 * @return
-	 */
-	public String selectPartiwon(int supNo, int supPartiwon);
+	
 	public int updateCategory(int supNo, int supCategory); 
 	
 	/**
@@ -56,28 +50,36 @@ public interface SupportingStore {
 	 * @param supPartiwon
 	 * @return
 	 */
-	public String selectparticipation(int supNo, int supPartiwon); 
+	public SupParticipation selectParticipation(SupParticipation sp); 
 	/**
 	 * 참여-1
 	 * @param supNo
 	 * @param supPartiwon
 	 * @return
 	 */
-	public int deleteParticipation(int supNo, int supPartiwon); 
+	public int deleteParticipation(SupParticipation sp);
 	/**
 	 * 참여인원+1
 	 * @param supNo
 	 * @param supPartiwon
 	 * @return
 	 */
-	public int updatePartiwonAdd(int supNo, int supPartiwon); 
+	public int updatePartiwonAdd(int supNo);
 	/**
 	 * 참여인원-1
 	 * @param supNo
 	 * @param supPartiwon
 	 * @return
 	 */
-	public int updatePartiwonDel(int supNo, int supPartiwon);
+	public int updatePartiwonDel(int supNo);
+	
+	/**
+	 * 인원체크, 20명이상이면 카테고리변경(모집중 >> 진행중)
+	 * @param supNo
+	 * @param supPartiwon
+	 * @return
+	 */
+	public int updateCategory(int supNo);
 	public int insertPaymentHistory(PaymentHistory paymentHistory);
 	public int updateSumMoney(int supNo, int sumMoney); 
 	/**

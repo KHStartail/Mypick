@@ -114,7 +114,8 @@ public class SupportingServiceImpl implements SupportingService{
 
 	@Override
 	public List<SupReply> printSupReply(int supNo) {
-		return null;
+		List<SupReply> rList = store.selectSupReply(supNo);
+		return rList;
 	}
 
 	@Override
@@ -165,12 +166,7 @@ public class SupportingServiceImpl implements SupportingService{
 		return result;
 	}
 
-	@Override
-	public String checkPartiwon(int supNo, int supPartiwon) {
-		//20명 이상이어야 이동
-		return null;
-	}
-
+	
 	@Override
 	public int updateCategory(int supNo, int supCategory) {
 		 //모집중에서 진행중으로 이동
@@ -179,32 +175,34 @@ public class SupportingServiceImpl implements SupportingService{
 
 	@Override
 	public int addParticipation(SupParticipation supParticipation) {
-		 // 참여+1
-		return 0;
+		int result = store.insertParticipation(supParticipation);
+		return result;
+	}
+	@Override
+	public SupParticipation checkParticipation(SupParticipation sp) {
+		SupParticipation supParticipation= store.selectParticipation(sp);
+		return supParticipation;
+	}
+	@Override
+	public int cancelParticipation(SupParticipation sp) {
+		//x테이블 해당 유저 참여-1
+		int result = store.deleteParticipation(sp);
+		return result;
 	}
 
 	@Override
-	public String checkparticipation(int supNo, int supPartiwon) {
-		//user가 참여했는지 확인, 참여내역 테이블 추가
-		return null;
-	}
-
-	@Override
-	public int cancelParticipation(int supNo, int supPartiwon) {
-		//참여 -1
-		return 0;
-	}
-
-	@Override
-	public int addPartiwon(int supNo, int supPartiwon) {
+	public int addPartiwon(int supNo) {
 		//참여인원+1
-		return 0;
+		int result = store.updatePartiwonAdd(supNo);
+		result += store.updateCategory(supNo);
+		return result;
 	}
 
 	@Override
-	public int cancelPartiwon(int supNo, int supPartiwon) {
+	public int deletePartiwon(int supNo){
 		//참여인원-1
-		return 0;
+		int result = store.updatePartiwonDel(supNo);
+		return result;
 	}
 
 	@Override
@@ -236,4 +234,10 @@ public class SupportingServiceImpl implements SupportingService{
 		Member mOne = store.selectUserOne(userNo);
 		return mOne;
 	}
+//
+//	@Override
+///	public int printWriter(SupReply supReply) {
+//		int result = store.selectReplyWriter(supReply);
+//		return result;
+//	}
 }

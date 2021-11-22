@@ -22,7 +22,7 @@ html {
 	background-color: #fff;
 	height: 18.75em;
 	left: 50%;
-	margin: -9.875em -60em;
+	margin: -10em -49em;
 	padding: .5em;
 	position: absolute;
 	top: 50%;
@@ -135,6 +135,7 @@ html {
 	transition: .25s;
 	width: 1000px;
 	height: 600px;
+	margin-top:10%;
 	vertical-align: top;
 	visibility: hidden;
 }
@@ -148,11 +149,11 @@ html {
 .contents {
 	height: 37.58em;
 	left: 50%;
-	margin: -9.43em -10.06em;
+	margin: -10em 1em;
 	padding: 0.5em;
 	position: absolute;
-	top: 50%;
-	width: 70em;
+	top: 36.5%;
+	width: 45em;
 	border: 1px solid #ccc;
 	box-shadow: 4px 4px 3px #666;
 }
@@ -179,8 +180,14 @@ html {
 
 #reply {
 	left: 50%;
-	margin: 44em -10.06em;
+	margin: 44em -26em;
 	padding: .5em;
 	top: 50%;
-	width: 56%;
+	width: 850px !important;
+}
+
+#reply img{
+	width: 200px !important;
+	height: 200px !important;
+	margin-right: 5%;
 }

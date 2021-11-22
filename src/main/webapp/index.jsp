@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <!DOCTYPE html>
 <html>
 
   <head>
-
+  <meta http-equiv='refresh' content= 'url=home.pick'>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -30,7 +31,12 @@ https://templatemo.com/tm-558-klassy-cafe
     </head>
     
     <body>
-    
+    <script>
+    	$(document).ready(function(){
+    		location.href="/home.pick";    		
+    	})
+
+    </script>
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
         <div class="jumper">
@@ -148,8 +154,8 @@ https://templatemo.com/tm-558-klassy-cafe
             <div class="row">
                 <div class="col-lg-4">
                     <div class="section-heading">
-                        <h6>Our Menu</h6>
-                        <h2>Our selection of cakes with quality taste</h2>
+                        <h6>Our Goods</h6>
+                        <h2>Our selection of Goods with your IDOL</h2>
                     </div>
                 </div>
             </div>
@@ -157,20 +163,27 @@ https://templatemo.com/tm-558-klassy-cafe
         <div class="menu-item-carousel">
             <div class="col-lg-12">
                 <div class="owl-menu-item owl-carousel">
+                    
+                   <c:forEach items="${gList }" var="goods">
+                    <c:url var="gDetail" value="slideGoodsDetail.pick">
+            			<c:param name="goodsNo" value="${goods.goodsNo }"></c:param>
+            			<c:param name="groupName" value="${goods.groupName }"></c:param>
+            		</c:url>
                     <div class="item">
                         <div class='card card1'>
-                            <div class="price"><h6>18,000￦</h6></div>
+                            <div class="price"><h6>${goods.goodsPrice }￦</h6></div>
                             <div class='info'>
-                              <h1 class='title'>AKMU KEYRING</h1>
-                              <p class='description'>- KEYRING 1종 제품입니다.<br>
-                                - NEXT EPISODE 앨범 커버 아트웍으로 제작된 RESIN KEYRING입니다.</p>
+                              <h1 class='title'>${goods.goodsName }</h1>
+                              <p class='description'>- ${goods.goodsIntro }<br>
+                                - ${goods.goodsContents }</p>
                               <div class="main-text-button">
-                                  <div class="scroll-to-section"><a href="#reservation">Make Reservation <i class="fa fa-angle-down"></i></a></div>
+                                  <div class="scroll-to-section"><a href="${gDetail }">Detail View <i class="fa fa-angle-down"></i></a></div>
                               </div>
                             </div>
                         </div>
                     </div>
-                    <div class="item">
+                   </c:forEach>
+                   <!--  <div class="item">
                         <div class='card card2'>
                             <div class="price"><h6>18,000￦</h6></div>
                             <div class='info'>
@@ -234,7 +247,7 @@ https://templatemo.com/tm-558-klassy-cafe
                               </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -350,6 +363,8 @@ https://templatemo.com/tm-558-klassy-cafe
                 
             });
         });
+        
+        
 
     </script>
   </body>

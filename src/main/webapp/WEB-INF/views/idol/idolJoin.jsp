@@ -25,12 +25,10 @@
 	position: relative;
 	left: 1000px;
 	bottom: 178px
-	
 }
 
-table {
-  border-spacing: 10px;
-  border-collapse: separate;
+.inbut{
+	margin-left: 20px;
 }
 
 
@@ -54,20 +52,20 @@ table {
         	<form action="idolRegister.pick" method="post" enctype="multipart/form-data">
 			<table class="idolmember" cellspacing="5">
 				<tr>
-					<td>아이돌이름</td>
-					<td>
+					<td>아이돌이름 </td>
+					<td class="inbut">
 						<input type="text" id="idolName" name="idolName">
 					</td>
 				</tr>
 				<tr>
-					<td>그룹이름</td>
-					<td>
-						<input type="text" name="groupName" name="groupName">
+					<td>그룹이름 </td>
+					<td class="inbut">
+						<input type="text" id="groupName" name="groupName">
 					</td>
 				</tr>
 				<tr>
-					<td>프로필등록</td>
-					<td>
+					<td>프로필등록 </td>
+					<td class="inbut">
 						<input id="input_img" type="file" size="50" name="uploadFile">
 					</td>
 				</tr>

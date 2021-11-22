@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -213,12 +214,22 @@
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
 							</div>
+							<c:if test="${email ne null }">
                             <div class="input-group custom">
-								<input id="userEmail" name="userEmail" type="text" class="form-control form-control-lg" placeholder="이메일을 입력해주세요.">
+								<input id="userEmail" name="userEmail" type="text" class="form-control form-control-lg" placeholder="이메일을 입력해주세요." value="${email }" readonly>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
 							</div>
+							</c:if>
+							<c:if test="${email eq null }">
+		                     <div class="input-group custom">
+								<input id="userEmail" name="userEmail" type="text" class="form-control form-control-lg" placeholder="이메일을 입력해주세요." value="" >
+								<div class="input-group-append custom">
+									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
+								</div>
+							</div>
+							</c:if>
 							<div class="input-group custom">
 								<input id="userAddr" name="post" type="text" class="postcodify_postcode5" placeholder="우편번호를 입력해주세요.">
 								<div class="input-group-append custom">

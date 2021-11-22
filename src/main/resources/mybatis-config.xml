@@ -13,11 +13,13 @@
       <typeAlias type="com.pick.my.community.domain.Community_Reply" alias="Reply"/>
       <typeAlias type="com.pick.my.community.domain.Heart" alias="Heart"/>      
       <typeAlias type="com.pick.my.community.domain.Community_Report_Reply" alias="rReport"/>    
-      <typeAlias type="com.pick.my.community.domain.Community_Post_Report" alias="pReport"/>      
+      <typeAlias type="com.pick.my.community.domain.Community_Post_Report" alias="pReport"/>     
+      <typeAlias type="com.pick.my.community.domain.Community_Main" alias="Main"/> 
       <typeAlias type="com.pick.my.supporting.domain.Supporting" alias="Supporting"></typeAlias>
       <typeAlias type="com.pick.my.supporting.domain.SupReply" alias="SupReply"></typeAlias>
       <typeAlias type="com.pick.my.supporting.domain.SupFile" alias="SupFile"></typeAlias>
       <typeAlias type="com.pick.my.supporting.domain.SupReplyReport" alias="supReportReply"></typeAlias>
+      <typeAlias type="com.pick.my.supporting.domain.SupParticipation" alias="supParticipation"></typeAlias>
       <typeAlias type="com.pick.my.common.PaymentHistory" alias="PaymentHistory"></typeAlias>
       <typeAlias type="com.pick.my.goods.domain.Goods" alias="Goods"/>
       <typeAlias type="com.pick.my.goods.domain.GoodsFile" alias="GoodsFile"/>

@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Community_Reply {
 	private int replyAllNo;
 	private String replyContents;
-	private Date replyDate;
+	private String replyDate;
 	private int replyNo;
 	private String replyChild;
 	private int postNo;
@@ -31,11 +31,11 @@ public class Community_Reply {
 		this.replyContents = replyContents;
 	}
 
-	public Date getReplyDate() {
+	public String getReplyDate() {
 		return replyDate;
 	}
 
-	public void setReplyDate(Date replyDate) {
+	public void setReplyDate(String replyDate) {
 		this.replyDate = replyDate;
 	}
 
@@ -63,8 +63,6 @@ public class Community_Reply {
 		this.postNo = postNo;
 	}
 
-	
-	
 	public String getUserId() {
 		return userId;
 	}
@@ -87,6 +85,8 @@ public class Community_Reply {
 				+ replyDate + ", replyNo=" + replyNo + ", replyChild=" + replyChild + ", postNo=" + postNo + ", userId="
 				+ userId + ", userNickName=" + userNickName + "]";
 	}
+
+	
 
 	
 	

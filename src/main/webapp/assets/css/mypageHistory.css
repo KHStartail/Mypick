@@ -1,0 +1,68 @@
+#contents-div{
+    margin-top: 2%;
+    margin-left: 2%;
+    width: 75%;
+    height: auto;
+    float: left;
+    font-family: 'Jeju Gothic', sans-serif;
+}
+    #support-section{
+        width: 80%;
+    }
+
+    .pay-label{
+        font-size: 40px;
+        width: 70%;
+        font-weight: bold;
+    }
+
+   .pay-info{
+        margin-top: 5%;
+        margin-left: 7%;
+        width: 100%;
+        border-top: 2px solid black;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.548);
+    }
+        .pay-info table{
+            text-align: center;
+            width: 100%;
+            color: gray;
+            
+        }
+            .pay-info table tr:nth-child(1){
+                height: 70px;
+            }
+            .pay-info table tr:nth-child(2){
+                height: 200px;
+                border-top: 1px solid rgba(128, 128, 128, 0.548);
+                border-bottom: 1px solid rgba(128, 128, 128, 0.548);
+            }
+            .pay-info table :nth-child(1){
+                width: 70%;
+            }
+
+    .support-info{
+        margin-top: 5%;
+        margin-left: 7%;
+        width: 80%;
+        border-top: 2px solid black;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.548);
+    }
+
+    .support-info table{
+        text-align: center;
+        width: 100%;
+        color: gray;
+        
+    }
+        .support-info table tr:nth-child(1){
+            height: 70px;
+        }
+        .support-info table :nth-child(1){
+            width: 70%;
+        }
+        .support-info table tr{
+            height: 200px;
+            border-top: 1px solid rgba(128, 128, 128, 0.548);
+            border-bottom: 1px solid rgba(128, 128, 128, 0.548);
+        }

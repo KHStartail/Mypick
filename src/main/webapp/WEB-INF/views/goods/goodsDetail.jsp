@@ -10,7 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script src="assets/js/cartAlert.js"></script> 
 <script src="assets/js/deleteAlert.js"></script>
-<script type="assets/js/toastr.min.js"></script>
+
             <!-- Google Font -->
             <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
             rel="stylesheet">
@@ -28,7 +28,6 @@
             <link rel="stylesheet" href="assets/css/deleteAlert.css">
              <link rel="stylesheet" href="assets/css/cartAlert.css">
             <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
-            <link rel="stylesheet" href="assets/css/toastr.min.css">
             <!--------------------------------->
             <link rel="stylesheet" href="assets/css/elegant-icons.css" type="text/css">
             <link rel="stylesheet" href="assets/css/nice-select.css" type="text/css">
@@ -37,6 +36,31 @@
             <link rel="stylesheet" href="assets/css/flaticon.css" type="text/css">
             <link rel="stylesheet" href="assets/css/barfiller.css" type="text/css">
             <link rel="stylesheet" href="assets/css/magnific-popup.css" type="text/css">
+            
+<style>
+.zoom {
+            display:inline-block;
+            position: relative;
+        }
+ 
+        /* magnifying glass icon */
+        .zoom:after {
+            content:'';
+            display:block;
+            width:33px;
+            height:33px;
+            position:absolute;
+            top:0;
+            right:0;
+            background:url(icon.png);
+        }
+ 
+        .zoom img {
+            display: block;
+        }
+        .zoom img::selection { background-color: transparent; }
+
+</style>
 </head>
 <body>
            <!-- ***** Header Area Start ***** -->
@@ -53,8 +77,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="breadcrumb__links">
-                        <a href="./index.html">Home</a>
-                        <a href="./shop.html">Goods</a>
+                        <a href="/">Home</a>
+                        <a href="goodsList.pick">Goods</a>
                         <span>Detail</span>
                     </div>
                 </div>
@@ -75,7 +99,7 @@
                 <div class="col-lg-6">
                     <div class="product__details__img">
                         <div class="product__details__big__img">
-                            <img class="big_img" src="resources/goodsFiles/${goods.imgPath }" alt="">
+                            <img id="ex5" class="big_img" src="resources/goodsFiles/${goods.imgPath }" alt="">
                         </div>
                     </div>
                 </div>
@@ -93,7 +117,7 @@
                         <%-- <p>${goods.goodsIntro }</p> --%>
                         <ul>
                             <li>상세 소개<!-- : <span>여기에는</span> --></li>
-                            <li><span>${goods.goodsIntro }</span></li>
+                            <li><span>${goods.goodsIntro }<br>${goods.goodsContents }</span></li>
                             <!-- <li>tab3: <span>들어가야할까</span></li> -->
                         </ul>
                         <div class="product__details__option">
@@ -114,7 +138,7 @@
 						            <span>장바구니에 담으시겠습니까?</span>
 						        </div>
 						        <div class="alert-btn1">
-						            <button type="button" onclick="goCart(this,${goods.goodsNo},'${goods.goodsName }',${goods.goodsPrice })"><a id="cart-ok" href="">OK</a></button>
+						            <button type="button" onclick="goCart(this,${goods.goodsNo},'${goods.goodsName }',${goods.goodsPrice },'${goods.imgPath }','${goods.groupName }')"><a id="cart-ok" href="">OK</a></button>
 						            <button type="button" class="cart-close"><a href="#"id="cart-no">Cancel</a></button>
 					            </div> 
 			                    <div class="alert-line2"></div>
@@ -253,6 +277,7 @@
                        <!--  -->
                                        <form action="goodsReviewInsert.pick" method="post" name="revForm" enctype="multipart/form-data">
                                        	<input type="hidden" name="goodsNo" value="${goods.goodsNo }">
+                                       	<input type="hidden" name="groupName" value="${goods.groupName }">
                                         <div class="rev-star">
                                             <input type="file" name="revFile" id="">
                                            	<span>
@@ -311,11 +336,12 @@
 												    	<c:param name="revNo" value="${review.revNo }"></c:param>
 												    	<c:param name="imgPath" value="${review.imgPath }"></c:param>
 												    	<c:param name="goodsNo" value="${review.goodsNo }"></c:param>
+												    	<c:param name="groupName" value="${goods.groupName }"></c:param>
 												    </c:url>
 												    <c:if test="${loginUser.userGrade == 'manager' }">
                                                     <button type="button" onclick="showReply(this,${review.goodsNo },${review.revNo })" id="replyBtn"><a href="#">답글</a> </button>
                                                     </c:if>
-                                                    <c:if test="${reply.userId == loginUser.userId }">
+                                                    <c:if test="${review.userId == loginUser.userId }">
                                                     <button type="button" onclick="modifyReview(this,${review.goodsNo },${review.revNo },'${review.revContents }')" id="updateBtn"><a href="#">수정</a> </button>
                                                     <button type="button" id="deleteBtn"><a href="${rDelete }">삭제</a> </button>
                                                     </c:if>
@@ -351,6 +377,7 @@
                                                 	<c:url var="reDelete" value="goodsReplyDelete.pick">
 												    	<c:param name="revNo" value="${reply.revNo }"></c:param>
 												    	<c:param name="goodsNo" value="${reply.goodsNo }"></c:param>
+												    	<c:param name="groupName" value="${goods.groupName }"></c:param>
 												    </c:url>
 												    <c:if test="${loginUser.userGrade == 'manager' }">
                                                     <button type="button" onclick="modifyReply(this,${reply.goodsNo},${reply.revNo },'${reply.revContents }')"><a href="#">수정</a> </button>
@@ -389,7 +416,7 @@
                  <c:url var="gDetail" value="goodsDetail.pick">
             		<c:param name="goodsNo" value="${slide.goodsNo }"></c:param>
             	</c:url>
-            	<c:if test="${goods.goodsNo != slide.goodsNo }">
+            	<c:if test="${goods.goodsNo != slide.goodsNo}">
                     <div class="col-lg-3">
                         <div class="product__item">
                             <div class="product__item__pic set-bg">
@@ -509,10 +536,12 @@
     <section>
     <c:url var="gUpdate" value="goodsUpdate.pick">
     	<c:param name="goodsNo" value="${goods.goodsNo }"></c:param>
+    	<c:param name="groupName" value="${goods.groupName }"></c:param>
     </c:url>
     <c:url var="gDelete" value="goodsDelete.pick">
     	<c:param name="goodsNo" value="${goods.goodsNo }"></c:param>
     	<c:param name="imgPath" value="${goods.imgPath }"></c:param>
+    	<c:param name="groupName" value="${goods.groupName }"></c:param>
     </c:url>
         <div class="manager-btn">
         <c:if test="${loginUser.userGrade == 'manager' }">
@@ -544,7 +573,6 @@
     <!-- Related Products Section End -->
 	<jsp:include page="/footer.jsp"></jsp:include>
 <!-- Js Plugins -->
-<script src="assets/js/jquery-3.3.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/jquery.nice-select.min.js"></script>
 <script src="assets/js/jquery.barfiller.js"></script>
@@ -554,7 +582,22 @@
 <script src="assets/js/jquery.nicescroll.min.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/goodsStar.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src='assets/js/jquery.zoom.js'></script>
+	<script src='assets/js/jquery.Wheelzoom.js'></script>
+		
 <script>
+$(document).ready(function(){
+	$('.ex1').zoom();
+	$('#ex2').zoom({ on:'grab' });
+	$('.ex3').zoom({ on:'click' });
+	$('#ex4').zoom({ on:'toggle' });
+	$('#ex5').wheelzoom();
+//	$('#ex5').wheelzoom({zoom:0.05});
+//	$('#ex5').trigger('wheelzoom.reset')
+
+});
+
 	function modifyReview(obj, goodsNo, revNo, revContents){
 		$revModi = $(obj).parent().prev();
 		$revModi.attr("readonly",false);		
@@ -643,6 +686,7 @@
 			},
 			success : function(data){
 				if(data == "success"){
+					
 					location.reload();
 				}else{
 					alert("수정 실패");
@@ -660,7 +704,7 @@
 		console.log(amount);
 	}
 	
-	function goCart(obj,goodsNo,goodsName, goodsPrice){
+	function goCart(obj,goodsNo,goodsName, goodsPrice,imgPath, groupName){
 		var goodsAmount = $("#amount").val();
 		$.ajax({
 			url : "cartAdd.pick",
@@ -669,27 +713,12 @@
 				"goodsNo" : goodsNo,
 				"goodsName" : goodsName,
 				"goodsPrice" : goodsPrice,
-				"goodsAmount" : goodsAmount
+				"goodsAmount" : goodsAmount,
+				"imgPath" : imgPath,
+				"groupName" : groupName
 			},
 			success : function(data){
 				if(data == "success"){
-					toastr.options = {
-							  "closeButton": false,
-							  "debug": false,
-							  "newestOnTop": false,
-							  "progressBar": false,
-							  "positionClass": "toast-top-right",
-							  "preventDuplicates": false,
-							  "onclick": null,
-							  "showDuration": "300",
-							  "hideDuration": "1000",
-							  "timeOut": "5000",
-							  "extendedTimeOut": "1000",
-							  "showEasing": "swing",
-							  "hideEasing": "linear",
-							  "showMethod": "fadeIn",
-							  "hideMethod": "fadeOut"
-							}
 						toastr.success('알림','장바구니에 등록되었습니다!');
 /* 					$(obj).parent().parent().css('display','block');
 					$(obj).hide();

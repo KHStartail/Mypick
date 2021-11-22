@@ -104,7 +104,7 @@
 			</tr>
 			<tr>
 				<td>기간</td>
-				<td><input type="text" size="50" id="during" data-range="true" data-multiple-dates-separator=" ~ " data-language="ko" class="datepicker-here"/>
+				<td><input type="text" placeholder="스케줄 날짜 이전의 날짜를 선택하세요." size="50" id="during" data-range="true" data-multiple-dates-separator=" ~ " data-language="ko" class="datepicker-here"/>
 				</td>
 			</tr>
 			<tr>
@@ -123,25 +123,31 @@
 			</tr>
 			<tr>
 				<td>대표이미지 파일</td>
-				<td><input id="mainFile" type="file" name="uploadFile"></td>
+				<td><input id="mainFile" type="file" name="uploadFile" accept="image/*" onchange="setPreview(event);">
+				</td>
+			</tr>
+			<tr>
+				<td>대표이미지 미리보기</td>
+				<td><div id="preview"></div></td>
 			</tr>
 			<tr>
 				<td><span id="fileList">파일 추가 <br>최대 5개까지 등록 가능</span></td>
-				<td><input id="btn-multiUpload" type="file" name="subFile" multiple="multiple">  
+				<td><input id="btn-multiUpload" accept="image/*" type="file" name="subFile" multiple="multiple" onchange="setImgBox(event);">  
 			</tr>
-			<tr>
+			<!-- tr>
 				<td>이미지 미리보기</td>
-               <td class="img_wrap"></td>
+               <td><div id="images_container"></div></td>
             </tr>
+            -->
 			<tr>
 				<td colspan="2">
-					<input type="submit" id="submit" value="등록"  class="btn">
+					<input type="submit" id="submit" value="등록"  class="btn" onclick="check()">
 					<input type="reset" value="목록"   class="btn" onclick="location.href='presupportingList.pick'">
 				</td>
 			</tr>
 		</table>
 	</form>
-</div>
+</div><br><br>
 <jsp:include page="/footer.jsp"></jsp:include>
 <script>
 	//목표금액 설정
@@ -156,209 +162,82 @@
 			alert("숫자만 입력가능합니다.");
 		}
 	});
-
+	
+	function setPreview(event){
+		var reader = new FileReader();
+		reader.onload = function(event){
+			var img = document.createElement("img");
+			img.setAttribute("src", event.target.result);
+			img.setAttribute("class", "col-lg-6");
+			document.querySelector("div#preview").appendChild(img);
+		};
+		reader.readAsDataURL(event.target.files[0]);
+	}
+	
+	
 	// 서포팅 날짜 체크
 	$("#datepicker").datepicker({
 			language: 'ko',
 		    timepicker: true,
 		    timeFormat: "hh:ii AA"
 	}); 
+/* 	
+	$("#during").on("click", function(){
+		var alram = confirm("시작일은 오늘 이후에, 마감일은 스케쥴 날짜 이전을 등록하세요. 시작일까지 목표인원이 채워진다면 실제 서포팅을 진행할 수 있게 처리됩니다. 문의사항은 고객센터로 연락주세요.");		
+	}); */
 	
-
-	//파일 현재 필드 숫자 totalCount랑 비교값
-//	var fileCount = 0;
-	//해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
-//	var totalCount = 5;
-	//파일 고유넘버/
-//	var fileNum = 0;
-//	//첨부파일 배열
-//	var list = new Array();//
-
-//	function fileCheck(e) {
-//		var files = e.target.files;
-//		
-//		// 파일 배열 담기
-//		var filesArr = Array.prototype.slice.call(files);
-	///call()은 상위 context를 변경하는 메소드, arguments는 함수의 매개변수에 접근할 수 있는 속성
-	
-		// 파일 개수 확인 및 제한
-//		if (fileCount + filesArr.length > totalCount) {
-//			$.alert('파일은 최대 '+totalCount+'개까지 업로드 할 수 있습니다.');
-//			return;
-//		} else {
-//		 fileCount = fileCount + filesArr.length;
-//		}//
-
-		// 각각의 파일 배열담기 및 기타
-//		filesArr.forEach(function (f) {
-//		var reader = new FileReader();
-//		reader.onload = function (e) {
-//		file-list.push(f);
-//		$('#fileUpload').append(
-//				'<div id="removeFile' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
-//				+ '<font style="font-size:12px">' + f.name + '</font>'  
-//				+ '<img src="/img/icon_minus.png" style="width:20px; height:auto; vertical-align: middle; cursor: pointer;"/>' 
-//				+ '<div/>'
-//		);
-//		fileNum ++;
-///		};
-//		reader.readAsDataURL(f);
-//		});
-//		console.log(fileList);
-//		//초기화 한다.
-//		$("#fileUpload").val("");
-//		}/
-
-		//파일 부분 삭제 함수
-//		function fileDelete(fileNum){
-//	/		var no = fileNum.replace(/[^0-9]/g, "");
-//			fileList[no].is_delete = true;
-//			$('#' + fileNum).remove();
-//			fileCount --;
-//			console.log(fileList);
-//		}
-//	 
+	//오늘 날짜 구하기 년도월일 이후 일이 안들어감
+	var today = new Date();
+	var year = today.getFullYear();
+	var month = today.getMonth() +1;
+	var date  = today.getDate();
+	var nowday = (10000*year)+(100*month)+date;//string이니까
+	console.log("오늘날짜 :" +nowday);
+	//20211130
 	function registerAction(){
 		//서포팅 날짜
 		var scheduleCheck = /[^0-9]/g;
 		var scheduleDateVal = $("#datepicker").val();
 		var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
-		console.log(scheduleDate);
 		$("#scheduleDate").val(scheduleDate);
-		
+		var scheduleDateVs = scheduleDate.substring(0,8);//임의
+		console.log(scheduleDateVs);
+		//20211030
 		//서포팅 기간 시작일, 마감일 나누기
+//		var Check = /[^0-9]/g;
 		var during = $("#during").val();
-		sDateVal = during.substring(0,10);
-		eDateVal = during.substring(13);
+	//	var duringVal = during.replace(Check, "");
+		var sDateVal = during.substring(0,10);
+		var eDateVal = during.substring(13);
 		$("#supStartDate").val(sDateVal);
-		$("#supEndDate").val(eDateVal);
-		
-		//다중파일부분
-	//	var form = $("#dataForm")[0];        
-	// 	var formData = new FormData(form);
-	//		for (var i = 0; i < fileList.length; i++) {
-	//			// 삭제 안한것만 담아 준다. 
-	//			if(fileList[i].is_delete){
-	//				 formData.append("fileList", fileList[i]);
-//				}
-	//		}
-			
+		$("#supEndDate").val(eDateVal);	
+			console.log("시작일 : "+sDateVal);
+			console.log("마감일 : "+eDateVal);
+		//if(scheduleDateVs > eDateVal && nowday < sDateVal) {
+		//		document.dataForm.submit();
+		//}else if(nowday > sDateVal){
+	//		alert("시작일까지 목표인원이 채워져야 합니다. 오늘 이후의 날짜를 고르세요.")
+	//	}else if(scheduleDateVs < eDateVal){
+	//		alert("종료일은 스케쥴 날짜보다 앞서야 합니다. 기간을 준수하세요.");
+	//	} 
+	}
+	//
+		//20211010/20211020
+//다중파일
+	/*function setImgBox(event){
+		var reader = new FileReader();
+		for(var i = 0; i < 6; i++) {
+			reader.onload = function(event){
+				var img = document.createElement("img");
+				img.setAttribute("src", event.target.result);
+				img.setAttribute("class", "col-lg-6");
+				document.querySelector("div#images_container").appendChild(img);
+			};
+			reader.readAsDataURL(event.target.files[i]);
 		}
-		
-
-//
-//		//대표파일 첨부 제한/
-//		function fileCheck(uploadFile){
-//			 max : 1,
-//			 maxfile : 1024,
-//			 maxsize: 1024,//
-//			 STRING : {
-//				 selected : "$file을 선택했습니다.",
-//				 description : "대표이미지 업로드 파일은 1개만 가능합니다.",
-//				 toomuch : "업로드 할 수 있는 최대 크기를 초과하였습니다($size)",
-//				 toobig: "$file은 크기가 커서 업로드 할 수 없습니다.(max $size)",
-//			 },
-//	 	});
+	}
+*/
 	
-	/* if(scheduleDateVal.indexOf("AM")){
-	var scheduleDate = scheduleDateVal.replace(scheduleCheck,""); //숫자
-	console.log(scheduleDate);
-	$("#scheduleDate").val(scheduleDate);
-	return false;
-}else if(scheduleDate.indexOf("PM")){
-	var scheduleDate = scheduleDateVal.replace(scheduleCheck, "");
-	var transPM = scheduleDate+1200;
-	console.log(transPM);
-	$("#scheduleDate").val(transPM);
-	return false;
-}  */
-//		var DateCheck = /[^0-9]/g;
-//		var supStartDate = sDateVal.replace(DateCheck,"");
-//		var supEndDate = eDateVal.replace(DateCheck,""); //2021/11/03
-//		$("#supStartDate").val(supStartDate);
-//		$("#supEndDate").val(supEndDate);
-	//	return false;//if~else로 성공시 넘어가게하고 hidden으로 만들기
-
-	
-	/* $("#during").on("blur", function(){
-		var during = $("#during").val();
-		supStartDate = during.substring(0,11);
-		supEndDate = during.substring(13);
-		console.log(supStartDate, supEndDate);
-	}); */
-	
-	/* //이중달력 
-	datePickerSet($("#sDate"), $("#eDate"), true); //다중은 시작하는 달력 먼저, 끝달력 2번째
-	function datePickerSet(sDate, eDate, flag) {
-
-	    //시작 ~ 종료 2개 짜리 달력 datepicker	
-	    if (!isValidStr(sDate) && !isValidStr(eDate) && sDate.length > 0 && eDate.length > 0) {
-	        var sDay = sDate.val();
-	        var eDay = eDate.val();
-
-	        if (flag && !isValidStr(sDay) && !isValidStr(eDay)) { //처음 입력 날짜 설정, update...			
-	            var sdp = sDate.datepicker().data("datepicker");
-	            sdp.selectDate(new Date(sDay.replace(/-/g, "/")));  //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
-
-	            var edp = eDate.datepicker().data("datepicker");
-	            edp.selectDate(new Date(eDay.replace(/-/g, "/")));  //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
-	        }
-
-	        //시작일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
-	        if (!isValidStr(eDay)) {
-	        	$("#sDate").datepicker({
-	                maxDate: new Date(eDay.replace(/-/g, "/"))
-	            });
-	        }
-	        $("#sDate").datepicker({
-	            language: 'ko',
-	            autoClose: true,
-	            onSelect: function () {
-	                datePickerSet(sDate, eDate);
-	            }
-	        });
-
-	        //종료일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
-	        if (!isValidStr(sDay)) {
-	        	$("#eDate").datepicker({
-	                minDate: new Date(sDay.replace(/-/g, "/"))
-	            });
-	        }
-	        $("#eDate").datepicker({
-	            language: 'ko',
-	            autoClose: true,
-	            onSelect: function () {
-	                datePickerSet(sDate, eDate);
-	            }
-	        });
- */
- 	
- 	
-       /*  // 사이즈체크
-        var maxSize  = 5 * 1024 * 1024    //30MB
-        var fileSize = 0;
-	
-		// 브라우저 확인
-		var browser=navigator.appName;
-		
-		// 익스플로러일 경우
-		if (browser=="Microsoft Internet Explorer"){
-			var oas = new ActiveXObject("Scripting.FileSystemObject");
-			fileSize = oas.getFile( file.value ).size;
-		}
-		// 익스플로러가 아닐경우
-		else{
-			fileSize = file.files[0].size;
-		}
-		alert("파일사이즈 : "+ fileSize +", 최대파일사이즈 : 5MB");
-        if(fileSize > maxSize) {
-            alert("첨부파일 사이즈는 5MB 이내로 등록 가능합니다.");
-            return;
-        }
-        document.fileForm.submit();
-	} */
-	
-  	
 </script>
 </body>
 </html>

@@ -50,8 +50,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="breadcrumb__links">
-                        <a href="./index.html">Home</a>
-                        <a href="./shop.html">My Page</a>
+                        <a href="/">Home</a>
+                        <a href="myPageMain.pick">My Page</a>
                         <span>main</span>
                     </div>
                 </div>
@@ -66,25 +66,25 @@
             </div>
             <p>nickName</p>
             <div id="update-btn">
-                <button><a href="memberModifyView.pick">정보수정</a></button>
+                <button><a href="myPageModify.pick">정보수정</a></button>
             </div>
         </div>
     </section>
     <section id="second-section">
         <div class="mypage-menu">
-            <div class="menu-icon">
+            <div class="menu-icon" onclick="location.href='mypageCart.pick'">
                 <img src="assets/images/menu-cart.png" alt="">
             </div>
             <p class="menu-label">장바구니</p>
         </div>
         <div class="mypage-menu">
-            <div class="menu-icon">
+            <div class="menu-icon" onclick="location.href='historySupport.pick'">
                 <img src="assets/images/menu-pay.png" alt="">
             </div>
             <p class="menu-label">결제 내역</p>
         </div>
         <div class="mypage-menu">
-            <div class="menu-icon">
+            <div class="menu-icon" onclick="location.href='postSupport.pick'">
                 <img src="assets/images/menu-bubble.png" alt="">
             </div>
             <p class="menu-label">게시글 관리</p>

@@ -11,4 +11,25 @@ public class MypageController {
 	public String myPageMainView() {
 		return "myPage/mypageMain";
 	}
+
+	@RequestMapping(value="myPageModify.pick", method = RequestMethod.GET)
+	public String myPageModify() {
+		return "myPage/mypageModify";
+	}
+	
+	
+	@RequestMapping(value="historySupport.pick", method = RequestMethod.GET)
+	public String historySupport() {
+		return "myPage/historySupport";
+	}
+	
+	
+	@RequestMapping(value="postSupport.pick", method = RequestMethod.GET)
+	public String postSupport() {
+		return "myPage/postSupport";
+	}
+	
+
+
 }
+

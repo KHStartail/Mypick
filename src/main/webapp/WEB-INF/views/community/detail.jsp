@@ -37,6 +37,8 @@
 <!-- include summernote-ko-KR -->
 <script src="/assets/js/summernote-ko-KR.js"></script>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 <!-- Additional CSS Files -->
 
 <link rel="stylesheet" type="text/css"
@@ -72,9 +74,16 @@
 .card {
 	min-height: 100px;
 }
-.button{
- 
+#replyBox img{
+	height: 500px;
+	width: 500px;
 }
+.font{
+font-family: 'Jeju Gothic', sans-serif;
+}
+</style>
+<style>
+     @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 </style>
 </head>
 
@@ -106,32 +115,33 @@
 		</div>
 		<div class="board">
 		
-			<div class="contents" style="overflow: auto">
+			<div class="contents" style="overflow: auto; margin-top:1%;">
 				<h1>${post.postTitle }</h1>
 				<div id="contents">${post.postContents }</div>
 				   <div style="text-align: right; margin-top:35%">
-       <a class="btn heart">
+       <a class="btn heart" style="margin-top:20%;">
            <img id="heart" src="">
        </a>
    </div>
 			</div>
 		</div>
 	</div>
-		<form action="CommunityDelete.pick" onsubmit="return confirm('삭제하시겠습니까?')" method="get"style="margin-left: 84%;">
+		<form action="communityDelete.pick" onsubmit="return confirm('삭제하시겠습니까?')" method="get" style="margin-left: 84%;">
 		<c:forEach items="${file }" var="file">
 			<input type="hidden" value="${file.fileRename }" id="fileName"
 				name="fileName">
 		</c:forEach>
 		<input type="hidden" value="${post.postNo }" id="postNo" name="postNo">
-		<table id="table" style="margin-left: 5%;">
-			<tr>
+		<input type="hidden" value="${post.groupName }" id="groupName" name="groupName">
+		<table id="table" style="margin-left: 0%; margin-top:3%;">
+			<tr class="font">
 				<td>
-				작성자 : ${post.userNickName } 작성일 : ${post.updateDate }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				작성자 : ${post.userNickName }<br> ${post.updateDate }<br>
 				<c:if test ="${loginUser.userId eq post.userId}">
 				<c:url var="cModify" value="modifyView.pick">
 						<c:param name="postNo" value="${post.postNo }"></c:param>
-					</c:url> <a class="btn btn-primary" href="${cModify }">수정하기</a> <input
-					type="submit" class="btn btn-primary" value="삭제하기">
+					</c:url> <a class="btn btn-primary" href="${cModify }">수정하기</a> 
+					<input type="submit" class="btn btn-primary" value="삭제하기">
 					</c:if>
 						<c:if test ="${loginUser.userId ne post.userId}">
 					<a class="btn btn-primary" onclick="report(${post.postNo });">신고하기</a> 
@@ -153,7 +163,7 @@
 			<tr>
 			<tr class="list-group list-group-flush">
 				<td class="list-group-item" ><textarea id="summernote" 
-						name="content" id="content" onclick="onScript();" rows="5" cols="140" ></textarea>
+						name="content" id="content" onclick="onScript();" rows="5" cols="100" ></textarea>
 					<button type="button" id="rSubmit" class="btn btn-dark mt-3">댓글작성</button>
 					<input type="hidden" value="${loginUser.userId }" id="loginUser">
 				<hr>
@@ -162,7 +172,7 @@
 		</thead>
 		<tbody class="reply-body" id="reply-body">
 		<tr>
-			<td>		
+			<td id="replyBox">		
 			
 			</td>
 		</tr>
@@ -276,16 +286,16 @@
 					if(data.length > 0){
 						for(var i in data){
 							$tr = $("<tr id='modifyTr' class='list-group list-group-flush'>");
-							$rWriter = $("<td style='font-weight : bold' colspan='4'>").text('작성자 : '+data[i].userNickName);
+							$rWriter = $("<td class='font' style='font-weight : bold' colspan='4'>").text('작성자 : '+data[i].userNickName);
 							<c:if test ="${loginUser.userId ne data[i].userId}"> 
-							$btnArea = $("<td colspan='4' align='right'>").append("<a href='#' onclick='modifyReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>수정</a>").append("<a href='#' onclick='removeReply("+postNo+","+data[i].replyAllNo+")'>삭제</a>");
+							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='modifyReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>수정&nbsp;&nbsp;</a>").append("<a href='#' class='font' onclick='removeReply("+postNo+","+data[i].replyAllNo+")'>삭제</a>");
 							</c:if>
 							if($loginUser != data[i].userId){
-							$btnArea = $("<td colspan='4' align='right'>").append("<a href='#' onclick='reportReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>신고</a>");
+							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='reportReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>신고</a>");
 							}
-							$rCreateDate = $("<td style='font-size : 20px' align='right'>").text(data[i].replyDate);												
-							$rContent = $("<td class='list-group-item'>").html(data[i].replyContents+'<hr>');
+							$rCreateDate = $("<td class='font' style='font-size : 20px' align='right'>").text(moment(data[i].replyDate).format("YYYY-MM-DD HH:mm:ss"));	
 							
+							$rContent = $("<td class='list-group-item'>").html(data[i].replyContents+'<hr>');
 							$tr.append($rWriter);
 							$tr.append($rCreateDate);
 							$tr.append($btnArea);

@@ -47,8 +47,14 @@
 	<select id="selectUserOne" resultMap="memberResultMap">
 		SELECT * FROM MEMBER WHERE USER_NO = #{userNo}
 	</select>
+
 	<delete id="deleteMember">
 		DELETE FROM MEMBER WHERE USER_Id=#{USER_Id}
 	</delete>
+
+	<select id="kakaoChk" resultMap="memberResultMap">
+		SELECT * FROM MEMBER WHERE USER_EMAIL =  #{userEmail}
+	</select>
+	
  	 </mapper>
   

@@ -33,8 +33,13 @@
 				</c:url>
 				<a href="${iModify }">수정페이지로 이동</a>
 				<a href="${iDelete }">삭제하기</a>
+				<c:url var="community" value="mainView.pick">
+					<c:param name="groupName" value="${idol.groupName }"></c:param>
+				</c:url>
+				<a href="${community }">커뮤니티</a>	
 			</td>
 		</tr>
 	</table>
+	
 </body>
 </html>

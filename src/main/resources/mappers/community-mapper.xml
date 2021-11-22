@@ -5,7 +5,7 @@
 <mapper namespace="CommunityPostMapper">
 	<resultMap type="Post" id="postResultMap">
 		<id property="postNo" column="POST_NO"></id>
-		<result property="groupNo" column="GROUP_NO" />
+		<result property="groupName" column="GROUP_NAME" />
 		<result property="userId" column="MEMBER_ID" />
 		<result property="userNickName" column="MEMBER_NICKNAME" />
 		<result property="postTitle" column="POST_TITLE" />
@@ -55,18 +55,22 @@
 		<result property="postTitle" column="POST_TITLE" />
 		<result property="userNickName" column="USER_NICKNAME" />
 		<result property="writerNickName" column="WRTIER_NICKNAME" />
+		<result property="status" column="STATUS" />
 	</resultMap>
-
+	<resultMap type="Main" id="MaintResultMap">
+		<id property="groupName" column="GROUP_NAME"></id>
+		<result property="mainImgName" column="MAINIMG_NAME" />
+	</resultMap>
 
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*) FROM
-		COMMUNITY_POST WHERE STATUS = 'Y'
+		COMMUNITY_POST WHERE STATUS = 'Y'AND GROUP_NAME =#{groupName}
 	</select>
 
 	<select id="selectAllList" resultMap="postResultMap">
 		SELECT * FROM
 		COMMUNITY_POST WHERE
-		STATUS ='Y' ORDER BY POST_NO DESC
+		STATUS ='Y' AND GROUP_NAME =#{groupName} ORDER BY POST_NO DESC
 	</select>
 
 	<select id="selectSearchList" resultMap="postResultMap">
@@ -75,7 +79,7 @@
 		|| '%' OR
 		MEMBER_NICKNAME LIKE '%' || #{searchKeyword} || '%' AND
 		STATUS = 'Y'
-		ORDER BY CREATE_DATE DESC
+		AND GROUP_NAME = #{groupName} ORDER BY CREATE_DATE DESC
 	</select>
 
 	<select id="selectSearchListCount" resultType="_int">
@@ -84,7 +88,7 @@
 		COMMUNITY_POST WHERE POST_TITLE LIKE '%' ||
 		#{searchKeyword} || '%'
 		OR MEMBER_NICKNAME LIKE '%' ||
-		#{searchKeyword} || '%' AND STATUS = 'Y'
+		#{searchKeyword} || '%' AND STATUS = 'Y' AND GROUP_NAME = #{groupName}
 	</select>
 
 	<select id="selectOnePost" resultMap="postResultMap">
@@ -119,13 +123,30 @@
 		SELECT * FROM COMMUNITY_POST_REPORT WHERE POST_NO = #{postNo} AND WRTIER_NICKNAME = #{writerNickName}
 	</select>
 
+	<select id="selectMainImg"  resultMap="MaintResultMap">
+		SELECT * FROM COMMUNITY_MAIN WHERE GROUP_NAME = #{groupName}
+	</select>
+
+	<select id="selectMyPost" resultMap="postResultMap">
+		SELECT * FROM COMMUNITY_POST WHERE MEMBER_ID = #{userId} AND STATUS = 'Y'
+	</select>
+	
+	<select id="myPageListCount" resultType="_int">
+		SELECT COUNT(*) FROM
+		COMMUNITY_POST WHERE STATUS = 'Y'AND MEMBER_ID =#{userId}
+	</select>
+	
+	<select id="reportPost" resultMap="pReportResultMap">
+	SELECT POST_NO,POST_TITLE,USER_NICKNAME FROM COMMUNITY_POST_REPORT WHERE STATUS = 'Y' GROUP BY POST_NO,POST_TITLE,USER_NICKNAME HAVING COUNT(*) >= 5
+	</select>
+	
 	<insert id="uploadFile" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
 		VALUES(SEQ_FILE.NEXTVAL,#{userId},#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
 	</insert>
 	<insert id="insertPost" parameterType="Post">
 		INSERT INTO COMMUNITY_POST
-		VALUES(SEQ_POST.NEXTVAL,0,#{userId},#{userNickName},#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
+		VALUES(SEQ_POST.NEXTVAL,#{groupName},#{userId},#{userNickName},#{postTitle},#{postContents},0,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
 	</insert>
 	<insert id="reUpload" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
@@ -157,7 +178,12 @@
 
 	<insert id="insertPostReport" parameterType="pReport">
 		INSERT INTO COMMUNITY_POST_REPORT
-		VALUES(SEQ_POST_REPORT.NEXTVAL,#{postNo},#{postTitle},#{userNickName},#{writerNickName})
+		VALUES(SEQ_POST_REPORT.NEXTVAL,#{postNo},#{postTitle},#{userNickName},#{writerNickName},'Y')
+	</insert>
+
+	<insert id="insertMainImg" parameterType="Main">
+		INSERT INTO COMMUNITY_MAIN
+		VALUES(#{groupName},#{mainImgName})
 	</insert>
 
 	<delete id="deletePost" parameterType="_int">
@@ -205,6 +231,9 @@
 		SET HEART_COUNT = HEART_COUNT - 1 WHERE POST_NO =
 		#{postNo}
 	</delete>
-
+		<delete id="deleteMainImg" parameterType="Main">
+		DELETE FROM COMMUNITY_MAIN WHERE GROUP_NAME = #{groupName}
+	</delete>
+	
 </mapper>
   

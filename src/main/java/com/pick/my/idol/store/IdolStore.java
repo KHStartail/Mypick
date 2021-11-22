@@ -11,4 +11,5 @@ public interface IdolStore {
 	public int insertIdol(Idol idol);
 	public int updateIdol(Idol idol);
 	public int deleteIdol(int idolNo);
+	public List<Idol> slsetGroup(String groupName);
 }

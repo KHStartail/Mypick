@@ -1,11 +1,13 @@
 package com.pick.my.community.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pick.my.community.domain.Community_File;
+import com.pick.my.community.domain.Community_Main;
 import com.pick.my.community.domain.Community_Post;
 import com.pick.my.community.domain.Community_Post_Report;
 import com.pick.my.community.domain.Community_Reply;
@@ -19,8 +21,8 @@ public class CommunityServiceImpl implements CommunityService{
 	@Autowired
 	private CommunityStore store;
 	@Override
-	public int getListcount() {
-		int totalCount = store.getListcount();
+	public int getListcount(String groupName) {
+		int totalCount = store.getListcount(groupName);
 		return totalCount;
 	}
 
@@ -193,6 +195,45 @@ public class CommunityServiceImpl implements CommunityService{
 		Community_Post_Report report = store.checkReport(postReport);
 		return report;
 	}
+
+	@Override
+	public int registerMainImg(Community_Main main) {
+		int result = store.insertMainImg(main);
+		return result;
+	}
+
+	@Override
+	public int removeMainImg(Community_Main main) {
+		int result = store.deleteMainImg(main);
+		return result;
+	}
+
+	@Override
+	public Community_Main printMainImg(Community_Main groupName) {
+		Community_Main main = store.selectMainImg(groupName);
+		return main;
+	}
+
+	@Override
+	public List<Community_Post> printMyPost(Map<String, Object> map) {
+		List<Community_Post> pList = store.selectMyPost(map);
+		return pList;
+	}
+
+	@Override
+	public int myPageListcount(String userId) {
+		int totalCount = store.myPageListcount(userId);
+		return totalCount;
+	}
+
+	@Override
+	public  List<Community_Post_Report> printReportPost() {
+		List<Community_Post_Report> post = store.printReportPost(); 
+		return post;
+	}
+
+
+
 
 
 }

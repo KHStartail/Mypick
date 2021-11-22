@@ -1,25 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
-    <link rel="stylesheet" href="/css/templatemo-klassy-cafe.css">
-    <link rel="stylesheet" href="/css/owl-carousel.css">
-    <link rel="stylesheet" href="/css/lightbox.css">
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/login.css">
+<link
+	href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
+<link rel="stylesheet" href="/css/templatemo-klassy-cafe.css">
+<link rel="stylesheet" href="/css/owl-carousel.css">
+<link rel="stylesheet" href="/css/lightbox.css">
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/login.css">
 
 </head>
 <body>
-<div class="main-header">
-        <nav>
-            <!-- <div id="login">
+	<div class="main-header">
+		<nav>
+			<!-- <div id="login">
                 <button type="button" id="login-btn">LOGIN</button>
                     <div class="black-bg"></div>
                     <div class="modal-wrap">
@@ -43,80 +47,79 @@
                     </div>
                 </div>
                  <button type="button" id="join-btn"><a href="../mypick/login.html">JOIN</a></button> -->
-        </nav>
-        <div id="h-1">
-            <ul id="h-ul">
-                <li id="box" class="b-ul"><a href="#" class="m-list">SUPPORTING</a>
-	                <ul class="drop">
-		                <li class="b-ul box"><a href="presupportingList.pick" class="dropdown">PRESUPPORTING</a></li><br>
-		                <li class="b-ul box"><a href="supportingList.pick" class="dropdown">SUPPORTING</a></li>
-	                </ul>
-                </li>
-                <li class="b-ul"><a href="../mypick/find.html" class="m-list">GOODS</a></li>
-            </ul>
-        </div>
-        <div class="logo">
-            <a href="index.jsp"><img src="assets/images/mypic_logo.png" alt=""></a>
-        </div>
-        <div class="mypage">
-            <ul class="main-ul">
-                <li class="main-li">
-                    <div>
-                       
-                    </div>
-                    	<c:if test ="${loginUser.userId eq null}">
-                    <ul class="serv-ul">
-                        <li class="serv-li"><a href="loginView.pick">로그인</a></li>
-                    </ul>
-                 </c:if>
-                
-	            <c:if test="${loginUser.userId ne null and userId ne ''}">
-	
-	    			 <ul class="serv-ul">
-                        <li class="serv-li"><a onclick="location.href='/logout.pick';">로그아웃</a></li>
-                    </ul>
-				</c:if>
-                </li>
-            </ul>
-        </div>
-    </div>
-        <header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/mypic_logo.png" style="width: 80px; margin-right: 200px;">
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
-                            <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
-                            <li class="submenu">
-                                <a href="javascript:;">Supporting</a>
-                                <ul>
-                                    <li><a href="presupportingList.pick">모집중 서포팅</a></li>
-                                    <li><a href="supportingList.pick">진행중 서포팅</a></li>
-                                 </ul>
-                            </li>
-                            <li class="scroll-to-section"><a href="#">Goods</a></li>
-                            <!-- <li class="submenu">
+		</nav>
+		<div id="h-1">
+			<ul id="h-ul">
+				<li id="box" class="b-ul"><a href="#" class="m-list">SUPPORTING</a>
+					<ul class="drop">
+						<li class="box"><a href="presupportingList.pick"
+							class="dropdown">PRESUPPORTING</a>
+						</li>
+						<li class="box"><a href="supportingList.pick"
+							class="dropdown">SUPPORTING</a>
+						</li>
+					</ul>
+				</li>
+				<li class="b-ul"><a href="goodsList.pick" class="m-list">GOODS</a></li>
+			</ul>
+		</div>
+		<div class="logo">
+			<a href="index.jsp"><img src="assets/images/mypic_logo.png"
+				alt=""></a>
+		</div>
+		<div class="mypage">
+			<ul class="main-ul">
+				<li class="main-li">
+					<div><a href="myPageMain.pick" style="display: block;"><img alt="" src="assets/images/mypic_logo.png"></a></div> <c:if test="${loginUser.userId eq null and userId eq null}">
+						<ul class="serv-ul">
+							<li class="serv-li"><a href="loginView.pick">LOGIN</a></li>
+						</ul>
+					</c:if> <c:if test="${loginUser.userId ne null or userId ne null}">
+						<ul class="serv-ul">
+							<li class="serv-li"><a
+								onclick="location.href='/logout.pick';">LOGOUT</a></li>
+						</ul>
+					</c:if> 
+				</li>
+			</ul>
+		</div>
+	</div>
+	<header class="header-area header-sticky">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<nav class="main-nav">
+						<!-- ***** Logo Start ***** -->
+						<a href="index.html" class="logo"> <img
+							src="assets/images/mypic_logo.png"
+							style="width: 80px; margin-right: 200px;">
+						</a>
+						<!-- ***** Logo End ***** -->
+						<!-- ***** Menu Start ***** -->
+						<ul class="nav">
+							<li class="scroll-to-section"><a href="/" class="active">Home</a></li>
+							<li class="submenu"><a href="javascript:;">Supporting</a>
+								<ul>
+									<li><a href="presupportingList.pick">모집중 서포팅</a></li>
+									<li><a href="supportingList.pick">진행중 서포팅</a></li>
+								</ul></li>
+							<li class="scroll-to-section"><a href="#">Goods</a></li>
+							<!-- <li class="submenu">
                                 <a href="javascript:;">MyPage<a>
                                 <ul>
                                     <li><a href="#">Drop Down Page 1</a></li>
                                  </ul>
                             </li> -->
-                            <!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
-                        </ul>        
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
+							<!-- <li class=""><a rel="sponsored" href="https://templatemo.com" target="_blank">External URL</a></li> -->
+						</ul>
+						<a class='menu-trigger'> <span>Menu</span>
+						</a>
+						<!-- ***** Menu End ***** -->
+					</nav>
+				</div>
+			</div>
+		</div>
+
+	</header>
 </body>
 </html>

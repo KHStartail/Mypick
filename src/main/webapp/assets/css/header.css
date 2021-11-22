@@ -38,7 +38,7 @@ body{
         margin-top: 100px;
         margin-left: 170px;
    }
-	   #h-ul li{
+	   .b-ul{
 	    padding-top: 35px;
 	    text-align: center;
 	    float: left;
@@ -58,19 +58,31 @@ body{
        color: #fb5849;
    }
    
-   .drop{
+   .box{
       	display:none;
-   	 	background-color : #eee;
+   	 	padding-left: 5%;
    }
+   .box:first-child{
+   	 	padding-top: 20%;
+   	
+   }
+   .box:last-child{
+   		padding-top: 10%;
+   		padding-bottom: 10%;
+   }
+
    
-   #box:hover .drop{
+   #box:hover .box{
    	display:block;
    }
    
+   .drop{
+   	background-color : rgba(230, 211, 177, 0.603) !important;
+   }
    .drop a{
   	 color : black;
    }
-   .b-ul box{
+   .box{
    	 background-color : #eee;
    	 text-align : center;
    }
@@ -114,3 +126,12 @@ header{
     width: 100px;
     height: 200px;
 }
+
+	.serv-li{
+		text-align: center;
+		margin-top: 10%;
+
+	}
+		.serv-li a{
+			color: black;
+		}

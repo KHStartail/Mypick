@@ -20,7 +20,11 @@
 	</select>
 	
 	<select id="selectSearchList" resultMap="idolResultMap">
-		SELECT * FROM IDOL WHERE IDOL_NAME LIKE '%'  || #{searchValue} || '%'
+		SELECT * FROM IDOL WHERE IDOL_NAME LIKE '%' || #{searchValue} || '%'
+	</select>
+	
+	<select id="selectGroupList" resultMap="idolResultMap">
+		SELECT * FROM IDOL WHERE GROUP_NAME LIKE '%' || #{groupName} || '%'
 	</select>
 	
 	<update id="updateIdolmember" parameterType="Idol">
