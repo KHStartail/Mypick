@@ -98,6 +98,18 @@ public class MemberController {
 	public String findIdPwdView() {
 		return "member/findid";
 	}
+	@RequestMapping(value="managerEnrollView.pick",method=RequestMethod.GET)
+	public String managerEnrollview() {
+		return "member/managerJoin";
+	}
+	@RequestMapping(value="home.pick",method=RequestMethod.GET)
+	public String homeView() {
+		return "redirect:index.jsp";
+	}
+	@RequestMapping(value="memberModifyView.pick",method=RequestMethod.GET)
+	public String memberModifyView() {
+		return "member/membermodify";
+	}
 	
 	
 	@RequestMapping(value="memberRegister.pick",method = RequestMethod.POST)
@@ -123,7 +135,30 @@ public class MemberController {
 		}
 	}
 
-	
+
+	@RequestMapping(value="managerRegister.pick",method = RequestMethod.POST)
+	public String managerRegister(HttpServletRequest request
+			,@ModelAttribute Member member
+			,@RequestParam("post") String post
+			,@RequestParam("address1") String address1
+			,@RequestParam("address2") String address2
+			) {
+
+		member.setUserAddr(post+","+address1+","+address2);
+		try {
+			int result = service.registerMember(member);
+			if(result > 0) {
+				return  "redirect:index.jsp";
+			}else {
+				request.setAttribute("msg", "회원가입 실패");
+				return "common/erroePage";
+			}
+		}catch (Exception e) {
+		request.setAttribute("msg", e.toString());
+		return "common/errorPage";
+		}
+	}
+
 	
 	@ResponseBody 
 	@RequestMapping(value="checkDupId.pick", method = RequestMethod.GET)
@@ -186,6 +221,18 @@ public class MemberController {
 		}
 		return mv;
 	}
+
+	@RequestMapping(value = "memberDelete.pick", method = RequestMethod.GET)
+	public String memberDelete(@RequestParam("userId") String userId, Model model) {
+		int result = service.removeMember(userId);
+		if (result>0) {
+			return "redirect:logout.pick";
+		}else {
+			model.addAttribute("msg", "회원탈퇴 실패");
+			return "common/errorPage";
+		}
+	}
+	
 	
 //	//카카오톡 로그인.. 
 //	@RequestMapping(value = "/loginpage_kakao_callback", method = RequestMethod.GET) 

@@ -6,6 +6,7 @@ public interface MemberStore {
 	public Member loginMember(Member memberOne);
 	public int checkIdDup(String userId);
 	public int registerMember(Member member);
+	public int registerManager(Member member);
 	public int modifyMember(Member member);
 	public int removeMember(String userId);
 	public String searchId(int phoneNumber);
