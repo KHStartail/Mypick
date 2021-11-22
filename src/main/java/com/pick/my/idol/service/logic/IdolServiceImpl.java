@@ -46,4 +46,10 @@ public class IdolServiceImpl implements IdolService{
 		return result;
 	}
 
+	@Override
+	public List<Idol> printGroupIdol(String groupName) {
+		List<Idol> gList = store.slsetGroup(groupName);
+		return gList;
+	}
+
 }
