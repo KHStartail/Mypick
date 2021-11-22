@@ -236,6 +236,14 @@ public class CommunityStoreLogic implements CommunityStore{
 		return count;
 	}
 
+	@Override
+	public  List<Community_Post_Report> printReportPost() {
+		List<Community_Post_Report> post = sqlSession.selectList("CommunityPostMapper.reportPost");
+		return post;
+	}
+
+
+
 
 
 }

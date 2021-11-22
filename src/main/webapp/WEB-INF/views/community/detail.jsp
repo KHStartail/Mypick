@@ -26,7 +26,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
-<	
+
 
 <!-- include summernote css/js-->
 <link
@@ -133,10 +133,10 @@ font-family: 'Jeju Gothic', sans-serif;
 		</c:forEach>
 		<input type="hidden" value="${post.postNo }" id="postNo" name="postNo">
 		<input type="hidden" value="${post.groupName }" id="groupName" name="groupName">
-		<table id="table" style="margin-left: 0%;">
+		<table id="table" style="width: 250px;">
 			<tr class="font">
 				<td>
-				작성자 : ${post.userNickName }<br> ${post.updateDate }<br>
+				작성자 : ${post.userNickName }<br> ${post.updateDate } &nbsp; &nbsp;
 				<c:if test ="${loginUser.userId eq post.userId}">
 				<c:url var="cModify" value="modifyView.pick">
 						<c:param name="postNo" value="${post.postNo }"></c:param>
@@ -436,10 +436,6 @@ font-family: 'Jeju Gothic', sans-serif;
         });
         function report(postNo){
         	confirm('신고하시겠습니까?')
-        	  Swal.fire({ icon: 'success', // Alert 타입 
-        		title: 'Alert가 실행되었습니다.', // Alert 제목 
-        		text: '이곳은 내용이 나타나는 곳입니다.', // Alert 내용 
-        		});
         	$.ajax({
         		url : 'reportPost.pick',
         		type : 'post',

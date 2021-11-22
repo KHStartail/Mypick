@@ -27,7 +27,6 @@ public class MypageController {
         return "myPage/historySupport";
     }
 
-
     @RequestMapping(value="postSupport.pick", method = RequestMethod.GET)
     public String postSupport() {
         return "myPage/postSupport";

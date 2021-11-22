@@ -47,4 +47,5 @@ public interface CommunityService {
 	public Community_Main printMainImg(Community_Main groupName);
 	public List<Community_Post>printMyPost(Map<String, Object> map);
 	public int myPageListcount(String userId);
+	public  List<Community_Post_Report> printReportPost();
 }
