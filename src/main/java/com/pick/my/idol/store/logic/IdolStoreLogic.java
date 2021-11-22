@@ -46,4 +46,10 @@ public class IdolStoreLogic implements IdolStore {
 		return result;
 	}
 
+	@Override
+	public List<Idol> slsetGroup(String groupName) {
+		List<Idol> gList = sqlSession.selectList("idolMapper.selectGroupList", groupName); 
+		return gList;
+	}
+
 }
