@@ -37,7 +37,11 @@ public class MemberServiceImpl implements MemberService {
 		int result = store.registerMember(member);
 		return result;
 	}
-
+	@Override
+	public int registerManager(Member member) {
+		int result = store.registerManager(member);
+		return result;
+	}
 	@Override
 	public int modifyMember(Member member) {
 		int result = store.modifyMember(member);
@@ -85,6 +89,8 @@ public class MemberServiceImpl implements MemberService {
 		int result = store.modifyPwd(member);
 		return result;
 	}
+
+	
 	}
 
 	

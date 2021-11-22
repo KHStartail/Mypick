@@ -31,7 +31,11 @@ public class MemberStoreLogic implements MemberStore{
 		int result = sqlSession.insert("memberMapper.insertMember", member);
 		return result;
 	}
-
+	@Override
+	public int registerManager(Member member) {
+		int result = sqlSession.insert("memberMapper.insertManager", member);
+		return result;
+	}
 	@Override
 	public int modifyMember(Member member) {
 		int result = sqlSession.update("memberMapper.updateMember", member);
@@ -61,5 +65,7 @@ public class MemberStoreLogic implements MemberStore{
 		int result = sqlSession.update("memberMapper.updatePwd",member);
 		return result;
 	}
+
+	
 
 }

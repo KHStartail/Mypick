@@ -66,7 +66,7 @@
             </div>
             <p>nickName</p>
             <div id="update-btn">
-                <button><a href="#">정보수정</a></button>
+                <button><a href="memberModifyView.pick">정보수정</a></button>
             </div>
         </div>
     </section>

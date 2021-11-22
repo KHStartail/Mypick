@@ -27,6 +27,9 @@
   	<insert id="insertMember" parameterType="Member">
 	INSERT INTO MEMBER VALUES(SEQ_MEMBERNUM.NEXTVAL,#{userId},#{userPwd}, #{userNickName}, #{userEmail},#{userAddr},#{userPhone}, DEFAULT, DEFAULT, NULL, NULL, NULL, NULL, NULL)
 	</insert>
+	<insert id="insertManager" parameterType="Member">
+	INSERT INTO MEMBER VALUES(SEQ_MEMBERNUM.NEXTVAL,#{userId},#{userPwd}, #{userNickName}, #{userEmail},#{userAddr},#{userPhone}, manager, DEFAULT, #{businessNo}, NULL, NULL, NULL, NULL)
+	</insert>
 	<select id="checkIdDup" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER WHERE USER_ID = #{userId} 
 	</select>
@@ -44,6 +47,8 @@
 	<select id="selectUserOne" resultMap="memberResultMap">
 		SELECT * FROM MEMBER WHERE USER_NO = #{userNo}
 	</select>
-	
+	<delete id="deleteMember">
+		DELETE FROM MEMBER WHERE USER_Id=#{USER_Id}
+	</delete>
  	 </mapper>
   
