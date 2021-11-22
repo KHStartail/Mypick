@@ -137,7 +137,7 @@ font-family: 'Jeju Gothic', sans-serif;
 			<tr class="font">
 				<td>
 				작성자 : ${post.userNickName }<br> ${post.updateDate }<br>
-				<c:if test ="${loginUser.userId eq post.userId}">
+				<c:if test ="${loginUser.userId eq post.userId or loginUser.userId eq 'admin'}">
 				<c:url var="cModify" value="modifyView.pick">
 						<c:param name="postNo" value="${post.postNo }"></c:param>
 					</c:url> <a class="btn btn-primary" href="${cModify }">수정하기</a> 
@@ -287,7 +287,7 @@ font-family: 'Jeju Gothic', sans-serif;
 						for(var i in data){
 							$tr = $("<tr id='modifyTr' class='list-group list-group-flush'>");
 							$rWriter = $("<td class='font' style='font-weight : bold' colspan='4'>").text('작성자 : '+data[i].userNickName);
-							<c:if test ="${loginUser.userId ne data[i].userId}"> 
+							<c:if test ="${loginUser.userId ne data[i].userId eq loginUser.userId eq 'admin'}"> 
 							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='modifyReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>수정&nbsp;&nbsp;</a>").append("<a href='#' class='font' onclick='removeReply("+postNo+","+data[i].replyAllNo+")'>삭제</a>");
 							</c:if>
 							if($loginUser != data[i].userId){
