@@ -40,13 +40,15 @@
 	 	margin-bottom : 10px;
  	 }
 	 .filesBox {
-		width : 100%;
 	 	margin-top: 10px;
 		padding : 10px;
-	 	heigth : 500px;
 	 	display : flex;
 	 	justify-content : center;
 	 	align-items: center;
+	 }
+	 .filesBox img{
+	 	height :600px;
+	 	width: 300px;
 	 }
 	 .center {
 	 	width: 100%;
@@ -64,7 +66,17 @@
 	  	background-color : #483CFA;
 	  	color: white;
 	 }
+	 .partiwon{
+	 	background-color : #eee;
+	 	color: white;
+	 }
+	 .row img{
+	 	height: 400px;
+	 }
 </style>
+<!-- 제이쿼리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" type="text/javascript"></script>
+
 </head>
 <body>
 <jsp:include page="/header.jsp"></jsp:include><br><br>
@@ -77,33 +89,73 @@
 		<ul>
 			<li>작성자 : ${userNickName }</li>
 			<br><li>날짜 : ${supporting.scheduleDate}</li>
+			<br><li>아이돌이름 : ${supporting.groupName}</li>
 			<br><li>장소 : ${supporting.supPlace} </li>
 			<br><li>참여마감일 : <fmt:formatDate pattern="yyyy-MM-dd" value="${supporting.supStartDate}"/></li>
 			<br><li>목표인원 : ${supporting.supPartiwon} / 20명</li>
 			<br><li>내용 : ${supporting.supContents}</li>
 	        <br><li id="percent">참여인원percent </li> <!-- percent 고민좀 해보기 -->
 		</ul><br><br>
-		<button class="btn" id="participation">참여하기</button>
+		<button class="btn" id="participation" onclick="participation()">참여하기</button>
 		</div><br><br>
+		<div class="hidden"><input type="hidden" value="${ participation }"></div>
 		<div class="center">
-		<!-- 수정/삭제버튼 sessionUserId가 작성자랑 동일시에 보이게 -->
+		<c:if test="${loginUser.userNo eq supporting.userNo }">
 			<c:url var ="sModify" value="modifySupportingView.pick">
 				<c:param name="supNo" value="${supporting.supNo }"></c:param>
 			</c:url>
 			<c:url var ="sDelete" value="supportingDelete.pick">
 				<c:param name="supNo" value="${supporting.supNo }"></c:param>
 			</c:url>
-			<a href="${sModify }" class="btn">수정</a>&nbsp;&nbsp;&nbsp;
-			<a href="${sDelete }" class="btn">삭제</a>&nbsp;&nbsp;&nbsp;
+			<a href="${sModify }" class="btn" onclick="return check();">수정</a>&nbsp;&nbsp;&nbsp;
+			<a href="${sDelete }" class="btn" onclick="return check();">삭제</a>&nbsp;&nbsp;&nbsp;
+			<a href="presupportingList.pick" class="btn">목록</a><br><br><br>
+		</c:if>
+		<c:if test="${loginUser.userNo ne supporting.userNo }">
 			<a href="presupportingList.pick" class="btn">목록</a>
+		</c:if>
 		</div>
-		<div class="filesBox">
 			<c:forEach items="${fList}" var="files">
-				<img src="/resources/supportingFiles/${files.fileReName }">
+				<div class="filesBox">
+					<img src="/resources/supportingFiles/${files.fileReName }">
+				</div>
 			</c:forEach>
-		</div>
 	</div>
 </div>
 <jsp:include page="/footer.jsp"></jsp:include>
+<script>
+var user ='${loginUser.userNickName}';
+
+//var pcheck = '${pcheck }';
+//if(pcheck == 'Y') {
+//	$("#participation").addClass('partiwon');
+//}
+function participation(){
+	var supNo = "${supporting.supNo }";
+	var userId = '${loginUser.userId }';
+ 	if(userId == "") { 
+		alert("참여는 로그인 후 이용가능합니다.");
+	}else{ 
+		$.ajax({
+			url : "addParticipation.pick",
+			type : "get",
+			data : {
+				"supNo" : ${supporting.supNo }
+			},
+			success : function(data) {
+				if(data == "success1") {
+					alert("참여완료");
+				}else {
+					alert("참여 취소되었습니다");
+				
+				}
+			},
+			error : function() {
+				alert("통신오류, 관리자에게 문의 바랍니다.");
+			}
+		});
+	}
+}
+</script>
 </body>
 </html>

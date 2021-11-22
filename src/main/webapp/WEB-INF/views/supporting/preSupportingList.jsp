@@ -89,17 +89,16 @@
 					<div class="card-body"> 
 						<h5 class="card-title">${Supporting.supTitle }</h5>
 						<p class="card-text">${Supporting.supContents }</p> 
-						<a href="#" class="btn btn-primary">참여하기</a> 
+						<a href="#" class="btn btn-primary" id="partiwon" onclick="participation()">참여하기</a>
 					</div>
 				</div>
 			</div>
 			</c:forEach>		
 		</div>
 	<div class="pagination">
-		<table>
+		<table align="center">
 			<tr align="center" height="20">
 				<td colspan="6">
-				<!-- RequestParam의 page를 가져온다 -->
 					<c:url var="before" value="presupportingList.pick">
 						<c:param name="page" value="${pi.currentPage - 1}"></c:param>
 					</c:url>
@@ -109,7 +108,6 @@
 					<c:if test="${pi.currentPage > 1}">
 						<a href="${before }">[이전]</a>
 					</c:if>
-					
 					<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
 						<c:url var="pagination" value="presupportingList.pick">
 							<c:param name="page" value="${p }"></c:param>
@@ -126,34 +124,68 @@
 					</c:url>
 					<c:if test="${pi.currentPage >= pi.maxPage}">
 						[다음]
-					</c:if><c:if test="${pi.currentPage < pi.maxPage }">
+					</c:if>
+					<c:if test="${pi.currentPage < pi.maxPage }">
 						<a href="${after }">[다음]</a>
 					</c:if>
 				</td>
 			</tr>
 		</table>
 	</div><br>
-   	<button class="w-button" onclick="location.href='supportingWriteView.pick';">서포팅모집</button><br><br><br><br>
 	</c:if>
+	<button class="w-button" onclick="check()">서포팅모집</button><br><br><br><br>
 </div>
 <jsp:include page="/footer.jsp"></jsp:include>
 <script>
-//검색
-var search = document.getElementById("#searchBox");
-$("#searchBox").focus(function(){
-	$("#searchBox").val("");
-});
-	var swiper = new Swiper(".mySwiper", {
-    slidesPerView: 3,
-    grid: {
-      rows: 2,
-    },
-    spaceBetween: 30,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-  });
+	//검색
+	var search = document.getElementById("#searchBox");
+	$("#searchBox").focus(function(){
+		$("#searchBox").val("");
+	});
+	//서포팅모집
+	function check(){
+		var userId = '${loginUser.userId}';
+		console.log(userId);
+		if(userId == ""){
+			alert("로그인 후 이용해주세요")
+		}else{
+			location.href='supportingWriteView.pick';
+		}
+	}
+	//서포팅 참여
+	function participation(){
+		var userId = '${loginUser.userId }';
+		
+		if(userId == "") { 
+			alert("참여는 로그인 후 이용가능합니다.");
+			return;
+		}else{
+			var supNo = '${Supporting.supNo}';
+			$.ajax({
+				url : "addParticipation.pick",
+				type : "get",
+				data : {
+					"supNo" : supNo,
+				},
+				success : function(data) {
+					if(data == "success") {
+						alert("참여완료");
+						$("#partiwon").style.color='#eee';
+					}else {
+						alert("참여 실패");
+						console.log("실패");
+						return;
+					}
+				},
+				error : function() {
+						alert("통신오류, 관리자에게 문의 바랍니다.");
+				},
+				complete : function() {
+					
+				}
+			});
+		}
+	}
 </script>
 </body>
 </html>
