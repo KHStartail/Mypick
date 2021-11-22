@@ -5,24 +5,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -98,7 +84,6 @@ public class kakao_restapi {
 		        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 		        
 		        int responseCode = conn.getResponseCode();
-		        System.out.println("responseCode : " + responseCode);
 		        
 		        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		        
@@ -108,7 +93,6 @@ public class kakao_restapi {
 		        while ((line = br.readLine()) != null) {
 		            result += line;
 		        }
-		        System.out.println("response body : " + result);
 		        
 		        JsonParser parser = new JsonParser();
 		        JsonElement element = parser.parse(result);
@@ -139,7 +123,6 @@ public class kakao_restapi {
 		        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 		        
 		        int responseCode = conn.getResponseCode();
-		        System.out.println("responseCode : " + responseCode);
 		        
 		        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		        
@@ -149,7 +132,6 @@ public class kakao_restapi {
 		        while ((line = br.readLine()) != null) {
 		            result += line;
 		        }
-		        System.out.println(result);
 		    } catch (IOException e) {
 		        // TODO Auto-generated catch block
 		        e.printStackTrace();

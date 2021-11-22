@@ -47,4 +47,6 @@ public interface CommunityStore {
 	public Community_Main selectMainImg(Community_Main groupName);
 	public List<Community_Post>selectMyPost(Map<String, Object> map);
 	public int myPageListcount(String userId);
+	public  List<Community_Post_Report> printReportPost();
+	
 }

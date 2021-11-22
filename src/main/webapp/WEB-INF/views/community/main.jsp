@@ -199,6 +199,11 @@
 <jsp:include page="/footer.jsp"></jsp:include>
 <script>
 $(document).ready(function() {
+	   if (self.name != 'reload') {
+	         self.name = 'reload';
+	         self.location.reload(true);
+	     }
+	     else self.name = ''; 
     $("#input_img").on("change", handleImgFileSelect);
 }); 
 

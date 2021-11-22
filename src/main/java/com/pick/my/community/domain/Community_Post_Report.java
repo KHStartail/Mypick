@@ -6,6 +6,7 @@ public class Community_Post_Report {
 	private String postTitle;
 	private String userNickName;
 	private String writerNickName;
+	private String status;
 	
 	public Community_Post_Report() {}
 
@@ -50,11 +51,21 @@ public class Community_Post_Report {
 	public void setWriterNickName(String writerNickName) {
 		this.writerNickName = writerNickName;
 	}
+	
+	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
 		return "Community_Post_Report [reportNo=" + reportNo + ", postNo=" + postNo + ", postTitle=" + postTitle
-				+ ", userNickName=" + userNickName + ", writerNickName=" + writerNickName + "]";
+				+ ", userNickName=" + userNickName + ", writerNickName=" + writerNickName + ", status=" + status + "]";
 	}
 	
 	

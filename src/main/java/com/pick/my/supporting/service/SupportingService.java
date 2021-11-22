@@ -39,13 +39,7 @@ public interface SupportingService {
 	public int reportSupReply(SupReplyReport reportSupReply);
 	public int reportSupReplyCheck(int reportNo);
 	//////////////결제및참여관련////////
-	/**
-	 * 인원체크, 20명이상이면 카테고리변경(모집중 >> 진행중)
-	 * @param supNo
-	 * @param supPartiwon
-	 * @return
-	 */
-	public String checkPartiwon(int supNo, int supPartiwon);
+	
 	public int updateCategory(int supNo, int supCategory); 
 	
 	/**
@@ -60,28 +54,33 @@ public interface SupportingService {
 	 * @param supPartiwon
 	 * @return
 	 */
-	public String checkparticipation(int supNo, int supPartiwon); 
 	/**
 	 * 참여-1
 	 * @param supNo
 	 * @param supPartiwon
 	 * @return
 	 */
-	public int cancelParticipation(int supNo, int supPartiwon); 
+	public int cancelParticipation(SupParticipation supParticipation); 
 	/**
 	 * 참여인원+1
 	 * @param supNo
 	 * @param supPartiwon
 	 * @return
 	 */
-	public int addPartiwon(int supNo, int supPartiwon); 
+	public int addPartiwon(int supNo); 
 	/**
 	 * 참여인원-1
 	 * @param supNo
-	 * @param supPartiwon
 	 * @return
 	 */
-	public int cancelPartiwon(int supNo, int supPartiwon);
+	public int deletePartiwon(int supNo);
+	
+	/**
+	 * 인원체크, 20명이상이면 카테고리변경(모집중 >> 진행중)
+	 * @param supNo
+	 * @return
+	 */
+	
 	public int addPaymentHistory(PaymentHistory paymentHistory);
 	public int addSumMoney(int supNo, int sumMoney); 
 	/**
@@ -110,4 +109,17 @@ public interface SupportingService {
 	public int updateFile(SupFile file); 
 	public int deleteFile(int supNo);
 	public Member printOneUser(int userNo);
+	/**
+	 * 댓글 작성자 찾기
+	 * @param supReply
+	 * @return
+	 */
+//	public int printWriter(SupReply supReply);
+	/**
+	 *user 참여했는지 테이블에서 확인하기
+	 * @param supNo
+	 * @param userNo
+	 * @return
+	 */
+	public SupParticipation checkParticipation(SupParticipation sp);
 }
