@@ -52,13 +52,15 @@
 			<ul id="h-ul">
 				<li id="box" class="b-ul"><a href="#" class="m-list">SUPPORTING</a>
 					<ul class="drop">
-						<li class="b-ul box"><a href="presupportingList.pick"
-							class="dropdown">PRESUPPORTING</a></li>
-						<br>
-						<li class="b-ul box"><a href="supportingList.pick"
-							class="dropdown">SUPPORTING</a></li>
-					</ul></li>
-				<li class="b-ul"><a href="../mypick/find.html" class="m-list">GOODS</a></li>
+						<li class="box"><a href="presupportingList.pick"
+							class="dropdown">PRESUPPORTING</a>
+						</li>
+						<li class="box"><a href="supportingList.pick"
+							class="dropdown">SUPPORTING</a>
+						</li>
+					</ul>
+				</li>
+				<li class="b-ul"><a href="goodsList.pick" class="m-list">GOODS</a></li>
 			</ul>
 		</div>
 		<div class="logo">
@@ -68,14 +70,14 @@
 		<div class="mypage">
 			<ul class="main-ul">
 				<li class="main-li">
-					<div></div> <c:if test="${loginUser.userId eq null and userId eq null}">
+					<div><a href="myPageMain.pick" style="display: block;"><img alt="" src="assets/images/mypic_logo.png"></a></div> <c:if test="${loginUser.userId eq null and userId eq null}">
 						<ul class="serv-ul">
-							<li class="serv-li"><a href="loginView.pick">로그인</a></li>
+							<li class="serv-li"><a href="loginView.pick">LOGIN</a></li>
 						</ul>
 					</c:if> <c:if test="${loginUser.userId ne null or userId ne null}">
 						<ul class="serv-ul">
 							<li class="serv-li"><a
-								onclick="location.href='/logout.pick';">로그아웃</a></li>
+								onclick="location.href='/logout.pick';">LOGOUT</a></li>
 						</ul>
 					</c:if> 
 				</li>

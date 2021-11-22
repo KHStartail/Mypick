@@ -86,17 +86,18 @@ input_element.addEventListener("keyup", () => {
 })
 	});
 </script>
+
 </head>
 <body>
 	<form name="dataForm" id="dataForm" onsubmit="return registerAction()">
 		<h2 style="text-align: center;">&nbsp;</h2>
 		<br> <br> <br>
 
-		<div style="width: 60%; margin: auto;">
+		<div style="width: 72%; margin: auto; border: 1px dotted gray; padding-left: 3%; padding-bottom: 3%;">
 
 			<br> <br>
 			<button id="btn-upload" type="button"
-				style="border: 1px solid #ddd; outline: none; float: left;">파일
+				style="border: 1px solid #ddd; outline: none; float: left; background-color:#fb5849cc; margin-right:2%; color:white; width: 110px; height: 40px;">파일
 				추가</button>
 			<input id="input_file" multiple="multiple" type="file"
 				style="display: none;"> <span
@@ -118,9 +119,9 @@ input_element.addEventListener("keyup", () => {
 			<br>
 		</div>
 		<br><br>
-		<div class="input-contain" style="left: 20%;display: inline-block;" >
+		<div class="input-contain" style="left: 14%;display: inline-block;" >
 			<input type="text" id="postTitle" name="postTitle"placeholder="제목" value="" style="	height: 3rem;
-	width: 75rem;">
+	width: 75rem; border-radius: 0;">
 			<label class="placeholder-text" for="fname" id="placeholder-fname">
 
 			</label>
@@ -131,8 +132,8 @@ input_element.addEventListener("keyup", () => {
 		<div>
 			<textarea id="summernote" name="content" id="content"></textarea>
 			<br><br>
-			<input id="subBtn" type="button" value="글 작성"
-				onclick="goWrite();" style="position: relative; left: 20%" />
+			<input id="subBtn" type="button" value="등록"
+				onclick="goWrite();" style="position: relative; left: 40%; width: 20%; background-color: #fb5849cc; color: white; letter-spacing: 10px; margin-top:3%;margin-bottom: 5%;" />
 		</div>
 	</form>
 	<br><br>

@@ -924,35 +924,9 @@ menu
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
+  background-position: center;
 }
 
-.card1 {
-  background-image: url(../images/key.png);
-  background-position: center;
-}
-.card2 {
-  background-image: url(../images/air.png);
-  background-position: center;
-}
-.card3 {
-  background-image: url(../images/case.png);
-  background-position: center;
-}
-.card4 {
-  background-image: url(../images/goods_18.jfif);
-  background-position: center;
-  
-}
-.card5 {
-  background-image: url(../images/goods_28.jfif);
-  background-position: center;
-  
-}
-.card6 {
-  background-image: url(../images/goods_24.jfif);
-  background-position: center;
-  
-}
 
 
 .info {

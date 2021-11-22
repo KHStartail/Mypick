@@ -214,7 +214,7 @@
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
 							</div>
-							<c:if test="${userId ne null }">
+							<c:if test="${email ne null }">
                             <div class="input-group custom">
 								<input id="userEmail" name="userEmail" type="text" class="form-control form-control-lg" placeholder="이메일을 입력해주세요." value="${email }" readonly>
 								<div class="input-group-append custom">
@@ -222,7 +222,7 @@
 								</div>
 							</div>
 							</c:if>
-							<c:if test="${userId eq null }">
+							<c:if test="${email eq null }">
 		                     <div class="input-group custom">
 								<input id="userEmail" name="userEmail" type="text" class="form-control form-control-lg" placeholder="이메일을 입력해주세요." value="" >
 								<div class="input-group-append custom">

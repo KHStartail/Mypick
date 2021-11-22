@@ -23,10 +23,6 @@ public class MypageController {
 		return "myPage/historySupport";
 	}
 	
-	@RequestMapping(value="postCommunity.pick", method = RequestMethod.GET)
-	public String postCommunity() {
-		return "myPage/postCommunity";
-	}
 	
 	@RequestMapping(value="postSupport.pick", method = RequestMethod.GET)
 	public String postSupport() {

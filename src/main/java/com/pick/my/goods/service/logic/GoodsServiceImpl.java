@@ -212,6 +212,20 @@ public class GoodsServiceImpl implements GoodsService{
 		return cList;
 	}
 
+	@Override
+	public int registerCartPayInfo(GoodsPayment pay) {
+		int result = store.insertCartPayInfo(pay);
+		
+		return result;
+	}
+
+	@Override
+	public int deleteSuccessCart(int cartNo) {
+		int result = store.deleteSuccessCart(cartNo);
+		
+		return result;
+	}
+
 
 
 }

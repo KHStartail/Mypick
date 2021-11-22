@@ -8,7 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
            <!-- Google Font -->
            <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
            rel="stylesheet">
@@ -25,6 +26,7 @@
            <link rel="stylesheet" href="assets/css/goods_detail.css">
            <link rel="stylesheet" href="assets/css/mypageSideMenu.css">
            <link rel="stylesheet" href="assets/css/mypageCart.css">
+          
 <style>
      @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 </style>
@@ -53,7 +55,7 @@
                 <table class="goods-table">
                     <tr>
                     	<th>
-                    		<input type="checkbox" id="choiceAll">
+                    		<input type="checkbox" name="chkbox"id="choiceAll" data-price="0">
                     		선택
                     	</th>
                         <th>상품정보</th>
@@ -62,11 +64,15 @@
                         <th>주문금액</th>
                     </tr>
                     <c:forEach items="${cList }" var="cart">
+                    <c:url var="gDetail" value="goodsDetail.pick">
+		            	<c:param name="goodsNo" value="${cart.goodsNo }"></c:param>
+		            	<c:param name="groupName" value="${cart.groupName }"></c:param>
+		            </c:url>
                     <tr  style="border-bottom: 1px solid rgba(128, 128, 128, 0.548);">
                         <td><input type="checkbox" name="chkbox" onClick="itemSum(this.form);" class="choiceOne" value="${cart.cartNo }" data-price="${cart.goodsPrice*cart.goodsAmount }"></td>
                         <td style="text-align: left;">
                             <img src="resources/goodsFiles/${cart.imgPath }" alt="" style="width: 200px; height: 200px;">
-                            &nbsp;&nbsp;${cart.goodsName }
+                            &nbsp;&nbsp;<a href="${gDetail }">${cart.goodsName }</a>
                         </td>
                         <td>${cart.goodsAmount }</td>
                         <td>3000</td>
@@ -75,11 +81,11 @@
                    </c:forEach>
                     <tr>
                         <td colspan="3">
-                            상품합계&nbsp; ₩<input type="text" name="total" class="total-input" readonly> &nbsp;&nbsp;➕&nbsp;&nbsp;배송비 ₩3000
+                            상품합계&nbsp; ₩<input type="text" id="total" name="total" class="total-input" readonly> &nbsp;&nbsp;➕&nbsp;&nbsp;배송비 ₩3000
                         </td>
                         <td></td>
                         <td>
-                            |&nbsp;&nbsp;총 합계 <span>₩<input type="text" name="total2" class="total-input" style="color: red;" readonly></span>
+                            |&nbsp;&nbsp;총 합계 <span>₩<input type="text" name="total2" id="total2" class="total-input" style="color: red;" readonly></span>
                         </td>
                     </tr>
                 </table>
@@ -98,12 +104,24 @@
 	$(function(){
 		$("#choiceAll").click(function(){
 			var chk = $(this).is(":checked");
+			var count = $(".choiceOne").length;
+			var sum = 0;
+			console.log(count);
 			if(chk){
 				$(".choiceOne").prop('checked', true);
+				for(var i = 0; i<count; i++){
+					sum += parseInt($(".choiceOne")[i].dataset.price);
+				}
+				console.log(sum);
+				$("#total").val(sum);
+				$("#total2").val(sum+3000);
 			}else{
 				$(".choiceOne").prop('checked', false);
+				$("#total").val("");
+				$("#total2").val("");
 			}
 		})
+
 	});
 	
 	function itemSum(frm){
@@ -114,10 +132,15 @@
 				sum += parseInt(frm.chkbox[i].dataset.price);
 			}
 		}
-		console.log(sum);
-		frm.total.value=sum;
-		frm.total2.value=sum+3000;
-	}
+		if(!sum==0){
+			console.log(sum);
+			frm.total.value=sum;
+			frm.total2.value=sum+3000;			
+		}else{
+			$("#total").val("");
+			$("#total2").val("");	
+		}
+	};
 	
 	$(".choiceOne").click(function(){
 		$("#choiceAll").prop("checked",false);
@@ -134,12 +157,11 @@
 			console.log(checkArr.toString());
 			$.ajax({
 				url : "paymentCart.pick",
-				type : "get",
+				type : "post",
 				traditional : true,
 				data : { choiceOne : checkArr },
 				success : function(data){
-					alert("성공");
-/* 					location.href = "CartPaymentView.pick";		 */			
+					location.href = "CartPaymentView.pick";
 				},
 				error : function(){
 					alert("실패");
@@ -163,7 +185,8 @@
 				traditional : true,
 				data : { choiceOne : checkArr },
 				success : function(data){
-					location.href = "mypageCart.pick";
+
+ 					location.href = "mypageCart.pick";
 				},
 				error: function(){
 					alert("실패");

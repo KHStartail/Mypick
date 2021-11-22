@@ -35,7 +35,7 @@
         </div>
         <div class="alert-btn">
             <button type="button"><a href="goodsList.pick">Goods</a></button>
-            <button type="button"><a href="#">My Page</a></button>
+            <button type="button"><a href="myPageMain.pick">My Page</a></button>
         </div>
         <div class="alert-line"></div>
     </div>

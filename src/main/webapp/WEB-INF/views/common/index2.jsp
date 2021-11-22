@@ -5,8 +5,7 @@
 <html>
 
   <head>
-  <meta http-equiv='refresh' content= 'url=home.pick'>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -31,12 +30,7 @@ https://templatemo.com/tm-558-klassy-cafe
     </head>
     
     <body>
-    <script>
-    	$(document).ready(function(){
-    		location.href="/home.pick";    		
-    	})
-
-    </script>
+    
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
         <div class="jumper">
@@ -160,17 +154,19 @@ https://templatemo.com/tm-558-klassy-cafe
                 </div>
             </div>
         </div>
+				<c:if test="${gList eq null }">
+				비었음
+				</c:if>
         <div class="menu-item-carousel">
             <div class="col-lg-12">
                 <div class="owl-menu-item owl-carousel">
-                    
                    <c:forEach items="${gList }" var="goods">
                     <c:url var="gDetail" value="slideGoodsDetail.pick">
             			<c:param name="goodsNo" value="${goods.goodsNo }"></c:param>
             			<c:param name="groupName" value="${goods.groupName }"></c:param>
             		</c:url>
                     <div class="item">
-                        <div class='card card1'>
+                        <div class='card' style="background-image: url('resources/goodsFiles/${goods.imgPath }')">
                             <div class="price"><h6>${goods.goodsPrice }￦</h6></div>
                             <div class='info'>
                               <h1 class='title'>${goods.goodsName }</h1>

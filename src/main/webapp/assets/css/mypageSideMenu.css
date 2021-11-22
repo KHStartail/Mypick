@@ -77,7 +77,7 @@ section, div{
             }
         .serv-ul{
             display: none;
-            margin-left: 30%;
+            margin-left: 10%;
         }
         #pay-li:hover #pay-serv{
             display: block;
