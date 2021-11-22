@@ -115,7 +115,7 @@ font-family: 'Jeju Gothic', sans-serif;
 		</div>
 		<div class="board">
 		
-			<div class="contents" style="overflow: auto; margin-top:1%;">
+			<div class="contents" style="overflow: auto;">
 				<h1>${post.postTitle }</h1>
 				<div id="contents">${post.postContents }</div>
 				   <div style="text-align: right; margin-top:35%">

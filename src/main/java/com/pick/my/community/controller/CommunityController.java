@@ -63,7 +63,6 @@ public class CommunityController {
 		post.setUserId(loginUser.getUserId());
 		post.setUserNickName(loginUser.getUserNickName());
 		post.setGroupName(gorupName);
-		System.out.println(post.toString());
 		int result = service.registerCoummunityPost(post);
 		Community_Post postNo = service.printCommunityPostNo(post);
 		String strResult = "{ \"result\":\"FAIL\" }";
@@ -130,7 +129,6 @@ public class CommunityController {
  	      pi.setGroupName(groupName);
 	      if(main != null) {
 	    	  List<Community_Post> cList = service.printAllPost(pi);
-	    	  System.out.println(pi.toString());
 		      if(!cList.isEmpty()) {
 		    	  mv.addObject("mainImgName",main);
 		    	  mv.addObject("groupName",groupName);
@@ -283,7 +281,6 @@ public class CommunityController {
 			,@RequestParam(value="fileName", required=false) List<String> fileRenames
 			,HttpServletRequest request) throws UnsupportedEncodingException {
 		Community_Post post = service.printOnePost(postNo);
-		System.out.println(groupName);
 		String encodedParam = URLEncoder.encode(groupName, "UTF-8");
 		int result = service.removePost(postNo);
 		if(result > 0) {
@@ -632,7 +629,6 @@ public class CommunityController {
 	    @RequestMapping(value="reportCommunity.pick", method = RequestMethod.GET)
 	    public ModelAndView reportCommunity(@RequestParam(value="page", required=false) Integer page,ModelAndView mv,HttpSession session) {
 	    	List<Community_Post_Report> rList = service.printReportPost();
-		    System.out.println(rList);
 	    	if(!rList.isEmpty()) {
 	    		mv.addObject("rList",rList);
 		    	mv.setViewName("adminPage/postCommunity");
