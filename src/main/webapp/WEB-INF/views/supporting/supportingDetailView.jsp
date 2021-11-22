@@ -97,6 +97,16 @@
 		 transform: translateX(-50%);
  		 text-align:center;
 	 }
+	 thead{
+	 	border: #eee;
+	 }
+	 .noReply{
+	 	background-color: #eee;
+	 }
+	 #noReply{
+	 	
+	 }
+	 .
 </style>
 </head>
 <body>
@@ -146,6 +156,9 @@
 	<table align="center" id="reply">
 		<tr>
 			<td>
+				<h3>댓글&nbsp;&nbsp;&nbsp;</h3>
+			</td>
+			<td>
 				<textarea rows="2" cols="55" id="rContents" placeholder="최대 1000자 입력가능합니다."></textarea>
 			</td>
 			<td>
@@ -155,19 +168,18 @@
 	</table>
 	<br><br>
 	<!-- 댓글 목록 -->
-	<table align="center" width="500" border="1" id="rtb">
+	<table align="center" width="700px" border="1" id="rtb">
 		<thead>
-			<tr align="left" >
-				<!-- 댓글 개수 -->
-				<td colspan="4"><b id="rCount"></b></td>
+			<tr>
+				<td width="150px">작성자</td>
+				<td width="500px">댓글내용</td>
+				<td width="100px">날짜</td>
+				<td width="200px;"></td>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>작성자</td>
-				<td>댓글내용</td>
-				<td>날짜</td>
-				<td></td>
+			<tr id="noReply">
+				<p class="noReply">댓글이 없습니다.</p>
 			</tr>
 		</tbody>
 	</table>
@@ -225,7 +237,7 @@
 				}
 			},
 			error : function() {
-					alert("통신오류, 관리자에게 문의 바랍니다.");
+					alert("통신오류1, 관리자에게 문의 바랍니다.");
 			},
 			complete : function() {
 				
@@ -248,25 +260,30 @@
 				 var $rContent;
 				 var $rCreateDate;
 				 var $btnArea;
-				 $("#rCount").text("댓글 (" + data.length +")"); 
+				 
+			//	 $("#rCount").text("댓글 (" + data.length +")"); 
 				 if(data.length > 0) { 
 					 console.log(data[i]);
 					 for(var i in data){
 						 $tr = $("<tr id='modifyTr'>"); 
-						 $rWriter = $("<td width='100'>").text(data[i].supReWriter);
+						 $rWriter = $("<td>").text(data[i].supReWriter);
 						 $rContent = $("<td>").text(data[i].supReContents);
-						 $rCreateDate = $("<td width='100'>").text(data[i].supReDate);    
-						 $btnArea = $("<td width='100'>").append("<a href='#' onclick='modifyReply(this,"+supNo+","+data[i].supReAllNo+",\""+data[i].supReContents+"\");'>수정</a>&nbsp;").append("<a href='#' onclick='removeReply(this,"+supNo+","+data[i].supReAllNo+")'>삭제</a>&nbsp;").append("<a href='#' onclick='reportReply(this,"+supNo+","+data[i].supReAllNo+");'>신고</a>");  
+						 $rCreateDate = $("<td>").text(data[i].supReDate);    
+						 $btnArea = $("<td>").append("<a href='#' onclick='modifyReply(this,"+supNo+","+data[i].supReAllNo+",\""+data[i].supReContents+"\");'>수정</a>&nbsp;").append("<a href='#' onclick='removeReply(this,"+supNo+","+data[i].supReAllNo+")'>삭제</a>&nbsp;").append("<a href='#' onclick='reportReply(this,"+supNo+","+data[i].supReAllNo+");'>신고</a>");  
 						 $tr.append($rWriter);
 					 	 $tr.append($rContent);
 					 	 $tr.append($rCreateDate);
 					 	 $tr.append($btnArea);
 					 	 $tableBody.append($tr);
-					 }
+					 	}
+				}else{
+					var $tableBody = $("#rtb tbody");
+					 $("#tbody").text("<tr>댓글이 없습니다.</tr>");
+					 $tableBody.append($tr);
 				}
 			},
 			error : function() {
-				 alert("통신오류, 관리자에게 문의하세요");
+				 alert("통신오류2, 관리자에게 문의하세요");
 			}
 		});
 	}
@@ -298,7 +315,7 @@
 				}
 			},
 			error : function() {
-				alert("통신 실패, 관리자 문의바람");
+				alert("통신 실패3, 관리자 문의바람");
 			}
 		});
 	}
@@ -319,7 +336,7 @@
 					alert("댓글 삭제 실패");
 				}
 			},error : function(){
-				alert("통신 오류 , 관리자 문의 바람");
+				alert("통신 오류4 , 관리자 문의 바람");
 			}
 		});
 	}

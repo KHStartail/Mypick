@@ -38,12 +38,14 @@ public class SupportingStoreLogic implements SupportingStore{
 	public List<Supporting> selectAllPreSupporting(PageInfo pi) {
 		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
 		RowBounds rowBounds  = new RowBounds(offset, pi.getBoardLimit());
-		List<Supporting> pList = sqlSession.selectList("SupportingMapper.selectAllPreSupporting");
+		List<Supporting> pList = sqlSession.selectList("SupportingMapper.selectAllPreSupporting",null,rowBounds);
 		return pList;
 	}
 	@Override
 	public List<Supporting> selectAllSupporting(PageInfo pi) {
-		List<Supporting> sList = sqlSession.selectList("SupportingMapper.selectAllSupporting");
+		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
+		RowBounds rowBounds  = new RowBounds(offset, pi.getBoardLimit());
+		List<Supporting> sList = sqlSession.selectList("SupportingMapper.selectAllSupporting",null,rowBounds);
 		return sList;
 	}
 	@Override
@@ -169,12 +171,6 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 
 	@Override
-	public String selectPartiwon(int supNo, int supPartiwon) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int updateCategory(int supNo, int supCategory) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -182,34 +178,39 @@ public class SupportingStoreLogic implements SupportingStore{
 
 	@Override
 	public int insertParticipation(SupParticipation supParticipation) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.insert("SupportingMapper.insertPartiwon", supParticipation);
+		return result;
 	}
 
 	@Override
-	public String selectparticipation(int supNo, int supPartiwon) {
-		// TODO Auto-generated method stub
-		return null;
+	public SupParticipation selectParticipation(SupParticipation supParticipation) {
+		SupParticipation result = sqlSession.selectOne("SupportingMapper.selectParticipation",supParticipation);
+		return result;
 	}
 
 	@Override
-	public int deleteParticipation(int supNo, int supPartiwon) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteParticipation(SupParticipation sp) {
+		int result = sqlSession.delete("SupportingMapper.deleteParticipation", sp);
+		return result;
 	}
 
 	@Override
-	public int updatePartiwonAdd(int supNo, int supPartiwon) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updatePartiwonAdd(int supNo) {
+		int result = sqlSession.update("SupportingMapper.updateAddPartiwon", supNo);
+		return result;
 	}
 
 	@Override
-	public int updatePartiwonDel(int supNo, int supPartiwon) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updatePartiwonDel(int supNo) {
+		int result = sqlSession.update("SupportingMapper.updateDelPartiwon", supNo);
+		return result;
 	}
 
+	@Override
+	public int updateCategory(int supNo) {
+		int result = sqlSession.update("SupportingMapper.checkPartiwon", supNo);
+		return result;
+	}
 	@Override
 	public int insertPaymentHistory(PaymentHistory paymentHistory) {
 		int result = sqlSession.insert("SupportingMapper.insertHistory", paymentHistory);
@@ -238,5 +239,4 @@ public class SupportingStoreLogic implements SupportingStore{
 		Member mOne = sqlSession.selectOne("memberMapper.selectUserOne", userNo);
 		return mOne;
 	}
-
 }

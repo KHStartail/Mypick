@@ -49,7 +49,7 @@
 		.pagination{
 	      	text-align : center;
 	      	display: inline-block;
-      	}
+	      }
 </style>
 </head>
 <body>
@@ -71,8 +71,7 @@
 		$("#check").on("click", function(){
 			alert("로그인 후 이용해주세요");
 			window.history.back();
-		}
-		
+		});
 	});
 </script>
 <jsp:include page="/header.jsp"></jsp:include>
@@ -90,7 +89,7 @@
 		<c:if test="${not empty sList }">
 			<div class="row"> 
 				<c:forEach items="${sList}" var="Supporting" varStatus="sLength">
-					<c:url var="psOne" value="presupportingDetail.pick">
+					<c:url var="ssOne" value="supportingDetail.pick">
 						<c:param name="supNo" value="${Supporting.supNo}"></c:param>
 					</c:url>
 					<div class="col-3">
@@ -116,40 +115,39 @@
 			</div>
 			<div class="pagination">
 				<table>
-				<tr align="center" height="20">
-					<td colspan="6">
-					<!-- RequestParam의 page를 가져온다 -->
-						<c:url var="before" value="supportingList.pick">
-							<c:param name="page" value="${pi.currentPage - 1}"></c:param>
-						</c:url>
-						<c:if test="${pi.currentPage <= 1}">
-							[이전]
-						</c:if>
-						<c:if test="${pi.currentPage > 1}">
-							<a href="${before }">[이전]</a>
-						</c:if>
-						
-						<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-							<c:url var="pagination" value="supportingList.pick">
-								<c:param name="page" value="${p }"></c:param>
+					<tr align="center" height="20">
+						<td colspan="6">
+							<c:url var="before" value="supportingList.pick">
+								<c:param name="page" value="${pi.currentPage - 1}"></c:param>
 							</c:url>
-							<c:if test="${p eq pi.currentPage }">
-								<font color="red" size="4">[${p }]</font>
+							<c:if test="${pi.currentPage <= 1}">
+								[이전]
 							</c:if>
-							<c:if test="${p ne pi.currentPage }">
-								<a href="${pagination }">${p }</a>&nbsp;
+							<c:if test="${pi.currentPage > 1}">
+								<a href="${before }">[이전]</a>
 							</c:if>
-						</c:forEach>
-						<c:url var="after" value="supportingList.pick">
-							<c:param name="page" value="${pi.currentPage + 1}"></c:param>
-						</c:url>
-						<c:if test="${pi.currentPage >= pi.maxPage}">
-							[다음]
-						</c:if><c:if test="${pi.currentPage < pi.maxPage }">
-							<a href="${after }">[다음]</a>
-						</c:if>
-					</td>
-				</tr>
+							<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
+								<c:url var="pagination" value="supportingList.pick">
+									<c:param name="page" value="${p }"></c:param>
+								</c:url>
+								<c:if test="${p eq pi.currentPage }">
+									<font color="red" size="4">[${p }]</font>
+								</c:if>
+								<c:if test="${p ne pi.currentPage }">
+									<a href="${pagination }">${p }</a>&nbsp;
+								</c:if>
+							</c:forEach>
+							<c:url var="after" value="supportingList.pick">
+								<c:param name="page" value="${pi.currentPage + 1}"></c:param>
+							</c:url>
+							<c:if test="${pi.currentPage >= pi.maxPage}">
+								[다음]
+							</c:if>
+							<c:if test="${pi.currentPage < pi.maxPage }">
+								<a href="${after }">[다음]</a>
+							</c:if>
+						</td>
+					</tr>
 				</table>
 			</div><br>
 		</c:if>

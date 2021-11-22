@@ -38,13 +38,13 @@
 		<select id="selectSupListCount" resultType="_int">
 			SELECT COUNT(*) FROM SUPPORTING WHERE SUP_CATEGORY = 2
 		</select>
-		<!-- 진행중서포팅  목록 -->
-	  	<select id="selectAllSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 ORDER BY SUP_ENDDATE DESC
-		</select>
 		<!-- 모집중서포팅  목록 -->
 		<select id="selectAllPreSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 ORDER BY SUP_ENDDATE DESC
+		</select>
+		<!-- 진행중서포팅  목록 -->
+	  	<select id="selectAllSupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 ORDER BY SUP_ENDDATE DESC
 		</select>
 		<!-- 파일보기 -->
 		<select id="selectFileList" resultMap="fileResultMap">
@@ -66,6 +66,12 @@
 		<select id="selectOnePreSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 2
 		</select>
+		<!-- 서포팅 이동관련 20명이상 select -->
+		<!-- 
+		<select id="selectCategory"  resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE
+		</select>
+		-->
 		<!-- 서포팅 작성 --> 
 		<insert id="insertSupporting" parameterType="Supporting">
 		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, #{userNo} , DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, 1, DEFAULT, DEFAULT, #{imgName}, #{imgReName}, #{imgPath})
@@ -74,21 +80,25 @@
 		<insert id="insertFile" parameterType="SupFile">
 			INSERT INTO SUPPORTING_FILE VALUES(SEQ_SUP_FILENO.NEXTVAL, SEQ_SUP_NO.CURRVAL, #{fileName }, #{filePath}, #{fileReName})
 		</insert>
-		 	<!--
-		 	<if test="datepicker.toString()=='AM'">
-				VALUES(SEQ_SUP_NO.NEXTVAL,#{userNo}, DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , TO_DATE('#{supStartDate }', 'YYYY/MM/DD'), TO_DATE('#{supEndDate }', 'YYYY/MM/DD'), #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgReName}, #{imgPath})
-			</if>
-			<if test="datepicker.toString()=='PM'">
-				VALUES(SEQ_SUP_NO.NEXTVAL,#{userNo}, DEFAULT, #{supTitle}, #{supContents},#{scheduleDate}, #{supPlace }, #{groupName } , TO_DATE('#{supStartDate }', 'YYYY/MM/DD'), TO_DATE('#{supEndDate }', 'YYYY/MM/DD'), #{goalMoney}, 1, DEFAULT, DEFAULT, 0, #{imgName}, #{imgReName}, #{imgPath})
-			</if>
-		-->
 		<!-- 서포팅수정 -->
 		<update id="updateSupporting" parameterType="Supporting">
-			UPDATE SUPPORTING SET SUP_TITLE = #{supTitle}, SUP_CONTENTS = #{supContents}, SCHEDULE_DATE = #{scheduleDate}, SUP_PLACE = #{supPlace }, SUP_STARTDATE = #{supStartDate }, SUP_ENDDATE = #{supEndDate}, GOAL_MONEY = #{goalMoney}, IMG_NAME = #{imgName}, IMG_PATH = #{imgPath}, WHERE SUP_NO = #{supNo}
+			UPDATE SUPPORTING SET SUP_TITLE = #{supTitle}, SUP_CONTENTS = #{supContents}, SCHEDULE_DATE = #{scheduleDate}, SUP_PLACE = #{supPlace }, SUP_STARTDATE = #{supStartDate }, SUP_ENDDATE = #{supEndDate}, GOAL_MONEY = #{goalMoney}, IMG_NAME = #{imgName},IMG_RENAME = #{imgReName }, IMG_PATH = #{imgPath} WHERE SUP_NO = #{supNo}
 		</update>
 		<!-- 파일 수정 -->
-	   <update id="updateFile" parameterType="SupFile">
-			UPDATE SUPPORTING_FILE SET SUP_FILEPATH = #{filePath}, SUP_FILERENAME = #{fileReName} WHERE SUP_NO = #{supNo}
+	   	<insert id="updateFile" parameterType="SupFile">
+			INSERT INTO SUPPORTING_FILE VALUES(SEQ_SUP_FILENO.NEXTVAL, #{supNo}, #{fileName }, #{filePath}, #{fileReName})
+		</insert>
+		<!-- 서포팅 참여인원 +1  -->
+		<update id="updateAddPartiwon" parameterType="_int">
+			UPDATE SUPPORTING SET SUP_PARTIWON = SUP_PARTIWON + 1 WHERE SUP_NO = #{supNo}
+		</update>
+		<!-- 서포팅 참여인원 -1  -->
+		<update id="updateDelPartiwon" parameterType="_int">
+			UPDATE SUPPORTING SET SUP_PARTIWON = SUP_PARTIWON - 1 WHERE SUP_NO = #{supNo}
+		</update>
+		<!-- 서포팅 카테고리 변경-->
+		<update id="checkPartiwon" parameterType="Supporting">
+			UPDATE SUPPORTING SET SUP_CATEGORY = 2 WHERE SUP_NO = (SELECT SUP_NO FROM SUPPORTING WHERE SUP_PARTIWON >= 20 AND SUP_NO = #{supNo}) 
 		</update>
 		<!-- 서포팅 삭제 -->
 		<delete id="deleteSupporting" parameterType="_int">
@@ -153,5 +163,20 @@
 		<insert id="insertHistory"	parameterType="paymentHistory">
 			INSERT INTO PAYMENT_HISTORY VALUES(SEQ_PAY_NO.NEXTVAL,#{supNo},#{supTitle}, #{supAmount}, #{userName}, #{userNickName}, #{userPhone}, #{userEmail}, SYSDATE)
 		</insert>
+		
+		<resultMap type="supParticipation" id="SupParticipation">
+			<id property="pNo" column="PARTIWON_NO"></id>
+			<result property="userNo" column="USER_NO"></result>
+			<result property="supNo" column="SUP_NO"></result>
+		</resultMap>
+		<select id="selectParticipation" resultMap="SupParticipation">
+			SELECT * FROM PRESUPPORTING_PARTICIPATION WHERE USER_NO = #{userNo} AND SUP_NO = #{supNo}
+		</select>
+		<insert id="insertPartiwon" parameterType="SupParticipation">
+			INSERT INTO PRESUPPORTING_PARTICIPATION VALUES(SEQ_PARTIWON_NO.NEXTVAL, #{userNo}, #{supNo})
+		</insert>
+		<delete id="deleteParticipation"  parameterType="SupParticipation">
+			DELETE FROM PRESUPPORTING_PARTICIPATION WHERE SUP_NO = #{supNo} AND USER_NO = #{userNo}
+		</delete>
 </mapper>
 	
