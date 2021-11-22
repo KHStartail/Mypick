@@ -94,6 +94,10 @@
 		SELECT * FROM GOODS ORDER BY GOODS_NO DESC
 	</select>
 	
+	<select id="selectAllGoods" resultMap="goodsResultMap">
+		SELECT * FROM GOODS ORDER BY GOODS_NO DESC
+	</select>
+	
 	<select id="selectGoodsHistory" resultMap="paymentResultMap">
 		SELECT * FROM GOODS_PAYMENT WHERE USER_ID = #{userId} ORDER BY PAYMENT_DATE DESC
 	</select>
@@ -132,6 +136,10 @@
 		INSERT INTO GOODS_PAYMENT VALUES(#{goodsNo},#{goodsAmount},#{goodsPrice},DEFAULT,#{userId},#{userName},#{userAddr},#{userPhone},#{userEmail},#{userMsg},DEFAULT,#{goodsName},#{imgPath},#{groupName})
 	</insert>
 	
+	<insert id="insertCartPayInfo">
+		INSERT INTO GOODS_PAYMENT VALUES(#{goodsNo},#{goodsAmount},#{goodsPrice},DEFAULT,#{userId},#{userName},#{userAddr},#{userPhone},#{userEmail},#{userMsg},DEFAULT,#{goodsName},#{imgPath},#{groupName})
+	</insert>
+	
 	<insert id="insertGoods" parameterType="Goods">
 		INSERT INTO GOODS VALUES(SEQ_GOODS.NEXTVAL,#{goodsName},#{goodsPrice},SYSDATE,#{imgSize},#{imgPath},#{userId},#{goodsContents},#{idolName},#{groupName},#{goodsIntro},#{goodsAmount})
 	</insert>
@@ -145,6 +153,10 @@
 	</insert>
 	
 	<delete id="deleteCart">
+		DELETE FROM CART WHERE CART_NO = #{cartNo}
+	</delete>
+	
+	<delete id="deleteSuccessCart">
 		DELETE FROM CART WHERE CART_NO = #{cartNo}
 	</delete>
 	

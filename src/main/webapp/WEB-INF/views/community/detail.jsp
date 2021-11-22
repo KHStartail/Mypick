@@ -26,7 +26,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
-
+<	
 
 <!-- include summernote css/js-->
 <link
@@ -115,11 +115,11 @@ font-family: 'Jeju Gothic', sans-serif;
 		</div>
 		<div class="board">
 		
-			<div class="contents" style="overflow: auto">
+			<div class="contents" style="overflow: auto; margin-top:1%;">
 				<h1>${post.postTitle }</h1>
 				<div id="contents">${post.postContents }</div>
 				   <div style="text-align: right; margin-top:35%">
-       <a class="btn heart">
+       <a class="btn heart" style="margin-top:20%;">
            <img id="heart" src="">
        </a>
    </div>
@@ -133,10 +133,10 @@ font-family: 'Jeju Gothic', sans-serif;
 		</c:forEach>
 		<input type="hidden" value="${post.postNo }" id="postNo" name="postNo">
 		<input type="hidden" value="${post.groupName }" id="groupName" name="groupName">
-		<table id="table" style="width: 250px;">
+		<table id="table" style="margin-left: 0%; margin-top:3%;">
 			<tr class="font">
 				<td>
-				작성자 : ${post.userNickName }<br> ${post.updateDate } &nbsp; &nbsp;
+				작성자 : ${post.userNickName }<br> ${post.updateDate }<br>
 				<c:if test ="${loginUser.userId eq post.userId}">
 				<c:url var="cModify" value="modifyView.pick">
 						<c:param name="postNo" value="${post.postNo }"></c:param>
@@ -163,7 +163,7 @@ font-family: 'Jeju Gothic', sans-serif;
 			<tr>
 			<tr class="list-group list-group-flush">
 				<td class="list-group-item" ><textarea id="summernote" 
-						name="content" id="content" onclick="onScript();" rows="5" cols="140" ></textarea>
+						name="content" id="content" onclick="onScript();" rows="5" cols="100" ></textarea>
 					<button type="button" id="rSubmit" class="btn btn-dark mt-3">댓글작성</button>
 					<input type="hidden" value="${loginUser.userId }" id="loginUser">
 				<hr>
@@ -288,7 +288,7 @@ font-family: 'Jeju Gothic', sans-serif;
 							$tr = $("<tr id='modifyTr' class='list-group list-group-flush'>");
 							$rWriter = $("<td class='font' style='font-weight : bold' colspan='4'>").text('작성자 : '+data[i].userNickName);
 							<c:if test ="${loginUser.userId ne data[i].userId}"> 
-							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='modifyReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>수정</a>").append("<a href='#' class='font' onclick='removeReply("+postNo+","+data[i].replyAllNo+")'>삭제</a>");
+							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='modifyReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>수정&nbsp;&nbsp;</a>").append("<a href='#' class='font' onclick='removeReply("+postNo+","+data[i].replyAllNo+")'>삭제</a>");
 							</c:if>
 							if($loginUser != data[i].userId){
 							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='reportReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>신고</a>");
@@ -436,6 +436,10 @@ font-family: 'Jeju Gothic', sans-serif;
         });
         function report(postNo){
         	confirm('신고하시겠습니까?')
+        	  Swal.fire({ icon: 'success', // Alert 타입 
+        		title: 'Alert가 실행되었습니다.', // Alert 제목 
+        		text: '이곳은 내용이 나타나는 곳입니다.', // Alert 내용 
+        		});
         	$.ajax({
         		url : 'reportPost.pick',
         		type : 'post',

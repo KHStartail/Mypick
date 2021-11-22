@@ -219,6 +219,20 @@ public class GoodsStoreLogic implements GoodsStore{
 		return cList;
 	}
 
+	@Override
+	public int insertCartPayInfo(GoodsPayment pay) {
+		int result = sqlSession.insert("goodsMapper.insertCartPayInfo",pay);
+		
+		return result;
+	}
+
+	@Override
+	public int deleteSuccessCart(int cartNo) {
+		int result = sqlSession.delete("goodsMapper.deleteSuccessCart",cartNo);
+		
+		return result;
+	}
+
 
 
 }

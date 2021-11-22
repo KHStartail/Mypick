@@ -41,6 +41,7 @@ public interface GoodsService {
 	public int insertCart(Cart cart);
 	public int deleteCart(String cartNo);
 	public List<Cart> printCartPayment(String cartNo);
-	
+	public int registerCartPayInfo(GoodsPayment pay);
+	public int deleteSuccessCart(int cartNo);
 	
 }
