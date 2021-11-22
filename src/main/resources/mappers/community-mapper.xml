@@ -55,6 +55,7 @@
 		<result property="postTitle" column="POST_TITLE" />
 		<result property="userNickName" column="USER_NICKNAME" />
 		<result property="writerNickName" column="WRTIER_NICKNAME" />
+		<result property="status" column="STATUS" />
 	</resultMap>
 	<resultMap type="Main" id="MaintResultMap">
 		<id property="groupName" column="GROUP_NAME"></id>
@@ -135,6 +136,10 @@
 		COMMUNITY_POST WHERE STATUS = 'Y'AND MEMBER_ID =#{userId}
 	</select>
 	
+	<select id="reportPost" resultMap="pReportResultMap">
+	SELECT POST_NO,POST_TITLE,USER_NICKNAME FROM COMMUNITY_POST_REPORT WHERE STATUS = 'Y' GROUP BY POST_NO,POST_TITLE,USER_NICKNAME HAVING COUNT(*) >= 5
+	</select>
+	
 	<insert id="uploadFile" parameterType="File">
 		INSERT INTO COMMUNITY_FILE
 		VALUES(SEQ_FILE.NEXTVAL,#{userId},#{fileName},#{fileRename},#{fileSize},DEFAULT,#{postNo})
@@ -173,7 +178,7 @@
 
 	<insert id="insertPostReport" parameterType="pReport">
 		INSERT INTO COMMUNITY_POST_REPORT
-		VALUES(SEQ_POST_REPORT.NEXTVAL,#{postNo},#{postTitle},#{userNickName},#{writerNickName})
+		VALUES(SEQ_POST_REPORT.NEXTVAL,#{postNo},#{postTitle},#{userNickName},#{writerNickName},'Y')
 	</insert>
 
 	<insert id="insertMainImg" parameterType="Main">

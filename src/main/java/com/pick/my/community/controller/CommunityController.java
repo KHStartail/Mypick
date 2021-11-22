@@ -629,6 +629,18 @@ public class CommunityController {
 	    	}
 	        return mv;
 	    }
+	    @RequestMapping(value="reportCommunity.pick", method = RequestMethod.GET)
+	    public ModelAndView reportCommunity(@RequestParam(value="page", required=false) Integer page,ModelAndView mv,HttpSession session) {
+	    	List<Community_Post_Report> rList = service.printReportPost();
+		    System.out.println(rList);
+	    	if(!rList.isEmpty()) {
+	    		mv.addObject("rList",rList);
+		    	mv.setViewName("adminPage/postCommunity");
+	    	}else {
+	    		  mv.setViewName("myPage/postCommunity");
+	    	}
+	        return mv;
+	    }
 	}
 	
 

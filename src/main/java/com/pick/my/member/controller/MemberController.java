@@ -145,7 +145,6 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/findId.pick", method = RequestMethod.POST)
 	public String searchId(@RequestParam("userPhone") int userPhone){
-		//System.out.print("searchId");
 		String userId = service.searchId(userPhone);
 		return userId;
 	}
@@ -235,16 +234,10 @@ public class MemberController {
 				@RequestParam(value = "code", required = false) String code
 				, Model model) throws Exception {
 
-			System.out.println("#########" + code);
 	        String access_Token = getAccessToken(code);
-	        System.out.println("###access_Token#### : " + access_Token);
 	        
 	        
 	        HashMap<String, Object> userInfo = getUserInfo(access_Token);
-	        System.out.println("###access_Token#### : " + access_Token);
-	        System.out.println("###userInfo#### : " + userInfo.get("email"));
-	        System.out.println("###nickname#### : " + userInfo.get("nickname"));
-	        System.out.println("###profile_image#### : " + userInfo.get("profile_image"));
 	        JSONObject kakaoInfo =  new JSONObject(userInfo);
 	        model.addAttribute("kakaoInfo", kakaoInfo);
 	        
@@ -278,7 +271,6 @@ public class MemberController {
 
 	            //    결과 코드가 200이라면 성공
 	            int responseCode = conn.getResponseCode();
-	            System.out.println("responseCode : " + responseCode);
 
 	            //    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 	            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -288,7 +280,6 @@ public class MemberController {
 	            while ((line = br.readLine()) != null) {
 	                result += line;
 	            }
-	            System.out.println("response body : " + result);
 
 	            //    Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
 	            JsonParser parser = new JsonParser();
@@ -297,8 +288,6 @@ public class MemberController {
 	            access_Token = element.getAsJsonObject().get("access_token").getAsString();
 	            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 
-	            System.out.println("access_token : " + access_Token);
-	            System.out.println("refresh_token : " + refresh_Token);
 
 	            br.close();
 	            bw.close();
@@ -325,7 +314,6 @@ public class MemberController {
 	            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
 	            int responseCode = conn.getResponseCode();
-	            System.out.println("responseCode : " + responseCode);
 
 	            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -335,7 +323,6 @@ public class MemberController {
 	            while ((line = br.readLine()) != null) {
 	                result += line;
 	            }
-	            System.out.println("response body : " + result);
 
 	            JsonParser parser = new JsonParser();
 	            JsonElement element = parser.parse(result);
@@ -362,7 +349,6 @@ public class MemberController {
 	    public String login(@RequestParam("code") String code, HttpSession session,Model model,Member member) {
 	        String access_Token = kakao.getAccessToken(code);
 	        HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
-	        System.out.println("login Controller : " + userInfo);
 	        member.setUserEmail(userInfo.get("email")+"");
 	        Member loginUser = service.userchk(member);
 	        if(loginUser != null) {

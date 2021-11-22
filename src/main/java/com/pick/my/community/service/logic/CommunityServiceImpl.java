@@ -226,6 +226,13 @@ public class CommunityServiceImpl implements CommunityService{
 		return totalCount;
 	}
 
+	@Override
+	public  List<Community_Post_Report> printReportPost() {
+		List<Community_Post_Report> post = store.printReportPost(); 
+		return post;
+	}
+
+
 
 
 
