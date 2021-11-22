@@ -178,7 +178,12 @@
 		<p>${group.idolName } </p>
 		</c:if>	
 		</c:forEach>
-
+		
+		
+		<c:url var="community" value="mainView.pick">
+        <c:param name="groupName" value="${idol.groupName }"></c:param>
+        </c:url>
+        <a href="${community }">커뮤니티</a>
 
 	
 	

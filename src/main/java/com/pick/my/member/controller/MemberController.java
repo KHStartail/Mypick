@@ -102,6 +102,7 @@ public class MemberController {
 	public String managerEnrollview() {
 		return "member/managerJoin";
 	}
+
 	@RequestMapping(value="memberModifyView.pick",method=RequestMethod.GET)
 	public String memberModifyView() {
 		return "member/membermodify";
