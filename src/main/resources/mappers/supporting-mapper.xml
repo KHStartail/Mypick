@@ -52,11 +52,11 @@
 		</select>
 		<!-- 모집중 서포팅 검색 -->
 		<select id="searchPreSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 AND GROUP_NAME LIKE '%' || #{keyword } || '%'
 		</select>
 		<!-- 진행중 서포팅 검색 -->
 		<select id="searchSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 AND GROUP_NAME LIKE '%' || #{searchValue } || '%'
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 AND GROUP_NAME LIKE '%' || #{keyword } || '%'
 		</select>
 		<!-- 모집중 서포팅 상세 -->
 		<select id="selectOneSupporting" resultMap="supportingResultMap">
@@ -66,12 +66,10 @@
 		<select id="selectOnePreSupporting" resultMap="supportingResultMap">
 			SELECT * FROM SUPPORTING WHERE SUP_NO = #{supNo} AND SUP_CATEGORY = 2
 		</select>
-		<!-- 서포팅 이동관련 20명이상 select -->
-		<!-- 
-		<select id="selectCategory"  resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE
+		<!-- 마이페이지 : 본인이 쓴 글 리스트 -->
+		<select id="selectMySupporting" resultMap="supportingResultMap">
+			SELECT * FROM SUPPORTING WHERE USER_NO = #{userNo}
 		</select>
-		-->
 		<!-- 서포팅 작성 --> 
 		<insert id="insertSupporting" parameterType="Supporting">
 		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, #{userNo} , DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, 1, DEFAULT, DEFAULT, #{imgName}, #{imgReName}, #{imgPath})
@@ -99,6 +97,10 @@
 		<!-- 서포팅 카테고리 변경-->
 		<update id="checkPartiwon" parameterType="Supporting">
 			UPDATE SUPPORTING SET SUP_CATEGORY = 2 WHERE SUP_NO = (SELECT SUP_NO FROM SUPPORTING WHERE SUP_PARTIWON >= 20 AND SUP_NO = #{supNo}) 
+		</update>
+		<!-- 서포팅 금액합산-->
+		<update id="updateSumMoney" parameterType="Supporting">
+			UPDATE SUPPORTING SET SUM_MONEY = SUM_MONEY + #{sumMoney} WHERE SUP_NO = #{supNo}
 		</update>
 		<!-- 서포팅 삭제 -->
 		<delete id="deleteSupporting" parameterType="_int">
@@ -160,10 +162,14 @@
 			<result property="userEmail" column="USER_EMAIL"></result>
 			<result property="paymentDate" column="PAYMENT_DATE"></result>
 		</resultMap>
+		<!-- 결제내역 보기(마이페이지) -->
+		<select id="selectMyHistory" resultMap="paymentResultMap">
+			SELECT * FROM PAYMENT_HISTORY WHERE USER_NICKNAME = #{userNickName}
+		</select>
+		<!-- 결제내역 추가 -->
 		<insert id="insertHistory"	parameterType="paymentHistory">
 			INSERT INTO PAYMENT_HISTORY VALUES(SEQ_PAY_NO.NEXTVAL,#{supNo},#{supTitle}, #{supAmount}, #{userName}, #{userNickName}, #{userPhone}, #{userEmail}, SYSDATE)
 		</insert>
-		
 		<resultMap type="supParticipation" id="SupParticipation">
 			<id property="pNo" column="PARTIWON_NO"></id>
 			<result property="userNo" column="USER_NO"></result>
