@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>진행중 서포팅 목록</title>
+<title>진행중 서포팅 검색 목록</title>
 <link rel="stylesheet" href="assets/css/header.css">
 <link rel="stylesheet" href="assets/css/lightbox.css">
 <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
@@ -50,6 +50,11 @@
 	      	text-align : center;
 	      	display: inline-block;
 	      }
+	      .sbox{
+	      	background-color: #eee;
+	      	height : 200px;
+	      	text-align: center;
+	      }
 </style>
 </head>
 <body>
@@ -64,6 +69,10 @@
 			$("#searchBox").val("");
 		});
 		
+		$('#myCarousel').carousel({
+			interval: 10000
+		})
+		
 		$("#check").on("click", function(){
 			alert("로그인 후 이용해주세요");
 			window.history.back();
@@ -71,26 +80,23 @@
 	});
 </script>
 <jsp:include page="/header.jsp"></jsp:include>
-<div class="container">
-	<h1>진행중 서포팅 리스트</h1><br>
-	<h2>울애긔 기살리자!</h2>
+<div class="container"><br>
+	<h1>진행중 서포팅  검색 목록</h1><br>
 	<p>마감일이 가까운 순으로 먼저 보여집니다.</p><br>
 	<form action="supportingSearch.pick" method="get">
-		<input type="text"  size="40" placeholder="그룹이름 또는 아이돌이름을 입력해주세요." value="${keyword }" id="searchBox" name="keyword" >
+		<input type="text" size="40" placeholder="그룹이름 또는 아이돌이름을 입력해주세요." value="${keyword }" id="searchBox" name="keyword" >
 		<input type="submit" value="검색" id="search" class="searchButton"> <br><br>
 	</form>
-		<br>
-		<c:if test="${empty sList }">
-		<br><br><br>
-			<h1>조회된 글이 없습니다.</h1>
+		<c:if test="${empty ssList}">
+			<div class="sbox"><br><br><h3>검색한 아이돌의 서포팅이 없습니다.<br> 모집중 서포팅으로 가서 서포팅을 모집해보세요.</h3></div>
 		</c:if>
-		<c:if test="${not empty sList }">
-			<div class="row"> 
-				<c:forEach items="${sList}" var="Supporting" varStatus="sLength">
-					<c:url var="ssOne" value="supportingDetail.pick">
+		<c:if test="${not empty ssList }">
+		<div class="row">
+			<c:forEach items="${ssList}" var="Supporting">
+				 <c:url var="ssOne" value="supportingDetail.pick">
 						<c:param name="supNo" value="${Supporting.supNo}"></c:param>
-					</c:url>
-					<div class="col-3">
+				</c:url>
+				<div class="col-3">
 						<c:if test="${userId eq null }">
 							<div class="card" style="cursor : pointer;" id="check">
 				           		<div class="card-header" ><h3>${Supporting.supTitle }</h3></div><br>
@@ -109,48 +115,11 @@
 							</div>
 						</c:if>
 					</div>
-				</c:forEach><br>
+			</c:forEach>
 			</div>
-			<div class="pagination">
-				<table>
-					<tr align="center" height="20">
-						<td colspan="6">
-							<c:url var="before" value="supportingList.pick">
-								<c:param name="page" value="${pi.currentPage - 1}"></c:param>
-							</c:url>
-							<c:if test="${pi.currentPage <= 1}">
-								[이전]
-							</c:if>
-							<c:if test="${pi.currentPage > 1}">
-								<a href="${before }">[이전]</a>
-							</c:if>
-							<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-								<c:url var="pagination" value="supportingList.pick">
-									<c:param name="page" value="${p }"></c:param>
-								</c:url>
-								<c:if test="${p eq pi.currentPage }">
-									<font color="red" size="4">[${p }]</font>
-								</c:if>
-								<c:if test="${p ne pi.currentPage }">
-									<a href="${pagination }">${p }</a>&nbsp;
-								</c:if>
-							</c:forEach>
-							<c:url var="after" value="supportingList.pick">
-								<c:param name="page" value="${pi.currentPage + 1}"></c:param>
-							</c:url>
-							<c:if test="${pi.currentPage >= pi.maxPage}">
-								[다음]
-							</c:if>
-							<c:if test="${pi.currentPage < pi.maxPage }">
-								<a href="${after }">[다음]</a>
-							</c:if>
-						</td>
-					</tr>
-				</table>
-			</div><br>
 		</c:if>
+		<br><br>
 	</div>
-</div>
 <jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.pick.my.supporting.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +14,13 @@ import com.pick.my.supporting.domain.SupParticipation;
 import com.pick.my.supporting.domain.SupReply;
 import com.pick.my.supporting.domain.SupReplyReport;
 import com.pick.my.supporting.domain.Supporting;
-
 public interface SupportingService {
 	public int getPreSupListCount();
 	public int getSupListCount();
 	public List<Supporting> printAllSupporting(PageInfo pi);
 	public List<Supporting> printAllPreSupporting(PageInfo pi);
-	public List<Supporting> findKeywordPreSupporting(HashMap<String, String> searchMap);
-	public List<Supporting> findKeywordSupporting(HashMap<String, String> searchMap);
+	public List<Supporting> findKeywordPreSupporting(String keyword);
+	public List<Supporting> findKeywordSupporting(String keyword);
 	public Supporting preSupportingOne(int supNo);
 	public Supporting supportingOne(int supNo);
 	public int registerSupporting(Supporting supporting);
@@ -39,8 +37,6 @@ public interface SupportingService {
 	public int reportSupReply(SupReplyReport reportSupReply);
 	public int reportSupReplyCheck(int reportNo);
 	//////////////결제및참여관련////////
-	
-	public int updateCategory(int supNo, int supCategory); 
 	
 	/**
 	 * 참여내역테이블 추가
@@ -82,16 +78,12 @@ public interface SupportingService {
 	 */
 	
 	public int addPaymentHistory(PaymentHistory paymentHistory);
-	public int addSumMoney(int supNo, int sumMoney); 
 	/**
-	 * 서포팅 돈이 다 찼나 확인
-	 * @param supNo
-	 * @param sumMoney
-	 * @param goalMoney
-	 * @param EndDate
+	 * 합산 올리기
+	 * @param supporting
 	 * @return
 	 */
-	public String checkGoalMoney(int supNo, int sumMoney, int goalMoney, int EndDate); 
+	public int addSumMoney(Supporting supporting); 
 	/**
 	 * 등급변경 (2 성공 / 3 실패 /1 진행중)
 	 * @param supNo
@@ -122,4 +114,6 @@ public interface SupportingService {
 	 * @return
 	 */
 	public SupParticipation checkParticipation(SupParticipation sp);
+	public PaymentHistory printMyPayHistory(String userNickName);
+	public Supporting printMySupporting(int userNo);
 }

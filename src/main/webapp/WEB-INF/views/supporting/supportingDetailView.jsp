@@ -17,6 +17,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" type="text/javascript"></script>
 <!-- 아임포트 -->
 <script src ="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" type="text/javascript"></script>
+<!-- jquery ui -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+  <!-- count up -->
+   <script src = "../assets/js/jquery.counterup.min.js"></script>
+  <script src = "../assets/js/waypoints.min.js"></script>
+   
+
 <style>
 	body{
 	 text-align : center;
@@ -29,7 +36,7 @@
 	}
 	#contextBox{
 		border : 1px solid #eee;
-		width : 320px;
+		width : 360px;
 		padding : 10px 10px;
 		height: 360px;
 		float: left;
@@ -100,13 +107,12 @@
 	 thead{
 	 	border: #eee;
 	 }
-	 .noReply{
+	 #noReply{
 	 	background-color: #eee;
 	 }
-	 #noReply{
-	 	
+	 #modifyTr{
+	 	border: #eee;
 	 }
-	 .
 </style>
 </head>
 <body>
@@ -115,16 +121,19 @@
 <div class="container">
 	<img src="/resources/supportingFiles/${supporting.imgReName}">
 	<ul id="contextBox">
+		<li>아이돌이름 : ${supporting.groupName}</li>
 		<li>작성자  : ${userNickName}</li>
 		<li>날짜 : ${supporting.scheduleDate}</li>
 		<li>장소 : ${supporting.supPlace}</li>
 		<li>내용 : ${supporting.supContents}</li>
-		<li>서포팅 기간 :<fmt:formatDate pattern="yyyy년 MM월 dd일" value="${supporting.supStartDate}"/> ~ <fmt:formatDate pattern="yyyy년 MM월 dd일" value="${supporting.supEndDate}"/></li>
-		<li id="percent">달성률</li>
+		<li>진행기간 :<fmt:formatDate pattern="yyyy년 MM월 dd일" value="${supporting.supStartDate}"/> ~ <fmt:formatDate pattern="yyyy년 MM월 dd일" value="${supporting.supEndDate}"/></li><br><br>
 	</ul>
+		<!-- 달성률 % -->
+		<%-- <li class="progress-bar bg-warning" role="progressbar" background-color ="yellow" style="width: ${(supporting.goalMoney / supporting.sumMoney)*100 }%"></li>
+		<li>달성률 : <fmt:formatNumber pattern = ".0">${(supporting.sumMoney/ supporting.goalMoney)*100 }</fmt:formatNumber>%</li> --%>
 	<div id="moneyBox">
-		<div id="sumMoney" class="mbox">모인 금액<br>${supporting.sumMoney}</div>
-		<div id="goalMoney" class="mbox">목표 금액<br>${supporting.goalMoney}</div>
+		<div id="sumMoney" class="mbox"><h5 class= "money"> 모인 금액<br><fmt:formatNumber type="currency">${supporting.sumMoney}</fmt:formatNumber></h5> </div>
+		<div id="goalMoney" class="mbox"><h5 class= "money"> 목표 금액<br><fmt:formatNumber type="currency">${supporting.goalMoney}</fmt:formatNumber></h5></div>
 	</div><br>
 	<aside id="aside">
 		<form onsubmit="moneyAction()" action="movePayPage.pick" method="post">
@@ -167,6 +176,7 @@
 		</tr>
 	</table>
 	<br><br>
+	<input type="hidden" value="${loginUser.userNickName }" id="log">
 	<!-- 댓글 목록 -->
 	<table align="center" width="700px" border="1" id="rtb">
 		<thead>
@@ -178,9 +188,6 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr id="noReply">
-				<p class="noReply">댓글이 없습니다.</p>
-			</tr>
 		</tbody>
 	</table>
 	<br><br>
@@ -245,8 +252,12 @@
 		});
 	});
 //댓글리스트	
+	
 	function getReplyList() {
 	 var supNo = '${supporting.supNo }';
+	 var loginUser = '${loginUser.userNickName }';
+	 var $log = $("#log").val();
+	 
 		$.ajax({
 			url : "supReplyList.pick",
 			type : "get",
@@ -260,16 +271,20 @@
 				 var $rContent;
 				 var $rCreateDate;
 				 var $btnArea;
-				 
-			//	 $("#rCount").text("댓글 (" + data.length +")"); 
 				 if(data.length > 0) { 
-					 console.log(data[i]);
 					 for(var i in data){
+					 console.log(data[i].supReWriter);
+					 console.log(log);
 						 $tr = $("<tr id='modifyTr'>"); 
 						 $rWriter = $("<td>").text(data[i].supReWriter);
 						 $rContent = $("<td>").text(data[i].supReContents);
 						 $rCreateDate = $("<td>").text(data[i].supReDate);    
-						 $btnArea = $("<td>").append("<a href='#' onclick='modifyReply(this,"+supNo+","+data[i].supReAllNo+",\""+data[i].supReContents+"\");'>수정</a>&nbsp;").append("<a href='#' onclick='removeReply(this,"+supNo+","+data[i].supReAllNo+")'>삭제</a>&nbsp;").append("<a href='#' onclick='reportReply(this,"+supNo+","+data[i].supReAllNo+");'>신고</a>");  
+						 if($log == data[i].supReWriter){
+						 	$btnArea = $("<td>").append("<a href='#' onclick='modifyReply(this,"+supNo+","+data[i].supReAllNo+",\""+data[i].supReContents+"\");'>수정</a>&nbsp;").append("<a href='#' onclick='removeReply(this,"+supNo+","+data[i].supReAllNo+")'>삭제</a>&nbsp;"); 
+						 }
+						 if($log != data[i].supReWriter){
+						 	$btnArea = $("<td>").append("<a href='#' onclick='reportReply(this,"+supNo+","+data[i].supReAllNo+");'>신고</a>");
+						 }
 						 $tr.append($rWriter);
 					 	 $tr.append($rContent);
 					 	 $tr.append($rCreateDate);
@@ -283,7 +298,10 @@
 				}
 			},
 			error : function() {
-				 alert("통신오류2, 관리자에게 문의하세요");
+				 var $tr;
+				 var $p;
+					$tr = $("<tr id='noReply'>");
+					$p = $('<p>').append("댓글이 없습니다.</p>");
 			}
 		});
 	}

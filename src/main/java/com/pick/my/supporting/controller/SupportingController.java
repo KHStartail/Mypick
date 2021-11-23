@@ -104,37 +104,33 @@ public class SupportingController {
 
 	// 모집중 검색
 	@RequestMapping(value = "presupportingSearch.pick", method = RequestMethod.GET)
-	public String presupportingSearchList(@RequestParam("groupName") String idolName,
-			@RequestParam("keyword") String keyword, ModelAndView mv) {
-		HashMap<String, String> searchMap = new HashMap<String, String>();
-		searchMap.put("idolName", idolName);
-		searchMap.put("keyword", keyword);
-		List<Supporting> psList = service.findKeywordPreSupporting(searchMap);
+	public ModelAndView presupportingSearchList(
+			@RequestParam("keyword") String keyword
+			, ModelAndView mv) {
+		List<Supporting> psList = service.findKeywordPreSupporting(keyword);
 		if (!psList.isEmpty()) {
 			mv.addObject("psList", psList);
-			return "supporting/preSupportingList";
+			mv.addObject("keyword", keyword);
+			mv.setViewName("supporting/preSupportingSearchList");
 		} else {
-			mv.addObject("msg", "검색결과가 없습니다.");
-			return "supporting/supportError";
+			mv.setViewName("supporting/preSupportingSearchList");
 		}
+		return mv;
 	}
 
 	// 진행중 검색
 	@RequestMapping(value = "supportingSearch.pick", method = RequestMethod.GET)
-	public String supportingSearchList(@RequestParam("groupName") String idolName,
-			@RequestParam("keyword") String keyword, Model model) {
-		HashMap<String, String> searchMap = new HashMap<String, String>();
-		searchMap.put("idolName", idolName);
-		searchMap.put("keyword", keyword);
-		List<Supporting> ssList = service.findKeywordPreSupporting(searchMap);
+	public ModelAndView supportingSearchList(
+			@RequestParam("keyword") String keyword, ModelAndView mv) {
+		List<Supporting> ssList = service.findKeywordPreSupporting(keyword);
 		if (!ssList.isEmpty()) {
-			model.addAttribute("ssList", ssList);
-			model.addAttribute("ssList", ssList);
-			return "supporting/supportingList";
+			mv.addObject("ssList", ssList);
+			mv.addObject("keyword", keyword);
+			mv.setViewName("supporting/supportingSearchList");
 		} else {
-			model.addAttribute("msg", "검색결과가 없습니다.");
-			return "supporting/supportError";
+			mv.setViewName("supporting/supportingSearchList");
 		}
+		return mv;
 	}
 
 	// 모집중 상세조회
@@ -146,12 +142,10 @@ public class SupportingController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		SupParticipation sp = new SupParticipation();
 		sp.setSupNo(supNo);
-		System.out.println(sp);
 		if (loginUser != null) {
 			sp.setUserNo(loginUser.getUserNo());
-			sp = service.checkParticipation(sp);
-			mv.addObject("participation",sp);
-			System.out.println(sp);
+			SupParticipation sp2 = service.checkParticipation(sp);
+			mv.addObject("participation",sp2);
 					
 			Supporting supporting = service.preSupportingOne(supNo);
 			List<SupFile> fileList = service.printFileList(supNo);
@@ -196,6 +190,7 @@ public class SupportingController {
 		if (supporting != null) {
 			mv.addObject("supporting", supporting);
 			mv.addObject("userNickName", NickName);
+			mv.addObject("loginUser", loginUser);
 			mv.addObject("fList", fileList);
 			mv.setViewName("supporting/supportingDetailView");
 		} else {
@@ -219,7 +214,6 @@ public class SupportingController {
 			@ModelAttribute Supporting supporting, @ModelAttribute SupFile supFile,
 			MultipartHttpServletRequest multiRequest, Model model, HttpSession session, HttpServletRequest request) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
-		System.out.println(loginUser);
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");// 포맷시 date import: java.utill.Date
 		supporting.setScheduleDate(scheduleDate);
 		supporting.setSupStartDate(Date.valueOf(supStartDate));
@@ -415,7 +409,6 @@ public class SupportingController {
 		String root = multiRequest.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\supportingFiles";
 		File folder = new File(savePath);
-		System.out.println(savePath);
 		if (!folder.exists()) {
 			folder.mkdir();
 		}
@@ -462,7 +455,6 @@ public class SupportingController {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String fullPath = root + "\\supportingFiles";
 		File file = new File(fullPath + "\\" + imgReName);
-		System.out.println(file.toString());
 		if (file.exists()) {
 			file.delete();
 		}
@@ -473,18 +465,19 @@ public class SupportingController {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String filePath = root + "\\supportingFiles";
 		for(int i =0; i<fileNames.length(); i++ ) {
-		File file = new File(filePath + "\\" + fileNames);
-			int result = service.deleteFile(supNo);
-			if (file.exists()) {
-				file.delete();
-		}
+			File file = new File(filePath + "\\" + fileNames);
+				int result = service.deleteFile(supNo);
+				if (file.exists()) {
+					file.delete();
+				}
 		}
 	}
 
 	// 서포팅 댓글 목록
 	@ResponseBody
 	@RequestMapping(value = "supReplyList.pick", method = RequestMethod.GET)
-	public void supReplyList(@RequestParam("supNo") int supNo, HttpServletResponse response) throws Exception {
+	public void supReplyList(@RequestParam("supNo") int supNo
+			, HttpServletResponse response) throws Exception {
 		List<SupReply> rList = service.printSupReply(supNo);
 		if (!rList.isEmpty()) {
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -515,9 +508,6 @@ public class SupportingController {
 	public String modifySupReply(@ModelAttribute SupReply supReply, HttpSession session) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String logUser = loginUser.getUserNickName();
-		System.out.println(logUser);
-
-		// int check = service.printWriter(supReply);
 		int result = service.modifyrSupReply(supReply);
 		if (result > 0) {
 			return "success";
@@ -530,18 +520,11 @@ public class SupportingController {
 	@ResponseBody
 	@RequestMapping(value = "deleteSupReply.pick", method = RequestMethod.GET)
 	public String deleteSupReply(@ModelAttribute SupReply supReply, HttpSession session) {
-		Member loginUser = (Member) session.getAttribute("loginUser");
-		String logUser = loginUser.getUserNickName();
-		String writer = supReply.getSupReWriter();
-		if (logUser == writer) {
-			int result = service.removeSupReply(supReply);
-			if (result > 0) {
-				return "success";
-			} else {
-				return "fail";
-			}
+		int result = service.removeSupReply(supReply);
+		if (result > 0) {
+			return "success";
 		} else {
-			return "noMatch";
+			return "fail";
 		}
 	}
 
@@ -569,7 +552,6 @@ public class SupportingController {
 		Supporting supporting = service.supportingOne(supNo);
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String nickName = loginUser.getUserNickName();
-
 		mv.addObject("supporting", supporting);
 		mv.addObject("userNickName", userNickName);
 		mv.addObject("nickName", nickName);
@@ -579,10 +561,10 @@ public class SupportingController {
 		return mv;
 	}
 
-	// 서포팅 결제(DB저장)
+	// 서포팅 결제(DB저장, sum합쳐지기)
 	@ResponseBody
 	@RequestMapping(value = "getPayment.pick", method = RequestMethod.POST)
-	public ModelAndView getPayment(HttpSession session, @ModelAttribute PaymentHistory ph,
+	public ModelAndView getPayment(HttpSession session, @ModelAttribute PaymentHistory ph,@ModelAttribute Supporting supporting,
 			@RequestParam("supNo") int supNo, @RequestParam("supTitle") String supTitle,
 			@RequestParam("money") int supAmount, @RequestParam("userNickName") String userNickName,
 			@RequestParam("userName") String userName, @RequestParam("userPhone") String userPhone,
@@ -596,8 +578,13 @@ public class SupportingController {
 			ph.setUserName(userName);
 			ph.setUserPhone(userPhone);
 			ph.setUserEmail(userEmail);
+			supporting.setSupNo(supNo);
+			supporting.setSumMoney(supAmount);
+			
 			int result = service.addPaymentHistory(ph);
-			if (result > 0) {
+			result += service.addSumMoney(supporting);
+			
+			if (result > 1) {
 				out.println("<script>alert('결제내역은 마이페이지에서 확인바랍니다.');</script>");
 				mv.setViewName("supporting/supportingList");
 			} else {
@@ -609,10 +596,21 @@ public class SupportingController {
 		}
 		return mv;
 	}
-
-	// 모집중에서 진행중으로 이동
-	public String updateCategory(@RequestParam("supNo") int supNo) {
-		return null;
+	//결제내역 불러오기(마이페이지)
+	@RequestMapping(value="myPayHistory.pick", method=RequestMethod.GET)
+	public ModelAndView payHistory(
+			@ModelAttribute PaymentHistory ph
+			, HttpSession session
+			, ModelAndView mv) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userNickName = loginUser.getUserNickName();
+		PaymentHistory paymentHistory= service.printMyPayHistory(userNickName);
+		if( paymentHistory!= null) {
+			mv.setViewName("myPage/historySupport");
+		}else {
+			mv.setViewName("supporting/supportError");
+		}
+		return mv;
 	}
 
 	// 서포팅 참여하기/참여취소하기
@@ -627,7 +625,6 @@ public class SupportingController {
 		sp.setUserNo(userNo);
 		sp.setSupNo(supNo);
 		SupParticipation sp2 = service.checkParticipation(sp);
-		System.out.println(sp2);
 		if (sp2 == null) {
 			int result = service.addParticipation(sp);
 			result += service.addPartiwon(supNo);
@@ -642,16 +639,19 @@ public class SupportingController {
 			return "success2";
 		}
 	}
-
 	
-	// 서폿참여인원 +1
-	// updatePartiwon(int, int, Model) : String
-
-	public String updateCode(@RequestParam("supNo") int supNo, Model model) {
-		return null;
-	}
-
-	public String checkPartiwon(@RequestParam("supNo") int supNo, Model model) {
-		return null;
+	@RequestMapping(value="myWrtieSupporting.pick", method=RequestMethod.POST)
+	public ModelAndView myWriteSupport(HttpSession session
+			, @ModelAttribute Supporting sup
+			, ModelAndView mv) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		Supporting supporting = service.printMySupporting(userNo);
+		if(supporting!=null) {
+			mv.setViewName("myPage/postSupport");
+		}else {
+			mv.setViewName("supporting/supportError");
+		}
+		return mv;
 	}
 }
