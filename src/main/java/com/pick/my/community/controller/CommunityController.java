@@ -556,14 +556,13 @@ public class CommunityController {
 		@ResponseBody
 	    @RequestMapping(value="mainImg.pick",method = RequestMethod.POST)
 	    public String result(@RequestParam("mainImg") MultipartFile mainImgName,HttpServletRequest request,HttpServletResponse response, Model model
-	    		,@ModelAttribute Community_Main main,@RequestParam("groupName")String groupName
+	    		,@ModelAttribute Community_Main main,@RequestParam("groupName")String groupName,@RequestParam("deleteImg")String deleteImg
 	    		){
 			if(mainImgName != null && !mainImgName.isEmpty()) {
-				if(main.getMainImgName() != null) {
-					deleteFile(main.getMainImgName(), request);
+				if(deleteImg != null) {
+					deleteFile(deleteImg, request);
 				}
 				String savePath = saveFile(mainImgName, request);
-//				main = service.modifyMain();
 				if(savePath != null) {
 					main.setGroupName(groupName);
 					main.setMainImgName(mainImgName.getOriginalFilename());
@@ -606,7 +605,6 @@ public class CommunityController {
 			File deleteFile = new File(deletePath + "\\" + filePath);
 			Community_Main main = new Community_Main();
 			main.setMainImgName(filePath);
-
 			if(deleteFile.exists()) {
 				deleteFile.delete();
 			}
