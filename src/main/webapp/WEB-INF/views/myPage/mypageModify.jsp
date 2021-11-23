@@ -65,7 +65,7 @@
                     ${loginUser.userId}
                 </div>
                 <div id="intro-img">
-                    <img src="img/솔미2.png" alt="">
+                    <img src="assets/images/솔미2.png" alt="">
                 </div>
                 <div id="update-btn">
                     <button><a href="#">사진 변경</a></button>

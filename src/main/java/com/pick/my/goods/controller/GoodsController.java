@@ -395,8 +395,7 @@ public class GoodsController {
 		if(result > 0) {
 			return "redirect:goodsDetail.pick?goodsNo="+goodsNo+"&groupName="+encodedParam;
 		}else {
-			model.addAttribute("msg","등록실패");
-			return "common/errorPage";
+			return "common/login";
 		}
 		
 	}
