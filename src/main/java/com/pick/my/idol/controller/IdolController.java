@@ -112,7 +112,7 @@ public class IdolController {
 		return "idol/idolUpdateView";
 	}
 
-	@RequestMapping(value = "idolUpdate.pick", method = RequestMethod.GET)
+	@RequestMapping(value = "idolUpdate.pick", method = {RequestMethod.GET, RequestMethod.POST})
 	public String idolUpdate(@ModelAttribute Idol idol, Model model, HttpServletRequest request,
 			@RequestParam("reloadFile") MultipartFile reloadFile) {
 		if (reloadFile != null && !reloadFile.isEmpty()) {
@@ -126,7 +126,7 @@ public class IdolController {
 		}
 		int result = service.modifyIdol(idol);
 		if (result > 0) {
-			return "redirect:idoldetail.pick?idolNo=" + idol.getIdolNo();
+			return "redirect:index.jsp";
 		} else {
 			return "redirect:index.jsp";
 		}

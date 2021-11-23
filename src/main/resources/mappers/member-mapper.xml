@@ -46,7 +46,7 @@
 	</update>
 	
 	<update id="updatemember" parameterType="Member">
-	
+		UPDATE MEMBER SET USER_NICKNAME = #{userNickName}, USER_PWD = #{userPwd}, USER_EMAIL = #{userEmail}, USER_ADDR = #{userAddr}, USER_PHONE = #{userPhone} WHERE USER_NO = #{userId}
 	</update>
 	
 	<select id="selectUserOne" resultMap="memberResultMap">
