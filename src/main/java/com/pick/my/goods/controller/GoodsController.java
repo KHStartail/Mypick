@@ -135,8 +135,8 @@ public class GoodsController {
 						subImg.setImgName(file.getOriginalFilename());
 						subImg.setImgReName(savedFileName);
 						subImg.setImgSize(file.getSize());
-						System.out.println(subImg.toString());
 						fileResult += service.insertSubFile(subImg);
+						System.out.println(subImg.toString());
 					} catch (Exception e) {
 						//파일삭제
 						FileUtils.deleteQuietly(targetFile);	//저장된 현재 파일 삭제
@@ -262,6 +262,14 @@ public class GoodsController {
 			file.delete();
 		}
 	}
+//	public void deleteFileList(String imgName, HttpServletRequest request) {
+//		String root = request.getSession().getServletContext().getRealPath("resources");
+//		String fullPath = root+"\\goodsFiles";
+//		File file = new File(fullPath+"\\"+imgName);
+//		if(file.exists()) {
+//			file.delete();
+//		}
+//	}
 	
 	
 	//수정
@@ -277,6 +285,7 @@ public class GoodsController {
 	
 	@RequestMapping(value="goodsModify.pick", method = RequestMethod.POST)
 	public String goodsModify(@ModelAttribute Goods goods,
+			@ModelAttribute GoodsFile subFile,
 //			Model model,
 			HttpServletRequest request,
 			@RequestParam("goodsNo") int goodsNo,
@@ -312,6 +321,10 @@ public class GoodsController {
 				if (!folder.exists()) {
 					folder.mkdir(); // 폴더 생성
 				}
+//				if(reloadSubFile != null && !reloadSubFile.isEmpty()) {
+//					if(subFile.getImgName() != null) {
+//						deleteFileList(goods.getGoodsNo(), subFile.getImgName(), request);
+//					}
 				String originalFileName = file.getOriginalFilename();	//오리지날 파일명
 				String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
 				String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
