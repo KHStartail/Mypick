@@ -60,15 +60,19 @@
     </div>
     <section id="first-section">
         <div id="intro">
-            <p>userId</p>
+            <p>${loginUser.userId}</p>
             <div id="intro-img">
                 <img src="assets/images/솔미2.png" alt="">
             </div>
-            <p>nickName</p>
+            <p>${loginUser.userNickName}</p>
             <div id="update-btn">
-                <button><a href="myPageModify.pick">정보수정</a></button>
+            <c:url var="modifyPage" value="myPageModify.pick">
+				<c:param name="userNo" value="${loginUser.userNo }"></c:param>
+			</c:url>
+                <button><a href="${modifyPage }">정보수정</a></button>
             </div>
         </div>
+        
     </section>
     <section id="second-section">
         <div class="mypage-menu">

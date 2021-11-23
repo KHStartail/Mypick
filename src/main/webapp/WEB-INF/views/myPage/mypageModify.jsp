@@ -62,22 +62,23 @@
         <div id="intro">
             <div id="part-img">
                 <div id="intro-id">
-                    user01
+                    ${loginUser.userId}
                 </div>
                 <div id="intro-img">
-                    <img src="img/솔미2.png" alt="">
+                   <img id="img"
+					src="../../../resources/proFiles/${loginUser.filePath }">
                 </div>
                 <div id="update-btn">
-                    <button><a href="#">사진 변경</a></button>
+                    <input id="input_img" type="file" size="50" name="reloadFile" style="">사진 변경
                 </div>
             </div>
             <div id="part-text">
                 <div id="profile-div">
-                    <label>닉네임</label><input type="text" name="" id=""><br>
-                    <label>비밀번호</label><input type="text" name="" id=""><br>
-                    <label>핸드폰번호</label><input type="text" name="" id=""><button>인증</button><br>
-                    <label>주소</label><input type="text" name="" id=""><button>검색</button><br>
-                    <label>이메일</label><input type="text" name="" id="">
+                    <label>닉네임</label><input type="text" id="userNickName" name="userNickName" value="">
+					<label>비밀번호</label><input type="text" name="userPwd" name="userPwd" value="">
+					<label>핸드폰번호</label><input type="text" name="userPhone" name="userPhone" value=""><button>인증</button><br>
+					<label>주소</label><input type="text" name="userAddr" name="userAddr" value=""><button>검색</button><br>
+					<label>이메일</label><input type="text" name="userEmail" name="userEmail" value="">
                 </div>
                 <div id="part-btn">
                     <button>수정 완료</button>

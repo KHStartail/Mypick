@@ -14,4 +14,6 @@ public interface MemberService {
 	public void certifiedPhoneNumber(String userPhoneNumber,int randomNumber);
 	public int modifyPwd(Member member);
 	public Member userchk(Member member);
+	public Member printOneMember(int userNo);
+	public int updateMember(Member member);
 }

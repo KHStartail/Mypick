@@ -12,7 +12,8 @@
                 rel="stylesheet">
                 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
                 rel="stylesheet">
-            
+            <script type="text/javascript"
+	src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
                 <!-- Css Styles -->
                 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
                 <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
@@ -83,12 +84,17 @@
                     </div>
                     <div class="insert-btn">
                         <button type="submit">수정</button>
-                        <button type="reset">취소</button>
+                        <button onclick="back();">취소</button>
                     </div>
                 </div>
                 </form>
             </section>
                     <!-- ***** Footer Start ***** -->
 	<jsp:include page="/footer.jsp"></jsp:include>
+	<script>
+		function back(){
+			window.history.back();
+		}
+	</script>
 </body>
 </html>

@@ -179,7 +179,7 @@
                             <div class="row d-flex justify-content-center">
                                 <div class="col-lg-8">
                                    <c:forEach items="${fList}" var="file">
-                                    	<img alt="" src="/resources/goodsSubFiles/${file.imgReName }">
+                                    	<img alt="" src="/resources/goodsSubFiles/${file.imgReName }" style="width: 650px;">
                                     </c:forEach>
                                 </div>
                             </div>

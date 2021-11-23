@@ -166,7 +166,7 @@
 			<div class="row align-items-center">
 					<div class="login-box bg-white box-shadow border-radius-10">
 						<div class="login-title">
-							<h2 class="text-center text-primary">Login To DeskApp</h2>
+							<h2 class="text-center text-primary">매니저 회원가입</h2>
 						</div>
 
 							<div class="select-role">
@@ -175,21 +175,21 @@
 									<a href="#userId">
 										<input type="radio" name="options" id="admin">
 										<div class="icon"><img src="assets/images/briefcase.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Manager
+										<span></span>
+										매니저
 									</a>
 									</label>
 									<label class="btn">
 									<a href="enrollView.pick">
 										<input type="radio" name="options" id="user">
 										<div class="icon"><img src="assets/images/person.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Employee
+										<span></span>
+										회원
 									</a>
 									</label>
 								</div>
 							</div>
-							<form onsubmit="return checkz()" action="memberRegister.pick" method="post">
+							<form onsubmit="return checkz()" action="managerRegister.pick" method="post">
 							<span class="guide ok">이 아이디는 사용 가능합니다.</span>
 							<span class="guide error">이 아이디는 사용이 불가능합니다.</span>	
 							<div class="input-group custom">	
@@ -243,11 +243,12 @@
 								</div>
 							</div>
 							<div class="input-group custom">
-								<input id="businessNo" name="businessNo" type="text" class="postcodify_extra_info" placeholder="사업자번호를 입력해주세요.">
+								<input id="businessNo" name="businessNo" type="text" class="form-control form-control-lg" placeholder="사업자번호를 입력해주세요.">
 								<div class="input-group-append custom">
-									<span class="input-group-text"></span>
+									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
 							</div>
+							
 							<div class="input-group custom">						
 								<input type="hidden" id="phoneDoubleCheck"/>
 								<input id="userPhone" type="text" name="userPhone" class="form-control form-control-lg" placeholder="핸드폰번호를 입력해주세요. " required/>
@@ -270,7 +271,7 @@
 									
 									<div class="input-group mb-0">
 										<button type="submit" id="btn" class="btn btn-outline-primary btn-lg btn-block" href="home.pick">가입하기</button>
-										<button type="reset" class="btn btn-outline-primary btn-lg btn-block" href="#userId">취소</button>
+										<a class="btn btn-outline-primary btn-lg btn-block" href="home.pick">취소</a>
 									</div>
 								</div>
 							</div>

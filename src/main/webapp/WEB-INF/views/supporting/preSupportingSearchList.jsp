@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>모집중 서포팅 목록</title>
+<title>모집중 서포팅 검색목록</title>
 <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/header.css">
 <link rel="stylesheet" href="assets/css/lightbox.css">
@@ -64,25 +64,29 @@
       	text-align : center;
       	display: inline-block;
       }
+      .sbox{
+      	background-color: #eee;
+      	height : 200px;
+      	text-align: center;
+      }
     </style>
   </head>
 <body>
 <jsp:include page="/header.jsp"></jsp:include>
 <br><br><br><br>
 <div class="container">
-	<h1>모집중 서포팅 목록</h1>
-	<h3>일정 인원수가 달성시, 서포팅이 진행됩니다!</h3><br><br><br>
+	<h1>모집중 서포팅 검색결과</h1><br><br>
 	<form action="presupportingSearch.pick" method="get">
-		<input type="text" placeholder="그룹이름 또는 아이돌이름을 입력해주세요." name="keyword" id="searchBox" size="40" value="${keyword }">
+		<input type="text" placeholder="그룹이름 또는 아이돌이름을 입력해주세요." name="keyword" id="searchBox"size="40" value="${keyword }">
 		<input type="submit" value="검색" class="searchButton"><br><br><br><br>
 	</form>
-	
-	<c:if test="${empty pList }"><br><br><br>
-		<h1>조회된 글이 없습니다.</h1>
+	<c:if test="${empty psList }"><br><br><br>
+		<div class="sbox"><br><br><h3>검색된 아이돌의 서포팅이 없습니다.</h3></div>
 	</c:if>
-	<c:if test="${not empty pList }">
+
+	<c:if test="${not empty psList }">
 		<div class="row"> 
-			<c:forEach items="${pList}" var="Supporting" varStatus="sLength">
+			<c:forEach items="${psList}" var="Supporting" varStatus="sLength">
 				<c:url var="psOne" value="presupportingDetail.pick">
 					<c:param name="supNo" value="${Supporting.supNo}"></c:param>
 				</c:url>
@@ -98,44 +102,7 @@
 			</div>
 			</c:forEach>		
 		</div>
-	<div class="pagination">
-		<table align="center">
-			<tr align="center" height="20">
-				<td colspan="6">
-					<c:url var="before" value="presupportingList.pick">
-						<c:param name="page" value="${pi.currentPage - 1}"></c:param>
-					</c:url>
-					<c:if test="${pi.currentPage <= 1}">
-						[이전]
-					</c:if>
-					<c:if test="${pi.currentPage > 1}">
-						<a href="${before }">[이전]</a>
-					</c:if>
-					<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-						<c:url var="pagination" value="presupportingList.pick">
-							<c:param name="page" value="${p }"></c:param>
-						</c:url>
-						<c:if test="${p eq pi.currentPage }">
-							<font color="red" size="4">[${p }]</font>
-						</c:if>
-						<c:if test="${p ne pi.currentPage }">
-							<a href="${pagination }">${p }</a>&nbsp;
-						</c:if>
-					</c:forEach>
-					<c:url var="after" value="presupportingList.pick">
-						<c:param name="page" value="${pi.currentPage + 1}"></c:param>
-					</c:url>
-					<c:if test="${pi.currentPage >= pi.maxPage}">
-						[다음]
-					</c:if>
-					<c:if test="${pi.currentPage < pi.maxPage }">
-						<a href="${after }">[다음]</a>
-					</c:if>
-				</td>
-			</tr>
-		</table>
-	</div><br>
-	</c:if>
+	</c:if><br><br>
 	<button class="w-button" onclick="check()">서포팅모집</button><br><br><br><br>
 </div>
 <jsp:include page="/footer.jsp"></jsp:include>
@@ -171,12 +138,12 @@
 					"supNo" : supNo,
 				},
 				success : function(data) {
-					if(data == "success1") {
-						alert("참여완료");
-					}else if(data=="success2"){
-						alert("참여 취소되었습니다");
+					if(data == "success") {
+						alert("참여 완료");
 					}else {
-						alert("에러");
+						alert("참여 실패");
+						console.log("실패");
+						return;
 					}
 				},
 				error : function() {

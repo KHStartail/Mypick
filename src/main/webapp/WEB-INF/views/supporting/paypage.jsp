@@ -20,17 +20,20 @@
 		padding : 100px;
 		height : 500px;
 	}
+	ul li{
+		list-style:none;
+	}
 </style>
 </head>
 <body>
 <form id="form">
 	<input type="hidden" value="${supporting.supNo }" name="supNo" id="supNo">
 	<input type="hidden" value="${supporting.supTitle }" name="supTitle" id="supTitle">
-	<input type="hidden" value="${userNickName }" name="userNickName" id="userNickName">
+	<input type="hidden" value="${nickName }" name="userNickName" id="userNickName">
 	<input type="hidden" value="${money+plusMoney }" name="money">
 	<input type="hidden" value="card" name="paymentMethod" id="paymentMethod">
 	<h1>${nickName}님의 결제페이지</h1><br><br><br>
-	<h3>${userNickName}님</h3>
+	<h3>${nickName}님</h3>
 	<div id="paymentInfo">
 		[${supporting.supTitle}] : ${money+plusMoney}원 결제하시겠습니까?
 		아래 정보를 입력해주세요.
@@ -53,7 +56,7 @@
   
   
   function pay(){
-		 var userNickName = '<c:out value="${userNickName}"/>';
+		 var userNickName = '<c:out value="${nickName}"/>';
 		 var money = '<c:out value="${money+plusMoney}"/>';
 		 var supNo = '<c:out value="${supporting.supNo}"/>';
 		 var supTitle = '<c:out value="${supporting.supTitle}"/>';
@@ -100,8 +103,9 @@
 			        		alert("결제 실패");
 			        	}else{
 			        		//성공시 
-			        		alert("ajax 성공");
-			        		location.href="supportingList.pick";
+			        		alert("결제 성공");
+			        		location.href="supportingDetail.pick?supNo="+supNo;
+			        		
 			        	}
 			        }
 		        });
@@ -114,6 +118,22 @@
 	)};
   
   function check(){
+	  if(form.userName.value == ""){
+          form.userName.focus();
+
+          return false;
+      }
+	  if(form.userPhone.value == ""){
+          form.userPhone.focus();
+
+          return false;
+      }
+	  if(form.userEmail.value == ""){
+          form.userEmail.focus();
+
+          return false;
+      }
+	  pay();
 	//유효성검사
 	//		var pExg  = /^[0-9]/g;
 //	 	var phone = $("#userPhone").val();
@@ -138,7 +158,7 @@
 //			alert("이메일을 입력해주세요.");
 //		  });
 //	  };
-		pay();
+	
   }
 	  
 

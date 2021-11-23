@@ -125,11 +125,6 @@
 <jsp:include page="/footer.jsp"></jsp:include>
 <script>
 var user ='${loginUser.userNickName}';
-
-//var pcheck = '${pcheck }';
-//if(pcheck == 'Y') {
-//	$("#participation").addClass('partiwon');
-//}
 function participation(){
 	var supNo = "${supporting.supNo }";
 	var userId = '${loginUser.userId }';
@@ -140,14 +135,15 @@ function participation(){
 			url : "addParticipation.pick",
 			type : "get",
 			data : {
-				"supNo" : ${supporting.supNo }
+				"supNo" : supNo
 			},
 			success : function(data) {
 				if(data == "success1") {
 					alert("참여완료");
-				}else {
+				}else if(data=="success2"){
 					alert("참여 취소되었습니다");
-				
+				}else {
+					alert("에러");
 				}
 			},
 			error : function() {

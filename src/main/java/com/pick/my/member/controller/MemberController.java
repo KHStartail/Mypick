@@ -4,6 +4,7 @@ package com.pick.my.member.controller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.json.simple.JSONObject;
 
@@ -231,34 +234,7 @@ public class MemberController {
 	}
 	
 	
-//	//카카오톡 로그인.. 
-//	@RequestMapping(value = "/loginpage_kakao_callback", method = RequestMethod.GET) 
-//	public String loginpage_kakao_callback(HttpServletRequest request,
-//			HttpServletResponse response, 
-//			HttpSession session,
-//			Model model) throws Exception { 
-//		UrlPathHelper urlPathHelper = new UrlPathHelper();
-//		String originalURL = urlPathHelper.getOriginatingRequestUri(request); 
-//		Map<String, String[]> paramMap = request.getParameterMap();
-//		Iterator keyData = paramMap.keySet().iterator(); 
-//		CommonData dto = new CommonData(); 
-//		while (keyData.hasNext()) { String key = ((String) keyData.next()); 
-//		String[] value = paramMap.get(key); dto.put(key, value[0].toString()); }
-//		String url = "https://kauth.kakao.com/oauth/token"; 
-//		RestTemplate restTemplate = new RestTemplate(); 
-//		HttpHeaders headers = new HttpHeaders(); 
-//		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//		LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>(); 
-//		map.add("client_id", "REST 앱키를 입력하세요."); 
-//		String redirect_url = "http://localhost:8080/user/loginpage_kakao_callback"; 
-//		map.add("redirect_uri", redirect_url); map.add("grant_type", "authorization_code");
-//		map.add("code", dto.get("code"));
-//		HttpEntity<LinkedMultiValueMap<String, String>> request2 = new HttpEntity<LinkedMultiValueMap<String, String>>( map, headers); 
-//		CommonData response2 = restTemplate.postForObject(url, request2, CommonData.class);
-//		map.clear(); model.addAttribute("access_token", response2.get("access_token")); 
-//		return "/user/loginpage_kakao_callback"; 
-//		}
-	
+
 
 	@RequestMapping(value = "/login/getKakaoAuthUrl")
 		public @ResponseBody String getKakaoAuthUrl(
@@ -414,6 +390,78 @@ public class MemberController {
 	        return "redirect:index.jsp";
 	    }
 
+	    
+	    @RequestMapping(value="myPageMain.pick", method=RequestMethod.GET)
+	    public String myPageMainView(
+	    		@RequestParam("userNo") int userNo, 
+	    		Model model) {
+	    	Member member = service.printOneMember(userNo);
+	    	model.addAttribute( "member", member);
+	        return "myPage/mypageMain";
+	    }
+	    
+	    
+	    @RequestMapping(value="myPageModify.pick", method=RequestMethod.GET)
+	    public String myPageModifyView(
+	    		@RequestParam("userNo") int userNo, 
+	    		Model model) {
+	    	Member member = service.printOneMember(userNo);
+	    	model.addAttribute( "member", member);
+	        return "myPage/modifytool";
+	    }
+	    
+	    
+	    @RequestMapping(value = "myPageProfile.pick", method = {RequestMethod.GET, RequestMethod.POST})
+		public String myPageProfileUpdate(
+				@ModelAttribute Member member,
+				Model model,
+				HttpServletRequest request,
+				@RequestParam(value = "reloadFile", required = false) MultipartFile reloadFile)  {
+	    	if (reloadFile != null && !reloadFile.isEmpty()) {
+				if (member.getFilePath() != null) {
+					deleteFile(member.getFilePath(), request);
+				}
+				String savePath = saveFile(reloadFile, request);
+				if (savePath != null) {
+					member.setFilePath(reloadFile.getOriginalFilename());
+				}
+			}
+			int result = service.updateMember(member);
+			if (result > 0) {
+				return "myPageMain.pick";
+			} else {
+				System.out.println("회원프로필 실패");
+				return "redirect:index.jsp";
+			}
+		}
+
+		private String saveFile(MultipartFile file, HttpServletRequest request) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "\\proFiles";
+			File folder = new File(savePath);
+			if (!folder.exists()) {
+				folder.mkdir();
+			}
+			String filePath = folder + "\\" + file.getOriginalFilename();
+			try {
+				file.transferTo(new File(filePath));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return filePath;
+		}
+
+		private void deleteFile(String filePath, HttpServletRequest request) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String deletePath = root + "\\proFiles";
+			File deleteFile = new File(deletePath + "\\" + filePath);
+			if (deleteFile.exists()) {
+				deleteFile.delete();
+			}
+		}
+	    
 	    
 	 }
 	
