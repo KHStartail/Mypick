@@ -1562,6 +1562,7 @@ ol {
 .product-details {
   padding-top: 90px;
   padding-bottom: 0;
+  overflow: auto;
 }
 
 .product__details__big__img {

@@ -55,20 +55,20 @@ a,button{
             font-weight: bold;
         }
     .rev-list{
-        overflow: auto;
+        overflow: auto !important;
     }
     .rev-re-list{
         margin-top: 30px;
         margin-left: 30%;
         width: 500px;
-        overflow: auto;
+        overflow: auto !important;
         display: none;
     }
     .rev-re-list-show{
     	margin-top: 30px;
         margin-left: 30%;
         width: 500px;
-        overflow: auto;
+        overflow: auto !important;
     }
 
         .rev-img{
