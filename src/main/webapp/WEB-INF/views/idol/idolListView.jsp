@@ -73,12 +73,10 @@ a:hover {
 	<jsp:include page="/header.jsp"></jsp:include>
 	<br>
 	<br>
-	<c:if test="${loginUser.userGrade eq 'manager'}">
 	<div class="joinIdol">
 		<button onclick="location.href='idolJoinView.pick'"
 			style="background-color: #fb5849dc;">아이돌 등록</button>
 	</div>
-	</c:if>
 	<div class="Tboard">
 		<table align="center" width="600" cellspacing="0"
 			style="clear: right;">
@@ -97,28 +95,16 @@ a:hover {
 						<td align="center"><img
 							src="../../../resources/idolloadFiles/${idol.filePath }"
 							id="profile"><br>
-						<br>
-						</td>
-						
-						<td align="center">
-							<c:url var="community" value="mainView.pick">
-							<c:param name="groupName" value="${idol.groupName }"></c:param>
-							</c:url> 
-							<a href="${community }" id="idolName">${idol.idolName }</a>
-						</td>
-						<c:if test="${loginUser.userGrade eq 'manager'}">
-						<td align="right">
-							<c:url var="iModify" value="idolModify.pick">
-							<c:param name="idolNo" value="${idol.idolNo }"></c:param>
-							</c:url>
-							
-						<c:url var="iDelete" value="idolDelete.pick">
-						<c:param name="idolNo" value="${idol.idolNo }"></c:param>
-						</c:url>
-						<a href="${iModify }">수정하기 </a>
-						<a href="${iDelete }">삭제하기</a>
-						</td>
-						</c:if>
+						<br></td>
+						<td align="center"><c:url var="iDetail"
+								value="idoldetail.pick">
+								<c:param name="idolNo" value="${idol.idolNo }"></c:param>
+								<c:param name="groupName" value="${idol.groupName }"></c:param>
+							</c:url> <c:url var="community" value="mainView.pick">
+								<c:param name="groupName" value="${idol.groupName }"></c:param>
+							</c:url> <a href="${iDetail }" id="idolName"> ${idol.idolName } </a>
+										<a href="${community }">${idol.idolName }</a>
+							</td>
 					</tr>
 				</c:forEach>
 			</c:if>

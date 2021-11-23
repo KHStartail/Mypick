@@ -167,25 +167,31 @@
 			<div class="row align-items-center">
 					<div class="login-box bg-white box-shadow border-radius-10">
 						<div class="login-title">
-							<h2 class="text-center text-primary">Login To DeskApp</h2>
+							<h2 class="text-center text-primary">회원가입</h2>
 						</div>
-
-							<div class="select-role">
+						<div class="select-role">
 								<div class="btn-group btn-group-toggle" data-toggle="buttons">
 									<label class="btn active">
-										<input type="radio" name="options" id="admin">
-										<div class="icon"><img src="assets/images/briefcase.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Manager
-									</label>
-									<label class="btn">
+									<a href="#userId">
 										<input type="radio" name="options" id="user">
 										<div class="icon"><img src="assets/images/person.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Employee
+										<span></span>
+										회원
+									</a>
 									</label>
+									
+									<label class="btn">
+									<a href="managerEnrollView.pick">
+										<input type="radio" name="options" id="admin">
+										<div class="icon"><img src="assets/images/briefcase.svg" class="svg" alt=""></div>
+										<span></span>
+										매니저
+									</a>
+									</label>
+									
 								</div>
 							</div>
+						
 							<form onsubmit="return checkz()" action="memberRegister.pick" method="post">
 							<span class="guide ok">이 아이디는 사용 가능합니다.</span>
 							<span class="guide error">이 아이디는 사용이 불가능합니다.</span>	
@@ -271,7 +277,7 @@
 									
 									<div class="input-group mb-0">
 										<button type="submit" id="btn" class="btn btn-outline-primary btn-lg btn-block">가입하기</button>
-										<button type="reset" class="btn btn-outline-primary btn-lg btn-block">취소</button>
+										<a class="btn btn-outline-primary btn-lg btn-block" href="home.pick">취소</a>
 									</div>
 								</div>
 							</div>
