@@ -41,7 +41,7 @@ public class IdolController {
 		}
 		int result = service.registerIdol(idol);
 		if (result > 0) {
-			return "redirect:index.jsp";
+			return "redirect:idolSearch.pick?searchValue=";
 		} else {
 			return "redirect:index.jsp";
 		}
@@ -73,7 +73,7 @@ public class IdolController {
 			if (idol.getFilePath() != null) {
 				deleteFile(idol.getFilePath(), request);
 			}
-			return "redirect:index.jsp";
+			return "redirect:idolSearch.pick?searchValue=";
 		} else {
 			return "redirect:index.jsp";
 		}
@@ -126,7 +126,7 @@ public class IdolController {
 		}
 		int result = service.modifyIdol(idol);
 		if (result > 0) {
-			return "redirect:index.jsp";
+			return "redirect:idolSearch.pick?searchValue=";
 		} else {
 			return "redirect:index.jsp";
 		}

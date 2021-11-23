@@ -22,18 +22,6 @@
     background-color: gray;
 }
 
-.idolmember{
-	position: relative;
-	left: 1000px;
-	bottom: 178px
-	
-}
-
-table {
-  border-spacing: 10px;
-  border-collapse: separate;
-}
-
 
 
 </style>
