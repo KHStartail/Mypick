@@ -49,14 +49,28 @@
             </div>
             <div class="commu-info">
                 <table class="commu-table">
+                <c:if test="${empty supporting }"><br><br><br>
+					<tr>
+                        <th>제목</th>
+                        <th>서포팅 스케줄날짜</th>
+                    </tr>
+					<tr><td>조회된 글이 없습니다.</td></tr>
+				</c:if>
+				<c:if test="${not empty supporting }">
                     <tr>
                         <th>제목</th>
-                        <th>등록날짜</th>
+                        <th>서포팅 스케줄날짜</th>
                     </tr>
+	                <c:forEach items="${supporting}" var="supporting">
+					<c:url var="sOne" value="presupportingDetail.pick">
+						<c:param name="supNo" value="${supporting.supNo}"></c:param>
+					</c:url>
                     <tr >
-                        <td>서포팅제목</td>
-                        <td>21.11.19</td>
+                        <td><a href="${sOne}">${supporting.supTitle}</a></td>
+                        <td>${supporting.scheduleDate}</td>
                     </tr>
+                    </c:forEach>
+                    </c:if>
                 </table>
             </div>
         </div>

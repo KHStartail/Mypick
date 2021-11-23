@@ -116,11 +116,11 @@ public interface SupportingStore {
 	 * @param userNickName
 	 * @return
 	 */
-	public PaymentHistory selectPayHistory(String userNickName);
+	public List<PaymentHistory> selectPayHistory(String userNickName);
 	/**
 	 * 마이페이지 본인이 쓴 서포팅 게시물
 	 * @param userNo
 	 * @return
 	 */
-	public Supporting selectPostSupporting(int userNo);
+	public List<Supporting> selectPostSupporting(int userNo);
 }

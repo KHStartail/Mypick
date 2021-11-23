@@ -114,6 +114,6 @@ public interface SupportingService {
 	 * @return
 	 */
 	public SupParticipation checkParticipation(SupParticipation sp);
-	public PaymentHistory printMyPayHistory(String userNickName);
-	public Supporting printMySupporting(int userNo);
+	public List<PaymentHistory> printMyPayHistory(String userNickName);
+	public List<Supporting> printMySupporting(int userNo);
 }
