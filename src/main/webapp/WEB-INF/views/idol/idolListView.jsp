@@ -116,7 +116,7 @@ a:hover {
 						<c:param name="idolNo" value="${idol.idolNo }"></c:param>
 						</c:url>
 						<a href="${iModify }">수정하기 </a>
-						<a href="${iDelete }">삭제하기</a>
+						<a href="${iDelete }" onclick="alert('삭제되었습니다')">삭제하기</a>
 						</td>
 						</c:if>
 					</tr>
