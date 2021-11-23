@@ -161,10 +161,10 @@ function checkz() {
 								<div class="row">
 								<div class="col-sm-12">
 									<div class="input-group mb-0">
-										<a type="submit" onclick="findId()" id="phoneChk2" class="btn btn-outline-primary btn-lg btn-block">아이디찾기</a>
+										<button type="submit" onclick="findId()" id="phoneChk2" class="btn btn-outline-primary btn-lg btn-block">아이디찾기</button>
 									</div><br>
 									<div class="input-group mb-0">
-										<button type="reset" class="btn btn-outline-primary btn-lg btn-block" >취소</button>
+										<a class="btn btn-outline-primary btn-lg btn-block" href="home.pick">취소</a>
 									</div>
 								</div>
 							</div>
@@ -208,7 +208,7 @@ function checkz() {
 										<input type="submit" id="checkzPwd" class="btn btn-outline-primary btn-lg btn-block" value="비밀번호 변경하기">
 									</div><br>
 									<div class="input-group mb-0">
-										<button type="reset" class="btn btn-outline-primary btn-lg btn-block">취소</button>
+										<a class="btn btn-outline-primary btn-lg btn-block" href="home.pick">취소</a>
 									</div>
 								</div>
 							</div>

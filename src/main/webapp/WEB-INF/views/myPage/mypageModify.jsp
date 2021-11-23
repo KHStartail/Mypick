@@ -65,10 +65,11 @@
                     ${loginUser.userId}
                 </div>
                 <div id="intro-img">
-                    <img src="img/솔미2.png" alt="">
+                   <img id="img"
+					src="../../../resources/proFiles/${loginUser.filePath }">
                 </div>
                 <div id="update-btn">
-                    <button><a href="#">사진 변경</a></button>
+                    <input id="input_img" type="file" size="50" name="reloadFile" style="">사진 변경
                 </div>
             </div>
             <div id="part-text">

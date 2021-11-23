@@ -12,4 +12,5 @@ public interface IdolStore {
 	public int updateIdol(Idol idol);
 	public int deleteIdol(int idolNo);
 	public List<Idol> slsetGroup(String groupName);
+	public Idol selectIdolImg(String groupName);
 }
