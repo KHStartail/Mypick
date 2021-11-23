@@ -428,8 +428,7 @@ public class MemberController {
 			}
 			int result = service.updateMember(member);
 			if (result > 0) {
-				return "myPage/mypageMain";
-				
+				return "myPageMain.pick";
 			} else {
 				System.out.println("회원프로필 실패");
 				return "redirect:index.jsp";

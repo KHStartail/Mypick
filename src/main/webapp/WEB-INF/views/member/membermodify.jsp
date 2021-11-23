@@ -211,7 +211,7 @@
                                 <button type="button" id="phoneChk" class="doubleCheck">인증번호 보내기</button>        
 							</div>
 								<div class="input-group custom">
-								<input  id="phone2" type="text" name="phone2" class="form-control form-control-lg" placeholder="인증번호를 입력해주세요. " disabled required/>
+								<input  id="phone2" type="text" name="phone2" class="form-control form-control-lg" placeholder="인증번호를 입력해주세요. " disabled required//>
 								<div class="input-group-append custom">
 									<span class="input-group-text"></span>
 								</div>
