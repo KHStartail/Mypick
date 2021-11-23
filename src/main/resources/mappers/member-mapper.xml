@@ -25,7 +25,7 @@
 	</select>
 	
   	<insert id="insertMember" parameterType="Member">
-	INSERT INTO MEMBER VALUES(SEQ_MEMBERNUM.NEXTVAL,#{userId},#{userPwd}, #{userNickName}, #{userEmail},#{userAddr},#{userPhone}, DEFAULT, DEFAULT, NULL, NULL, NULL, NULL, NULL)
+	INSERT INTO MEMBER VALUES(SEQ_MEMBERNUM.NEXTVAL,#{userId},#{userPwd}, #{userNickName}, #{userEmail},#{userAddr},#{userPhone}, DEFAULT, DEFAULT, NULL, NULL, NULL, jisu, NULL)
 	</insert>
 	<insert id="insertManager" parameterType="Member">
 	INSERT INTO MEMBER VALUES(SEQ_MEMBERNUM.NEXTVAL,#{userId},#{userPwd}, #{userNickName}, #{userEmail},#{userAddr},#{userPhone}, manager, DEFAULT, #{businessNo}, NULL, NULL, NULL, NULL)
@@ -44,6 +44,11 @@
 	<update id="updatePwd" parameterType="string">
 		UPDATE MEMBER SET USER_PWD = #{userPwd} WHERE USER_ID = #{userId}
 	</update>
+	
+	<update id="updatemember" parameterType="Member">
+	
+	</update>
+	
 	<select id="selectUserOne" resultMap="memberResultMap">
 		SELECT * FROM MEMBER WHERE USER_NO = #{userNo}
 	</select>
@@ -55,6 +60,7 @@
 	<select id="kakaoChk" resultMap="memberResultMap">
 		SELECT * FROM MEMBER WHERE USER_EMAIL =  #{userEmail}
 	</select>
+	
 	
  	 </mapper>
   

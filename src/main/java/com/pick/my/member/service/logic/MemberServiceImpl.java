@@ -96,6 +96,19 @@ public class MemberServiceImpl implements MemberService {
 		return chk;
 	}
 
+	@Override
+	public Member printOneMember(int userNo) {
+		Member member = store.selectOne(userNo);
+		return member;
+	}
+
+
+	@Override
+	public int updateMember(Member member) {
+		int result =  store.updateMember(member);
+		return result;
+	}
+
 }
 
 	

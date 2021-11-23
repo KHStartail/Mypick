@@ -70,7 +70,18 @@
 		<div class="mypage">
 			<ul class="main-ul">
 				<li class="main-li">
-					<div><a href="myPageMain.pick" style="display: block;"><img alt="" src="assets/images/mypic_logo.png"></a></div> <c:if test="${loginUser.userId eq null and userId eq null}">
+					<div>
+						<c:if test="${loginUser.userId ne null}">
+							<c:url var="myPage" value="myPageMain.pick">
+								<c:param name="userNo" value="${loginUser.userNo }"></c:param>
+							</c:url>
+							<a href="${myPage }" style="display: block;">
+								<img alt="" src="assets/images/mypic_logo.png">
+							</a>
+						</c:if>
+					</div> 
+					
+					<c:if test="${loginUser.userId eq null and userId eq null}">
 						<ul class="serv-ul">
 							<li class="serv-li"><a href="loginView.pick">LOGIN</a></li>
 						</ul>

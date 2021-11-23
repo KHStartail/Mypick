@@ -73,5 +73,18 @@ public class MemberStoreLogic implements MemberStore{
 		return chk;
 	}
 
+	@Override
+	public Member selectOne(int userNo) {
+		Member member = sqlSession.selectOne("memberMapper.selectUserOne", userNo);
+		return member;
+	}
+
+	@Override
+	public int updateMember(Member member) {
+		int result = sqlSession.update("memberMapper.updatemember",member);
+		return result;
+	}
+
+
 
 }

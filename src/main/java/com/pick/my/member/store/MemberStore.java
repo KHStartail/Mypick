@@ -13,4 +13,6 @@ public interface MemberStore {
 	public Member searchPwd(Member member);
 	public int modifyPwd(Member member);
 	public Member userchk(Member member);
+	public Member selectOne(int userNo);
+	public int updateMember(Member member);
 }

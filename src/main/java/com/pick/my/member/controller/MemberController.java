@@ -4,6 +4,7 @@ package com.pick.my.member.controller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.json.simple.JSONObject;
 
@@ -414,6 +416,75 @@ public class MemberController {
 	        return "redirect:index.jsp";
 	    }
 
+	    
+	    @RequestMapping(value="myPageMain.pick", method=RequestMethod.GET)
+	    public String myPageMainView(
+	    		@RequestParam("userNo") int userNo, 
+	    		Model model) {
+	    	Member member = service.printOneMember(userNo);
+	    	model.addAttribute( "member", member);
+	        return "myPage/mypageMain";
+	    }
+	    
+	    
+	    @RequestMapping(value="myPageModify.pick", method=RequestMethod.GET)
+	    public String myPageModifyView(
+	    		@RequestParam("userNo") int userNo, 
+	    		Model model) {
+	    	Member member = service.printOneMember(userNo);
+	    	model.addAttribute( "member", member);
+	        return "myPage/modifytool";
+	    }
+	    
+	    
+	    @RequestMapping(value = "myPageProfile.pick", method = RequestMethod.GET)
+		public String myPageProfileUpdate(
+				@ModelAttribute Member member, Model model, HttpServletRequest request,
+				@RequestParam("reloadFile") MultipartFile reloadFile)  {
+	    	if (reloadFile != null && !reloadFile.isEmpty()) {
+				if (member.getFilePath() != null) {
+					deleteFile(member.getFilePath(), request);
+				}
+				String savePath = saveFile(reloadFile, request);
+				if (savePath != null) {
+					member.setFilePath(reloadFile.getOriginalFilename());
+				}
+			}
+			int result = service.updateMember(member);
+			if (result > 0) {
+				return "redirect:idoldetail.pick?idolNo=";
+			} else {
+				return "redirect:index.jsp";
+			}
+		}
+
+		private String saveFile(MultipartFile file, HttpServletRequest request) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "\\proFiles";
+			File folder = new File(savePath);
+			if (!folder.exists()) {
+				folder.mkdir();
+			}
+			String filePath = folder + "\\" + file.getOriginalFilename();
+			try {
+				file.transferTo(new File(filePath));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return filePath;
+		}
+
+		private void deleteFile(String filePath, HttpServletRequest request) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String deletePath = root + "\\proFiles";
+			File deleteFile = new File(deletePath + "\\" + filePath);
+			if (deleteFile.exists()) {
+				deleteFile.delete();
+			}
+		}
+	    
 	    
 	 }
 	
