@@ -63,11 +63,19 @@
       }
       .card body{
       	height : 100px;
-      	overflow:hidden;
+      }
+      .card-text{
+      	height : 80px;
+      	overflow: hidden;
+      	margin-bottom: 0px;
       }
       .pagination{
       	text-align : center;
       	display: inline-block;
+      }
+      .card-title {
+      overflow:hidden;
+       height:25px;
       }
     </style>
   </head>

@@ -60,10 +60,13 @@
                         <th>결제일</th>
                     </tr>
 	                <c:forEach items="${ph}" var="payment">
+	                <c:url var="payOne" value="supportingDetail.pick">
+						<c:param name="supNo" value="${payment.supNo}"></c:param>
+					</c:url>
                     <tr>
-                    	<td>{payment.supTitle}</td>
-                    	<td>{payment.supAmount}</td>
-                    	<td>{payment.paymentDate}</td>
+                    	<td><a href="${payOne }">${payment.supTitle}</a></td>
+                    	<td>${payment.supAmount}</td>
+                    	<td>${payment.paymentDate}</td>
                     </tr>
                     </c:forEach>
                   </c:if>
