@@ -50,7 +50,7 @@ table {
    <jsp:include page="/header.jsp"></jsp:include>
 <div class="centerText">
         <div class="img_wrap">
-            <img id="img">
+            <img id="img" src="../../../resources/proFiles/${loginUser.filePath }">
         </div>
         	<form action="myPageProfile.pick" method="POST" enctype="multipart/form-data">
         	<input type="hidden" name="userNo" value="${loginUser.userNo }">
