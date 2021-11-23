@@ -81,6 +81,7 @@
 .font{
 font-family: 'Jeju Gothic', sans-serif;
 }
+
 </style>
 <style>
      @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
@@ -96,7 +97,8 @@ font-family: 'Jeju Gothic', sans-serif;
 		<div class="poto">
 			<c:if test="${empty file }">
 				<ul class="slider" style="float: left;">
-						<li><input type="radio" id="slide1"
+						<li>
+						<input type="radio" id="slide1"
 							name="slide" checked> <label for="slide1"></label>
 							<img src="/resources/idolImg/no_img.png"
 							alt="Panel1" style="width: 200%; box-shadow: 4px 4px 3px #666;"></li>
@@ -115,7 +117,7 @@ font-family: 'Jeju Gothic', sans-serif;
 		</div>
 		<div class="board">
 		
-			<div class="contents" style="overflow: auto;">
+			<div class="contents" style="overflow: auto; margin-top: 1%;">
 				<h1>${post.postTitle }</h1>
 				<div id="contents">${post.postContents }</div>
 				   <div style="text-align: right; margin-top:35%">
@@ -126,7 +128,7 @@ font-family: 'Jeju Gothic', sans-serif;
 			</div>
 		</div>
 	</div>
-		<form action="communityDelete.pick" onsubmit="return confirm('삭제하시겠습니까?')" method="get" style="margin-left: 84%;">
+		<form action="communityDelete.pick" onsubmit="return confirm('삭제하시겠습니까?')" method="get" style="margin-left: 77%;">
 		<c:forEach items="${file }" var="file">
 			<input type="hidden" value="${file.fileRename }" id="fileName"
 				name="fileName">
@@ -151,6 +153,7 @@ font-family: 'Jeju Gothic', sans-serif;
 			</tr>
 		</table>
 	</form>
+	<a class="btn btn-primary" href="javascript:history.back();" style="position: relative; bottom: 41px; left: 11.7%;">뒤로가기</a>
 	<!-- 댓글 -->
 	<table class="card mb-2" id="reply">
 		<thead id="thead" display=''>
@@ -163,7 +166,7 @@ font-family: 'Jeju Gothic', sans-serif;
 			<tr>
 			<tr class="list-group list-group-flush">
 				<td class="list-group-item" ><textarea id="summernote" 
-						name="content" id="content" onclick="onScript();" rows="5" cols="100" ></textarea>
+						name="content" id="content" onclick="onScript();" rows="5" cols="100" ></textarea><br>
 					<button type="button" id="rSubmit" class="btn btn-dark mt-3">댓글작성</button>
 					<input type="hidden" value="${loginUser.userId }" id="loginUser">
 				<hr>
@@ -287,10 +290,10 @@ font-family: 'Jeju Gothic', sans-serif;
 						for(var i in data){
 							$tr = $("<tr id='modifyTr' class='list-group list-group-flush'>");
 							$rWriter = $("<td class='font' style='font-weight : bold' colspan='4'>").text('작성자 : '+data[i].userNickName);
-							<c:if test ="${loginUser.userId ne data[i].userId eq loginUser.userId eq 'admin'}"> 
+							if($loginUser == 'admin' || $loginUser == data[i].userId){
 							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='modifyReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>수정&nbsp;&nbsp;</a>").append("<a href='#' class='font' onclick='removeReply("+postNo+","+data[i].replyAllNo+")'>삭제</a>");
-							</c:if>
-							if($loginUser != data[i].userId){
+							}
+							if($loginUser != 'admin' && $loginUser != data[i].userId){
 							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='reportReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>신고</a>");
 							}
 							$rCreateDate = $("<td class='font' style='font-size : 20px' align='right'>").text(moment(data[i].replyDate).format("YYYY-MM-DD HH:mm:ss"));	
@@ -341,9 +344,10 @@ font-family: 'Jeju Gothic', sans-serif;
 		        }
 		$trModify = $("<tr>");
 		$trModify
-		.append("<td><textarea rows='5' cols='100' name='content' id='content' class='content' onclick='onScript();'>"+replyContents+"</textarea>></td>");
+		.append("<td><textarea rows='5' cols='100' name='content' id='content' class='content' onclick='onScript();'>"+replyContents+"</textarea><br><button class='btn btn-dark mt-3' style='width:100px; display:inline-box;' onclick='modifyReplyCommit("+postNo+","+replyAllNo+");'>수정하기</button></td>");
+		onScript();
 		$trModify
-		.append("<td><button class='btn btn-dark mt-3' style='height:70px; width:100px' onclick='modifyReplyCommit("+postNo+","+replyAllNo+");'>수정하기</button></td>");
+		.append("");
 		$(obj).parent().parent().after($trModify);
 	}
 
@@ -436,10 +440,6 @@ font-family: 'Jeju Gothic', sans-serif;
         });
         function report(postNo){
         	confirm('신고하시겠습니까?')
-        	  Swal.fire({ icon: 'success', // Alert 타입 
-        		title: 'Alert가 실행되었습니다.', // Alert 제목 
-        		text: '이곳은 내용이 나타나는 곳입니다.', // Alert 내용 
-        		});
         	$.ajax({
         		url : 'reportPost.pick',
         		type : 'post',

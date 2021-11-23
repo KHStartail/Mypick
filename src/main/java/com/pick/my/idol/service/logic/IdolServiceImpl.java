@@ -52,4 +52,10 @@ public class IdolServiceImpl implements IdolService{
 		return gList;
 	}
 
+	@Override
+	public Idol printIdolImg(String groupName) {
+		Idol idol = store.selectIdolImg(groupName);
+		return idol;
+	}
+
 }

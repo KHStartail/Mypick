@@ -42,6 +42,8 @@ import com.pick.my.community.domain.Heart;
 import com.pick.my.community.domain.PageInfo;
 import com.pick.my.community.domain.Pagination;
 import com.pick.my.community.service.CommunityService;
+import com.pick.my.idol.domain.Idol;
+import com.pick.my.idol.service.IdolService;
 import com.pick.my.member.domain.Member;
 
 
@@ -49,6 +51,8 @@ import com.pick.my.member.domain.Member;
 public class CommunityController {
 	@Autowired
 	private CommunityService service;
+	@Autowired
+	private IdolService idolService;
 	
 	@ResponseBody
 	@RequestMapping(value = "upload.pick", method = RequestMethod.POST)
@@ -130,6 +134,10 @@ public class CommunityController {
 	      if(main != null) {
 	    	  List<Community_Post> cList = service.printAllPost(pi);
 		      if(!cList.isEmpty()) {
+				  Idol idol = idolService.printIdolImg(groupName);
+				  if(idol != null) {
+					mv.addObject("idol",idol);  
+				  }
 		    	  mv.addObject("mainImgName",main);
 		    	  mv.addObject("groupName",groupName);
 		    	  mv.addObject("loginUser",loginUser);

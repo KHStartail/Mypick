@@ -52,4 +52,10 @@ public class IdolStoreLogic implements IdolStore {
 		return gList;
 	}
 
+	@Override
+	public Idol selectIdolImg(String groupName) {
+		Idol idol = sqlSession.selectOne("idolMapper.selectGroupImg",groupName);
+		return idol;
+	}
+
 }
