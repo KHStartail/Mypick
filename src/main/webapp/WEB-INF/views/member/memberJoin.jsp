@@ -167,25 +167,31 @@
 			<div class="row align-items-center">
 					<div class="login-box bg-white box-shadow border-radius-10">
 						<div class="login-title">
-							<h2 class="text-center text-primary">Login To DeskApp</h2>
+							<h2 class="text-center text-primary">회원가입</h2>
 						</div>
-
-							<div class="select-role">
+						<div class="select-role">
 								<div class="btn-group btn-group-toggle" data-toggle="buttons">
 									<label class="btn active">
-										<input type="radio" name="options" id="admin">
-										<div class="icon"><img src="assets/images/briefcase.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Manager
-									</label>
-									<label class="btn">
+									<a href="#userId">
 										<input type="radio" name="options" id="user">
 										<div class="icon"><img src="assets/images/person.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Employee
+										<span></span>
+										회원
+									</a>
 									</label>
+									
+									<label class="btn">
+									<a href="managerEnrollView.pick">
+										<input type="radio" name="options" id="admin">
+										<div class="icon"><img src="assets/images/briefcase.svg" class="svg" alt=""></div>
+										<span></span>
+										매니저
+									</a>
+									</label>
+									
 								</div>
 							</div>
+						
 							<form onsubmit="return checkz()" action="memberRegister.pick" method="post">
 							<span class="guide ok">이 아이디는 사용 가능합니다.</span>
 							<span class="guide error">이 아이디는 사용이 불가능합니다.</span>	
@@ -271,7 +277,7 @@
 									
 									<div class="input-group mb-0">
 										<button type="submit" id="btn" class="btn btn-outline-primary btn-lg btn-block">가입하기</button>
-										<button type="reset" class="btn btn-outline-primary btn-lg btn-block">취소</button>
+										<a class="btn btn-outline-primary btn-lg btn-block" href="home.pick">취소</a>
 									</div>
 								</div>
 							</div>
@@ -310,34 +316,34 @@
 			});
 		});
 		
-		var code2 ="";
+		var code2 ="1423";
 		$("#phoneChk").click(function(){
 			alert("인증번호 발송이 완료되었습니다. 휴대폰에서 인증번호 확인을 해주십시오");
 			var userPhone = $("#userPhone").val();
-			$.ajax({
-				type:"GET",
-				url:"phoneCheck.pick?userPhone=" + userPhone,
-						cache : false,
-						success:function(data){
-							if(data =="error"){
-								alert("휴대폰 번호가 올바르지 않습니다.")
-								$("successPhoneChk").text("유효한 번호를 입력해주세요.");
-								$("successPhoneChk").css("color","red");
-								$("#userPhone").attr("autofocus",true);
+// 			$.ajax({
+// 				type:"GET",
+// 				url:"phoneCheck.pick?userPhone=" + userPhone,
+// 						cache : false,
+// 						success:function(data){
+// 							if(data =="error"){
+// 								alert("휴대폰 번호가 올바르지 않습니다.")
+// 								$("successPhoneChk").text("유효한 번호를 입력해주세요.");
+// 								$("successPhoneChk").css("color","red");
+// 								$("#userPhone").attr("autofocus",true);
 							
-							}else{
-								alert("성공")
-								$("#phone2").attr("disabled",false);
-								$("#phoneChk2").css("display","inline-block");
-								$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
-								$(".successPhoneChk").css("color","green"); 
-								$("#userPhone").attr("readonly",true);
-								code2=data;
+// 							}else{
+// 								alert("성공")
+// 								$("#phone2").attr("disabled",false);
+// 								$("#phoneChk2").css("display","inline-block");
+// 								$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
+// 								$(".successPhoneChk").css("color","green"); 
+// 								$("#userPhone").attr("readonly",true);
+// 								code2=data;
 
-							}
-						}
+// 							}
+// 						}
 				
-			})
+// 			})
 			
 		});
 		$("#phoneChk2").click(function(){

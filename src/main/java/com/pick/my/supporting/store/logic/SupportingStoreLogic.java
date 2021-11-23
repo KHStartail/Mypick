@@ -1,6 +1,5 @@
 package com.pick.my.supporting.store.logic;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -49,13 +48,13 @@ public class SupportingStoreLogic implements SupportingStore{
 		return sList;
 	}
 	@Override
-	public List<Supporting> selectSearchPreSupporting(HashMap<String, String> searchMap){
-		List<Supporting> psList = sqlSession.selectList("SupportingMapper.searchPreSupporting", searchMap);
+	public List<Supporting> selectSearchPreSupporting(String keyword){
+		List<Supporting> psList = sqlSession.selectList("SupportingMapper.searchPreSupporting", keyword);
 		return psList;	
 	}
 	@Override
-	public List<Supporting> selectSearchSupporting(HashMap<String, String> searchMap){
-		List<Supporting> ssList = sqlSession.selectList("SupportingMapper.searchSupporting", searchMap);
+	public List<Supporting> selectSearchSupporting(String keyword){
+		List<Supporting> ssList = sqlSession.selectList("SupportingMapper.searchSupporting", keyword);
 		return ssList;	
 	}
 
@@ -171,12 +170,6 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 
 	@Override
-	public int updateCategory(int supNo, int supCategory) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int insertParticipation(SupParticipation supParticipation) {
 		int result = sqlSession.insert("SupportingMapper.insertPartiwon", supParticipation);
 		return result;
@@ -218,15 +211,9 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 
 	@Override
-	public int updateSumMoney(int supNo, int sumMoney) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String selectGoalMoney(int supNo, int sumMoney, int goalMoney, int EndDate) {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateSumMoney(Supporting supporting) {
+		int result = sqlSession.update("SupportingMapper.updateSumMoney", supporting);
+		return result;
 	}
 
 	@Override
@@ -238,5 +225,17 @@ public class SupportingStoreLogic implements SupportingStore{
 	public Member selectUserOne(int userNo) {
 		Member mOne = sqlSession.selectOne("memberMapper.selectUserOne", userNo);
 		return mOne;
+	}
+
+	@Override
+	public List<PaymentHistory> selectPayHistory(String userNickName) {
+		List<PaymentHistory> paymentHistory = sqlSession.selectList("SupportingMapper.selectMyHistory",userNickName );
+		return paymentHistory;
+	}
+
+	@Override
+	public List<Supporting> selectPostSupporting(int userNo) {
+		List<Supporting> supporting = sqlSession.selectList("SupportingMapper.selectMySupporting", userNo);
+		return supporting;
 	}
 }

@@ -1,6 +1,5 @@
 package com.pick.my.supporting.store;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.pick.my.common.PageInfo;
@@ -17,8 +16,8 @@ public interface SupportingStore {
 	public int selectSupListCount();
 	public List<Supporting> selectAllSupporting(PageInfo pi);
 	public List<Supporting> selectAllPreSupporting(PageInfo pi);
-	public List<Supporting> selectSearchPreSupporting(HashMap<String, String> searchMap);
-	public List<Supporting> selectSearchSupporting(HashMap<String, String> searchMap);
+	public List<Supporting> selectSearchPreSupporting(String keyword);
+	public List<Supporting> selectSearchSupporting(String keyword);
 	public Supporting selectPreSupportingOne(int supNo);
 	public Supporting selectSupportingOne(int supNo);
 	public int insertSupporting(Supporting supporting);
@@ -35,8 +34,12 @@ public interface SupportingStore {
 	public int insertsReplyReport(SupReplyReport reportSupReply);
 	public int selectReportSupReply(int reportNo);
 	////////////////////////참여, 결제관련내용////////////////
-	
-	public int updateCategory(int supNo, int supCategory); 
+	/**
+	 * 서포팅 카테고리 변경
+	 * @param supNo
+	 * @return
+	 */
+	public int updateCategory(int supNo); 
 	
 	/**
 	 * 참여내역테이블 추가
@@ -74,23 +77,17 @@ public interface SupportingStore {
 	public int updatePartiwonDel(int supNo);
 	
 	/**
-	 * 인원체크, 20명이상이면 카테고리변경(모집중 >> 진행중)
-	 * @param supNo
-	 * @param supPartiwon
+	 * 결제내역에 추가하기
+	 * @param paymentHistory
 	 * @return
 	 */
-	public int updateCategory(int supNo);
 	public int insertPaymentHistory(PaymentHistory paymentHistory);
-	public int updateSumMoney(int supNo, int sumMoney); 
 	/**
-	 * 서포팅 돈이 다 찼나 확인
-	 * @param supNo
-	 * @param sumMoney
-	 * @param goalMoney
-	 * @param EndDate
+	 * 서포팅 돈 합산하기
+	 * @param supporting
 	 * @return
 	 */
-	public String selectGoalMoney(int supNo, int sumMoney, int goalMoney, int EndDate); 
+	public int updateSumMoney(Supporting supporting); 
 	/**
 	 * 등급변경 (2 성공 / 3 실패 /1 진행중)
 	 * @param supNo
@@ -100,7 +97,7 @@ public interface SupportingStore {
 	public int updateCode(int supNo, int supGrade);
 	
 	/**
-	 * 파일DB저장
+	 * 파일DB저장 밑에 4개
 	 * @param file
 	 * @return
 	 */
@@ -108,5 +105,22 @@ public interface SupportingStore {
 	public int insertFile(SupFile file); 
 	public int updateFile(SupFile file); 
 	public int deleteFile(int supNo);
+	/**
+	 * 유저정보가져오기
+	 * @param userNo
+	 * @return
+	 */
 	public Member selectUserOne(int userNo);
+	/**
+	 * 마이페이지 결제 출력
+	 * @param userNickName
+	 * @return
+	 */
+	public List<PaymentHistory> selectPayHistory(String userNickName);
+	/**
+	 * 마이페이지 본인이 쓴 서포팅 게시물
+	 * @param userNo
+	 * @return
+	 */
+	public List<Supporting> selectPostSupporting(int userNo);
 }

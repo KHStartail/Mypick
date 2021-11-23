@@ -1,6 +1,5 @@
 package com.pick.my.supporting.service.logic;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,14 +47,14 @@ public class SupportingServiceImpl implements SupportingService{
 	}	
 	//모집중검색
 	@Override
-	public List<Supporting> findKeywordPreSupporting(HashMap<String, String> searchMap){
-		List<Supporting> psList = store.selectSearchPreSupporting(searchMap);
+	public List<Supporting> findKeywordPreSupporting(String keyword){
+		List<Supporting> psList = store.selectSearchPreSupporting(keyword);
 		return psList;
 	}
 	//진행중검색
 	@Override
-	public List<Supporting> findKeywordSupporting(HashMap<String, String> searchMap){
-		List<Supporting> ssList = store.selectSearchSupporting(searchMap);
+	public List<Supporting> findKeywordSupporting(String keyword){
+		List<Supporting> ssList = store.selectSearchSupporting(keyword);
 		return ssList;
 	}
 
@@ -167,13 +166,6 @@ public class SupportingServiceImpl implements SupportingService{
 	}
 
 	
-	@Override
-	public int updateCategory(int supNo, int supCategory) {
-		 //모집중에서 진행중으로 이동
-		return 0;
-	}
-
-	@Override
 	public int addParticipation(SupParticipation supParticipation) {
 		int result = store.insertParticipation(supParticipation);
 		return result;
@@ -212,15 +204,9 @@ public class SupportingServiceImpl implements SupportingService{
 	}
 
 	@Override
-	public int addSumMoney(int supNo, int sumMoney) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String checkGoalMoney(int supNo, int sumMoney, int goalMoney, int EndDate) {
-		// TODO Auto-generated method stub
-		return null;
+	public int addSumMoney(Supporting supporting) {
+		int result = store.updateSumMoney(supporting);
+		return result;
 	}
 
 	@Override
@@ -234,10 +220,16 @@ public class SupportingServiceImpl implements SupportingService{
 		Member mOne = store.selectUserOne(userNo);
 		return mOne;
 	}
-//
-//	@Override
-///	public int printWriter(SupReply supReply) {
-//		int result = store.selectReplyWriter(supReply);
-//		return result;
-//	}
+
+	@Override
+	public List<PaymentHistory> printMyPayHistory(String userNickName) {
+		List<PaymentHistory> result = store.selectPayHistory(userNickName);
+		return result;
+	}
+
+	@Override
+	public List<Supporting> printMySupporting(int userNo) {
+		List<Supporting> supporting = store.selectPostSupporting(userNo);
+		return supporting;
+	}
 }
