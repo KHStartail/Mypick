@@ -78,10 +78,10 @@
 				style="display: none;">
 	<input type="hidden" id="groupName" value="${groupName}">
 	<input type="hidden" id="deleteImg" value="${mainImgName.mainImgName }">
+	
 		</div>
 	</form>
 	</c:if>
-	
 	<div class="banner-box"
 		style="background: #BDBDBD; position: relative; left: 45%; bottom: 30px">
 		<img class="profile" src="/resources/idolloadFiles/${idol.filePath }">
@@ -168,6 +168,7 @@
 							<button class="btn btn-danger" type="button">
 								<span class=" glyphicon glyphicon-search"></span>
 							</button>
+									<input type="hidden" name="groupName" value="${groupName}">
 						</span>
 					</form>
 				</div>
