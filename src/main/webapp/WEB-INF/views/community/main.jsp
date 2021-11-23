@@ -20,9 +20,9 @@
 <script src="/assets/js/toastr.min.js"></script>
 
 <style>
-.box {
-	width: 150px;
-	height: 150px;
+.banner-box {
+	width: 200px;
+	height: 200px;
 	border-radius: 70%;
 	overflow: hidden;
 }
@@ -80,12 +80,11 @@
 	</form>
 	
 	
-	<div class="box"
-		style="background: #BDBDBD; position: relative; left: 48%; bottom: 80px">
-		<img class="profile" src="/resources/idolImg/ban.png">
+	<div class="banner-box"
+		style="background: #BDBDBD; position: relative; left: 45%; bottom: 30px">
+		<img class="profile" src="/resources/idolloadFiles/${idol.filePath }">
 	</div>
-	<table class="table table-hover"
-		style="width: 60%; position: relative; left: 20%">
+	<table class="table table-hover" style="width: 60%; position: relative; left: 20%;">
 		<thead>
 			<tr>
 				<th>번호</th>
@@ -183,7 +182,6 @@
 			style="margin-left: 70%;">글쓰기</a>
 	</c:if>
 	<input type="hidden" id="userId" value="${loginUser.userId }">
-
 </body>
 <br>
 <br>

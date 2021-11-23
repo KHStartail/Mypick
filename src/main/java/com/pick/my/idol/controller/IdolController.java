@@ -112,7 +112,7 @@ public class IdolController {
 		return "idol/idolUpdateView";
 	}
 
-	@RequestMapping(value = "idolUpdate.pick", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "idolUpdate.pick",method = {RequestMethod.GET, RequestMethod.POST})
 	public String idolUpdate(@ModelAttribute Idol idol, Model model, HttpServletRequest request,
 			@RequestParam("reloadFile") MultipartFile reloadFile) {
 		if (reloadFile != null && !reloadFile.isEmpty()) {

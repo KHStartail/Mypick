@@ -13,4 +13,5 @@ public interface IdolService {
 	public int modifyIdol(Idol idol);
 	public int removeIdol(int idolNo);
 	public List<Idol> printGroupIdol(String groupName);
+	public Idol printIdolImg(String groupName);
 }
