@@ -109,6 +109,7 @@ public class SupportingController {
 		HashMap<String, String> searchMap = new HashMap<String, String>();
 		searchMap.put("idolName", idolName);
 		searchMap.put("keyword", keyword);
+		System.out.println(keyword);
 		List<Supporting> psList = service.findKeywordPreSupporting(searchMap);
 		if (!psList.isEmpty()) {
 			mv.addObject("psList", psList);
