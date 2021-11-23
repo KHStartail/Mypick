@@ -316,34 +316,34 @@
 			});
 		});
 		
-		var code2 ="";
+		var code2 ="1423";
 		$("#phoneChk").click(function(){
 			alert("인증번호 발송이 완료되었습니다. 휴대폰에서 인증번호 확인을 해주십시오");
 			var userPhone = $("#userPhone").val();
-			$.ajax({
-				type:"GET",
-				url:"phoneCheck.pick?userPhone=" + userPhone,
-						cache : false,
-						success:function(data){
-							if(data =="error"){
-								alert("휴대폰 번호가 올바르지 않습니다.")
-								$("successPhoneChk").text("유효한 번호를 입력해주세요.");
-								$("successPhoneChk").css("color","red");
-								$("#userPhone").attr("autofocus",true);
+// 			$.ajax({
+// 				type:"GET",
+// 				url:"phoneCheck.pick?userPhone=" + userPhone,
+// 						cache : false,
+// 						success:function(data){
+// 							if(data =="error"){
+// 								alert("휴대폰 번호가 올바르지 않습니다.")
+// 								$("successPhoneChk").text("유효한 번호를 입력해주세요.");
+// 								$("successPhoneChk").css("color","red");
+// 								$("#userPhone").attr("autofocus",true);
 							
-							}else{
-								alert("성공")
-								$("#phone2").attr("disabled",false);
-								$("#phoneChk2").css("display","inline-block");
-								$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
-								$(".successPhoneChk").css("color","green"); 
-								$("#userPhone").attr("readonly",true);
-								code2=data;
+// 							}else{
+// 								alert("성공")
+// 								$("#phone2").attr("disabled",false);
+// 								$("#phoneChk2").css("display","inline-block");
+// 								$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
+// 								$(".successPhoneChk").css("color","green"); 
+// 								$("#userPhone").attr("readonly",true);
+// 								code2=data;
 
-							}
-						}
+// 							}
+// 						}
 				
-			})
+// 			})
 			
 		});
 		$("#phoneChk2").click(function(){

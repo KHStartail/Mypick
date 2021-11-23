@@ -55,71 +55,7 @@
 
 		gtag('config', 'UA-119386393-1');
 	</script>
-	
-	<script type="text/javascript">
-	
-// 	function(){
-// 		var checkzId = function(){
-// 		  var getphone = $("#userPhone").val().replace/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
-		 
-		
-// 		  if($("#userPhone").val() == ""){
-// 				alert("전화번호 입력바랍니다.");
-// 				$("#userPhone").focus();
-// 				return false;
-// 			  }
-// 		  if(!getphone.test($("#userPhone").val())) {
-// 			  alert("형식에 맞춰서 전화번호를 입력바랍니다");
-// 			  $("#userPhone").val("");
-// 			  $("#userPhone").focus();
-// 			  return false;
-// 			  }
-// //		  if(phone2 != "code2"){
-// //		  alert("인증번호를 확인해주세요");
-// //		  $("#phone2").val("");
-// //		  $("#phone2").focus();
-// //		  return false;
-// //		}
-// 		  return true;
-//  	}
-	
-	
-// };
 
-function checkz() {
-	  var getphone = $("#userPhone").val().replace/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
-	 
-	  
-	  //아이디 공백 확인
-	  if($("#userId").val() == ""){
-		alert("아이디 입력바랍니다");
-		$("#userId").focus();
-		return false;
-	  }
-	  if($("#userPhone").val() == ""){
-			alert("전화번호 입력바랍니다.");
-			$("#userPhone").focus();
-			return false;
-		  }
-	  if(!getphone.test($("#userPhone").val())) {
-		  alert("형식에 맞춰서 전화번호를 입력바랍니다");
-		  $("#userPhone").val("");
-		  $("#userPhone").focus();
-		  return false;
-		  }
-//	  if(phone2 != "code2"){
-//			  alert("인증번호를 확인해주세요");
-//			  $("#phone2").val("");
-//			  $("#phone2").focus();
-//			  return false;
-//			}
-	  return true;
-	}
-
-
-};
-
-	</script>
 </head>
 <body class="login-page" style="background : none">
 	
@@ -161,7 +97,7 @@ function checkz() {
 								<div class="row">
 								<div class="col-sm-12">
 									<div class="input-group mb-0">
-										<button type="submit" onclick="findId()" id="phoneChk2" class="btn btn-outline-primary btn-lg btn-block">아이디찾기</button>
+										<button type="submit" onclick="findId()"class="btn btn-outline-primary btn-lg btn-block">아이디찾기</button>
 									</div><br>
 									<div class="input-group mb-0">
 										<a class="btn btn-outline-primary btn-lg btn-block" href="home.pick">취소</a>
@@ -181,21 +117,21 @@ function checkz() {
 							<div id="findpwd" class="tabcontent" style="display: none;">
 						<form onsubmit="return checkz()" action="/findPwd.pick" method="post">
 							<div class="input-group custom">
-								<input id="userId"name="userId" type="text" class="form-control form-control-lg" placeholder="아이디를 입력해주세요.">
+								<input id="userId2"name="userId" type="text" class="form-control form-control-lg" placeholder="아이디를 입력해주세요." required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 								</div>
 							</div>
 							<div class="input-group custom">						
 								<input type="hidden" id="phoneDoubleCheck"/>
-								<input id="userPhone" type="text" name="userPhone" class="form-control form-control-lg" placeholder="핸드폰번호를 입력해주세요. " required/>
+								<input id="userPhone2" type="text" name="userPhone" class="form-control form-control-lg" placeholder="핸드폰번호를 입력해주세요." required/>
 								<div class="input-group-append custom">
 									<span class="input-group-text"></span>
 								</div>
-                                <button type="button" id="phoneChk" class="doubleCheck">인증번호받기</button>        
+                                <button type="button" id="phoneChk2" class="doubleCheck">인증번호받기</button>        
 							</div>
 							<div class="input-group custom">
-								<input id="pass"name="pass" type="password" class="form-control form-control-lg" placeholder="인증번호를 입력해주세요">
+								<input id="pass2"name="pass" type="password" class="form-control form-control-lg" placeholder="인증번호를 입력해주세요" required>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
 								</div>
@@ -254,17 +190,11 @@ function checkz() {
 	    
 	    function findId(){
 	    	console.log("findId start");
-	    	
 	    	var userPhone =  $("#userPhone").val();
 	  		
-	  		
-		  		if(!userPhone){ 
-		    		alert("phoneNumber 를 입력해주세요.");
-		    		return ;
-		    	}
-		  		
+	    	//유효성체크
+	    	this.checkzId();
 	
-	    	
 	    	$.ajax({
 	            type: "POST" ,
 	            url: "/findId.pick",
@@ -273,12 +203,10 @@ function checkz() {
 					if(data != null){
 						$("#searchId").css("display", "block");
 						$("#foundId").html(data);
-						
-
 					}else{
 						alert("아이디가 없습니다")
 					}
-							
+			
 				},
 				error : function() {
 					alert("전화번호를 확인해주세요.")
@@ -290,8 +218,6 @@ function checkz() {
 	    	});
 	    	
 	    }
-	</script>
-	<script type="text/javascript">
 	
 	 $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); 
 		$("#userId").on("blur",function(){
@@ -315,42 +241,79 @@ function checkz() {
 			});
 		});
 		
-		var code2 ="";
+		//아이디찾기  인증번호 발송 
+		var code1 ="2314";
 		$("#phoneChk").click(function(){	
 			var userPhone = $("#userPhone").val();
 			if(!userPhone){ 
 	    		alert("phoneNumber 를 입력해주세요.");
 	    		return ;
-	    	}else{
-	    		alert("인증번호 발송이 완료되었습니다. 휴대폰에서 인증번호 확인을 해주십시오");
 	    	}
-			$.ajax({
+			
+			/* $.ajax({
 				type:"GET",
 				url:"phoneCheck.pick?userPhone=" + userPhone,
 						cache : false,
 						success:function(data){
 							if(data =="error"){
 								alert("휴대폰 번호가 올바르지 않습니다.")
-								$("successPhoneChk").text("유효한 번호를 입력해주세요.");
-								$("successPhoneChk").css("color","red");
+								$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
+								$(".successPhoneChk").css("color","red");
 								$("#userPhone").attr("autofocus",true);
 							
 							}else{
-								alert("성공")
+								alert("인증번호 발송이 완료되었습니다. 휴대폰에서 인증번호 확인을 해주십시오");
 								$("#phone2").attr("disabled",false);
 								$("#phoneChk2").css("display","inline-block");
 								$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
 								$(".successPhoneChk").css("color","green"); 
 								$("#userPhone").attr("readonly",true);
-								code2=data;
-
+								code1=data;
 							}
 						}
+			}) */
+		});
+		
+		//비밀번호찾기  인증번호 발송 
+		var code2 ="2314";
+		$("#phoneChk2").click(function(){
+			
+			console.log("test");
+			
+			var userPhone = $("#userPhone2").val();
+			if(!userPhone){ 
+	    		alert("phoneNumber 를 입력해주세요.");
+	    		return ;
+	    	}
+			
+// 			$.ajax({
+// 				type:"GET",
+// 				url:"phoneCheck.pick?userPhone=" + userPhone,
+// 						cache : false,
+// 						success:function(data){
+// 							if(data =="error"){
+// 								alert("휴대폰 번호가 올바르지 않습니다.")
+// 								$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
+// 								$(".successPhoneChk").css("color","red");
+// 								$("#userPhone2").attr("autofocus",true);
+							
+// 							}else{
+// 								alert("인증번호 발송이 완료되었습니다. 휴대폰에서 인증번호 확인을 해주십시오");
+// 								$("#phone2").attr("disabled",false);
+// 								$("#phoneChk2").css("display","inline-block");
+// 								$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
+// 								$(".successPhoneChk").css("color","green"); 
+// 								$("#userPhone2").attr("readonly",true);
+// 								code2=data;
+
+// 							}
+// 						}
 				
-			})
+// 			})
 			
 		});
-		$("#phoneChk2").click(function(){
+		
+		/* $("#phoneChk2").click(function(){
 			
 			if($("#phone2").val() == code2){ 
 				$(".successPhoneChk").text("인증번호가 일치합니다.");
@@ -365,9 +328,67 @@ function checkz() {
 
 				
 			}
-
 		
-		});
+		}); */
+		
+		function checkz() {
+			
+			var regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})[0-9]{3,4}[0-9]{4}$/;
+			//var getphone = $("#userPhone").val().replace/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
+			 
+			  
+			  
+			  //아이디 공백 확인
+			  if($("#userId2").val() == ""){
+				alert("아이디 입력바랍니다");
+				$("#userId2").focus();
+				return false;
+			  }
+			  if($("#userPhone2").val() == ""){
+					alert("전화번호 입력바랍니다.");
+					$("#userPhone2").focus();
+					return false;
+			  }
+			  if(!regExp.test($("#userPhone2").val())) {
+				  alert("형식에 맞춰서 전화번호를 입력바랍니다");
+				  $("#userPhone2").val("");
+				  $("#userPhone2").focus();
+				  return false;
+				  }
+			  
+			  	if($("#pass2").val() != code2){ 
+					  alert("인증번호를 확인해주세요");
+					  $("#pass2").val("");
+					  $("#pass2").focus();
+					  return false;
+				}
+			  return true;
+		}
+		
+		
+		function checkzId() {
+			console.log("checkzId")
+			var regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})[0-9]{3,4}[0-9]{4}$/;
+		
+		  if($("#userPhone").val() == ""){
+				alert("전화번호 입력바랍니다.");
+				$("#userPhone").focus();
+				return false;
+			  }
+		  if(!regExp.test($("#userPhone").val())) {
+			  alert("형식에 맞춰서 전화번호를 입력바랍니다");
+			  $("#userPhone").val("");
+			  $("#userPhone").focus();
+			  return false;
+			  }
+		  if($("#pass").val() != code1){
+			  alert("인증번호를 확인해주세요");
+			  $("#pass").val("");
+			  $("#pass").focus();
+			  return false;
+			}
+		  return true;
+	};
 	</script>
 </body>
 </html>
