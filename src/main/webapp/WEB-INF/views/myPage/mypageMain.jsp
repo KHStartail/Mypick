@@ -62,7 +62,12 @@
         <div id="intro">
             <p>${loginUser.userId}</p>
             <div id="intro-img">
+            	<c:if test="${loginUser.userId eq null and userId eq null}">
                 <img src="assets/images/솔미2.png" alt="">
+            	</c:if>
+            	<c:if test="${loginUser.userId ne null}">
+            	<img src="../../../resources/proFiles/${loginUser.filePath }" alt="">
+            	</c:if>
             </div>
             <p>${loginUser.userNickName}</p>
             <div id="update-btn">
