@@ -37,6 +37,10 @@
 	  	background-color : #483CFA;
 	  	color: white;
 		}
+		p{
+			height: 80px;
+			overflow:hidden;
+		}
       .w-button{
       	width : 100px;
       	height: 50px;
@@ -59,6 +63,7 @@
       }
       .card body{
       	height : 100px;
+      	overflow:hidden;
       }
       .pagination{
       	text-align : center;
@@ -172,10 +177,12 @@
 				},
 				success : function(data) {
 					if(data == "success1") {
-						alert("참여완료");
+						alert("해당 서포팅이 실제 서포팅으로 이뤄집니다.");
 					}else if(data=="success2"){
-						alert("참여 취소되었습니다");
-					}else {
+						alert("참여 완료되었습니다");
+					}else if(data=="success3"){
+						alert("참여 취소되었습니다.");
+					}else{
 						alert("에러");
 					}
 				},
