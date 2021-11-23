@@ -45,8 +45,8 @@
 		UPDATE MEMBER SET USER_PWD = #{userPwd} WHERE USER_ID = #{userId}
 	</update>
 	
-	<update id="updatemember" parameterType="Member">
-		UPDATE MEMBER SET USER_NICKNAME = #{userNickName}, USER_PWD = #{userPwd}, USER_EMAIL = #{userEmail}, USER_ADDR = #{userAddr}, USER_PHONE = #{userPhone} WHERE USER_NO = #{userId}
+	<update id="modifyMember" parameterType="Member">
+		UPDATE MEMBER SET USER_NICKNAME = #{userNickName}, USER_PWD = #{userPwd}, USER_EMAIL = #{userEmail}, USER_ADDR = #{userAddr}, USER_PHONE = #{userPhone} WHERE USER_NO = #{userNo}
 	</update>
 	
 	<select id="selectUserOne" resultMap="memberResultMap">

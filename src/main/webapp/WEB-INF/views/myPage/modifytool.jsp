@@ -50,20 +50,20 @@ table {
    <jsp:include page="/header.jsp"></jsp:include>
 <div class="centerText">
         <div class="img_wrap">
-            <img id="img" src="../../../resources/proFiles/${loginUser.filePath }">
+            <img id="img">
         </div>
-        	<form action="myPageProfile.pick" method="GET" enctype="multipart/form-data">
+        	<form action="myPageProfile.pick" method="POST" enctype="multipart/form-data">
         	<input type="hidden" name="userNo" value="${loginUser.userNo }">
 	
 					닉네임<input type="text" id="userNickName" name="userNickName" value="${loginUser.userNickName }"><br>
 			
-					비밀번호<input type="text" name="userPwd" name="userPwd" value=""><br>
+					비밀번호<input type="text" name="userPwd" name="userPwd"><br>
 				
-					핸드폰번호<input type="text" name="userPhone" name="userPhone" value=""><br>
+					핸드폰번호<input type="text" name="userPhone" name="userPhone"><br>
 				
-					주소<input type="text" name="userAddr" name="userAddr" value=""><br>
+					주소<input type="text" name="userAddr" name="userAddr"><br>
 				
-					이메일<input type="text" name="userEmail" name="userEmail" value=""><br>
+					이메일<input type="text" name="userEmail" name="userEmail"><br>
 					
 					프로필등록<input id="input_img" type="file" size="50" name="reloadFile"><br>
 					<input type="submit" value="수정">

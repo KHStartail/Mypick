@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.json.simple.JSONObject;
 
@@ -437,10 +438,12 @@ public class MemberController {
 	    }
 	    
 	    
-	    @RequestMapping(value = "myPageProfile.pick", method = RequestMethod.GET)
+	    @RequestMapping(value = "myPageProfile.pick", method = {RequestMethod.GET, RequestMethod.POST})
 		public String myPageProfileUpdate(
-				@ModelAttribute Member member, Model model, HttpServletRequest request,
-				@RequestParam("reloadFile") MultipartFile reloadFile)  {
+				@ModelAttribute Member member,
+				Model model,
+				HttpServletRequest request,
+				@RequestParam(value = "reloadFile", required = false) MultipartFile reloadFile)  {
 	    	if (reloadFile != null && !reloadFile.isEmpty()) {
 				if (member.getFilePath() != null) {
 					deleteFile(member.getFilePath(), request);
@@ -452,8 +455,9 @@ public class MemberController {
 			}
 			int result = service.updateMember(member);
 			if (result > 0) {
-				return "redirect:idoldetail.pick?idolNo=";
+				return "myPageMain.pick";
 			} else {
+				System.out.println("회원프로필 실패");
 				return "redirect:index.jsp";
 			}
 		}
