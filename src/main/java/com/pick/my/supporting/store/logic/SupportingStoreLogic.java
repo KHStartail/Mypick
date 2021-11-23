@@ -228,14 +228,14 @@ public class SupportingStoreLogic implements SupportingStore{
 	}
 
 	@Override
-	public PaymentHistory selectPayHistory(String userNickName) {
-		PaymentHistory paymentHistory = sqlSession.selectOne("SupportingMapper.selectMyHistory",userNickName );
+	public List<PaymentHistory> selectPayHistory(String userNickName) {
+		List<PaymentHistory> paymentHistory = sqlSession.selectList("SupportingMapper.selectMyHistory",userNickName );
 		return paymentHistory;
 	}
 
 	@Override
-	public Supporting selectPostSupporting(int userNo) {
-		Supporting supporting = sqlSession.selectOne("SupportingMapper.selectMySupporting", userNo);
+	public List<Supporting> selectPostSupporting(int userNo) {
+		List<Supporting> supporting = sqlSession.selectList("SupportingMapper.selectMySupporting", userNo);
 		return supporting;
 	}
 }

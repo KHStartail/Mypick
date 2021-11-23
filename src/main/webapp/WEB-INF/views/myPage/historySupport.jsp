@@ -50,17 +50,28 @@
             </div>
             <div class="support-info">
                 <table class="support-table">
+                <c:if test="${empty ph }"><br><br><br>
+					<h1>조회된 글이 없습니다.</h1>
+				</c:if>
+				<c:if test="${not empty ph }">
                     <tr>
-                        <th>상품정보</th>
+                        <th>상품제목</th>
                         <th>주문금액</th>
+                        <th>결제일</th>
                     </tr>
-                    <tr >
+	                <c:forEach items="${ph}" var="payment">
+                    <tr>
+                    	<td>{payment.supTitle}</td>
+                    	<td>{payment.supAmount}</td>
+                    	<td>{payment.paymentDate}</td>
+                    </tr>
+                    </c:forEach>
+                  </c:if>
+                    <!--
                         <td style="text-align: left;">
                             <img src="assets/images/air.png" alt="" style="width: 250px;">
-                            누군지 모르는 아이돌의 Airpot
                         </td>
-                        <td>33000</td>
-                    </tr>
+                    -->
                 </table>
             </div>
         </div>
