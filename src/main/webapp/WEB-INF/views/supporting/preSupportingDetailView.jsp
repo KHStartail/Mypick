@@ -92,9 +92,8 @@
 			<br><li>아이돌이름 : ${supporting.groupName}</li>
 			<br><li>장소 : ${supporting.supPlace} </li>
 			<br><li>참여마감일 : <fmt:formatDate pattern="yyyy-MM-dd" value="${supporting.supStartDate}"/></li>
-			<br><li>목표인원 : ${supporting.supPartiwon} / 20명</li>
+			<br><li>참여/목표인원 : ${supporting.supPartiwon} / 20명</li>
 			<br><li>내용 : ${supporting.supContents}</li>
-	        <br><li id="percent">참여인원percent </li> <!-- percent 고민좀 해보기 -->
 		</ul><br><br>
 		<button class="btn" id="participation" onclick="participation()">참여하기</button>
 		</div><br><br>
@@ -139,10 +138,12 @@ function participation(){
 			},
 			success : function(data) {
 				if(data == "success1") {
-					alert("참여완료");
+					alert("해당 서포팅이 실제 서포팅으로 이뤄집니다.");
 				}else if(data=="success2"){
-					alert("참여 취소되었습니다");
-				}else {
+					alert("참여 완료되었습니다");
+				}else if(data=="success3"){
+					alert("참여 취소되었습니다.");
+				}else{
 					alert("에러");
 				}
 			},
