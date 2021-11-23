@@ -25,7 +25,7 @@
 	</select>
 	
   	<insert id="insertMember" parameterType="Member">
-	INSERT INTO MEMBER VALUES(SEQ_MEMBERNUM.NEXTVAL,#{userId},#{userPwd}, #{userNickName}, #{userEmail},#{userAddr},#{userPhone}, DEFAULT, DEFAULT, NULL, NULL, NULL, jisu, NULL)
+	INSERT INTO MEMBER VALUES(SEQ_MEMBERNUM.NEXTVAL,#{userId},#{userPwd}, #{userNickName}, #{userEmail},#{userAddr},#{userPhone}, DEFAULT, DEFAULT, NULL, NULL, NULL, NULL, NULL)
 	</insert>
 	<insert id="insertManager" parameterType="Member">
 	INSERT INTO MEMBER VALUES(SEQ_MEMBERNUM.NEXTVAL,#{userId},#{userPwd}, #{userNickName}, #{userEmail},#{userAddr},#{userPhone}, manager, DEFAULT, #{businessNo}, NULL, NULL, NULL, NULL)
@@ -46,7 +46,7 @@
 	</update>
 	
 	<update id="modifyMember" parameterType="Member">
-		UPDATE MEMBER SET USER_NICKNAME = #{userNickName}, USER_PWD = #{userPwd}, USER_EMAIL = #{userEmail}, USER_ADDR = #{userAddr}, USER_PHONE = #{userPhone} WHERE USER_NO = #{userNo}
+		UPDATE MEMBER SET USER_NICKNAME = #{userNickName}, USER_PWD = #{userPwd}, USER_EMAIL = #{userEmail}, USER_ADDR = #{userAddr}, USER_PHONE = #{userPhone}, FILE_PATH = #{filePath} WHERE USER_NO = #{userNo}
 	</update>
 	
 	<select id="selectUserOne" resultMap="memberResultMap">

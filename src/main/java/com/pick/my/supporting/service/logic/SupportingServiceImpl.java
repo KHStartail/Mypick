@@ -222,14 +222,14 @@ public class SupportingServiceImpl implements SupportingService{
 	}
 
 	@Override
-	public PaymentHistory printMyPayHistory(String userNickName) {
-		PaymentHistory result = store.selectPayHistory(userNickName);
+	public List<PaymentHistory> printMyPayHistory(String userNickName) {
+		List<PaymentHistory> result = store.selectPayHistory(userNickName);
 		return result;
 	}
 
 	@Override
-	public Supporting printMySupporting(int userNo) {
-		Supporting supporting = store.selectPostSupporting(userNo);
+	public List<Supporting> printMySupporting(int userNo) {
+		List<Supporting> supporting = store.selectPostSupporting(userNo);
 		return supporting;
 	}
 }

@@ -47,7 +47,7 @@
    <jsp:include page="/header.jsp"></jsp:include>
 <div class="centerText">
         <div class="img_wrap">
-            <img id="img" />
+            <img id="img" src="../../../resources/proFiles/${loginUser.filePath }"/>
         </div>
         	<form action="idolRegister.pick" method="post" enctype="multipart/form-data">
 			<table class="idolmember" cellspacing="5">
