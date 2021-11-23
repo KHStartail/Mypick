@@ -76,7 +76,9 @@
 								<c:param name="userNo" value="${loginUser.userNo }"></c:param>
 							</c:url>
 							<a href="${myPage }" style="display: block;">
-								<img alt="" src="assets/images/mypic_logo.png">
+							<c:if test="${loginUser.userId ne null}">
+								<img alt="" src="../../../resources/proFiles/${loginUser.filePath }">
+							</c:if>
 							</a>
 						</c:if>
 					</div> 
@@ -101,9 +103,8 @@
 				<div class="col-12">
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
-						<a href="index.html" class="logo"> <img
-							src="assets/images/mypic_logo.png"
-							style="width: 80px; margin-right: 200px;">
+						<a href="index.html" class="logo"> 
+						<img src="assets/images/mypic_logo.png" style="width: 80px; margin-right: 200px;">
 						</a>
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
