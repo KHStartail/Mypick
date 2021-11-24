@@ -285,6 +285,7 @@ public class GoodsController {
 	
 	@RequestMapping(value="goodsModify.pick", method = RequestMethod.POST)
 	public String goodsModify(@ModelAttribute Goods goods,
+			@ModelAttribute GoodsFile subFile,
 //			Model model,
 			HttpServletRequest request,
 			@RequestParam("goodsNo") int goodsNo,
@@ -337,8 +338,8 @@ public class GoodsController {
 					subImg.setImgName(file.getOriginalFilename());
 					subImg.setImgReName(savedFileName);
 					subImg.setImgSize(file.getSize());
-					fileResult += service.updateFileList(subImg);
 					System.out.println(subImg.toString());
+					fileResult += service.updateFileList(subImg);
 				} catch (Exception e) {
 					//파일삭제
 					FileUtils.deleteQuietly(targetFile);	//저장된 현재 파일 삭제

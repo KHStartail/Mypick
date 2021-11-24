@@ -168,9 +168,9 @@
 		UPDATE GOODS SET GOODS_NAME=#{goodsName}, GOODS_PRICE=#{goodsPrice},UPLOAD_DATE=DEFAULT, IMG_SIZE=#{imgSize}, IMG_PATH=#{imgPath}, GOODS_CONTENTS=#{goodsContents},IDOL_NAME=#{idolName},GROUP_NAME=#{groupName},GOODS_INTRO=#{goodsIntro} WHERE GOODS_NO = #{goodsNo}
 	</update>
 	
-	<insert id="updateFileList" parameterType="GoodsFile">
+	<update id="updateFileList" parameterType="GoodsFile">
 		INSERT INTO GOODS_FILE VALUES(SEQ_GOODS_FILE.NEXTVAL,#{imgSize},#{imgPath},#{goodsNo},#{imgName},#{imgReName},#{userId})
-	</insert>
+	</update>
 	
 	
 	<insert id="insertReview" parameterType="Review">

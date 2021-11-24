@@ -302,7 +302,7 @@
                          <!--  -->
                                         <div class="rev-list">
                                             <div class="rev-label">
-                                                <p>등록된 리뷰</p>
+                                                <p>등록된 리뷰()</p>
                                             </div>
                          			<c:forEach items="${rList }" var="review">
                                             <div class="rev-img">
