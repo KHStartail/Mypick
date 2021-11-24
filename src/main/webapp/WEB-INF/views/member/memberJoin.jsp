@@ -316,7 +316,7 @@
 			});
 		});
 		
-		var code2 ="";
+		var code2 ="2121";
 		$("#phoneChk").click(function(){
 			alert("인증번호 발송이 완료되었습니다. 휴대폰에서 인증번호 확인을 해주십시오");
 			var userPhone = $("#userPhone").val();
