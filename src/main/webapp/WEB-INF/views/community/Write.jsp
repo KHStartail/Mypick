@@ -15,8 +15,10 @@
 <link rel="stylesheet" href="assets/css/login.css">
 <link rel="stylesheet" href="assets/css/input.css">
 <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
+<link rel="stylesheet" href="assets/css/toastr.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="/assets/js/toastr.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
@@ -50,6 +52,7 @@
 		  ['para', ['ul', 'ol', 'paragraph']],
 		  ['table', ['table']],
 		  ['view', ['fullscreen', 'codeview', 'help']],
+		  ['insert', ['video','link']],
 		],
 		    defaultFontName:'바탕',
 		    fontNames: ['Arial', 'Comic Sans MS','맑은 고딕','궁서','굴림','돋음체','바탕'],
@@ -188,7 +191,6 @@ function fileCheck(e) {
         $('#articlefileChange').append(
        		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
        		+ '<font style="font-size:12px">' + f.name + '</font>'  
-       		+ '<img src="/img/icon_minus.png" style="width:20px; height:auto; vertical-align: middle; cursor: pointer;"/>' 
        		+ '<div/>'
 		);
         fileNum ++;
@@ -231,7 +233,6 @@ function fileDelete(fileNum){
    	      contentType: false,
    	      success: function (data) {
    	    	if(JSON.parse(data)['result'] == "OK"){
-   	    		alert("파일업로드 성공");
    	    		handleImgFileSelect(e);
 			} else
 				alert("파일업로드실패. 잠시 후 다시 시도해주세요");
@@ -254,7 +255,7 @@ function fileDelete(fileNum){
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
  
-        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp|gif)$/;
  
         filesArr.forEach(function(f) {
             if (!f.type.match(reg)) {
@@ -293,7 +294,24 @@ function fileDelete(fileNum){
     	var groupName = $("#groupName").val();
     	location.href="mainView.pick?groupName="+groupName;
     	}else{
-    		alert("사진의개수는 4개까지입니다.")
+    		toastr.options = {
+					  "closeButton": false,
+					  "debug": false,
+					  "newestOnTop": false,
+					  "progressBar": false,
+					  "positionClass": "toast-top-full-width",
+					  "preventDuplicates": false,
+					  "onclick": null,
+					  "showDuration": "300",
+					  "hideDuration": "1000",
+					  "timeOut": "5000",
+					  "extendedTimeOut": "1000",
+					  "showEasing": "swing",
+					  "hideEasing": "linear",
+					  "showMethod": "fadeIn",
+					  "hideMethod": "fadeOut"
+					}
+				toastr.error('초과', '이미지파일은 4개까지 업로드가능합니다.'); 
     	}
     }
    

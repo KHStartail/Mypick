@@ -153,20 +153,33 @@ public class CommunityController {
 		return mv;
 	}
 	@RequestMapping(value="postSearch.pick")
-	public String postSearchList(@RequestParam("searchKeyword")String searchKeyword,Model model,@RequestParam(value="page", required=false) Integer page){
-		 int currentPage = (page != null) ? page : 1;
+	public ModelAndView postSearchList(@RequestParam("groupName")String groupName,ModelAndView mv,@RequestParam("searchKeyword")String searchKeyword,Model model,@RequestParam(value="page", required=false) Integer page,HttpServletRequest request){
+		HttpSession session = request.getSession();
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		Community_Main setMain = new Community_Main();
+		setMain.setGroupName(groupName);
+		Community_Main main = service.printMainImg(setMain);
+		int currentPage = (page != null) ? page : 1;
 	      int totalCount = service.getSearchListcount(searchKeyword);
 	      PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 	      pi.setSearchKeyword(searchKeyword);
 		List<Community_Post> searchList = service.printSearchAll(pi);
 		if(!searchList.isEmpty()) {
+			  Idol idol = idolService.printIdolImg(groupName);
+			  if(idol != null) {
+				mv.addObject("idol",idol);  
+			  }
+	    	  mv.addObject("mainImgName",main);
+	    	  mv.addObject("groupName",groupName);
+	    	  mv.addObject("loginUser",loginUser);
 			model.addAttribute("cList",searchList);
 			model.addAttribute("pi",pi);
-			return "community/main";
+			 mv.setViewName("community/main");
 		}else {
-			model.addAttribute("msg","게시글 검색 실패");
-			return "community/main";
+			   mv.addObject("msg", "게시글 전체조회 실패");
+		         mv.setViewName("common/errorPage");
 		}
+		return mv;
 	}
 	
 	@RequestMapping(value="WriteView.pick")
@@ -556,14 +569,13 @@ public class CommunityController {
 		@ResponseBody
 	    @RequestMapping(value="mainImg.pick",method = RequestMethod.POST)
 	    public String result(@RequestParam("mainImg") MultipartFile mainImgName,HttpServletRequest request,HttpServletResponse response, Model model
-	    		,@ModelAttribute Community_Main main,@RequestParam("groupName")String groupName
+	    		,@ModelAttribute Community_Main main,@RequestParam("groupName")String groupName,@RequestParam("deleteImg")String deleteImg
 	    		){
 			if(mainImgName != null && !mainImgName.isEmpty()) {
-				if(main.getMainImgName() != null) {
-					deleteFile(main.getMainImgName(), request);
+				if(deleteImg != null) {
+					deleteFile(deleteImg, request);
 				}
 				String savePath = saveFile(mainImgName, request);
-//				main = service.modifyMain();
 				if(savePath != null) {
 					main.setGroupName(groupName);
 					main.setMainImgName(mainImgName.getOriginalFilename());
@@ -606,7 +618,6 @@ public class CommunityController {
 			File deleteFile = new File(deletePath + "\\" + filePath);
 			Community_Main main = new Community_Main();
 			main.setMainImgName(filePath);
-
 			if(deleteFile.exists()) {
 				deleteFile.delete();
 			}
