@@ -131,7 +131,7 @@
 				<td><div id="preview"></div></td>
 			</tr>
 			<tr>
-				<td><span id="fileList">파일 추가 <br>최대 5개까지 등록 가능</span></td>
+				<td><span id="fileList">파일 추가 </span></td>
 				<td><input id="btn-multiUpload" accept="image/*" type="file" name="subFile" multiple="multiple" onchange="setImgBox(event);">  
 			</tr>
 			<!-- tr>

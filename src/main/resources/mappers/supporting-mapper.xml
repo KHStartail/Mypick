@@ -40,11 +40,11 @@
 		</select>
 		<!-- 모집중서포팅  목록 -->
 		<select id="selectAllPreSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 ORDER BY SUP_ENDDATE DESC
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 1 ORDER BY SUP_ENDDATE
 		</select>
 		<!-- 진행중서포팅  목록 -->
 	  	<select id="selectAllSupporting" resultMap="supportingResultMap">
-			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 ORDER BY SUP_ENDDATE DESC
+			SELECT * FROM SUPPORTING WHERE SUP_CATEGORY = 2 ORDER BY SUP_ENDDATE
 		</select>
 		<!-- 파일보기 -->
 		<select id="selectFileList" resultMap="fileResultMap">
@@ -72,7 +72,7 @@
 		</select>
 		<!-- 서포팅 작성 --> 
 		<insert id="insertSupporting" parameterType="Supporting">
-		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, #{userNo} , DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, 1, DEFAULT, DEFAULT, #{imgName}, #{imgReName}, #{imgPath})
+		 	INSERT INTO SUPPORTING VALUES(SEQ_SUP_NO.NEXTVAL, #{userNo} , DEFAULT, #{supTitle}, #{supContents}, #{scheduleDate}, #{supPlace }, #{groupName } , #{supStartDate }, #{supEndDate }, #{goalMoney}, DEFAULT, DEFAULT, DEFAULT, #{imgName}, #{imgReName}, #{imgPath})
 		</insert>
 		<!-- 파일 삽입 -->
 		<insert id="insertFile" parameterType="SupFile">

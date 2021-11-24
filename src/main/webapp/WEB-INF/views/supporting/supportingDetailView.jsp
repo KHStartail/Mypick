@@ -69,7 +69,7 @@
 	.fListBox{
 		border : 1px solid #eee;
 		width: 100%;
-		height: 300px;
+		height: 500px;
 		float: left;
 		margin-top : 10px;
 		margin-bottom : 10px;
@@ -103,6 +103,7 @@
 		 left: 50%;
 		 transform: translateX(-50%);
  		 text-align:center;
+ 		 margin-left: 30px;
 	 }
 	 thead{
 	 	border: #eee;
@@ -152,7 +153,7 @@
 				<input type="submit" id="paybtn" value="서포팅 결제하기">
 			</div><br>
 		</form><br>
-	</aside><br><br><br>
+	</aside><br><br><br><br><br><br><br><br>
 	<button id="btnCenter" class="btn" onclick="location.href='supportingList.pick'">목록</button>
 	<div class="fListBox">
 		<c:forEach var="fList" items="${fList}">
