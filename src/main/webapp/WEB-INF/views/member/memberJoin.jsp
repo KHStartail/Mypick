@@ -143,12 +143,12 @@
 			  $("#userPhone").focus();
 			  return false;
 			}
-// 		if(phone2 != "code2"){
-// 			  alert("인증번호를 확인해주세요");
-// 			  $("#phone2").val("");
-// 			  $("#phone2").focus();
-// 			  return false;
-// 			}
+		if(phone2 != "code2"){
+			  alert("인증번호를 확인해주세요");
+			  $("#phone2").val("");
+			  $("#phone2").focus();
+			  return false;
+			}
 	 
 		return true;
 	 	}
@@ -264,7 +264,7 @@
                                 <button type="button" id="phoneChk" class="doubleCheck">인증번호 보내기</button>        
 							</div>
 								<div class="input-group custom">
-								<input  id="phone2" type="text" name="phone2" class="form-control form-control-lg" placeholder="인증번호를 입력해주세요. " disabled required//>
+								<input  id="phone2" type="text" name="phone2" class="form-control form-control-lg" placeholder="인증번호를 입력해주세요. "  required//>
 								<div class="input-group-append custom">
 									<span class="input-group-text"></span>
 								</div>

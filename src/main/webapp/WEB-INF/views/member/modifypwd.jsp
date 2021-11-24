@@ -90,7 +90,7 @@
 										<button  type="submit" class="btn btn-outline-primary btn-lg btn-block">비밀번호 변경하기</button>
 									</div><br>
 									<div class="input-group mb-0">
-										<a type="button" class="btn btn-outline-primary btn-lg btn-block" href="전페이지">취소</a>
+										<a class="btn btn-outline-primary btn-lg btn-block" href="home.pick">취소</a>
 									</div>
 								</div>
 							</div>

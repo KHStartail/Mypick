@@ -25,9 +25,9 @@
 <body>
     <div id="menu-section">
         <div id="profile-div">
-            <div id="profile-img">
-                <img src="assets/images/profile.png" alt="">
-            </div>
+              <div id="intro-img">
+                     <img id="img" src="../../../resources/proFiles/${loginUser.filePath }">                
+                </div>
             <p>${loginUser.userNickName }</p>
         </div>
         <div id="sideMenu-div">

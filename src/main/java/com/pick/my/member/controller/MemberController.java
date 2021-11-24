@@ -223,14 +223,22 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "memberDelete.pick", method = RequestMethod.GET)
-	public String memberDelete(@RequestParam("userId") String userId, Model model) {
+	public String memberDelete(@RequestParam("userId") String userId, HttpServletRequest request) {
 		int result = service.removeMember(userId);
+		HttpSession session = request.getSession();
+		if(session != null) {
+			
 		if (result>0) {
-			return "redirect:logout.pick";
+			session.invalidate();
+			return "redirect:index.jsp";
+			
 		}else {
-			model.addAttribute("msg", "회원탈퇴 실패");
+			
 			return "common/errorPage";
 		}
+		
+	}
+		return "redirect:index.jsp";
 	}
 	
 	
@@ -396,7 +404,7 @@ public class MemberController {
 	    		@RequestParam("userNo") int userNo, 
 	    		Model model) {
 	    	Member member = service.printOneMember(userNo);
-	    	model.addAttribute( "member", member);
+	    	model.addAttribute( "loginUser", member);
 	        return "myPage/mypageMain";
 	    }
 	    
@@ -406,7 +414,7 @@ public class MemberController {
 	    		@RequestParam("userNo") int userNo, 
 	    		Model model) {
 	    	Member member = service.printOneMember(userNo);
-	    	model.addAttribute( "member", member);
+	    	model.addAttribute( "loginUser", member);
 	        return "myPage/modifytool";
 	    }
 	    
