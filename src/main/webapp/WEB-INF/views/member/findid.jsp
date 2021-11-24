@@ -242,7 +242,7 @@
 		});
 		
 		//아이디찾기  인증번호 발송 
-		var code1 ="2314";
+		var code1 ="";
 		$("#phoneChk").click(function(){	
 			var userPhone = $("#userPhone").val();
 			if(!userPhone){ 
@@ -250,7 +250,7 @@
 	    		return ;
 	    	}
 			
-			/* $.ajax({
+			 $.ajax({
 				type:"GET",
 				url:"phoneCheck.pick?userPhone=" + userPhone,
 						cache : false,
@@ -271,11 +271,11 @@
 								code1=data;
 							}
 						}
-			}) */
+			}) 
 		});
 		
 		//비밀번호찾기  인증번호 발송 
-		var code2 ="2314";
+		var code2 ="";
 		$("#phoneChk2").click(function(){
 			
 			console.log("test");
@@ -286,30 +286,30 @@
 	    		return ;
 	    	}
 			
-// 			$.ajax({
-// 				type:"GET",
-// 				url:"phoneCheck.pick?userPhone=" + userPhone,
-// 						cache : false,
-// 						success:function(data){
-// 							if(data =="error"){
-// 								alert("휴대폰 번호가 올바르지 않습니다.")
-// 								$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
-// 								$(".successPhoneChk").css("color","red");
-// 								$("#userPhone2").attr("autofocus",true);
+			$.ajax({
+				type:"GET",
+				url:"phoneCheck.pick?userPhone=" + userPhone,
+						cache : false,
+						success:function(data){
+							if(data =="error"){
+								alert("휴대폰 번호가 올바르지 않습니다.")
+								$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
+								$(".successPhoneChk").css("color","red");
+								$("#userPhone2").attr("autofocus",true);
 							
-// 							}else{
-// 								alert("인증번호 발송이 완료되었습니다. 휴대폰에서 인증번호 확인을 해주십시오");
-// 								$("#phone2").attr("disabled",false);
-// 								$("#phoneChk2").css("display","inline-block");
-// 								$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
-// 								$(".successPhoneChk").css("color","green"); 
-// 								$("#userPhone2").attr("readonly",true);
-// 								code2=data;
+							}else{
+								alert("인증번호 발송이 완료되었습니다. 휴대폰에서 인증번호 확인을 해주십시오");
+								$("#phone2").attr("disabled",false);
+								$("#phoneChk2").css("display","inline-block");
+								$(".successPhoneChk").text("인증번호를 입력한 뒤 본인인증을 눌러주십시오.");
+								$(".successPhoneChk").css("color","green"); 
+								$("#userPhone2").attr("readonly",true);
+								code2=data;
 
-// 							}
-// 						}
+							}
+						}
 				
-// 			})
+			})
 			
 		});
 		
