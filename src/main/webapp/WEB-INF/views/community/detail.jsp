@@ -100,7 +100,7 @@ font-family: 'Jeju Gothic', sans-serif;
 						<li>
 						<input type="radio" id="slide1"
 							name="slide" checked> <label for="slide1"></label>
-							<img src="/resources/idolImg/no_img.png"
+							<img src="/resources/mainImgs/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
 							alt="Panel1" style="width: 200%; box-shadow: 4px 4px 3px #666;"></li>
 				</ul>
 			</c:if>
@@ -120,7 +120,7 @@ font-family: 'Jeju Gothic', sans-serif;
 			<div class="contents" style="overflow: auto; margin-top: 1%;">
 				<h1>${post.postTitle }</h1>
 				<div id="contents">${post.postContents }</div>
-				   <div style="text-align: right; margin-top:35%">
+				   <div style="text-align: right; margin-top:10%">
        <a class="btn heart" style="margin-top:20%;">
            <img id="heart" src="">
        </a>
@@ -293,7 +293,7 @@ font-family: 'Jeju Gothic', sans-serif;
 							if($loginUser == 'admin' || $loginUser == data[i].userId){
 							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='modifyReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>수정&nbsp;&nbsp;</a>").append("<a href='#' class='font' onclick='removeReply("+postNo+","+data[i].replyAllNo+")'>삭제</a>");
 							}
-							if($loginUser != 'admin' && $loginUser != data[i].userId){
+							if($loginUser != 'admin' || $loginUser != data[i].userId){
 							$btnArea = $("<td class='font' colspan='4' align='right'>").append("<a href='#' onclick='reportReply(this,"+postNo+","+data[i].replyAllNo+",\""+data[i].replyContents+"\");'>신고</a>");
 							}
 							$rCreateDate = $("<td class='font' style='font-size : 20px' align='right'>").text(moment(data[i].replyDate).format("YYYY-MM-DD HH:mm:ss"));	
@@ -386,6 +386,13 @@ font-family: 'Jeju Gothic', sans-serif;
 		oScript.charset ='utf-8';		  
 
 		oScript.src = 'assets/js/detail.js';
+		
+		var $loginUser = $("#loginUser").val();
+		
+		if($loginUser == ''){
+			toastr.error('댓글', '로그인후 이용해주세요');
+			return false
+		}
 
 		document.getElementsByTagName('head')[0].appendChild(oScript);
 	}

@@ -42,39 +42,42 @@
         </div>
     </div>
      <div id="contents-div">
-
          <div id="commu-section">
             <div class="commu-label">
                 <span>서포팅 게시글</span>
             </div>
-            <div class="commu-info">
-                <table class="commu-table">
-                <c:if test="${empty supporting }"><br><br><br>
-					<tr>
-                        <th>제목</th>
-                        <th>서포팅 스케줄날짜</th>
-                    </tr>
-					<tr><td>조회된 글이 없습니다.</td></tr>
-				</c:if>
-				<c:if test="${not empty supporting }">
-                    <tr>
-                        <th>제목</th>
-                        <th>서포팅 스케줄날짜</th>
-                    </tr>
-	                <c:forEach items="${supporting}" var="supporting">
-					<c:url var="sOne" value="presupportingDetail.pick">
-						<c:param name="supNo" value="${supporting.supNo}"></c:param>
-					</c:url>
-                    <tr >
-                        <td><a href="${sOne}">${supporting.supTitle}</a></td>
-                        <td>${supporting.scheduleDate}</td>
-                    </tr>
-                    </c:forEach>
-                    </c:if>
-                </table>
+           <c:if test="${empty supporting }">
+	            <div class="commu-info">
+	                <table class="commu-table">
+						<tr>
+	                        <th>제목</th>
+	                        <th>서포팅 스케줄날짜</th>
+	                    </tr>
+						<tr><td>조회된 글이 없습니다.</td></tr>
+					</table>
+				 </div>
+			</c:if>
+			<c:if test="${not empty supporting }">
+			<div class="commu-info">
+				<table class="commu-table">
+	                <tr>
+	                    <th>제목</th>
+	                    <th>서포팅 스케줄날짜</th>
+	                </tr>
+	             <c:forEach items="${supporting}" var="supporting">
+	             <tr style="height: 50px; border-bottom : 1px solid rgba(128, 128, 128, 0.548);">
+				<c:url var="sOne" value="presupportingDetail.pick">
+					<c:param name="supNo" value="${supporting.supNo}"></c:param>
+				</c:url>
+                    <td><a href="${sOne}">${supporting.supTitle}</a></td>
+                    <td>${supporting.scheduleDate}</td>
+                </tr>
+                </c:forEach>
+            </table>
+             </div>
+            </c:if>
             </div>
         </div>
-     </div>
     </section>
     <!-- ------------------------------------ -->
 <jsp:include page="/footer.jsp"></jsp:include>

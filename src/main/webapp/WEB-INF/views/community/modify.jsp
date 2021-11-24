@@ -52,6 +52,7 @@
 		  ['para', ['ul', 'ol', 'paragraph']],
 		  ['table', ['table']],
 		  ['view', ['fullscreen', 'codeview', 'help']],
+		  ['insert', ['video','link']],
 		],
 		    defaultFontName:'바탕',
 		    fontNames: ['Arial', 'Comic Sans MS','맑은 고딕','궁서','굴림','돋음체','바탕'],
@@ -199,7 +200,6 @@ function fileCheck(e) {
         $('#articlefileChange').append(
        		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
        		+ '<font style="font-size:12px">' + f.name + '</font>'  
-       		+ '<img src="/img/icon_minus.png" style="width:20px; height:auto; vertical-align: middle; cursor: pointer;"/>' 
        		+ '<div/>'
 		);
         fileNum ++;
@@ -241,7 +241,6 @@ function fileDelete(fileNum){
    	      contentType: false,
    	      success: function () {
     	    	if(JSON.parse(data)['result'] == "OK"){
-    	    		alert("파일업로드 성공");
     	    		handleImgFileSelect(e);
  			} else
  				alert("파일업로드실패. 잠시 후 다시 시도해주세요");
@@ -264,7 +263,7 @@ function fileDelete(fileNum){
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
  
-        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp|gif)$/;
  
         filesArr.forEach(function(f) {
             if (!f.type.match(reg)) {
