@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>마이페이지 서포팅 결제</title>
            <!-- Google Font -->
            <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
            rel="stylesheet">
@@ -51,7 +51,7 @@
             <div class="support-info">
                 <table class="support-table">
                 <c:if test="${empty ph }"><br><br><br>
-					<h1>조회된 글이 없습니다.</h1>
+					<h1>조회된 내역이 없습니다.</h1>
 				</c:if>
 				<c:if test="${not empty ph }">
                     <tr>

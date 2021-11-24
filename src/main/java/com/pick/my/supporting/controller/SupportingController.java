@@ -231,7 +231,7 @@ public class SupportingController {
 			// 파일이 있으면.
 			if (subFile.size() > 0 && !subFile.get(0).getOriginalFilename().equals("")) {
 				for (MultipartFile file : subFile) {
-					fileRoot = contextRoot + "\\supportingFiles";
+					fileRoot = contextRoot + "\\supportingFiles\\";
 					File folder = new File(fileRoot);
 					if (!folder.exists()) {
 						folder.mkdir(); // 폴더 생성
@@ -239,7 +239,7 @@ public class SupportingController {
 					String originalFileName = file.getOriginalFilename(); // 오리지날 파일명
 					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 					String renameFile = UUID.randomUUID() + extension;
-					String filePath = folder + "\\" + renameFile;
+					String filePath = folder + renameFile;
 					File targetFile = new File(fileRoot + renameFile);
 					try {
 						InputStream fileStream = file.getInputStream();
@@ -368,7 +368,7 @@ public class SupportingController {
 					String originalFileName = file.getOriginalFilename(); // 오리지날 파일명
 					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 					String renameFile = UUID.randomUUID() + extension;
-					String filePath = folder + "\\" + renameFile;
+					String filePath = folder + renameFile;
 					File targetFile = new File(fileRoot + renameFile);
 					try {
 						InputStream fileStream = file.getInputStream();
@@ -620,19 +620,25 @@ public class SupportingController {
 		int userNo = loginUser.getUserNo();
 		sp.setUserNo(userNo);
 		sp.setSupNo(supNo);
-		SupParticipation sp2 = service.checkParticipation(sp);
-		if (sp2 == null) {
+		SupParticipation pcheck = service.checkParticipation(sp);
+		if (pcheck == null) {
 			int result = service.addParticipation(sp);
-			result += service.addPartiwon(supNo);
-			if(result>2) {
-				return "success1";
+			int result2 = service.addPartiwon(supNo);
+			if(result2==2 && result==1) {
+				return "success1";//이동
+			}else if(result2==1 && result==1){
+				return "success2"; //참여완료
 			}else {
-				return "fail";
+				return "fail"; //에러
 			}
 		} else {
 			int result = service.cancelParticipation(sp);
-			int result2 = service.deletePartiwon(supNo);
-			return "success2";
+			result += service.deletePartiwon(supNo);
+			if(result>1) {
+				return "success3";//참여취소
+			}else {
+				return "fail";//에러
+			}
 		}
 	}
 	//마이페이지 본인작성 서포팅
