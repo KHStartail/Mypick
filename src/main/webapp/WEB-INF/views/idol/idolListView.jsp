@@ -96,14 +96,10 @@ a:hover {
 							src="../../../resources/idolloadFiles/${idol.filePath }"
 							id="profile"><br>
 						<br></td>
-						<td align="center"><c:url var="iDetail"
-								value="idoldetail.pick">
-								<c:param name="idolNo" value="${idol.idolNo }"></c:param>
+						<td align="center"> <c:url var="community" value="mainView.pick">
 								<c:param name="groupName" value="${idol.groupName }"></c:param>
-							</c:url> <c:url var="community" value="mainView.pick">
-								<c:param name="groupName" value="${idol.groupName }"></c:param>
-							</c:url> <a href="${iDetail }" id="idolName"> ${idol.idolName } </a>
-										<a href="${community }">${idol.idolName }</a>
+							</c:url>
+										<a href="${community }" id="idolName">${idol.idolName }</a>
 							</td>
 					</tr>
 				</c:forEach>
